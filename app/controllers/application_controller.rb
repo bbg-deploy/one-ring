@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
 #TODO: Force SSL for all of our controllers in the future
 #  force_ssl
-  skip_authorization_check
+#  skip_authorization_check
   
   before_filter :check_mobile
   before_filter :current_user
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   respond_to :atom, :csv, :rss, :only => :index
 
   rescue_from ActiveRecord::RecordNotFound, :with => :respond_to_not_found
-  rescue_from CanCan::AccessDenied,         :with => :respond_to_access_denied
+#  rescue_from CanCan::AccessDenied,         :with => :respond_to_access_denied
   
   # SECURITY - Protect Form IDs from forgery
   #----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   # SECURITY - Require all controllers to check authorization (except devise)
   #----------------------------------------------------------------------------
-  check_authorization :unless => :devise_controller?
+#  check_authorization :unless => :devise_controller?
 
   def current_user
     @current_user = nil

@@ -17,8 +17,8 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   #Foundation
-#  gem 'compass-rails', '>= 1.0.3'
-#  gem 'zurb-foundation'
+  gem 'compass-rails', '>= 1.0.3'
+  gem 'zurb-foundation'
 
   #Other
   gem 'uglifier', '>= 1.0.3'
@@ -32,14 +32,65 @@ gem 'jquery-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
-
 # Authentication
 gem 'devise', '>= 2.2.3'
+
+
+group :development, :test do
+  gem 'win32console'
+  gem "spork-rails"
+  gem 'rspec-rails', '~> 2.0'
+  gem 'capybara', '>= 2.0.1'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'brakeman', '~> 1.8.0'
+  gem 'timecop', '>= 0.5.7'  
+  gem 'ffaker', '~> 1.15.0'
+end
+
+group :test do
+  gem 'email_spec', '>= 1.3.0'
+  gem 'database_cleaner'
+  gem 'webmock', '>= 1.9.0'
+end
+
+#Tableless Models
+gem 'activerecord-tableless', '~> 1.0.1'
+
+# Exception Handling
+gem 'exception_notification', '>= 3.0.0'
+
+# Payment Gems
+gem 'activemerchant', '~> 1.29.3', :require => 'active_merchant'
+
+# Security Gems
+gem 'strong_parameters', '>= 0.1.6'
+
+# Gems for seeding
+gem 'seedbank', '~> 0.2.0'
+
+# Gems for improving the UX
+gem 'friendly_id', '~> 4.0.8'
+
+# Gems for formatting & relationships
+gem 'numbers_and_words', '~> 0.4.0'
+#TODO: Faze out fuzzy_match in favor of fuzzy_string_match
+gem 'fuzzy_match', '~> 1.4.0'
+gem 'fuzzy-string-match_pure', '>= 0.9.4'
+gem 'acts_as_list', '~> 0.1.8'
+gem 'awesome_nested_set', '>= 2.1.4'
+
+# Gems for validating types of input
+gem 'validates_existence', '>= 0.4'
+gem 'validates_timeliness', '~> 3.0'
+gem 'enumerize', '>= 0.5.0'
+gem 'going_postal', '~> 0.1.1'
+gem 'carmen-rails', '~> 1.0.0.beta3'
+gem 'geocoder', '~> 1.1.2'
+
+# Simple Form for easier form creation
+gem 'simple_form', '~> 2.0.2'
+gem 'nested_form', '~> 0.3.0'
+gem 'wicked', '~> 0.3.2'
+gem 'jquery_datepicker'
+#TODO: Look into using this instead of nested_form
+gem 'cocoon', '~> 1.0.22'

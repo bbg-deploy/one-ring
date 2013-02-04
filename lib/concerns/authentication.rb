@@ -3,7 +3,7 @@ module Authentication
 
   included do
     include ActiveModel::Validations
-#    extend FriendlyId
+    extend FriendlyId
   end
 
   module ClassMethods

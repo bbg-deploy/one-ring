@@ -77,7 +77,6 @@ Spork.prefork do
     config.include Warden::Test::Helpers, :type => :feature
   
     # Global Macros & Helpers
-    config.include(CustomExceptions)
     config.include(EmailSpec::Helpers)
     config.include(EmailSpec::Matchers)
     config.include(MailerMacros)
