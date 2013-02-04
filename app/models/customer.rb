@@ -1,4 +1,7 @@
 class Customer < ActiveRecord::Base
+  include ActiveModel::Validations
+  include Authentication
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -8,4 +11,64 @@ class Customer < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
+
+#  has_friendly_username
+#  is_authenticatable
+#  is_registerable
+#  is_confirmable
+#  is_recoverable
+#  is_lockable
+#  is_rememberable
+#  is_timeoutable
+#  is_terms_agreeable
+
+=begin  
+  def devise_mailer
+    CustomerAuthenticationMailer
+  end
+
+  # Associations - Contact Information
+  #----------------------------------------------------------------------------
+  has_one :mailing_address, :as => :addressable, :class_name => 'Address', 
+                            :conditions => {:address_type => :mailing}, :dependent => :destroy, :inverse_of => :addressable
+  accepts_nested_attributes_for :mailing_address
+  
+  has_one :phone_number, :as => :phonable, :class_name => 'PhoneNumber', :dependent => :destroy, :inverse_of => :phonable
+  accepts_nested_attributes_for :phone_number
+
+  # Accessible Methods
+  #----------------------------------------------------------------------------
+  attr_accessible :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number,
+                  :mailing_address, :mailing_address_attributes, 
+                  :phone_number, :phone_number_attributes
+
+  # Validations
+  #----------------------------------------------------------------------------
+  validates :email, :not_credda_email => true
+  validates :first_name, :presence => true, :name_format => true
+  validates :middle_name, :name_format => true
+  validates :last_name, :presence => true, :name_format => true
+  validates :date_of_birth, :presence => true
+  validates_date :date_of_birth, :before => lambda { 18.years.ago },
+                                 :before_message => "must be at least 18 years old"
+  validates :social_security_number, :presence => true,
+                                     :uniqueness => true,
+                                     :social_security_number_format => true,
+                                     :allow_nil => true
+  validates :mailing_address, :presence => true
+  validates_associated :mailing_address
+  validates :phone_number, :presence => true
+  validates_associated :phone_number
+
+  # Public Methods
+  #----------------------------------------------------------------------------
+  public
+  # Views Helpers (Probably should go in a helpers file)
+  #----------------------------------------------------
+  def name
+    return "#{self.first_name} #{self.last_name}"
+  end
+  
+  private
+=end
 end

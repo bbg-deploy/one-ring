@@ -3,9 +3,9 @@ module Authentication
 
   included do
     include ActiveModel::Validations
-    extend FriendlyId
+#    extend FriendlyId
   end
-
+=begin
   module ClassMethods
     def has_friendly_username #FriendlyID for prettier URLs
       friendly_id :username
@@ -122,4 +122,5 @@ module Authentication
       self.email_confirmation = self.email_confirmation.gsub(/\s+/, "")
     end
   end
+=end
 end
