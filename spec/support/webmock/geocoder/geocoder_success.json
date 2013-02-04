@@ -1,0 +1,39 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+Vary: Accept-Language
+
+{
+  "status": "OK",
+  "results": [ {
+    "types": [ "street_address" ],
+    "formatted_address": "123 Fake Street, Spartanburg, South Carolina, 29301, United States of America",
+    "address_components": [ {
+      "long_name": "123 Fake Street",
+      "short_name": "123 Fake Street",
+      "types": [ "route" ]
+    }, {
+      "long_name": "Spartanburg",
+      "short_name": "Spartanburg",
+      "types": [ "city", "political" ]
+    }, {
+      "long_name": "South Carolina",
+      "short_name": "SC",
+      "types": [ "state", "political" ]
+    }, {
+      "long_name": "29301",
+      "short_name": "29301",
+      "types": [ "zip_code", "political" ]
+    }, {
+      "long_name": "United States of America",
+      "short_name": "US",
+      "types": [ "country", "political" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 34.934,
+        "lng": -81.965
+      }
+    }
+  } ]
+}
+   
