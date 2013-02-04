@@ -5,18 +5,24 @@ gem 'rails', '3.2.11'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+# For Postgresql
+gem 'pg', :require => 'pg'
 
-
+# Gems used only for assets and not required
+# in production environments by default.
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
+  #Foundation
+  gem 'compass-rails', '>= 1.0.3'
+  gem 'zurb-foundation'
+  
+  #Bootstrap
+  gem 'bootstrap-sass', '= 2.1.1.0'
+  #Other
   gem 'uglifier', '>= 1.0.3'
 end
 
