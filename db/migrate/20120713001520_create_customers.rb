@@ -54,7 +54,7 @@ class CreateCustomers < ActiveRecord::Migration
     add_index :customers, :reset_password_token,     :unique => true
     add_index :customers, :confirmation_token,       :unique => true
     add_index :customers, :unlock_token,             :unique => true
-    add_index :users, :authentication_token,         :unique => true
+    add_index :customers, :authentication_token,         :unique => true
     add_index :customers, :cim_customer_profile_id,  :unique => true
   end
 end
