@@ -22,7 +22,6 @@ class Customer < ActiveRecord::Base
   is_timeoutable
   is_terms_agreeable
 
-=begin  
   def devise_mailer
     CustomerAuthenticationMailer
   end
@@ -70,5 +69,4 @@ class Customer < ActiveRecord::Base
   end
   
   private
-=end
 end
