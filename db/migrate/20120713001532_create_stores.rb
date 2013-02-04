@@ -1,4 +1,4 @@
-class DeviseCreateStores < ActiveRecord::Migration
+class CreateStores < ActiveRecord::Migration
   def change
     create_table(:stores) do |t|
       ## Strings to capture user names
@@ -38,7 +38,7 @@ class DeviseCreateStores < ActiveRecord::Migration
       t.datetime :locked_at
 
       ## Token authenticatable
-      # t.string :authentication_token
+      t.string :authentication_token
 
       t.timestamps
     end
@@ -48,6 +48,6 @@ class DeviseCreateStores < ActiveRecord::Migration
     add_index :stores, :reset_password_token, :unique => true
     add_index :stores, :confirmation_token,   :unique => true
     add_index :stores, :unlock_token,         :unique => true
-    # add_index :stores, :authentication_token, :unique => true
+    add_index :stores, :authentication_token, :unique => true
   end
 end
