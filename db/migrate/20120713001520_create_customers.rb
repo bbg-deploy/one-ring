@@ -1,4 +1,4 @@
-class DeviseCreateCustomers < ActiveRecord::Migration
+class CreateCustomers < ActiveRecord::Migration
   def change
     create_table(:customers) do |t|
       ## Strings to capture user names
@@ -41,7 +41,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration
       t.datetime :locked_at
 
       ## Token authenticatable
-      # t.string :authentication_token
+      t.string :authentication_token
 
       ## CIM Customer Profile ID for Authorize.net
       t.string :cim_customer_profile_id
@@ -54,7 +54,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration
     add_index :customers, :reset_password_token,     :unique => true
     add_index :customers, :confirmation_token,       :unique => true
     add_index :customers, :unlock_token,             :unique => true
-    # add_index :users, :authentication_token,    :unique => true
+    add_index :users, :authentication_token,         :unique => true
     add_index :customers, :cim_customer_profile_id,  :unique => true
   end
 end

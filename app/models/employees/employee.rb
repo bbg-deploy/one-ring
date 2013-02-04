@@ -16,8 +16,8 @@ class Employee < ActiveRecord::Base
   
   # Assignments
   #----------------------------------------------------------------------------
-  has_many :employee_assignments, :dependent => :destroy, :inverse_of => :employee
-  has_many :employee_roles, :through => :employee_assignments
+#  has_many :employee_assignments, :dependent => :destroy, :inverse_of => :employee
+#  has_many :employee_roles, :through => :employee_assignments
 
   # Attributes
   #----------------------------------------------------------------------------
@@ -38,10 +38,10 @@ class Employee < ActiveRecord::Base
   # Public Methods
   #----------------------------------------------------------------------------
   def role?(role)
-    unless self.roles.find_by_name(role.to_s).nil?
-      return true
-    else
+#    unless self.roles.find_by_name(role.to_s).nil?
+#      return true
+#    else
       return false
-    end
+#    end
   end
 end

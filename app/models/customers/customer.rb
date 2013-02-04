@@ -16,11 +16,6 @@ class Customer < ActiveRecord::Base
     CustomerAuthenticationMailer
   end
 
-  # Associations - Leases
-  #----------------------------------------------------------------------------
-  has_many :lease_applications, :inverse_of => :customer
-  has_many :leases, :through => :lease_applications
-
   # Associations - Payments
   #----------------------------------------------------------------------------
   has_many :payment_profiles, :dependent => :destroy, :inverse_of => :customer
@@ -33,10 +28,6 @@ class Customer < ActiveRecord::Base
   
   has_one :phone_number, :as => :phonable, :class_name => 'PhoneNumber', :dependent => :destroy, :inverse_of => :phonable
   accepts_nested_attributes_for :phone_number
-
-  # Associations - Income
-  #----------------------------------------------------------------------------
-  has_many :income_sources, :dependent => :destroy, :inverse_of => :customer
 
   # Accessible Methods
   #----------------------------------------------------------------------------
