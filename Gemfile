@@ -17,8 +17,8 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   #Foundation
-  gem 'compass-rails', '>= 1.0.3'
-  gem 'zurb-foundation'
+#  gem 'compass-rails', '>= 1.0.3'
+#  gem 'zurb-foundation'
 
   #Other
   gem 'uglifier', '>= 1.0.3'
@@ -42,4 +42,4 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 # Authentication
-gem 'devise'
+gem 'devise', '>= 2.2.3'

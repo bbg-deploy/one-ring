@@ -1,16 +1,9 @@
-class CreateStores < ActiveRecord::Migration
+class CreateCustomers < ActiveRecord::Migration
   def change
-    create_table(:stores) do |t|
-      ## Strings to capture user names
-      t.string :username,           :null => false, :default => ""
-
+    create_table(:customers) do |t|
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
-
-      ## Profile Information
-      t.string :name,                           :null => false
-      t.string :employer_identification_number, :null => false
 
       ## Recoverable
       t.string   :reset_password_token
@@ -40,14 +33,14 @@ class CreateStores < ActiveRecord::Migration
       ## Token authenticatable
       t.string :authentication_token
 
+
       t.timestamps
     end
 
-    add_index :stores, :username,             :unique => true
-    add_index :stores, :email,                :unique => true
-    add_index :stores, :reset_password_token, :unique => true
-    add_index :stores, :confirmation_token,   :unique => true
-    add_index :stores, :unlock_token,         :unique => true
-    add_index :stores, :authentication_token, :unique => true
+    add_index :customers, :email,                :unique => true
+    add_index :customers, :reset_password_token, :unique => true
+    add_index :customers, :confirmation_token,   :unique => true
+    add_index :customers, :unlock_token,         :unique => true
+    add_index :customers, :authentication_token, :unique => true
   end
 end
