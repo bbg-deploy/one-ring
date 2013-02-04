@@ -43,3 +43,36 @@ ActiveRecord::ConnectionNotEstablished (ActiveRecord::ConnectionNotEstablished):
   Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.0ms)
   Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (21.0ms)
   Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (103.0ms)
+Connecting to database specified by database.yml
+  [1m[36m (59.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (18.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (5.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20101007181515)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (53.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "admin" boolean DEFAULT 'f', "first_name" character varying(255), "last_name" character varying(255), "status" character varying(255), "expiration_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (18.0ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (18.0ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (2.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20101007181515')
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateAccessGrants (20101007181933)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "access_grants" ("id" serial primary key, "code" character varying(255), "access_token" character varying(255), "refresh_token" character varying(255), "access_token_expires_at" timestamp, "user_id" integer, "client_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20101007181933')
+  [1m[36m (4.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateAuthentications (20110202133040)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (85.0ms)[0m  [1mCREATE TABLE "authentications" ("id" serial primary key, "user_id" integer, "provider" character varying(255), "uid" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110202133040')
+  [1m[36m (3.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateClient (20110203105441)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (35.0ms)[0m  [1mCREATE TABLE "clients" ("id" serial primary key, "name" character varying(255), "app_id" character varying(255), "app_secret" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110203105441')
+  [1m[36m (36.0ms)[0m  [1mCOMMIT[0m
+Migrating to AddStateToAccessGrants (20120711180145)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (9.0ms)[0m  [1mALTER TABLE "access_grants" ADD COLUMN "state" character varying(255)[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120711180145')
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (15.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml

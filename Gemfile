@@ -19,9 +19,7 @@ group :assets do
   #Foundation
   gem 'compass-rails', '>= 1.0.3'
   gem 'zurb-foundation'
-  
-  #Bootstrap
-  gem 'bootstrap-sass', '= 2.1.1.0'
+
   #Other
   gem 'uglifier', '>= 1.0.3'
 end
@@ -42,3 +40,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# Authentication
+gem 'devise'
