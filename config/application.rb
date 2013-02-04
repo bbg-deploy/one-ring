@@ -58,5 +58,13 @@ module CustomSsoProvider
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Autoload the whole app model directory, since I'm using nested folders
+    config.autoload_paths += %W(#{config.root}/app/models)
+    config.autoload_paths += Dir["#{config.root}/app/models/**/"]
+
+    # Autoload the whole lib directory
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
   end
 end
