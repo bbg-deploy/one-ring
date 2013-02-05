@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Tinos';
+  src: font-url('Tinos-Regular-webfont.eot');
+  src: local('Tinos'), 
+       font-url('Tinos-Regular-webfont.eot?#iefix') format("embedded-opentype"), 
+       font-url('Tinos-Regular-webfont.woff') format("woff"), 
+       font-url('Tinos-Regular-webfont.ttf') format("truetype"), 
+       font-url('Tinos-Regular-webfont.svg') format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DejaVu-Serif';
+  src: font-url('DejaVuSerif-webfont.eot');
+  src: local('DejaVu-Serif'),
+       font-url('DejaVuSerif-webfont.eot?#iefix') format("embedded-opentype"),
+       font-url('DejaVuSerif-webfont.woff') format("woff");
+//       font-url('DejaVuSerif-webfont.ttf') format("truetype"), 
+//       font-url('DejaVuSerif-webfont.svg') format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

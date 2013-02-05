@@ -1,0 +1,70 @@
+@import "compass/css3/images";
+
+/* Background Defaults */
+html, body {
+  min-height: 100%;  
+}
+
+#main-wrapper {
+}
+
+.content {
+}
+
+body.anon {
+  background: image-url("cork-background.png");
+}
+
+body.admin {
+  background-color: red;
+}
+
+body.customer {
+//  background: image-url("grey-texture-background-small.png");
+  background: image-url("alum-light-background.png");
+  .row {
+//    width: 100%;
+    width: 1200px;
+  }
+  .content {
+    background: image-url("cork-background.png");
+  }
+}
+
+body.store {
+  background-color: #B2B2B2;
+}
+
+#flash-messages {
+  padding: 10px 0px;
+}
+
+#main-wrapper {
+//  min-height: 100%;
+}
+
+/* Fonts */
+h1, h2, h3, h4, h5, p {
+  color: #101010;
+}
+
+h1 {
+  border-bottom: 1px solid #4B5F6D;
+  font-size: 2.1em;
+  font-weight: bold;
+  letter-spacing: 0em;
+  margin: 0.75em 0 0.375em;
+  text-align: center;
+  text-shadow: 2px 2px 0 #E9E9E9;
+}
+
+h1.display {
+  font-family: Helvetica, sans-serif;
+  font-size: 3.35em;
+  letter-spacing: -0.02em;
+  border-bottom: none;
+}
+
+p.display {
+  color: #DEDEDE;
+}

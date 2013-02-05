@@ -1,0 +1,59 @@
+form {
+  fieldset {
+    background: white;  
+    legend {
+      padding: 3px;
+      border: #CCCCCC 1px solid;
+    }
+  }
+  
+  .helper-text {
+    padding-top: 24px;
+    font-size: 80%;
+  }
+  
+  select {
+    background-color: white;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+    color: rgba(0, 0, 0, 0.75);
+    display: block;
+    font-family: inherit;
+    font-size: 14px;
+    height: 32px;
+    margin: 0 0 12px;
+    padding: 6px;
+    transition: all 0.15s linear 0s;
+    width: 100%;
+  }
+}
+
+#ui-datepicker-div {
+  background: #29A5CE;
+//  background: white;
+  .ui-datepicker-header {
+    background: #29A5CE;
+    .ui-datepicker-prev {
+      float: left;
+      color: white;
+    }
+    .ui-datepicker-next {
+      float: right;
+      color: white;
+    }
+    .ui-datepicker-title {
+      padding: 5px 0px 5px 40px;
+      font-weight: bold; 
+      color: white;
+      text-align: center;
+    }
+    a {
+      padding: 5px;
+      font-weight: bold;
+    }
+  }
+  table {
+    margin: 6px;
+  }
+}

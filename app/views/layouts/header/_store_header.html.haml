@@ -1,0 +1,6 @@
+.nav-buttons.pull-right
+  = link_to("Logout", destroy_store_session_path, :method => :delete, :class => 'btn btn-danger' )
+.nav-collapse
+  %ul.nav.nav-pills.pull-right
+    = nav_link "Edit My Account", edit_store_registration_path
+    = nav_link "Contact Us", "#"

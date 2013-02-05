@@ -1,0 +1,9 @@
+@import "compass/css3/images";
+
+.featured {
+  margin-top: -2px;
+  padding: 10px 0px;
+  @include background-image(linear-gradient(#085A94, #21BDE7));
+}
+
+  

@@ -722,3 +722,246 @@ Connecting to database specified by database.yml
 
 Started GET "/assets/rails.png" for 127.0.0.1 at 2013-02-06 01:41:46 +0900
 Served asset /rails.png - 304 Not Modified (5ms)
+Connecting to database specified by database.yml
+  [1m[36m (95.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (5.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCustomers (20120713001520)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (104.0ms)[0m  [1mCREATE TABLE "customers" ("id" serial primary key, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "first_name" character varying(255) NOT NULL, "middle_name" character varying(255), "last_name" character varying(255) NOT NULL, "date_of_birth" date NOT NULL, "social_security_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "cim_customer_profile_id" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_username" ON "customers" ("username")
+  [1m[36m (55.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_email" ON "customers" ("email")[0m
+  [1m[35m (15.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_reset_password_token" ON "customers" ("reset_password_token")
+  [1m[36m (17.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_confirmation_token" ON "customers" ("confirmation_token")[0m
+  [1m[35m (17.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_unlock_token" ON "customers" ("unlock_token")
+  [1m[36m (19.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_authentication_token" ON "customers" ("authentication_token")[0m
+  [1m[35m (18.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_cim_customer_profile_id" ON "customers" ("cim_customer_profile_id")
+  [1m[36m (2.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713001520')[0m
+  [1m[35m (4.0ms)[0m  COMMIT
+Migrating to CreateStores (20120713001532)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (20.0ms)[0m  CREATE TABLE "stores" ("id" serial primary key, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "name" character varying(255) NOT NULL, "employer_identification_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_username" ON "stores" ("username")[0m
+  [1m[35m (6.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_email" ON "stores" ("email")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_reset_password_token" ON "stores" ("reset_password_token")[0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_confirmation_token" ON "stores" ("confirmation_token")
+  [1m[36m (6.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_unlock_token" ON "stores" ("unlock_token")[0m
+  [1m[35m (6.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_authentication_token" ON "stores" ("authentication_token")
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713001532')[0m
+  [1m[35m (3.0ms)[0m  COMMIT
+Migrating to CreateAddresses (20120713041724)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (23.0ms)[0m  CREATE TABLE "addresses" ("id" serial primary key, "addressable_id" integer NOT NULL, "addressable_type" character varying(255) NOT NULL, "address_type" character varying(255) DEFAULT '' NOT NULL, "street" character varying(255) DEFAULT '' NOT NULL, "city" character varying(255) DEFAULT '' NOT NULL, "state" character varying(255) DEFAULT '' NOT NULL, "zip_code" character varying(255) DEFAULT '' NOT NULL, "country" character varying(255) DEFAULT '' NOT NULL, "latitude" float, "longitude" float, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713041724')[0m
+  [1m[35m (2.0ms)[0m  COMMIT
+Migrating to CreatePhoneNumbers (20120713041752)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (19.0ms)[0m  CREATE TABLE "phone_numbers" ("id" serial primary key, "phonable_id" integer NOT NULL, "phonable_type" character varying(255) NOT NULL, "phone_number" character varying(255) NOT NULL, "primary" boolean DEFAULT 'f' NOT NULL, "cell_phone" boolean DEFAULT 'f' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713041752')[0m
+  [1m[35m (5.0ms)[0m  COMMIT
+Migrating to CreatePaymentProfiles (20120716021032)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (20.0ms)[0m  CREATE TABLE "payment_profiles" ("id" serial primary key, "customer_id" integer NOT NULL, "payment_type" character varying(255) NOT NULL, "first_name" character varying(255) NOT NULL, "last_name" character varying(255) NOT NULL, "last_four_digits" character varying(255) NOT NULL, "cim_customer_payment_profile_id" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (6.0ms)[0m  [1mCREATE UNIQUE INDEX "index_payment_profiles_on_cim_customer_payment_profile_id" ON "payment_profiles" ("cim_customer_payment_profile_id")[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120716021032')
+  [1m[36m (42.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateDoorkeeperTables (20130205062842)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "oauth_applications" ("id" serial primary key, "name" character varying(255) NOT NULL, "uid" character varying(255) NOT NULL, "secret" character varying(255) NOT NULL, "redirect_uri" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (6.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_applications_on_uid" ON "oauth_applications" ("uid")
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "oauth_access_grants" ("id" serial primary key, "resource_owner_id" integer NOT NULL, "application_id" integer NOT NULL, "token" character varying(255) NOT NULL, "expires_in" integer NOT NULL, "redirect_uri" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "revoked_at" timestamp, "scopes" character varying(255)) [0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_grants_on_token" ON "oauth_access_grants" ("token")
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "oauth_access_tokens" ("id" serial primary key, "resource_owner_id" integer, "application_id" integer NOT NULL, "token" character varying(255) NOT NULL, "refresh_token" character varying(255), "expires_in" integer, "revoked_at" timestamp, "created_at" timestamp NOT NULL, "scopes" character varying(255)) [0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_tokens_on_token" ON "oauth_access_tokens" ("token")
+  [1m[36m (6.0ms)[0m  [1mCREATE INDEX "index_oauth_access_tokens_on_resource_owner_id" ON "oauth_access_tokens" ("resource_owner_id")[0m
+  [1m[35m (6.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_tokens_on_refresh_token" ON "oauth_access_tokens" ("refresh_token")
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20130205062842')[0m
+  [1m[35m (4.0ms)[0m  COMMIT
+  [1m[36m (5.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-02-06 02:01:54 +0900
+Served asset /rails.png - 304 Not Modified (5ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-02-06 02:02:01 +0900
+Served asset /rails.png - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 07:51:40 +0900
+Processing by PagesController#home as HTML
+Completed 500 Internal Server Error in 77ms
+
+ActionView::MissingTemplate (Missing template pages/home, application/home with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee, :haml]}. Searched in:
+  * "C:/Users/Bryce/My Code/custom-sso-provider/app/views"
+  * "C:/Ruby193/lib/ruby/gems/1.9.1/gems/doorkeeper-0.6.7/app/views"
+  * "C:/Ruby193/lib/ruby/gems/1.9.1/gems/devise-2.2.3/app/views"
+):
+  app/controllers/pages_controller.rb:3:in `home'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (1.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 07:55:13 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (3.0ms)
+Completed 200 OK in 53ms (Views: 52.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-06 07:55:14 +0900
+Served asset /application.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-06 07:55:14 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (16ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-06 07:55:14 +0900
+Served asset /jquery.js - 304 Not Modified (11ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-06 07:55:14 +0900
+Served asset /application.js - 304 Not Modified (13ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 08:02:53 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (0.0ms)
+Completed 200 OK in 17ms (Views: 16.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-06 08:02:53 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-06 08:02:53 +0900
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-06 08:02:53 +0900
+Served asset /application.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-06 08:02:53 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 08:08:36 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (3.0ms)
+Compiled font-face-definitions.css  (21ms)  (pid 4232)
+Compiled foundation_and_overrides.css  (11472ms)  (pid 4232)
+Compiled screen.css  (161ms)  (pid 4232)
+Compiled pages.css  (248ms)  (pid 4232)
+Completed 500 Internal Server Error in 12591ms
+
+ActionView::Template::Error (File to import not found or unreadable: mixins.
+Load paths:
+  Sass::Rails::Importer(C:/Users/Bryce/My Code/custom-sso-provider/app/assets/stylesheets/forms.css.scss)
+  C:/Users/Bryce/My Code/custom-sso-provider/app/assets/stylesheets
+  C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets
+  C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets
+  C:/Ruby193/lib/ruby/gems/1.9.1/gems/sassy-math-1.5/stylesheets
+  C:/Ruby193/lib/ruby/gems/1.9.1/gems/modular-scale-1.0.6/stylesheets
+  C:/Ruby193/lib/ruby/gems/1.9.1/gems/zurb-foundation-3.2.5/scss
+  Compass::SpriteImporter
+  (in C:/Users/Bryce/My Code/custom-sso-provider/app/assets/stylesheets/forms.css.scss)):
+    6:       = full_title
+    7:     %meta{:content => full_description, :name => "description"}
+    8:     %meta{:content => "Credda Financial Corporation", :name => "author"}
+    9:     = stylesheet_link_tag :application, :media => "all"
+    10:     = javascript_include_tag :application, :media => "all"
+    11:     = csrf_meta_tags
+    12:     = yield(:head)
+  app/assets/stylesheets/forms.css.scss:1
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___637543539_39634236'
+  app/controllers/pages_controller.rb:3:in `home'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (8.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (86.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 08:11:13 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (1.0ms)
+Compiled forms.css  (34ms)  (pid 4232)
+Compiled footer.css  (312ms)  (pid 4232)
+Compiled application.css  (523ms)  (pid 4232)
+  Rendered layouts/header/_anonymous_header.html.haml (159.0ms)
+Completed 500 Internal Server Error in 1236ms
+
+ActionView::Template::Error (undefined local variable or method `for_business_path' for #<#<Class:0x4a07468>:0x4aa2ec8>):
+    9:             = link_to("", "#")
+    10:         %section
+    11:           %ul.right
+    12:             = nav_link "For Business", for_business_path
+    13:             = nav_link "How It Works", learn_more_path
+    14:             = nav_link "About", about_path
+    15:             %li.has-button
+  app/views/layouts/header/_anonymous_header.html.haml:12:in `_app_views_layouts_header__anonymous_header_html_haml___390221114_39629712'
+  app/views/layouts/application.html.haml:15:in `_app_views_layouts_application_html_haml___637543539_39634236'
+  app/controllers/pages_controller.rb:3:in `home'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (6.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (4.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (62.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-06 08:13:15 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (0.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (11.0ms)
+  Rendered layouts/messages/_messages.html.haml (6.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (7.0ms)
+Completed 200 OK in 58ms (Views: 57.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:16 +0900
+Served asset /application.css - 200 OK (162ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:16 +0900
+Served asset /font-face-definitions.css - 200 OK (6ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:16 +0900
+Served asset /foundation_and_overrides.css - 200 OK (67ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:16 +0900
+Served asset /screen.css - 200 OK (11ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:16 +0900
+Served asset /pages.css - 200 OK (6ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:17 +0900
+Served asset /forms.css - 200 OK (62ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-06 08:13:17 +0900
+Served asset /footer.css - 200 OK (6ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-06 08:13:17 +0900
+Served asset /jquery.js - 304 Not Modified (12ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-06 08:13:17 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (9ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-06 08:13:17 +0900
+Served asset /application.js - 304 Not Modified (74ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-02-06 08:13:18 +0900
+Served asset /logo-color.png - 200 OK (36ms)
