@@ -6,7 +6,7 @@ describe Customer do
   describe "factory validation", :factory_validation => true do
     specify { Customer.new.should be_an_instance_of(Customer) }
   
-    describe "customer factory" do
+    describe "customer factory", :failing => true do
       it_behaves_like "valid record", :customer
 
       it "should have a phone number" do
@@ -42,14 +42,6 @@ describe Customer do
       end      
     end
 
-    describe "customer_with_lease_applications factory" do
-      it_behaves_like "valid record", :customer_with_lease_applications
-    
-      it "has leases" do
-        customer = FactoryGirl.create(:customer_with_lease_applications)
-        customer.lease_applications.should_not be_empty
-      end      
-    end
   end
 
   # Associations

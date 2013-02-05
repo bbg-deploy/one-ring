@@ -55,42 +55,4 @@ FactoryGirl.define do
       end
     end    
   end
-
-  factory :customer_with_lease_applications, parent: :customer do
-    ignore do
-      number_of_unclaimed_lease_applications   1
-      number_of_claimed_lease_applications     1
-      number_of_submitted_lease_applications   1
-      number_of_approved_lease_applications    1
-      number_of_denied_lease_applications      1
-      
-      unclaimed_lease_application_factory :unclaimed_lease_application
-      claimed_lease_application_factory   :claimed_lease_application
-      submitted_lease_application_factory :submitted_lease_application
-      approved_lease_application_factory  :approved_lease_application
-      denied_lease_application_factory    :denied_lease_application
-    end
-
-    after(:create) do |customer, evaluator|
-      evaluator.number_of_unclaimed_lease_applications.times do
-        FactoryGirl.create(evaluator.unclaimed_lease_application_factory, :matching_email => customer.email)
-      end
-
-      evaluator.number_of_claimed_lease_applications.times do
-        customer.lease_applications << FactoryGirl.create(evaluator.claimed_lease_application_factory, :customer => customer)
-      end
-
-      evaluator.number_of_submitted_lease_applications.times do
-        customer.lease_applications << FactoryGirl.create(evaluator.submitted_lease_application_factory, :customer => customer)
-      end
-
-      evaluator.number_of_approved_lease_applications.times do
-        customer.lease_applications << FactoryGirl.create(evaluator.approved_lease_application_factory, :customer => customer)
-      end
-
-      evaluator.number_of_denied_lease_applications.times do
-        customer.lease_applications << FactoryGirl.create(evaluator.denied_lease_application_factory, :customer => customer)
-      end
-    end    
-  end
 end
