@@ -106,7 +106,6 @@ class AuthorizeNetService
   # Customer Payment Profile Methods
   #----------------------------------------------------------------------------
   def create_cim_customer_payment_profile(payment_profile = nil)
-    puts "BRYCE IS HERE"
     if !payment_profile.is_a?(PaymentProfile)
       raise StandardError, "create_cim_customer_payment_profile requires valid PaymentProfile"
     elsif payment_profile.customer.cim_customer_profile_id.nil?

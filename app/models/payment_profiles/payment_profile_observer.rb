@@ -1,14 +1,12 @@
 class PaymentProfileObserver < ActiveRecord::Observer
   observe :payment_profile
 
-  #TODO: Handle Errors gracefully
   def before_create(payment_profile)
     service = AuthorizeNetService.new
     if (payment_profile.cim_customer_payment_profile_id.nil?)
       begin
         payment_profile_id = service.create_cim_customer_payment_profile(payment_profile)
-#        puts "Payment_Profile_ID = #{payment_profile_id}"
-        payment_profile.set_cim_customer_payment_profile_id("123")
+        payment_profile.set_cim_customer_payment_profile_id(payment_profile_id)
       rescue StandardError => e
         puts "Error: #{e.message}"
         AdminNotificationMailer.report_error("PaymentProfileObserver", "before_create", e.message).deliver
