@@ -1,9 +1,6 @@
 CustomSsoProvider::Application.routes.draw do
-  use_doorkeeper
-
-  root :to => 'pages#home'
-
-  devise_for :stores
+#  use_doorkeeper
+  root :to              => "pages#home",             :as => :home
 
   # Customer Namespace
   #-----------------------------------------------------------------
@@ -16,7 +13,20 @@ CustomSsoProvider::Application.routes.draw do
   }
   namespace :customer do
     root :to                  => "home#index", :as => :home
-
     resources :payment_profiles, :path => "payment_methods", :except => [:show, :delete]
   end
+
+  # Store Namespace
+  #-----------------------------------------------------------------
+  devise_for :stores, :path => 'store'#, :controllers => {
+#    :confirmations => 'store/confirmations',
+#    :passwords => 'store/passwords',
+#    :registrations => 'store/registrations',
+#    :sessions => 'store/sessions',
+#    :unlocks => 'store/unlocks'
+#  }
+
+#  namespace :store do
+#    root :to                  => "home#index", :as => :home
+#  end
 end

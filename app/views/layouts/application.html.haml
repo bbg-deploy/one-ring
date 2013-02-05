@@ -12,10 +12,7 @@
     = yield(:head)
   %body{ :class => body_classes }
     %header
-      = render 'layouts/header/anonymous_header'
     #main-wrapper
       %div{ :id => page_id}
-        = render 'layouts/messages/messages'
         = content_for?(:content) ? yield(:content) : yield
     %footer
-      = render 'layouts/footer/anonymous_footer'
