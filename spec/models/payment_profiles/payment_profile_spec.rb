@@ -124,5 +124,8 @@ describe PaymentProfile do
         end
       end
     end
+
+    describe "set_last_four_digits" do
+    end
   end
 end

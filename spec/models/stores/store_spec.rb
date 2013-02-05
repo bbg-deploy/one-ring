@@ -25,25 +25,11 @@ describe Store, :store => true do
       it_behaves_like "invalid record", :invalid_store
     end
 
-    describe "store_with_lease_applications factory" do
-      it_behaves_like "valid record", :store_with_lease_applications
-    
-      it "has lease_applications" do
-        store = FactoryGirl.create(:store_with_lease_applications)
-        store.lease_applications.should_not be_empty
-      end
-    end
   end
   
   # Associations
   #----------------------------------------------------------------------------
-  describe "associations", :associations => true do
-    describe "lease_associations" do
-    end
-
-    describe "leases" do
-    end
-    
+  describe "associations", :associations => true do    
     describe "addresses" do
       describe "validates nested attributes" do
         specify { expect { FactoryGirl.create(:store, :address_factory => :invalid_address) }.to raise_error }

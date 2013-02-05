@@ -1,11 +1,12 @@
 class StoreAuthenticationMailer < Devise::Mailer
-  def headers_for(action)
-    headers = {
-      :subject       => translate(devise_mapping, action),
-      :from          => mailer_sender(devise_mapping),
-      :to            => resource.email,
-#      :cc            => resource.backup_user_email(action),
-      :template_path => "mailers/store_authentication_mailer"
-    }
-  end
+#  def headers_for(action, opts)
+#    headers = {
+#      :subject       => subject_for(action),
+#      :to            => resource.email,
+#      :from          => mailer_sender(devise_mapping),
+#      :reply_to      => mailer_reply_to(devise_mapping),
+#      :template_path => "mailers/store_authentication_mailer",
+#      :template_name => action
+#    }.merge(opts)
+#  end
 end

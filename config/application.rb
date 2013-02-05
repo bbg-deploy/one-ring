@@ -66,5 +66,8 @@ module CustomSsoProvider
     # Autoload the whole lib directory
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    # Active observers
+    config.active_record.observers = :customer_observer, :payment_profile_observer
   end
 end

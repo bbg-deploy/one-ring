@@ -15,11 +15,6 @@ class Store < ActiveRecord::Base
     StoreAuthenticationMailer
   end
     
-  # Associations - Leases
-  #----------------------------------------------------------------------------
-  has_many :lease_applications, :inverse_of => :store
-  has_many :leases, :through => :lease_applications
-
   # Associations - Profile
   #----------------------------------------------------------------------------
   has_many :addresses, :as => :addressable, :class_name => 'Address', 
@@ -48,26 +43,11 @@ class Store < ActiveRecord::Base
   validates_associated :addresses
   validates :phone_numbers, :presence => true
   validates_associated :phone_numbers
-  validates_associated :lease_applications
 
   # Public
   #----------------------------------------------------------------------------
-  def pending_lease_applications
-    unclaimed = LeaseApplication.unclaimed.where(:store_id => self.id).order('created_at ASC')
-    claimed = LeaseApplication.claimed.where(:store_id => self.id).order('created_at ASC')
-    submitted = LeaseApplication.submitted.where(:store_id => self.id).order('created_at ASC')
-    pending = unclaimed + claimed + submitted
-    return pending.sort_by(&:created_at)
-  end
-
-  def verifiable_leases
-    return Lease.finalized.where(:store_id => self.id).order('created_at ASC')
-  end
-
-  def active_leases
-    return Lease.active.where(:store_id => self.id).order('created_at ASC')
-  end
-
+  public
+  
   # Private Methods
   #----------------------------------------------------------------------------
   private
