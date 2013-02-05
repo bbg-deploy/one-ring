@@ -47,19 +47,6 @@ describe Customer do
   # Associations
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do
-    describe "lease_applications" do
-    end
-    
-    describe "leases" do
-    end
-
-    describe "payment_profiles" do
-      describe "dependent destroy", :dependent_destroy => true do
-        let(:customer) { FactoryGirl.create(:customer) }
-        it_behaves_like "dependent destroy", :customer_with_payment_profiles, :payment_profiles
-      end
-    end
-
     describe "mailing_address" do
       describe "validates nested attributes" do
         specify { expect { FactoryGirl.create(:customer, mailing_address_factory: :invalid_address) }.to raise_error }
@@ -99,6 +86,13 @@ describe Customer do
       describe "dependent destroy", :dependent_destroy => true do
         let(:customer) { FactoryGirl.create(:customer) }
         it_behaves_like "dependent destroy", :customer, :phone_number
+      end
+    end
+
+    describe "payment_profiles" do
+      describe "dependent destroy", :dependent_destroy => true do
+        let(:customer) { FactoryGirl.create(:customer) }
+        it_behaves_like "dependent destroy", :customer_with_payment_profiles, :payment_profiles
       end
     end
   end
@@ -143,119 +137,6 @@ describe Customer do
   # Behavior
   #----------------------------------------------------------------------------
   describe "behavior", :behavior => true do
-    describe "unclaimed_lease_applications", :method => true do
-      context "with exact email match" do
-        let(:customer) { FactoryGirl.create(:customer, :email => "behavior@test.com") }
-        let(:unclaimed_lease_application_1) { FactoryGirl.create(:unclaimed_lease_application, :matching_email => "behavior@tst.com") }
-        let(:unclaimed_lease_application_2) { FactoryGirl.create(:unclaimed_lease_application, :matching_email => "random@email.com") }
-
-        it "returns correct lease_applications" do
-          customer.reload
-          unclaimed_lease_application_1.reload
-          unclaimed_lease_application_2.reload
-          customer.unclaimed_lease_applications.should eq([unclaimed_lease_application_1])
-        end
-      end
-
-      context "with fuzzy email matches" do
-        let(:customer) { FactoryGirl.create(:customer, :email => "behavior@test.com") }
-        let(:unclaimed_lease_application_1) { FactoryGirl.create(:unclaimed_lease_application, :matching_email => "bhavior@tst.com") }
-        let(:unclaimed_lease_application_2) { FactoryGirl.create(:unclaimed_lease_application, :matching_email => "bhvior@tst.com") }
-        let(:unclaimed_lease_application_3) { FactoryGirl.create(:unclaimed_lease_application, :matching_email => "random@email.com") }
-
-        it "returns correct lease_applications" do
-          customer.reload
-          unclaimed_lease_application_1.reload
-          unclaimed_lease_application_2.reload
-          unclaimed_lease_application_3.reload
-          customer.unclaimed_lease_applications.should eq([unclaimed_lease_application_1, unclaimed_lease_application_2])
-        end
-      end
-    end
-
-    describe "claimed_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:claimed_lease_application_1) { FactoryGirl.create(:claimed_lease_application, :customer => customer) }
-      let(:claimed_lease_application_2) { FactoryGirl.create(:claimed_lease_application, :customer => customer) }
-      let(:submitted_lease_application_1) { FactoryGirl.create(:submitted_lease_application, :customer => customer) }
-
-      it "returns correct leases" do
-        customer.lease_applications << claimed_lease_application_1
-        customer.lease_applications << claimed_lease_application_2
-        customer.lease_applications << submitted_lease_application_1
-        customer.claimed_lease_applications.should eq([claimed_lease_application_1, claimed_lease_application_2])
-      end
-    end
-
-    describe "submitted_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:claimed_lease_application_1) { FactoryGirl.create(:claimed_lease_application, :customer => customer) }
-      let(:submitted_lease_application_1) { FactoryGirl.create(:submitted_lease_application, :customer => customer) }
-      let(:submitted_lease_application_2) { FactoryGirl.create(:submitted_lease_application, :customer => customer) }
-
-      it "returns correct lease_applications" do
-        customer.lease_applications << claimed_lease_application_1
-        customer.lease_applications << submitted_lease_application_1
-        customer.lease_applications << submitted_lease_application_2
-        customer.submitted_lease_applications.should eq([submitted_lease_application_1, submitted_lease_application_2])
-      end
-    end
-
-    describe "approved_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:approved_lease_application_1) { FactoryGirl.create(:approved_lease_application, :customer => customer) }
-      let(:approved_lease_application_2) { FactoryGirl.create(:approved_lease_application, :customer => customer) }
-      let(:denied_lease_application_1) { FactoryGirl.create(:denied_lease_application, :customer => customer) }
-
-      it "returns correct leases" do
-        customer.lease_applications << approved_lease_application_1
-        customer.lease_applications << approved_lease_application_2
-        customer.lease_applications << denied_lease_application_1
-        customer.approved_lease_applications.should eq([approved_lease_application_1, approved_lease_application_2])
-      end
-    end
-
-    describe "denied_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:approved_lease_application_1) { FactoryGirl.create(:approved_lease_application, :customer => customer) }
-      let(:denied_lease_application_1) { FactoryGirl.create(:denied_lease_application, :customer => customer) }
-      let(:denied_lease_application_2) { FactoryGirl.create(:denied_lease_application, :customer => customer) }
-
-      it "returns correct lease_applications" do
-        customer.lease_applications << approved_lease_application_1
-        customer.lease_applications << denied_lease_application_1
-        customer.lease_applications << denied_lease_application_2
-        customer.denied_lease_applications.should eq([denied_lease_application_1, denied_lease_application_2])
-      end
-    end
-
-    describe "finalized_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:denied_lease_application_1) { FactoryGirl.create(:denied_lease_application, :customer => customer) }
-      let(:finalized_lease_application_1) { FactoryGirl.create(:finalized_lease_application, :customer => customer) }
-      let(:finalized_lease_application_2) { FactoryGirl.create(:finalized_lease_application, :customer => customer) }
-
-      it "returns correct lease_applications" do
-        customer.lease_applications << denied_lease_application_1
-        customer.lease_applications << finalized_lease_application_1
-        customer.lease_applications << finalized_lease_application_2
-        customer.finalized_lease_applications.should eq([finalized_lease_application_1, finalized_lease_application_2])
-      end
-    end
-
-    describe "completed_lease_applications", :method => true do
-      let(:customer) { FactoryGirl.create(:customer) }
-      let(:denied_lease_application_1) { FactoryGirl.create(:denied_lease_application, :customer => customer) }
-      let(:completed_lease_application_1) { FactoryGirl.create(:completed_lease_application, :customer => customer) }
-      let(:completed_lease_application_2) { FactoryGirl.create(:completed_lease_application, :customer => customer) }
-
-      it "returns correct lease_applications" do
-        customer.lease_applications << denied_lease_application_1
-        customer.lease_applications << completed_lease_application_1
-        customer.lease_applications << completed_lease_application_2
-        customer.completed_lease_applications.should eq([completed_lease_application_1, completed_lease_application_2])
-      end
-    end
   end
 
   # Devise

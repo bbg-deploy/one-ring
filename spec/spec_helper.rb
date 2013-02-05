@@ -58,12 +58,6 @@ Spork.prefork do
     config.extend NotificationSharedExamples, :type => :model
     # Concerns
     config.extend AuthenticationSharedExamples, :type => :model
-    config.extend ClaimableSharedExamples, :type => :model
-    config.extend DecisionableSharedExamples, :type => :model
-    config.extend PayableSharedExamples, :type => :model
-    config.extend CreditableSharedExamples, :type => :model
-    config.extend DebitableSharedExamples, :type => :model
-    config.extend LateableSharedExamples, :type => :model
   
     # For Controllers
     config.extend ControllerSharedExamples, :type => :controller

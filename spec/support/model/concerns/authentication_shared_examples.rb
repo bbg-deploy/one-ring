@@ -251,6 +251,9 @@ module AuthenticationSharedExamples
       end
       
       it "sends email with the correct key" do
+        puts "BRYCE"
+        puts "Email = #{recovery_email.inspect}"
+        puts "Body = #{recovery_email.body.inspect}"
         recovery_email.body.should match(/#{user.reset_password_token}/)
       end
     end

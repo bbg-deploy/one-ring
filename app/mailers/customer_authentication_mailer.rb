@@ -1,11 +1,12 @@
 class CustomerAuthenticationMailer < Devise::Mailer
-#  def headers_for(action)
+#  def headers_for(action, opts)
 #    headers = {
-#      :subject       => translate(devise_mapping, action),
-#      :from          => mailer_sender(devise_mapping),
+#      :subject       => subject_for(action),
 #      :to            => resource.email,
-##      :cc            => resource.backup_user_email(action),
-#      :template_path => "mailers/customer_authentication_mailer"
-#    }
+#      :from          => mailer_sender(devise_mapping),
+#      :reply_to      => mailer_reply_to(devise_mapping),
+#      :template_path => "mailers/customer_authentication_mailer",
+#      :template_name => action
+#    }.merge(opts)
 #  end
 end

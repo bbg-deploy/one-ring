@@ -2,17 +2,7 @@ class Customer < ActiveRecord::Base
   include ActiveModel::Validations
   include Authentication
 
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-#  devise :database_authenticatable, :registerable,
-#         :recoverable, :rememberable, :trackable, :validatable
-
-  # Setup accessible (or protected) attributes for your model
-#  attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :title, :body
-
-#  has_friendly_username
+  has_friendly_username
   is_authenticatable
   is_registerable
   is_confirmable
@@ -34,6 +24,11 @@ class Customer < ActiveRecord::Base
   
   has_one :phone_number, :as => :phonable, :class_name => 'PhoneNumber', :dependent => :destroy, :inverse_of => :phonable
   accepts_nested_attributes_for :phone_number
+
+  # Associations - Payment Profiles
+  #----------------------------------------------------------------------------
+  has_many :payment_profiles, :dependent => :destroy, :inverse_of => :customer
+  accepts_nested_attributes_for :payment_profiles
 
   # Accessible Methods
   #----------------------------------------------------------------------------
@@ -58,6 +53,7 @@ class Customer < ActiveRecord::Base
   validates_associated :mailing_address
   validates :phone_number, :presence => true
   validates_associated :phone_number
+  validates_associated :payment_profiles
 
   # Public Methods
   #----------------------------------------------------------------------------
