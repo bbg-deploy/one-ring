@@ -7,6 +7,7 @@ class PaymentProfileObserver < ActiveRecord::Observer
     if (payment_profile.cim_customer_payment_profile_id.nil?)
       begin
         payment_profile_id = service.create_cim_customer_payment_profile(payment_profile)
+#        puts "Payment_Profile_ID = #{payment_profile_id}"
         payment_profile.set_cim_customer_payment_profile_id("123")
       rescue StandardError => e
         puts "Error: #{e.message}"

@@ -125,7 +125,41 @@ describe PaymentProfile do
       end
     end
 
-    describe "set_last_four_digits" do
+    describe "authorize_net_payment_details" do
+      context "with credit card" do
+        let(:payment_profile) { FactoryGirl.create(:credit_card_payment_profile) }
+        let(:payment_details) { payment_profile.authorize_net_payment_details }
+
+        it "returns payment details Hash" do
+          payment_details.is_a?(Hash).should be_true
+        end
+
+        it "contains an ActiveMerchant Credit Card" do
+          payment_details[:credit_card].is_a?(ActiveMerchant::Billing::CreditCard).should be_true
+        end
+      end
+
+      context "with bank account" do
+        let(:payment_profile) { FactoryGirl.create(:bank_account_payment_profile) }
+        let(:payment_details) { payment_profile.authorize_net_payment_details }
+
+        it "returns payment details Hash" do
+          payment_details.is_a?(Hash).should be_true
+        end
+
+        it "contains an Hash of bank account details" do
+          payment_details[:bank_account].is_a?(Hash).should be_true
+        end
+      end
+    end
+
+    describe "authorize_net_billing_details", :failing => true do
+      let(:payment_profile) { FactoryGirl.create(:credit_card_payment_profile) }
+      let(:billing_details) { payment_profile.authorize_net_billing_details }
+
+      it "returns billing details Hash" do
+        billing_details.is_a?(Hash).should be_true
+      end
     end
   end
 end
