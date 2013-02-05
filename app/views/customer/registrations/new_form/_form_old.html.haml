@@ -1,0 +1,32 @@
+= simple_nested_form_for(@customer, :url => customer_registration_path, :html => { :class => "well form-horizontal" }) do |f|
+  - @customer.errors.full_messages.each do |msg|
+    = msg
+  %h3 Account Information
+  .controls.controls-row
+    = f.input :username, :wrapper_html => {:class => 'span6'}
+  .controls.controls-row
+    = f.input :email, :wrapper_html => {:class => 'span4'}
+    = f.input :email_confirmation, :wrapper_html => {:class => 'span4'}
+  .controls.controls-row
+    = f.input :password, :wrapper_html => {:class => 'span4'}
+    = f.input :password_confirmation, :wrapper_html => {:class => 'span4'}
+  %h3 Personal Information
+  .controls.controls-row
+    = f.input :first_name, :wrapper_html => {:class => 'span3'}
+    = f.input :middle_name, :wrapper_html => {:class => 'span3'}
+    = f.input :last_name, :wrapper_html => {:class => 'span3'}
+  .controls.controls-row
+    = f.input :date_of_birth, :start_year => Date.today.year - 90, :end_year => Date.today.year - 12, :wrapper_html => {:class => 'span6'}
+    = f.input :social_security_number, :wrapper_html => {:class => 'span3'}
+  %h3 Contact Details
+  %h4 Mailing Address
+  = f.fields_for :mailing_addresses
+  %h4 Billing Address
+  = f.fields_for :billing_addresses
+  %h4 Phone Numbers
+  = f.fields_for :phone_numbers
+  %h3 Terms & Conditions
+  .controls.controls-row
+    = f.input :terms_agreement, :required => true, :as => :boolean, :wrapper_html => {:class => 'span2'}
+  .controls.controls-row
+    = f.button :submit, :label => "Sign up", :value => "Sign up", :class => "btn btn-primary", :wrapper_html => {:class => 'span3'}

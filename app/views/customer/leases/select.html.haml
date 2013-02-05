@@ -1,0 +1,12 @@
+= provide(:title, "Select Your Lease Details")
+
+.row
+  %h1 Final Details
+  = simple_nested_form_for( @lease, :url => finalize_customer_lease_path(@lease), :html => { :class => 'well' } ) do |f|
+    = f.error_notification
+    %h4 Option 1 - Lowest Monthly Payments
+    %p (Put Details Here)
+    = f.button :submit, :label => 'Option 1', :value => 'Option 1', :name => "lease_choice", :class => 'btn btn-primary'
+    %h4 Option 2 - Pay Off Sooner
+    %p (Put Details Here)
+    = f.button :submit, :label => 'Option 2', :value => 'Option 2', :name => "lease_choice", :class => 'btn btn-primary'

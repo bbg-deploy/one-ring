@@ -1,0 +1,11 @@
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to "New Credit Card Account", "#credit-card-tab-pane", :id => "credit-card-tab", :data => { :toggle => "tab"}
+    %li
+      = link_to "New Bank Account", "#bank-account-tab-pane", :id => "bank-account-tab", :data => { :toggle => "tab"}
+  .tab-content
+    #credit-card-tab-pane.tab-pane.active
+      = render "credit_card_form"
+    #bank-account-tab-pane.tab-pane
+      = render "bank_account_form"

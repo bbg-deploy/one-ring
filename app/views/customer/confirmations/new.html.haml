@@ -1,0 +1,9 @@
+= provide(:title, 'Confirmation Instructions')
+
+.row
+  .span6
+    %h2 Resend confirmation instructions
+    = simple_form_for(@customer, :url => customer_confirmation_path, :html => { :class => 'well', :method => :post }) do |f|
+      = f.input :email, hint:'Enter your email address'
+      = f.button :submit, :label => 'Resend Confirmation Email', :value => 'Resend Confirmation Email', :class => 'btn btn-primary'
+    = render 'customer/shared/authentication_links'

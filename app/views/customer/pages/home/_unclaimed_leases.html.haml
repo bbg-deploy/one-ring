@@ -1,0 +1,10 @@
+- if (@unclaimed_leases.empty?)
+- else
+  - @unclaimed_leases.each do |lease|
+    %h2 You have a new application!
+    .hero-unit
+      %p A store has indicated that you recently started a Credda lease application with them.  Please review the details below and confirm that this is yours.
+      %h4 Details
+      %p
+        = "This application was started by #{lease.try(:store)}, for the following products: #{lease.try(:products_list)}." 
+      = link_to("Yes, This Is My Application", claim_customer_lease_path(lease), :method => :put, :class => 'btn btn-primary' )

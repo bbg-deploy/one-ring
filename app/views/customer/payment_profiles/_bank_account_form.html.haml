@@ -1,0 +1,14 @@
+= simple_form_for( @payment_profile, :url => customer_payment_profiles_path, :html => { :class => 'well' } ) do |f|
+  = f.error_notification
+  = f.input :payment_type, :as => :hidden, :input_html => { :value => "bank_account" }
+  %h4 Account Holder
+  = f.input :first_name, :label => "First Name", :input_html => { :value => "#{@current_customer.first_name}" }
+  = f.input :last_name, :label => "Last Name", :input_html => { :value => "#{@current_customer.last_name}" }
+  %h4 Bank Account Details
+  = f.input :bank_account_holder, :collection => ["personal", "business"]
+  = f.input :bank_account_type, :collection => ["checking", "savings"]
+  = f.input :bank_account_number
+  = f.input :bank_routing_number 
+    
+  = f.button :submit, :label => 'Save', :value => 'Save', :class => 'btn btn-primary'
+  = link_to "Cancel", customer_payment_profiles_path, :class => 'btn'

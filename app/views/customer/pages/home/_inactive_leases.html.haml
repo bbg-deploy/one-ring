@@ -1,0 +1,24 @@
+%h2 Pending Leases
+- if (@inactive_leases.nil?) || (@inactive_leases.empty?)
+  %h4 You have no pending leases at this time
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Store
+        %th
+          Products
+        %th
+          State
+    %tbody
+      - @inactive_leases.each do |lease|
+        %tr
+          %td
+            = lease.try(:store).try(:name)
+          %td
+            = truncate(lease.try(:products_list), :length => 13)
+          %td
+            = formatted_state(lease.try(:state))
+          %td
+            = link_to "View", customer_lease_path(lease), :class => 'btn btn-primary'            

@@ -1,0 +1,29 @@
+%h2 Current Contracts
+- if (@approved_leases.nil?) || (@approved_leases.empty?)
+  %h4 You have no current contracts at this time
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Store
+        %th
+          Products
+        %th
+          Total Amount
+        %th
+          Progress
+    %tbody
+      - @approved_leases.each do |lease|
+        %tr
+          %td
+            = lease.try(:store)
+          %td
+            = lease.try(:products_list)
+          %td
+            = currency_format lease.try(:balance)
+          %td
+            .progress.progress-success
+              .bar{ :style => "width: #{lease.payoff_percentage}%" }
+          %td
+            = link_to "View", customer_lease_path(lease), :class => 'btn btn-primary'            

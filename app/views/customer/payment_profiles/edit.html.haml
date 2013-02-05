@@ -1,0 +1,9 @@
+provide(:title, "Edit Payment Method")
+
+.row
+  %h1 New Linked Account
+  = render 'form'
+.row
+  - if can?(:destroy, PaymentProfile)
+    %p This action will permanently destroy the link to this payment account
+    = link_to "Delete Payment Method" customer_payment_profile_path(@payment_profile), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-danger'

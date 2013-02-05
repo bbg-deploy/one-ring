@@ -1,0 +1,5 @@
+.controls.controls-row
+  = f.hidden_field :phone_number_type, :value => 'customer'
+  = f.text_field :phone_number, :class => "span3"
+  = f.check_box :cell_phone, :class => "span3"
+  = f.hidden_field :primary, :value => '1'

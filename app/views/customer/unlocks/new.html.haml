@@ -1,0 +1,9 @@
+= provide(:title, 'Unlock Instructions')
+
+.row
+  .span6
+    %h2 Resend unlock instructions
+    = simple_form_for(@customer, :url => customer_unlock_path, :html => { :class => "well", :method => :post }) do |f|
+      = f.input :email, hint:"Enter your email address"
+      = f.button :submit, :label => "Resend unlock instructions", :value => "Resend unlock instructions", :class => "btn btn-primary"
+    = render "customer/shared/authentication_links"

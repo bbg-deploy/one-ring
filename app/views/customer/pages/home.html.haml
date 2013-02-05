@@ -1,0 +1,14 @@
+= provide(:title, 'Customer Home')
+
+.row
+  .span9
+    - unless (@unclaimed_leases.empty?)
+      #unclaimed-leases
+        = render 'customer/pages/home/unclaimed_leases'
+.row
+  .span5
+    #active-leases
+      = render 'customer/pages/home/active_leases'
+  .span4
+    #inactive-leases
+      = render 'customer/pages/home/inactive_leases'

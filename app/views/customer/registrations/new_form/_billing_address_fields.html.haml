@@ -1,0 +1,8 @@
+.controls.controls-row
+  = f.hidden_field :address_type, :value => 'billing'
+  = f.text_field :street, :class => "span3", :placeholder => "123 Famous St."
+  = f.text_field :city, :class => "span3", :placeholder => "Charleston"
+  = f.select :state, us_states, {}, { :class => "span2" }
+.controls.controls-row
+  = f.text_field :zip_code, :class => "span3", :placeholder => "11111"
+  = f.select :country, countries, {}, { :class => "span2" }

@@ -1,0 +1,25 @@
+= provide(:title, "New Application")
+
+.row
+  %h1 New Application
+  %h4 Applicant Details
+  %p
+    = @lease.try(:customer).try(:first_name)
+  %p
+    = @lease.try(:customer).try(:last_name)
+  %h4 Application Questions
+  = simple_nested_form_for( @lease, :url => submit_customer_lease_path(@lease), :html => { :class => 'well' } ) do |f|
+    = f.error_notification
+    %p The address we have listed is:
+    %p
+      = @lease.try(:customer).try(:mailing_addresses).first.try(:full_address)
+    = f.input :time_at_address
+    = f.input :rent_or_own
+    = f.input :rent_payment
+    = f.input :income_frequency
+    = f.input :sources_of_income
+    = f.input :employer_name
+    = f.input :employer_phone_number
+    = f.input :payment_frequency, :collection => @payment_options, :as => :radio_buttons
+    = f.button :submit, :label => 'Save', :value => 'Save', :class => 'btn btn-primary'
+    = link_to "Cancel", customer_leases_path, :class => 'btn'

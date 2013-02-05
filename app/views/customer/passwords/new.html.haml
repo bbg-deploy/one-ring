@@ -1,0 +1,9 @@
+= provide(:title, 'New Password')
+
+.row
+  .span6
+    %h2 Forgot your password?
+    = simple_form_for(@customer, :url => customer_password_path, :html => { :class => 'well', :method => :post }) do |f|
+      = f.input :email
+      = f.button :submit, :label => 'Send me password reset instructions', :value => 'Send password reset', :class => 'btn btn-primary'
+    = render "customer/shared/authentication_links"

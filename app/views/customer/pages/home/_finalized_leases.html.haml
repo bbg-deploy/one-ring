@@ -1,0 +1,20 @@
+%h2 Applications Pending Validation
+- if (@finalized_leases.empty?)
+  %h4 You have no applications pending validation at this time
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Store
+        %th
+          Products
+    %tbody
+      - @finalized_leases.each do |lease|
+        %tr
+          %td
+            = lease.try(:store)
+          %td
+            = lease.try(:products_list)
+          %td
+            = link_to "View", customer_lease_path(lease), :class => 'btn btn-primary'            

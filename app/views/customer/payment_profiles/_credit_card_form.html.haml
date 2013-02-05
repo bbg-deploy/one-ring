@@ -1,0 +1,19 @@
+= simple_form_for( @payment_profile, :url => customer_payment_profiles_path, :html => { :class => 'well' } ) do |f|
+  - @payment_profile.errors.full_messages.each do |msg|
+    = msg
+  = f.error_notification
+  = f.input :payment_type, :as => :hidden, :input_html => { :value => "credit_card" }
+  %h4 Account Holder
+  = f.input :first_name, :label => "First Name", :input_html => { :value => "#{@current_customer.first_name}" }
+  = f.input :last_name, :label => "Last Name", :input_html => { :value => "#{@current_customer.last_name}" }
+  %h4 Credit Card Details
+  = f.input :credit_card_brand, :collection => ["mastercard", "visa"]
+  = f.input :credit_card_number
+  = f.input :credit_card_expiration_month, :collection => 1..12
+  = f.input :credit_card_expiration_year, :collection => (Time.now.year)..(Time.now.year + 5)
+  = f.input :credit_card_verification
+    
+  = f.button :submit, :label => 'Save', :value => 'Save', :class => 'btn btn-primary'
+  = link_to "Cancel", customer_payment_profiles_path, :class => 'btn'
+-#  - @payment_profile.errors.full_messages.each do |msg|
+-#    = msg

@@ -33,10 +33,6 @@ gem 'jquery-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Authentication
-gem 'devise', '>= 2.2.3'
-
-
 group :development, :test do
   gem 'win32console'
   gem "spork-rails"
@@ -53,6 +49,12 @@ group :test do
   gem 'database_cleaner'
   gem 'webmock', '>= 1.9.0'
 end
+
+# Authentication
+gem 'devise', '>= 2.2.3'
+
+# OAuth
+gem 'doorkeeper', '~> 0.6.7'
 
 #Tableless Models
 gem 'activerecord-tableless', '~> 1.0.1'

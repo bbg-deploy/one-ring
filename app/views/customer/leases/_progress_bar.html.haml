@@ -1,0 +1,10 @@
+- if @lease.claimed?
+  = "[APPLY]  CHOOSE TERMS  GET VERIFIED  ACTIVE"
+- elsif @lease.approved?
+  = "APPLY  [CHOOSE TERMS]  GET VERIFIED  ACTIVE"
+- elsif @lease.finalized?
+  = "APPLY  CHOOSE TERMS  [GET VERIFIED]  ACTIVE"
+- elsif @lease.verified?
+  = "APPLY  CHOOSE TERMS  GET VERIFIED  [ACTIVE]"
+- elsif @lease.active?
+  = "APPLY  CHOOSE TERMS  GET VERIFIED  [ACTIVE]"

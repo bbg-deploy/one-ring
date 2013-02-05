@@ -1,0 +1,14 @@
+= f.input :address_type, :as => :hidden, :value => 'billing'
+.row
+  .span2
+    = f.input :street, :placeholder => "123 Famous St."
+  .span2.offset1
+    = f.input :city, :placeholder => "Charleston"
+.row
+  .span2
+    = f.input :state, :collection => us_states
+  .span2.offset1
+    = f.input :zip_code, :placeholder => "11111"
+.row
+  .span5
+    = f.input :country, :default => [ "United States" ], :collection => countries
