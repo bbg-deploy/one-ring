@@ -496,3 +496,12 @@ Served asset /jquery_ujs.js - 200 OK (10ms)
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-05 15:58:40 +0900
 Served asset /application.js - 200 OK (15ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-02-06 00:28:58 +0900
+Served asset /rails.png - 304 Not Modified (4ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-02-06 00:30:14 +0900
+Served asset /rails.png - 304 Not Modified (6ms)

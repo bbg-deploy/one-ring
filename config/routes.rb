@@ -1,7 +1,7 @@
 CustomSsoProvider::Application.routes.draw do
   use_doorkeeper
 
-  root :to => 'home#index'
+  root :to => 'pages#home'
 
   devise_for :stores
 
