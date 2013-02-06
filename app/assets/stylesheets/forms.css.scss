@@ -27,11 +27,23 @@ form {
     transition: all 0.15s linear 0s;
     width: 100%;
   }
+
+  ::-webkit-input-placeholder { /* WebKit browsers */
+      color:    #CCCCCC;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color:    #CCCCCC;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color:    #CCCCCC;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+      color:    #CCCCCC;
+  }
 }
 
 #ui-datepicker-div {
   background: #29A5CE;
-//  background: white;
   .ui-datepicker-header {
     background: #29A5CE;
     .ui-datepicker-prev {
@@ -55,5 +67,13 @@ form {
   }
   table {
     margin: 6px;
+  }
+}
+
+#authentication-links {
+  ul {
+    li {
+      list-style: none;
+    }
   }
 }

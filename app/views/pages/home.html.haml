@@ -1,20 +1,33 @@
+= provide(:title, 'Home')
 
 .row
   .twelve.columns
     %h1 Credda User Manager
 .row
   .four.columns
-    %h2 Customers
-    %p Login, registration, and account management for all personal users of our lending and banking products
-    = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
-    = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )
+    .panel
+      %h2 Customers
+      %p Login, registration, and account management for all personal users of our lending and banking products
+      .row
+        .six.columns
+          = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
+        .six.columns
+          = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )
   .four.columns
-    %h2 Stores
-    %p Login, registration, and account management for all of our store partners
-    = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
-    = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )
+    .panel
+      %h2 Stores
+      %p Login, registration, and account management for all of our store partners
+      .row
+        .six.columns
+          = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
+        .six.columns
+          = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )
   .four.columns
-    %h2 Employees
-    %p Login, registration, and account management for all of our wonderful employees
-    = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
-    = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )
+    .panel
+      %h2 Employees
+      %p Login, registration, and account management for all of our wonderful employees
+      .row
+        .six.columns
+          = link_to("Sign in", new_customer_session_path, :class => 'radius button' )
+        .six.columns
+          = link_to("Sign up", new_customer_registration_path, :class => 'radius button' )

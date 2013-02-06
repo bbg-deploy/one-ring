@@ -1,15 +1,22 @@
 @import "compass/css3/images";
 
-/* Background Defaults */
+/* Body Sizing & Layout */
 html, body {
   min-height: 100%;  
+}
+
+body {
+  // This is just needed for the top bar.
+  padding-top: 60px;
 }
 
 #main-wrapper {
 }
 
 .content {
+  padding: 10px 5px;
 }
+
 
 body.anon {
   background: image-url("cork-background.png");
@@ -37,10 +44,6 @@ body.store {
 
 #flash-messages {
   padding: 10px 0px;
-}
-
-#main-wrapper {
-//  min-height: 100%;
 }
 
 /* Fonts */

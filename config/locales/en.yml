@@ -2,4 +2,6 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  msg_not_found: "Oops, we couldn't find that."
+  msg_not_authorized: "Hey! You're not allowed back here!"
+  msg_profile_incomplete: "We need your contact information before we can process your applications."

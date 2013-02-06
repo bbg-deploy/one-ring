@@ -83,7 +83,9 @@
               = f.label "Is this a cell phone?"
               = phone.check_box :cell_phone
               = phone.hidden_field :primary, :value => '1'
-      = f.label "You agree to Credda's Terms & Conditions"
-      = f.check_box :terms_agreement
+      %fieldset
+        %legend Terms & Conditions
+        = f.label "You agree to Credda's Terms & Conditions"
+        = f.check_box :terms_agreement
       = f.submit "Sign up", :class => "radius button"
     = render "customer/shared/authentication_links"

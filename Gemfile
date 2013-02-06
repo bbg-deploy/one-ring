@@ -18,7 +18,7 @@ group :assets do
 
   #Foundation
   gem 'compass-rails', '>= 1.0.3'
-  gem 'zurb-foundation'
+  gem 'zurb-foundation', '>= 3.2.5'
 
   #Other
   gem 'uglifier', '>= 1.0.3'
@@ -50,11 +50,17 @@ group :test do
   gem 'webmock', '>= 1.9.0'
 end
 
+# OAuth
+gem 'doorkeeper', '~> 0.6.7'
+
 # Authentication
 gem 'devise', '>= 2.2.3'
 
-# OAuth
-gem 'doorkeeper', '~> 0.6.7'
+# Authorization
+gem 'authority', '>= 2.3.2'
+
+# Role Management
+gem 'rolify', '>= 3.1'
 
 #Tableless Models
 gem 'activerecord-tableless', '~> 1.0.1'

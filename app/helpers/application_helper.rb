@@ -71,4 +71,12 @@ module ApplicationHelper
     pretty_date = date.strftime("%B %d, %Y")
     return pretty_date
   end
+
+  def us_states
+    return YAML.load_file("#{Rails.root}/config/locations.yml")['states']    
+  end
+  
+  def countries
+    return YAML.load_file("#{Rails.root}/config/locations.yml")['countries']
+  end
 end
