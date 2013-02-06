@@ -8,9 +8,8 @@ class PhoneNumber < ActiveRecord::Base
  
   # Attributes
   #----------------------------------------------------------------------------
-  attr_accessible :phone_number_type, :phone_number, :primary, :cell_phone
+  attr_accessible :phonable, :phone_number_type, :phone_number, :primary, :cell_phone
  
-
   # Validations
   #----------------------------------------------------------------------------
   before_validation :set_default_phone_number_type

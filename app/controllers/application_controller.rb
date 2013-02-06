@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   respond_to :atom, :csv, :rss, :only => :index
 
   rescue_from ActiveRecord::RecordNotFound, :with => :respond_to_not_found
-#  rescue_from CanCan::AccessDenied,         :with => :respond_to_access_denied
   
   # SECURITY - Protect Form IDs from forgery
   #----------------------------------------------------------------------------
@@ -71,5 +70,10 @@ class ApplicationController < ActionController::Base
       format.json { render :text => flash[:warning], :status => :unauthorized }
       format.xml  { render :text => flash[:warning], :status => :unauthorized }
     end
+  end
+
+  def authority_forbidden(error)
+    Authority.logger.warn(error.message)
+    redirect_to request.referrer.presence || root_path, :alert => 'You are not authorized to complete that action.'
   end
 end

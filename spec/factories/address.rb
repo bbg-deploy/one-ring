@@ -30,4 +30,16 @@ FactoryGirl.define do
     street nil
     city nil
   end
+
+  factory :address_attributes_hash, class: Hash do
+    addressable {|a| a.association(:customer)}
+    address_type :mailing
+    street "123 Fake St."
+    city "Spartanburg"
+    state "South Carolina"
+    zip_code "29301"
+    country "United States"
+
+    initialize_with { attributes }
+  end
 end

@@ -6,7 +6,33 @@ describe Address do
   describe "factory validation", :factory_validation => true do
     specify { Address.new.should be_an_instance_of(Address) }
 
-    it_behaves_like "valid record", :address
+    describe "address factory" do
+      it_behaves_like "valid record", :address    
+    end
+
+    describe "mailing_address factory" do
+      it_behaves_like "valid record", :mailing_address    
+    end
+
+    describe "billing_address factory" do
+      it_behaves_like "valid record", :billing_address    
+    end
+
+    describe "store_address factory" do
+      it_behaves_like "valid record", :store_address    
+    end
+
+    describe "invalid_address factory" do
+      it_behaves_like "invalid record", :invalid_address    
+    end
+
+    describe "address_attributes_hash factory" do
+      it "creates new address when passed to Address" do
+        attributes = FactoryGirl.build(:address_attributes_hash)
+        address = Address.create(attributes)
+        address.should be_valid
+      end
+    end
   end
 
   # Associations

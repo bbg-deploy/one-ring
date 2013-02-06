@@ -8,7 +8,7 @@ describe ApplicationController do
     end
     
     def denied
-#      raise CanCan::AccessDenied
+      raise Authority::SecurityViolation(nil, nil, nil)
     end
   end
 

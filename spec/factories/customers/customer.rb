@@ -55,4 +55,35 @@ FactoryGirl.define do
       end
     end    
   end
+
+  factory :customer_attributes_hash, class: Hash do
+    sequence(:username) { |n| "customer_#{n}" }
+    password "fakepass"
+    password_confirmation { password }
+    email { "#{username}@notcredda.com" }
+    email_confirmation { email }
+    first_name "John"
+    middle_name "Quincy"
+    last_name "Doe"
+    date_of_birth { 26.years.ago }
+    sequence(:social_security_number, 1000) { |n| "387-87-#{n}" }
+    terms_agreement "1"
+#    mailing_address_attributes { {
+#      "street" => "10 Rutledge Ct.",
+#      "city" => "Sterling",
+#      "state" => "Virginia",
+#      "zip_code" => "20165",
+#      "country" => "United States"
+#    } }
+    phone_number_attributes { {
+      "phone_number" => "703-309-1874",
+      "cell_phone" => "0"
+    } }
+    
+    mailing_address_attributes {
+      FactoryGirl.build(:address_attributes_hash, :addressable => nil)
+    }
+
+    initialize_with { attributes }
+  end
 end

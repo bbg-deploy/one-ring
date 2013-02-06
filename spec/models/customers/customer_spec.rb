@@ -6,7 +6,7 @@ describe Customer do
   describe "factory validation", :factory_validation => true do
     specify { Customer.new.should be_an_instance_of(Customer) }
   
-    describe "customer factory", :failing => true do
+    describe "customer factory" do
       it_behaves_like "valid record", :customer
 
       it "should have a phone number" do
@@ -37,11 +37,18 @@ describe Customer do
       it_behaves_like "valid record", :customer_with_payment_profiles
     
       it "has payment_profiles" do
-        customer = FactoryGirl.create(:customer_with_payment_profiles)
+        customer = FactoryGirl.build(:customer_with_payment_profiles)
         customer.payment_profiles.should_not be_empty
       end      
     end
-
+    
+    describe "customer_attributes_hash", :failing => true do
+      it "creates new customer when passed to Customer" do
+        attributes = FactoryGirl.build(:customer_attributes_hash)
+        customer = Customer.create(attributes)
+        customer.should be_valid
+      end
+    end
   end
 
   # Associations

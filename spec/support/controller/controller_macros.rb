@@ -1,6 +1,5 @@
 module ControllerMacros
   # Leverages Devise::TestHelpers, which are included in our spec_helper.rb
-  
   def raise_not_found
     raise ActiveRecord::RecordNotFound
   end

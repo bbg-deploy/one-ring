@@ -19,4 +19,13 @@ FactoryGirl.define do
   factory :invalid_phone_number, parent: :phone_number do
     phone_number nil
   end
+
+  factory :phone_number_attributes_hash, class: Hash do
+    phonable {|a| a.association(:customer)}
+    sequence(:phone_number, 1000) { |n| "703-430-#{n}" }
+    primary true
+    cell_phone true
+
+    initialize_with { attributes }
+  end
 end

@@ -1,23 +1,24 @@
 require 'spec_helper'
-require 'cancan'
-require 'cancan/matchers'
-=begin
+#require 'cancan'
+#require 'cancan/matchers'
+
 describe Customer::RegistrationsController do
   include Devise::TestHelpers
+
 
   def do_get_new( format = 'html' )
     get :new, :format => format
   end
 
-  def do_post_create( format = 'html', attributes = FactoryGirl.attributes_for(:customer) )
+  def do_post_create( format = 'html', attributes = FactoryGirl.attributes_for(:customer).except(:cim_customer_profile_id) )
     post :create, :customer => attributes, :format => format
   end
 
-  def do_post_create_invalid( format = 'html', attributes = FactoryGirl.attributes_for(:customer, email: "invalid.fail.com") )
+  def do_post_create_invalid( format = 'html', attributes = FactoryGirl.attributes_for(:customer, email: "invalid.fail.com").except(:cim_customer_profile_id) )
     post :create, :user => attributes, :format => format
   end
- 
-  context "As an anonymous customer" do
+
+  context "as anonymous user", :anonymous => true do
     let(:customer) do
       FactoryGirl.build(:customer)
     end
@@ -32,14 +33,18 @@ describe Customer::RegistrationsController do
 
     describe "#new" do
       it "can access the sign-up page" do
-        do_get_new
+        get :new, :format => 'html'
         response.should be_success
       end
     end
 
     describe "#create" do
       context "with valid attributes" do
+        let(:attributes) { FactoryGirl.attributes_for(:customer_attributes_hash) }
+
         it "can register as a new user" do
+          puts "Attributes = #{attributes}"
+          
           expect{
             do_post_create
           }.to change(Customer,:count).by(1)
@@ -160,4 +165,3 @@ describe Customer::RegistrationsController do
     end  
   end
 end
-=end

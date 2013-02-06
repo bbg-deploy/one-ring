@@ -6,7 +6,25 @@ describe PhoneNumber do
   describe "factory validation", :factory_validation => true do
     specify { PhoneNumber.new.should be_an_instance_of(PhoneNumber) }
 
-    it_behaves_like "valid record", :phone_number
+    describe "phone_number factory" do
+      it_behaves_like "valid record", :phone_number
+    end
+
+    describe "store_phone_number factory" do
+      it_behaves_like "valid record", :store_phone_number
+    end
+
+    describe "invalid_phone_number factory" do
+      it_behaves_like "invalid record", :invalid_phone_number
+    end
+
+    describe "phone_number_attributes_hash" do
+      it "creates new phone_number when passed to PhoneNumber" do
+        attributes = FactoryGirl.build(:phone_number_attributes_hash)
+        phone_number = PhoneNumber.create(attributes)
+        phone_number.should be_valid
+      end
+    end
   end
 
   # Associations

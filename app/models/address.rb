@@ -8,7 +8,7 @@ class Address < ActiveRecord::Base
 
   # Attributes
   #----------------------------------------------------------------------------
-  attr_accessible :address_type, :street, :city, :state, :zip_code, :country
+  attr_accessible :addressable, :address_type, :street, :city, :state, :zip_code, :country
   attr_protected :latitude, :longitude
 
   # User-Accessible Attributes
