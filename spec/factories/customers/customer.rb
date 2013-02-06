@@ -67,22 +67,9 @@ FactoryGirl.define do
     last_name "Doe"
     date_of_birth { 26.years.ago }
     sequence(:social_security_number, 1000) { |n| "387-87-#{n}" }
+    mailing_address_attributes { FactoryGirl.build(:address_attributes_hash, :addressable => nil).except(:addressable) }
+    phone_number_attributes    { FactoryGirl.build(:phone_number_attributes_hash, :phonable => nil).except(:phonable) }
     terms_agreement "1"
-#    mailing_address_attributes { {
-#      "street" => "10 Rutledge Ct.",
-#      "city" => "Sterling",
-#      "state" => "Virginia",
-#      "zip_code" => "20165",
-#      "country" => "United States"
-#    } }
-    phone_number_attributes { {
-      "phone_number" => "703-309-1874",
-      "cell_phone" => "0"
-    } }
-    
-    mailing_address_attributes {
-      FactoryGirl.build(:address_attributes_hash, :addressable => nil)
-    }
 
     initialize_with { attributes }
   end

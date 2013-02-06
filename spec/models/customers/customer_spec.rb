@@ -37,12 +37,12 @@ describe Customer do
       it_behaves_like "valid record", :customer_with_payment_profiles
     
       it "has payment_profiles" do
-        customer = FactoryGirl.build(:customer_with_payment_profiles)
+        customer = FactoryGirl.create(:customer_with_payment_profiles)
         customer.payment_profiles.should_not be_empty
       end      
     end
     
-    describe "customer_attributes_hash", :failing => true do
+    describe "customer_attributes_hash" do
       it "creates new customer when passed to Customer" do
         attributes = FactoryGirl.build(:customer_attributes_hash)
         customer = Customer.create(attributes)

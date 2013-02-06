@@ -6,12 +6,6 @@ module ApplicationHelper
       return "customer"
     elsif (!@current_store.nil?)
       return "store"
-    elsif (!@current_analyst.nil?)
-      return "analyst"
-    elsif (!@current_agent.nil?)
-      return "agent"
-    elsif (!@current_admin.nil?)
-      return "admin"
     else
       return "anon"
     end
@@ -58,6 +52,14 @@ module ApplicationHelper
     content_tag(:li, :class => class_name) do
       link_to link_text, link_path
     end
+  end
+
+  # Controller Helpers
+  #----------------------------------------------------------------------------
+  def set_flash_message(key, msg)
+#    message = I18n.t("#{options[:resource_name]}.#{kind}", options)
+    message = "Testing"
+    flash[key] = message unless message.nil?
   end
 
   # Global Helpers

@@ -21,6 +21,7 @@ module ControllerMacros
     return model.to_s.underscore.to_sym
   end
   
+=begin
   def do_get_index( format = 'html' )
     get :index, :format => format
   end
@@ -48,4 +49,5 @@ module ControllerMacros
   def do_delete_destroy( id = nil, format = 'html' )
     delete :destroy, :id => id, :format => format
   end
+=end
 end

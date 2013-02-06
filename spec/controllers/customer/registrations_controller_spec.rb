@@ -5,7 +5,6 @@ require 'spec_helper'
 describe Customer::RegistrationsController do
   include Devise::TestHelpers
 
-
   def do_get_new( format = 'html' )
     get :new, :format => format
   end
@@ -31,35 +30,41 @@ describe Customer::RegistrationsController do
       subject.current_user.should be_nil
     end
 
-    describe "#new" do
+    describe "#new", :new => true do
       it "can access the sign-up page" do
         get :new, :format => 'html'
         response.should be_success
       end
     end
 
-    describe "#create" do
+    describe "#create", :create => true do
       context "with valid attributes" do
         let(:attributes) { FactoryGirl.attributes_for(:customer_attributes_hash) }
 
         it "can register as a new user" do
-          puts "Attributes = #{attributes}"
-          
           expect{
-            do_post_create
+            post :create, :customer => attributes, :format => 'html'
           }.to change(Customer,:count).by(1)
         end
         
+        it "displays successful flash message", :failing => true do
+          post :create, :customer => attributes, :format => 'html'
+          puts "Flash = #{flash.inspect}"
+          flash[:notice].should_not be_nil
+        end
+
         it "is signed in after registration" do
-          do_post_create
-          subject.current_customer.should_not be_nil
+#          post :create, :customer => attributes, :format => 'html'
+#          subject.current_customer.should_not be_nil
         end
       end
       
       context "with invalid attributes" do
+        let(:attributes) { FactoryGirl.attributes_for(:customer_attributes_hash, :username => nil) }
+
         it "cannot register" do
           expect{
-            do_post_create_invalid
+            post :create, :customer => attributes, :format => 'html'
           }.to_not change(Customer,:count)
         end
       end

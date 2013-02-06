@@ -16,16 +16,17 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   # POST /customer
   def create
     @customer = Customer.new(params[:customer])
+        flash[:notice] = "Testing"
 
     if @customer.save
       if @customer.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_navigational_format?
-        #TODO: What is the proper syntax here?
-#        sign_in(resource_name, resource)
+        flash[:notice] = "Testing"
+#        set_flash_message(:notice, :signed_up)
         sign_in @customer
         respond_with @customer, :location => after_sign_up_path_for(@customer)
       else
-        set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}" if is_navigational_format?
+        flash[:notice] = "Testing"
+#        set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}"
         expire_session_data_after_sign_in!
         respond_with @customer, :location => after_inactive_sign_up_path_for(@customer)
       end
