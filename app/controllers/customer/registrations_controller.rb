@@ -1,25 +1,17 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
 
-  # This prevents users from canceling their accounts without the
-  # proper permissions
-  #--------------------------------------------------------------
-#  before_filter :check_permissions, :only => [:destroy]
-
   # GET /customer/sign_up
   def new
     @customer = Customer.new
     @customer.build_mailing_address
     @customer.build_phone_number
-#    1.times { @customer.phone_numbers.build }
     respond_with @product
   end
 
   # POST /customer
   def create
-#    @customer = Customer.new(params[:customer])
-
-    @customer = Customer.new(customer_params)
+    @customer = Customer.new(create_customer_params)
 
     if @customer.save
       if @customer.active_for_authentication?
@@ -38,17 +30,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-#  def create
-#    @product = Product.create
-#    redirect_to wizard_path(steps.first, :product_id => @product.id)
-#  end
-
-  def update
-    
-    #TODO: Break this into a separate form for password/username updates and
-    #      one for updating contact information
-    # If the user hasn't opted to change his password, keep it the same
-    #----------------------------------------------------------------------------------
+  def update    
     if params[:customer][:password].blank?
       params[:customer][:password] = params[:customer][:current_password]
       params[:customer][:password_confirmation] = params[:customer][:current_password]
@@ -78,15 +60,12 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     home_path
   end
 
-  def check_permissions
-    # Get CanCan authorization before an account can be destroyed
-    #------------------------------------------------------------
-    authorize! :destroy, resource
+  private
+  def create_customer_params
+    params.require(:customer).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes, :terms_agreement)
   end
 
-  private
-  def customer_params
-    puts "params = #{params}"
-    params.require(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes, :terms_agreement).permit(:middle_name)
+  def update_customer_params
+    params.require(:customer).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes)
   end
 end
