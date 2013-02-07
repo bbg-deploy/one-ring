@@ -47,8 +47,7 @@ class Customer < ActiveRecord::Base
                                  :before_message => "must be at least 18 years old"
   validates :social_security_number, :presence => true,
                                      :uniqueness => true,
-                                     :social_security_number_format => true,
-                                     :allow_nil => true
+                                     :social_security_number_format => true
   validates :mailing_address, :presence => true
   validates_associated :mailing_address
   validates :phone_number, :presence => true

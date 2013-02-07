@@ -57,16 +57,16 @@ FactoryGirl.define do
   end
 
   factory :customer_attributes_hash, class: Hash do
-    sequence(:username) { |n| "customer_#{n}" }
+    sequence(:username) { |n| "hashed_customer_#{n}" }
     password "fakepass"
     password_confirmation { password }
-    email { "#{username}@notcredda.com" }
+    email { "hashed_#{username}@notcredda.com" }
     email_confirmation { email }
     first_name "John"
     middle_name "Quincy"
     last_name "Doe"
     date_of_birth { 26.years.ago }
-    sequence(:social_security_number, 1000) { |n| "387-87-#{n}" }
+    sequence(:social_security_number, 1000) { |n| "430-87-#{n}" }
     mailing_address_attributes { FactoryGirl.build(:address_attributes_hash, :addressable => nil).except(:addressable) }
     phone_number_attributes    { FactoryGirl.build(:phone_number_attributes_hash, :phonable => nil).except(:phonable) }
     terms_agreement "1"

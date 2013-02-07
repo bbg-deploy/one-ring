@@ -1,8 +1,10 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
+  include ActiveModel::ForbiddenAttributesProtection
+
   # This prevents users from canceling their accounts without the
   # proper permissions
   #--------------------------------------------------------------
-  before_filter :check_permissions, :only => [:destroy]
+#  before_filter :check_permissions, :only => [:destroy]
 
   # GET /customer/sign_up
   def new
@@ -15,23 +17,22 @@ class Customer::RegistrationsController < Devise::RegistrationsController
 
   # POST /customer
   def create
-    @customer = Customer.new(params[:customer])
-        flash[:notice] = "Testing"
+#    @customer = Customer.new(params[:customer])
+
+    @customer = Customer.new(customer_params)
 
     if @customer.save
       if @customer.active_for_authentication?
-        flash[:notice] = "Testing"
-#        set_flash_message(:notice, :signed_up)
+        set_flash_message :notice, :signed_up
         sign_in @customer
         respond_with @customer, :location => after_sign_up_path_for(@customer)
       else
-        flash[:notice] = "Testing"
-#        set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}"
+        set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}"
         expire_session_data_after_sign_in!
         respond_with @customer, :location => after_inactive_sign_up_path_for(@customer)
       end
     else
-      #TODO: What does clean_up_passwords do?
+      flash[:error] = "There was a problem with some of your information"
       clean_up_passwords @customer
       respond_with @customer
     end
@@ -81,5 +82,11 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     # Get CanCan authorization before an account can be destroyed
     #------------------------------------------------------------
     authorize! :destroy, resource
+  end
+
+  private
+  def customer_params
+    puts "params = #{params}"
+    params.require(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes, :terms_agreement).permit(:middle_name)
   end
 end

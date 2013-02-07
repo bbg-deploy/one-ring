@@ -12,7 +12,7 @@ CustomSsoProvider::Application.routes.draw do
     :unlocks => 'customer/unlocks'
   }
   namespace :customer do
-    root :to                  => "home#index", :as => :home
+    root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods", :except => [:show, :delete]
   end
 

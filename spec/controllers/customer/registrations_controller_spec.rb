@@ -1,21 +1,7 @@
 require 'spec_helper'
-#require 'cancan'
-#require 'cancan/matchers'
 
 describe Customer::RegistrationsController do
   include Devise::TestHelpers
-
-  def do_get_new( format = 'html' )
-    get :new, :format => format
-  end
-
-  def do_post_create( format = 'html', attributes = FactoryGirl.attributes_for(:customer).except(:cim_customer_profile_id) )
-    post :create, :customer => attributes, :format => format
-  end
-
-  def do_post_create_invalid( format = 'html', attributes = FactoryGirl.attributes_for(:customer, email: "invalid.fail.com").except(:cim_customer_profile_id) )
-    post :create, :user => attributes, :format => format
-  end
 
   context "as anonymous user", :anonymous => true do
     let(:customer) do
@@ -31,6 +17,8 @@ describe Customer::RegistrationsController do
     end
 
     describe "#new", :new => true do
+      it { should route(:get, "/customer/sign_up").to(:action => :new) }
+
       it "can access the sign-up page" do
         get :new, :format => 'html'
         response.should be_success
@@ -38,34 +26,72 @@ describe Customer::RegistrationsController do
     end
 
     describe "#create", :create => true do
-      context "with valid attributes" do
-        let(:attributes) { FactoryGirl.attributes_for(:customer_attributes_hash) }
+      # Routing
+      it { should route(:post, "customer").to(:action => :create) }
 
-        it "can register as a new user" do
+        # Parameters
+#        it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+#        it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+#        it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+
+      context "with valid attributes" do
+        before(:each) do
+          attributes = FactoryGirl.build(:customer_attributes_hash)
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Redirect for inactive but valid sign-up
+        it { should assign_to(:customer) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(home_path)  }
+
+        # Response content
+        it { should set_the_flash[:notice].to(/message with a confirmation link/) }
+        it { should respond_with_content_type(:html)  }
+
+        # Behavior
+        it "creates a new customer" do
           expect{
+            attributes = FactoryGirl.build(:customer_attributes_hash)
             post :create, :customer => attributes, :format => 'html'
           }.to change(Customer,:count).by(1)
         end
-        
-        it "displays successful flash message", :failing => true do
-          post :create, :customer => attributes, :format => 'html'
-          puts "Flash = #{flash.inspect}"
-          flash[:notice].should_not be_nil
-        end
 
-        it "is signed in after registration" do
-#          post :create, :customer => attributes, :format => 'html'
-#          subject.current_customer.should_not be_nil
+        it "is not signed in after registration", :failing => true do
+          attributes = FactoryGirl.build(:customer_attributes_hash)
+          post :create, :customer => attributes, :format => 'html'
+          subject.current_customer.should be_nil
         end
       end
       
       context "with invalid attributes" do
-        let(:attributes) { FactoryGirl.attributes_for(:customer_attributes_hash, :username => nil) }
+        before(:each) do
+          attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
+          post :create, :customer => attributes, :format => 'html'
+        end
 
-        it "cannot register" do
+        # Redirect for inactive but valid sign-up
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+        it { should render_template(:new)  }
+#        it { should redirect_to(customer_registration_path)  }
+
+        # Response content
+        it { should set_the_flash[:error].to(/was a problem/) }
+        it { should respond_with_content_type(:html)  }
+
+        # Behavior
+        it "does not creates a new customer" do
           expect{
+            attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
             post :create, :customer => attributes, :format => 'html'
           }.to_not change(Customer,:count)
+        end
+
+        it "is not signed in after registration" do
+          attributes = FactoryGirl.build(:customer_attributes_hash)
+          post :create, :customer => attributes, :format => 'html'
+          subject.current_customer.should be_nil
         end
       end
     end
