@@ -1,12 +1,16 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
 
+  # These are filters from Devise
+  prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
+  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  
   # GET /customer/sign_up
   def new
     @customer = Customer.new
     @customer.build_mailing_address
     @customer.build_phone_number
-    respond_with @product
+    respond_with @customer
   end
 
   # POST /customer
@@ -30,6 +34,14 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # GET /customer/edit
+  def edit
+#    @customer = Customer.find(params[:id])
+#    respond_with @customer
+
+    render :edit
+  end
+  
   def update    
     if params[:customer][:password].blank?
       params[:customer][:password] = params[:customer][:current_password]

@@ -3110,3 +3110,311 @@ Served asset /jquery_ujs.js - 304 Not Modified (0ms)
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-07 08:43:32 +0900
 Served asset /application.js - 304 Not Modified (2ms)
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/customer" for 127.0.0.1 at 2013-02-07 09:50:12 +0900
+Processing by Customer::PagesController#home as HTML
+Completed 401 Unauthorized in 38ms
+
+
+Started GET "/customer/sign_in" for 127.0.0.1 at 2013-02-07 09:50:15 +0900
+Processing by Customer::SessionsController#new as HTML
+  Rendered customer/shared/_authentication_links.haml (10.0ms)
+  Rendered customer/sessions/new.html.haml within layouts/application (47.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (18.0ms)
+  Rendered layouts/messages/_messages.html.haml (6.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (11.0ms)
+Completed 200 OK in 681ms (Views: 500.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:17 +0900
+Served asset /application.css - 304 Not Modified (120ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:17 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:17 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (74ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:17 +0900
+Served asset /screen.css - 304 Not Modified (4ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:17 +0900
+Served asset /pages.css - 304 Not Modified (7ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:18 +0900
+Served asset /forms.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:18 +0900
+Served asset /footer.css - 304 Not Modified (6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-07 09:50:18 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (15.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (5.0ms)
+  Rendered layouts/messages/_messages.html.haml (1.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (0.0ms)
+Completed 200 OK in 56ms (Views: 55.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:18 +0900
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:18 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:19 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (11ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:20 +0900
+Served asset /jquery.js - 304 Not Modified (12ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:20 +0900
+Served asset /application.js - 304 Not Modified (16ms)
+
+
+Started GET "/customer/edit" for 127.0.0.1 at 2013-02-07 09:50:30 +0900
+Processing by Customer::RegistrationsController#edit as HTML
+Completed 401 Unauthorized in 2ms
+
+
+Started GET "/customer/sign_in" for 127.0.0.1 at 2013-02-07 09:50:30 +0900
+Processing by Customer::SessionsController#new as HTML
+  Rendered customer/shared/_authentication_links.haml (2.0ms)
+  Rendered customer/sessions/new.html.haml within layouts/application (10.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (5.0ms)
+  Rendered layouts/messages/_messages.html.haml (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (1.0ms)
+Completed 200 OK in 59ms (Views: 57.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:31 +0900
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:31 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:31 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:31 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:31 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:32 +0900
+Served asset /screen.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:32 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:32 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:32 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:32 +0900
+Served asset /application.js - 304 Not Modified (3ms)
+
+
+Started GET "/customer/sign_up" for 127.0.0.1 at 2013-02-07 09:50:43 +0900
+Processing by Customer::RegistrationsController#new as HTML
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  Rendered customer/shared/_authentication_links.haml (2.0ms)
+  Rendered customer/registrations/new.html.haml within layouts/application (73.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (4.0ms)
+  Rendered layouts/messages/_messages.html.haml (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (1.0ms)
+Completed 200 OK in 474ms (Views: 123.0ms | ActiveRecord: 28.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:44 +0900
+Served asset /application.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:44 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:44 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:44 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:44 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:45 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-07 09:50:45 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:45 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:45 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-07 09:50:45 +0900
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started POST "/customer" for 127.0.0.1 at 2013-02-07 09:52:07 +0900
+Processing by Customer::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ao/Wxad8cmS5NQ8qd7oGIIYye1PaNxfC2OMLvOrqHPU=", "customer"=>{"username"=>"customer", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"test@demo.com", "email_confirmation"=>"test@demo.com", "first_name"=>"This", "middle_name"=>"Isa", "last_name"=>"Demo", "date_of_birth"=>"6/5/1984", "social_security_number"=>"354-98-1543", "mailing_address_attributes"=>{"street"=>"17 Rutledge Ct.", "city"=>"Sterling", "state"=>"Virginia", "zip_code"=>"20165", "country"=>"United States"}, "phone_number_attributes"=>{"phone_number_type"=>"customer", "phone_number"=>"703-309-1333", "cell_phone"=>"1", "primary"=>"1"}, "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mCustomer Exists (10.0ms)[0m  SELECT 1 AS one FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36mCustomer Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = 'test@demo.com' LIMIT 1[0m
+  [1m[35mCustomer Exists (1.0ms)[0m  SELECT 1 AS one FROM "customers" WHERE "customers"."social_security_number" = '354-98-1543' LIMIT 1
+  [1m[36mCustomer Load (2.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."confirmation_token" = 'sv1pti3XZD2xipZTLy6c' LIMIT 1[0m
+  [1m[35mSQL (17.0ms)[0m  INSERT INTO "customers" ("authentication_token", "cim_customer_profile_id", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "social_security_number", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING "id"  [["authentication_token", nil], ["cim_customer_profile_id", "12232912"], ["confirmation_sent_at", Thu, 07 Feb 2013 00:52:08 UTC +00:00], ["confirmation_token", "sv1pti3XZD2xipZTLy6c"], ["confirmed_at", nil], ["created_at", Thu, 07 Feb 2013 00:52:10 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Sun, 06 May 1984], ["email", "test@demo.com"], ["encrypted_password", "$2a$10$L8nEEUq1ULv5bothf/GpMe2o3PKyIZ8clyI1Awogr1lgHxCNHm.2C"], ["failed_attempts", 0], ["first_name", "This"], ["last_name", "Demo"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "Isa"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["social_security_number", "354-98-1543"], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Thu, 07 Feb 2013 00:52:10 UTC +00:00], ["username", "customer"]]
+  Rendered customer_authentication_mailer/confirmation_instructions.html.haml (5.0ms)
+
+Sent mail to test@demo.com (2221ms)
+Date: Thu, 07 Feb 2013 09:52:11 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: test@demo.com
+Message-ID: <5112fabb9a46e_1f70288d71c8069@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>
+  Welcome test@demo.com!
+</p>
+<p>
+  You can confirm your account email through the link below:
+</p>
+<p>
+  <a href="http://localhost/customer/confirmation?confirmation_token=sv1pti3XZD2xipZTLy6c">Confirm my account</a>
+</p>
+
+  [1m[36mSQL (12.0ms)[0m  [1mINSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["address_type", "mailing"], ["addressable_id", 1], ["addressable_type", "Customer"], ["city", "Sterling"], ["country", "United States"], ["created_at", Thu, 07 Feb 2013 00:52:13 UTC +00:00], ["latitude", 39.054086], ["longitude", -77.403608], ["state", "Virginia"], ["street", "17 Rutledge Ct."], ["updated_at", Thu, 07 Feb 2013 00:52:13 UTC +00:00], ["zip_code", "20165"]]
+  [1m[35mSQL (10.0ms)[0m  INSERT INTO "phone_numbers" ("cell_phone", "created_at", "phonable_id", "phonable_type", "phone_number", "primary", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["cell_phone", true], ["created_at", Thu, 07 Feb 2013 00:52:13 UTC +00:00], ["phonable_id", 1], ["phonable_type", "Customer"], ["phone_number", "703-309-1333"], ["primary", true], ["updated_at", Thu, 07 Feb 2013 00:52:13 UTC +00:00]]
+
+Sent mail to admin@credda.com (2010ms)
+Date: Thu, 07 Feb 2013 09:52:13 +0900
+From: no-reply@credda.com
+To: admin@credda.com
+Message-ID: <5112fabdbeed9_1f70288d71c81c3@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+New user customer was just created.
+  [1m[36m (13.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 7967ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-07 09:52:15 +0900
+Processing by PagesController#home as HTML
+  Rendered pages/home.html.haml within layouts/application (3.0ms)
+  Rendered layouts/header/_anonymous_header.html.haml (5.0ms)
+  Rendered layouts/messages/_messages.html.haml (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (1.0ms)
+Completed 200 OK in 45ms (Views: 45.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:16 +0900
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:16 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:16 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:16 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /forms.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /screen.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /jquery.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-07 09:52:17 +0900
+Served asset /application.js - 304 Not Modified (1ms)

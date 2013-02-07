@@ -29,10 +29,10 @@ describe Customer::RegistrationsController do
       # Routing
       it { should route(:post, "customer").to(:action => :create) }
 
-        # Parameters
-#        it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
-#        it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
-#        it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+      # Parameters
+#      it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+#      it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+#      it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
 
       context "with valid attributes" do
         before(:each) do
