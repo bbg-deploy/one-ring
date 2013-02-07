@@ -54,15 +54,6 @@ module ApplicationHelper
     end
   end
 
-  # Controller Helpers
-  #----------------------------------------------------------------------------
-  def set_flash_message(key, msg)
-    puts "BRYCE IS HERE"
-#    message = I18n.t("#{options[:resource_name]}.#{kind}", options)
-    message = "Testing"
-    flash[key] = message unless message.nil?
-  end
-
   # Global Helpers
   #----------------------------------------------------------------------------
   def currency_format(amount, country = nil)
