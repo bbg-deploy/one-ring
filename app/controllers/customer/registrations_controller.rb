@@ -30,10 +30,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         respond_with @customer, :location => after_inactive_sign_up_path_for(@customer)
       end
     else
-      # set_flash_message is a Devise method
-      set_flash_message :error, "There was a problem with some of your information"
-
-#      flash[:error] = "There was a problem with some of your information"
+      flash[:error] = "There was a problem with some of your information"
       clean_up_passwords @customer
       respond_with @customer
     end
