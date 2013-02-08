@@ -34,4 +34,19 @@ FactoryGirl.define do
     password "validpass"
     password_confirmation "invalidpass"
   end
+
+  factory :store_attributes_hash, class: Hash do
+    sequence(:username) {|n| "hashed_store_#{n}" }
+    password "fakepass"
+    password_confirmation { password }
+    email { "hashed_#{username}@notcredda.com" }
+    email_confirmation { email }
+    name "Widget Co."
+    sequence(:employer_identification_number, 1000) { |n| "41-787#{n}" }
+    addresses_attributes     { { "0" => FactoryGirl.build(:store_address_attributes_hash, :addressable => nil).except(:addressable) } }
+    phone_numbers_attributes { { "0" => FactoryGirl.build(:phone_number_attributes_hash, :phonable => nil).except(:phonable) } }
+    terms_agreement "1"
+
+    initialize_with { attributes }
+  end
 end

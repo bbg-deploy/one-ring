@@ -38,18 +38,25 @@ class Customer::RegistrationsController < Devise::RegistrationsController
 
   # GET /customer/edit
   def edit
-#    @customer = Customer.find(params[:id])
-#    respond_with @customer
+    @customer = current_customer
+    respond_with @customer
 
-    render :edit
+#    flash[:error] = "Current User = #{current_customer.inspect}"
+#    render :edit
   end
   
-  def update    
+  def update
+#    if params[:customer][:password].blank?
+#      params[:customer].delete("password")
+#      params[:customer].delete("password_confirmation")
+#    end
+=begin    
     if params[:customer][:password].blank?
-      params[:customer][:password] = params[:customer][:current_password]
-      params[:customer][:password_confirmation] = params[:customer][:current_password]
+      params[:customer] = params[:customer].except(:password)
+      
+#      params[:customer][:password] = params[:customer][:current_password]
+#      params[:customer][:password_confirmation] = params[:customer][:current_password]
     end
-    
     if params[:customer][:password] == params[:customer][:current_password]
       params[:customer][:password_confirmation] = params[:customer][:password]
     end
@@ -59,6 +66,23 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     end
 
     super
+=end
+
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    if resource.update_with_password(resource_params)
+      if is_navigational_format?
+        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in resource_name, resource, :bypass => true
+      respond_with resource, :location => after_update_path_for(resource)
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
   end
 
   protected

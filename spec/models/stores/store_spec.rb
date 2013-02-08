@@ -27,6 +27,49 @@ describe Store, :store => true do
 
   end
   
+  # Database
+  #----------------------------------------------------------------------------
+  describe "database", :database => true do
+    # Account Information
+    it { should have_db_column(:username) }
+    it { should have_db_index(:username) }
+    it { should have_db_column(:email) }
+    it { should have_db_index(:email) }
+    it { should have_db_column(:encrypted_password) }
+
+    # Personal Information
+    it { should have_db_column(:name) }
+    it { should have_db_column(:employer_identification_number) }
+
+    # Recoverable
+    it { should have_db_column(:reset_password_token) }
+    it { should have_db_column(:reset_password_sent_at) }
+
+    # Rememberable
+    it { should have_db_column(:remember_created_at) }
+
+    # Trackable
+    it { should have_db_column(:sign_in_count) }
+    it { should have_db_column(:current_sign_in_at) }
+    it { should have_db_column(:last_sign_in_at) }
+    it { should have_db_column(:current_sign_in_ip) }
+    it { should have_db_column(:last_sign_in_ip) }
+
+    # Confirmable
+    it { should have_db_column(:confirmation_token) }
+    it { should have_db_column(:confirmed_at) }
+    it { should have_db_column(:confirmation_sent_at) }
+    it { should have_db_column(:unconfirmed_email) }
+
+    # Lockable
+    it { should have_db_column(:failed_attempts) }
+    it { should have_db_column(:unlock_token) }
+    it { should have_db_column(:locked_at) }
+
+    # Token authenticatable
+    it { should have_db_column(:authentication_token) }
+  end
+
   # Associations
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do    
@@ -70,20 +113,97 @@ describe Store, :store => true do
   # Attributes
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
-    # This performs the standard checks for usernames, emails, passwords, etc.
-    it_behaves_like "devise attributes (non-employee)", :store
-
-    describe "name" do
-      it_behaves_like "attr_accessible", :store, :name,
-        ["Credda", "Google", "123Web Services"],  #Valid values
-        [nil] #Invalid values
+    before(:each) do
+      attributes = FactoryGirl.build(:store_attributes_hash)
+      store = Store.create!(attributes) 
     end
 
+    describe "username" do
+      it { should allow_mass_assignment_of(:username) }
+      it { should validate_presence_of(:username) }
+      it { should validate_uniqueness_of(:username) }
+      it { should allow_value("Chris", "James", "tHomAS", "isexactlytwentychars").for(:username) }
+      it { should_not allow_value(nil, "!", "cat", "Chris Topher", "admin", "demo", "12Street", "ithastoomanycharacters").for(:username) }
+
+      it "downcases username" do
+        store = FactoryGirl.create(:store, :username => "ACmeCo")
+        store.username.should eq("acmeco")
+      end
+
+      it "strips leading whitespace" do
+        store = FactoryGirl.create(:store, :username => " whitespace")
+        store.username.should eq("whitespace")
+      end
+
+      it "strips trailing whitespace" do
+        store = FactoryGirl.create(:store, :username => "whitespace ")
+        store.username.should eq("whitespace")
+      end
+
+      it "does not allow whitespace in the middle" do
+        store = FactoryGirl.build(:store, :username => "white space")
+        store.should_not be_valid
+      end
+    end
+
+    describe "email" do
+      it { should allow_mass_assignment_of(:email) }
+      it { should validate_presence_of(:email) }
+      it { should validate_confirmation_of(:email) }
+      it { should validate_uniqueness_of(:email) }
+      it { should allow_value("valid@notcredda.com").for(:email) }
+      it { should_not allow_value(nil, "valid@credda.com", "valid.notcredda.com", "@notcredda.com").for(:email) }
+
+      it "downcases email" do
+        store = FactoryGirl.create(:store, :email => "TEST@notcredda.com")
+        store.email.should eq("test@notcredda.com")
+      end
+
+      it "strips leading whitespace" do
+        store = FactoryGirl.create(:store, :email => " white@notcredda.com")
+        store.email.should eq("white@notcredda.com")
+      end
+      
+      it "strips trailing whitespace" do
+        store = FactoryGirl.create(:store, :email => "white@notcredda.com ")
+        store.email.should eq("white@notcredda.com")
+      end
+
+      it "strips whitespace in the middle" do
+        store = FactoryGirl.create(:store, :email => "white @ notcredda.com")
+        store.email.should eq("white@notcredda.com")
+      end
+    end
+
+    describe "password" do
+      it { should allow_mass_assignment_of(:password) }
+      it { should validate_presence_of(:password) }
+      it { should validate_confirmation_of(:password) }
+      it { should allow_value("S3curePass", "ValidPassW0rd").for(:password) }
+      it { should_not allow_value(nil, "!", "123", "abc").for(:password) }
+    end
+
+    describe "name" do
+      it { should allow_mass_assignment_of(:name) }
+      it { should validate_presence_of(:name) }
+      it { should allow_value("Credda", "Google", "123Web Services").for(:name) }
+      it { should_not allow_value(nil).for(:name) }
+    end
+    
     describe "EIN" do
-      it_behaves_like "attr_accessible", :store, :employer_identification_number,
-        ["107331121", "10-7331121"],  #Valid values
-        [nil, "73311112", "7331111222", "00-1111111", "10-0000000", "07-7654320"] #Invalid values
-    end  
+      it { should allow_mass_assignment_of(:employer_identification_number) }
+      it { should validate_presence_of(:employer_identification_number) }
+      it { should validate_uniqueness_of(:employer_identification_number) }
+      it { should allow_value("107331121", "10-7331121").for(:employer_identification_number) }
+      it { should_not allow_value(nil, "73311112", "7331111222", "00-1111111", "10-0000000", "07-7654320").for(:employer_identification_number) }
+    end
+
+    describe "terms agreement" do
+      it { should allow_mass_assignment_of(:terms_agreement) }
+      it { should validate_acceptance_of(:terms_agreement) }
+      it { should allow_value("1").for(:terms_agreement) }
+      it { should_not allow_value("0").for(:terms_agreement) }
+    end
   end
   
   # Behavior

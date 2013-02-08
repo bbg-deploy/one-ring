@@ -18,7 +18,7 @@ module Authentication
 
       # Validations
       #----------------------------------------------------------------------------
-      validates :terms_agreement, :acceptance => true, :on => :create
+      validates :terms_agreement, :acceptance => true, :allow_nil => :false, :on => :create
     end
 
     def is_authenticatable #Allows authentication with username & password
@@ -29,9 +29,9 @@ module Authentication
              
       # Attributes
       #----------------------------------------------------------------------------
-      attr_accessor :login
+      attr_accessor :login, :current_password
       attr_accessible :login, :username, :email, :email_confirmation, 
-                      :password, :password_confirmation, :current_password,
+                      :current_password, :password, :password_confirmation,
                       :remember_me
                       
       # Validations
@@ -48,8 +48,9 @@ module Authentication
       validates :email, :presence => true
       validates :email, :uniqueness => true, :email_format => true, :if => :email
       validates_confirmation_of :email, :if => :changed_email
-      validates :password, :presence => true, :password_format => true, :length => { :minimum => 4 }
-      validates_confirmation_of :password
+      validates :password, :presence => true, :on => :create
+      validates :password, :password_format => true, :length => { :minimum => 4 }, :if => :password
+      validates_confirmation_of :password, :if => :password
 
 
       def self.find_first_by_auth_conditions(warden_conditions)

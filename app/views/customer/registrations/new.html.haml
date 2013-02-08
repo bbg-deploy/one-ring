@@ -3,7 +3,7 @@
 .row
   .eight.columns
     %h2 Sign up
-    = nested_form_for(@customer, :url => customer_registration_path, :html => { :class => "well" }) do |f|
+    = nested_form_for(@customer, :url => customer_registration_path, :method => :post, :html => { :class => "" }) do |f|
       - @customer.errors.full_messages.each do |msg|
         = msg
       %fieldset

@@ -1,7 +1,84 @@
-= provide(:title, "Edit #{@customer.username}")
+= provide(:title, 'Registration')
 
 .row
-  .span9
-    %h2 
-      = "Edit #{@customer.username}"
-    = render 'form'
+  .eight.columns
+    %h2 Sign up
+    = nested_form_for(@customer, :url => customer_registration_path, :html => { :class => "" }) do |f|
+      - @customer.errors.full_messages.each do |msg|
+        = msg
+      %fieldset
+        %legend Account Information
+        .row
+          .eight.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+        .row
+          .eight.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      %fieldset
+        %legend Personal Information
+        .row
+          .four.columns 
+            = f.label "First Name"
+            = f.text_field :first_name, :placeholder => "Elvis"
+          .four.columns 
+            = f.label "Middle Name"
+            = f.text_field :middle_name, :placeholder => "The King"
+          .four.columns 
+            = f.label "Last Name"
+            = f.text_field :last_name, :placeholder => "Presley"
+        .row
+          .six.columns 
+            = f.label "Date of Birth"
+            = f.datepicker :date_of_birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 18
+          .six.columns
+            = f.label "Social Security Number"
+            = f.text_field :social_security_number, :placeholder => "505-33-1994"
+      %fieldset
+        %legend Address
+        = f.fields_for :mailing_address do |address|
+          .row
+            .twelve.columns
+              = f.label "Street"
+              = address.text_field :street, :placeholder => "123 Famous St."
+          .row
+            .six.columns
+              = f.label "City"
+              = address.text_field :city, :placeholder => "Charleston"
+            .three.columns
+              = f.label "State"
+              = address.select :state, us_states, {}
+            .three.columns
+              = f.label "Zip Code"
+              = address.text_field :zip_code, :placeholder => "11111"
+          .row
+            .twelve.columns
+              = f.label "Country"
+              = address.select :country, countries, {}
+      %fieldset
+        %legend Phone Number
+        = f.fields_for :phone_number do |phone|
+          .row
+            .six.columns
+              = f.label "Phone Number"
+              = phone.hidden_field :phone_number_type, :value => 'customer'
+              = phone.text_field :phone_number, :placeholder => "555-444-1234"
+            .six.columns
+              = f.label "Is this a cell phone?"
+              = phone.check_box :cell_phone
+              = phone.hidden_field :primary, :value => '1'
+      %fieldset
+        %legend Enter Current Password
+        .row
+          .six.columns
+            = f.label "Current Password"
+            = f.password_field :current_password
+      = f.submit "Save Account Changes", :class => "radius button"

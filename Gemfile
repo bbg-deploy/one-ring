@@ -51,6 +51,7 @@ group :test do
   gem 'database_cleaner'
   gem 'webmock', '>= 1.9.0'
   gem 'shoulda-matchers', '>= 1.4.2'
+#  gem 'shoulda-matchers', :github => 'thoughtbot/shoulda-matchers'
 end
 
 # OAuth

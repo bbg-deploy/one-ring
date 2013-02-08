@@ -158,9 +158,71 @@ describe Customer do
       customer = Customer.create!(attributes) 
     end
 
-    # This performs the standard checks for usernames, emails, passwords, etc.
-    it_behaves_like "devise attributes (non-employee)", :customer
+    describe "username" do
+      it { should allow_mass_assignment_of(:username) }
+      it { should validate_presence_of(:username) }
+      it { should validate_uniqueness_of(:username) }
+      it { should allow_value("Chris", "James", "tHomAS", "isexactlytwentychars").for(:username) }
+      it { should_not allow_value(nil, "!", "cat", "Chris Topher", "admin", "demo", "12Street", "ithastoomanycharacters").for(:username) }
+
+      it "downcases username" do
+        customer = FactoryGirl.create(:customer, :username => "BiLLy")
+        customer.username.should eq("billy")
+      end
+
+      it "strips leading whitespace" do
+        customer = FactoryGirl.create(:customer, :username => " whitespace")
+        customer.username.should eq("whitespace")
+      end
+
+      it "strips trailing whitespace" do
+        customer = FactoryGirl.create(:customer, :username => "whitespace ")
+        customer.username.should eq("whitespace")
+      end
+
+      it "does not allow whitespace in the middle" do
+        customer = FactoryGirl.build(:customer, :username => "white space")
+        customer.should_not be_valid
+      end
+    end
+
+    describe "email" do
+      it { should allow_mass_assignment_of(:email) }
+      it { should validate_presence_of(:email) }
+      it { should validate_confirmation_of(:email) }
+      it { should validate_uniqueness_of(:email) }
+      it { should allow_value("valid@notcredda.com").for(:email) }
+      it { should_not allow_value(nil, "valid@credda.com", "valid.notcredda.com", "@notcredda.com").for(:email) }
+
+      it "downcases email" do
+        customer = FactoryGirl.create(:customer, :email => "TEST@notcredda.com")
+        customer.email.should eq("test@notcredda.com")
+      end
+
+      it "strips leading whitespace" do
+        customer = FactoryGirl.create(:customer, :email => " white@notcredda.com")
+        customer.email.should eq("white@notcredda.com")
+      end
       
+      it "strips trailing whitespace" do
+        customer = FactoryGirl.create(:customer, :email => "white@notcredda.com ")
+        customer.email.should eq("white@notcredda.com")
+      end
+
+      it "strips whitespace in the middle" do
+        customer = FactoryGirl.create(:customer, :email => "white @ notcredda.com")
+        customer.email.should eq("white@notcredda.com")
+      end
+    end
+
+    describe "password" do
+      it { should allow_mass_assignment_of(:password) }
+      it { should validate_presence_of(:password) }
+      it { should validate_confirmation_of(:password) }
+      it { should allow_value("S3curePass", "ValidPassW0rd").for(:password) }
+      it { should_not allow_value(nil, "!", "123", "abc").for(:password) }
+    end
+
     describe "first_name" do
       it { should allow_mass_assignment_of(:first_name) }
       it { should validate_presence_of(:first_name) }
@@ -195,6 +257,13 @@ describe Customer do
       it { should validate_uniqueness_of(:social_security_number) }
       it { should allow_value("733111121", "733-11-1123").for(:social_security_number) }
       it { should_not allow_value(nil, "73311112", "7331111212", "733-00-1111", "733-11-0000", "987-65-4320", "666-34-1234").for(:social_security_number) }
+    end
+
+    describe "terms agreement" do
+      it { should allow_mass_assignment_of(:terms_agreement) }
+      it { should validate_acceptance_of(:terms_agreement) }
+      it { should allow_value("1").for(:terms_agreement) }
+      it { should_not allow_value("0").for(:terms_agreement) }
     end
   end
   

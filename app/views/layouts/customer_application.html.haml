@@ -15,11 +15,7 @@
       = render 'layouts/header/customer_header'
     #main-wrapper
       %div{ :id => page_id}
-        .row
-          .two.columns
-            = render 'layouts/sidebar/customer_sidebar'
-          .ten.columns.content
-            = render 'layouts/messages/messages'
-            = content_for?(:content) ? yield(:content) : yield
+        = render 'layouts/messages/messages'
+        = content_for?(:content) ? yield(:content) : yield
     %footer
       = render 'layouts/footer/anonymous_footer'
