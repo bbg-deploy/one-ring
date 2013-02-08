@@ -140,6 +140,19 @@ describe Customer::RegistrationsController do
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
+
+    describe "#cancel", :cancel => true do
+      before(:each) do
+        get :cancel, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_registration_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
   
   context "as confirmed authenticated customer", :authenticated => true do
@@ -350,6 +363,19 @@ describe Customer::RegistrationsController do
         customer.reload
         customer.should be_valid
       end
+    end
+
+    describe "#cancel", :cancel => true do
+      before(:each) do
+        get :cancel, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
     end
   end
 end

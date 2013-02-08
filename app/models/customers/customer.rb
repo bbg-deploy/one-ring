@@ -65,6 +65,7 @@ class Customer < ActiveRecord::Base
   
   # Non-Views Methods
   #----------------------------------------------------
+  #TODO: This should probably all go in the Authentication concern.
   def cancel_account
     self.cancelled_at = Time.now
   end
