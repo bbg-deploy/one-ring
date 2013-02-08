@@ -5,8 +5,9 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
 
-  # My method  
-  before_filter :get_customer
+  # I need to call this again, since this controller inherets from Devise and not my ApplicationController
+  # TODO: Phase this out - find a better way!!
+#  before_filter :get_customer
 
   # GET /customer/sign_up
   def new
@@ -106,6 +107,6 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_customer_params
-    params.require(:customer).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes)
+    params.require(:customer).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes)
   end
 end

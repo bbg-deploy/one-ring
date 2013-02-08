@@ -24,6 +24,16 @@
             %p.helper-text
               = "Must be greater than 6 characters"
       %fieldset
+        %legend New Password
+        .row
+          .eight.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      %fieldset
         %legend Personal Information
         .row
           .four.columns 
