@@ -4,7 +4,10 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   # These are filters from Devise
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
-  
+
+  # My method  
+  before_filter :get_customer
+
   # GET /customer/sign_up
   def new
     @customer = Customer.new
@@ -40,34 +43,28 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   def edit
     @customer = current_customer
     respond_with @customer
-
-#    flash[:error] = "Current User = #{current_customer.inspect}"
 #    render :edit
   end
   
   def update
-#    if params[:customer][:password].blank?
-#      params[:customer].delete("password")
-#      params[:customer].delete("password_confirmation")
-#    end
-=begin    
-    if params[:customer][:password].blank?
-      params[:customer] = params[:customer].except(:password)
-      
-#      params[:customer][:password] = params[:customer][:current_password]
-#      params[:customer][:password_confirmation] = params[:customer][:current_password]
-    end
-    if params[:customer][:password] == params[:customer][:current_password]
-      params[:customer][:password_confirmation] = params[:customer][:password]
-    end
+    @customer = current_customer
+    prev_unconfirmed_email = @customer.unconfirmed_email if @customer.respond_to?(:unconfirmed_email)
 
-    if params[:customer][:email] == params[:customer][:current_email]
-      params[:customer][:email_confirmation] = params[:customer][:email]
+    if @customer.update_with_password(update_customer_params)
+      if is_navigational_format?
+        flash_key = update_needs_confirmation?(@customer, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in resource_name, @customer, :bypass => true
+      respond_with @customer, :location => after_update_path_for(@customer)
+    else
+      # Set passwords to blank before we redirect
+      clean_up_passwords @customer
+      respond_with @customer
     end
 
-    super
-=end
-
+=begin
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
@@ -83,9 +80,14 @@ class Customer::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       respond_with resource
     end
+=end
   end
 
   protected
+  def get_customer
+    @current_customer = current_customer
+  end
+
   def after_sign_up_path_for(resource)
     customer_home_path
   end

@@ -1,0 +1,6 @@
+- if !@current_customer.nil?
+  = render 'layouts/header/customer'
+- elsif !@current_store.nil?
+  = render 'layouts/header/store'
+- else
+  = render 'layouts/header/anonymous'

@@ -5,21 +5,11 @@ class Customer::ApplicationController < ::ApplicationController
   before_filter :get_customer
 
   def current_user
-    if !(current_customer.nil?)
-      @current_user = current_customer
-    else
-      @current_user = nil
-    end
+    @current_user = current_customer unless current_customer.nil?
   end
   
-  def current_ability
-    @current_ability ||= CustomerAbility.new(current_customer)
-  end
-    
-  protected
   def get_customer
     @current_customer = current_customer
-  end
-  
+  end  
   private
 end

@@ -10,6 +10,6 @@
         %section
           %ul.right
             = nav_link "Edit My Account", edit_customer_registration_path
-            = nav_link "Contact Us", customer_contact_us_path
+            = nav_link "Contact Us", customer_home_path
             %li.has-button
               = link_to("Logout", destroy_customer_session_path, :method => :delete, :class => 'radius button' )
