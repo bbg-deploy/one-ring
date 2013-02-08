@@ -3,11 +3,8 @@
 #------------------------------------------------------------------------------ 
 class ApplicationController < ActionController::Base
 #TODO: Force SSL for all of our controllers in the future
-#  force_ssl
-#  skip_authorization_check
-  
+#  force_ssl  
   before_filter :check_mobile
-  before_filter :current_user
 
   # Defines how the application will respond to different format requests
   # TODO: Validate that all permissions are acceptable and confirm this logic
@@ -22,29 +19,22 @@ class ApplicationController < ActionController::Base
   # SECURITY - Protect Form IDs from forgery
   #----------------------------------------------------------------------------
   protect_from_forgery
-
-  # SECURITY - Require all controllers to check authorization (except devise)
-  #----------------------------------------------------------------------------
-#  check_authorization :unless => :devise_controller?
-
+ 
+ # Helpers
+  helper_method :current_user
+ 
+  private
   def current_user
-    @current_user = nil
-  end
-
-  def current_ability
-    @current_ability ||= AnonymousAbility.new
+#    flash[:notice] = "SESSION = #{session.inspect}"
+    return current_customer unless current_customer.nil?
+    return current_store unless current_store.nil?
+    return nil
   end
 
   def check_mobile
-    if (request.user_agent =~ /Mobile|webOS/)
-      @mobile_device = true
-    else
-      @mobile_device = false
-    end
+    return (request.user_agent =~ /Mobile|webOS/)
   end
 
-  private
-  #----------------------------------------------------------------------------
   def respond_to_not_found
     flash[:warning] = t(:msg_not_found)
 

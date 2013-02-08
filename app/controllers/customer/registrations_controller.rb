@@ -1,13 +1,8 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
-
   # These are filters from Devise
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
-
-  # I need to call this again, since this controller inherets from Devise and not my ApplicationController
-  # TODO: Phase this out - find a better way!!
-#  before_filter :get_customer
 
   # GET /customer/sign_up
   def new
@@ -44,9 +39,9 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   def edit
     @customer = current_customer
     respond_with @customer
-#    render :edit
   end
   
+  # PUT /customer
   def update
     @customer = current_customer
     prev_unconfirmed_email = @customer.unconfirmed_email if @customer.respond_to?(:unconfirmed_email)
@@ -84,11 +79,26 @@ class Customer::RegistrationsController < Devise::RegistrationsController
 =end
   end
 
-  protected
-  def get_customer
-    @current_customer = current_customer
+  # DELETE /customer
+  def destroy
+    @customer = current_customer
+    @customer.destroy
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    set_flash_message :notice, :destroyed if is_navigational_format?
+    respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
   end
 
+  # GET /resource/cancel
+  # Forces the session data which is usually expired after sign
+  # in to be expired now. This is useful if the user wants to
+  # cancel oauth signing in/up in the middle of the process,
+  # removing all OAuth session data.
+  def cancel
+    expire_session_data_after_sign_in!
+    redirect_to new_customer_registration_path
+  end
+
+  protected
   def after_sign_up_path_for(resource)
     customer_home_path
   end

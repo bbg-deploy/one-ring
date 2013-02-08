@@ -1,6 +1,6 @@
-- if !@current_customer.nil?
+- if current_user.is_a?(Customer)
   = render 'layouts/header/customer'
-- elsif !@current_store.nil?
+- elsif current_user.is_a?(Store)
   = render 'layouts/header/store'
 - else
   = render 'layouts/header/anonymous'

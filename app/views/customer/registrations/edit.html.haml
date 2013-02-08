@@ -1,8 +1,8 @@
-= provide(:title, 'Registration')
+= provide(:title, 'Edit Account')
 
 .row
+  %h2 Edit Your Account Information
   .eight.columns
-    %h2 Sign up
     = nested_form_for(@customer, :url => customer_registration_path, :html => { :class => "" }) do |f|
       - @customer.errors.full_messages.each do |msg|
         = msg
@@ -92,3 +92,6 @@
             = f.label "Current Password"
             = f.password_field :current_password
       = f.submit "Save Account Changes", :class => "radius button"
+  .four.columns
+    %h4 Need To Change Your Password?
+    = link_to("Change Password", edit_customer_password_path, :class => 'radius button' )
