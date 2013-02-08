@@ -308,7 +308,7 @@ describe Customer::RegistrationsController do
           it { should render_template(:edit) }
         end
 
-        context "with current_password" do
+        context "with current_password", :failing => true do
           before(:each) do
             attributes.merge!(:current_password => customer.password)
             put :update, :customer => attributes, :format => 'html'
@@ -319,10 +319,10 @@ describe Customer::RegistrationsController do
           it { should redirect_to(customer_home_path) }
     
           # Content
-#          it { should_not set_the_flash }
           it { should set_the_flash[:notice].to(/updated your account successfully, but we need to verify your new email/) }
           it "should unconfirm the customer" do
-#            customer.reload
+            customer.unconfirmed_email.should be_nil
+            customer.reload
             customer.unconfirmed_email.should_not be_nil
           end
         end
@@ -332,6 +332,23 @@ describe Customer::RegistrationsController do
     describe "#destroy", :destroy => true do
       before(:each) do
         delete :destroy, :format => 'html'
+      end
+
+      # Response
+      it { should assign_to(:customer) }
+      it { should redirect_to(home_path) }
+
+      # Content
+      it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
+
+      # Behavior
+      it "should be 'canceled'" do
+        customer.cancelled?.should be_true
+      end
+
+      it "should still persist in database" do
+        customer.reload
+        customer.should be_valid
       end
     end
   end

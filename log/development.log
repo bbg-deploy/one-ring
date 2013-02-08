@@ -17796,3 +17796,59 @@ Served asset /foundation/index.js - 304 Not Modified (3ms)
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-08 13:43:43 +0900
 Served asset /application.js - 304 Not Modified (4ms)
+Connecting to database specified by database.yml
+  [1m[36m (69.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (9.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCustomers (20120713001520)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (64.0ms)[0m  [1mCREATE TABLE "customers" ("id" serial primary key, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "first_name" character varying(255) NOT NULL, "middle_name" character varying(255), "last_name" character varying(255) NOT NULL, "date_of_birth" date NOT NULL, "social_security_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "cim_customer_profile_id" character varying(255), "cancelled_at" timestamp, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_username" ON "customers" ("username")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_email" ON "customers" ("email")[0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_reset_password_token" ON "customers" ("reset_password_token")
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_confirmation_token" ON "customers" ("confirmation_token")[0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_unlock_token" ON "customers" ("unlock_token")
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_authentication_token" ON "customers" ("authentication_token")[0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_cim_customer_profile_id" ON "customers" ("cim_customer_profile_id")
+  [1m[36m (4.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713001520')[0m
+  [1m[35m (3.0ms)[0m  COMMIT
+Migrating to CreateStores (20120713001532)
+  [1m[36m (2.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (28.0ms)[0m  CREATE TABLE "stores" ("id" serial primary key, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "name" character varying(255) NOT NULL, "employer_identification_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (11.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_username" ON "stores" ("username")[0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_email" ON "stores" ("email")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_reset_password_token" ON "stores" ("reset_password_token")[0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_confirmation_token" ON "stores" ("confirmation_token")
+  [1m[36m (10.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_unlock_token" ON "stores" ("unlock_token")[0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_authentication_token" ON "stores" ("authentication_token")
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713001532')[0m
+  [1m[35m (2.0ms)[0m  COMMIT
+Migrating to CreateAddresses (20120713041724)
+  [1m[36m (2.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (63.0ms)[0m  CREATE TABLE "addresses" ("id" serial primary key, "addressable_id" integer NOT NULL, "addressable_type" character varying(255) NOT NULL, "address_type" character varying(255) DEFAULT '' NOT NULL, "street" character varying(255) DEFAULT '' NOT NULL, "city" character varying(255) DEFAULT '' NOT NULL, "state" character varying(255) DEFAULT '' NOT NULL, "zip_code" character varying(255) DEFAULT '' NOT NULL, "country" character varying(255) DEFAULT '' NOT NULL, "latitude" float, "longitude" float, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713041724')[0m
+  [1m[35m (2.0ms)[0m  COMMIT
+Migrating to CreatePhoneNumbers (20120713041752)
+  [1m[36m (2.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (25.0ms)[0m  CREATE TABLE "phone_numbers" ("id" serial primary key, "phonable_id" integer NOT NULL, "phonable_type" character varying(255) NOT NULL, "phone_number" character varying(255) NOT NULL, "primary" boolean DEFAULT 'f' NOT NULL, "cell_phone" boolean DEFAULT 'f' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120713041752')[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+Migrating to CreatePaymentProfiles (20120716021032)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (26.0ms)[0m  CREATE TABLE "payment_profiles" ("id" serial primary key, "customer_id" integer NOT NULL, "payment_type" character varying(255) NOT NULL, "first_name" character varying(255) NOT NULL, "last_name" character varying(255) NOT NULL, "last_four_digits" character varying(255) NOT NULL, "cim_customer_payment_profile_id" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_payment_profiles_on_cim_customer_payment_profile_id" ON "payment_profiles" ("cim_customer_payment_profile_id")[0m
+  [1m[35m (0.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120716021032')
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateDoorkeeperTables (20130205062842)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (25.0ms)[0m  [1mCREATE TABLE "oauth_applications" ("id" serial primary key, "name" character varying(255) NOT NULL, "uid" character varying(255) NOT NULL, "secret" character varying(255) NOT NULL, "redirect_uri" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_applications_on_uid" ON "oauth_applications" ("uid")
+  [1m[36m (21.0ms)[0m  [1mCREATE TABLE "oauth_access_grants" ("id" serial primary key, "resource_owner_id" integer NOT NULL, "application_id" integer NOT NULL, "token" character varying(255) NOT NULL, "expires_in" integer NOT NULL, "redirect_uri" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "revoked_at" timestamp, "scopes" character varying(255)) [0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_grants_on_token" ON "oauth_access_grants" ("token")
+  [1m[36m (24.0ms)[0m  [1mCREATE TABLE "oauth_access_tokens" ("id" serial primary key, "resource_owner_id" integer, "application_id" integer NOT NULL, "token" character varying(255) NOT NULL, "refresh_token" character varying(255), "expires_in" integer, "revoked_at" timestamp, "created_at" timestamp NOT NULL, "scopes" character varying(255)) [0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_tokens_on_token" ON "oauth_access_tokens" ("token")
+  [1m[36m (8.0ms)[0m  [1mCREATE INDEX "index_oauth_access_tokens_on_resource_owner_id" ON "oauth_access_tokens" ("resource_owner_id")[0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_oauth_access_tokens_on_refresh_token" ON "oauth_access_tokens" ("refresh_token")
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20130205062842')[0m
+  [1m[35m (5.0ms)[0m  COMMIT
+  [1m[36m (6.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m

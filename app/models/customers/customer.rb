@@ -54,7 +54,7 @@ class Customer < ActiveRecord::Base
   validates_associated :phone_number
   validates_associated :payment_profiles
 
-  # Public Methods
+  # Methods
   #----------------------------------------------------------------------------
   public
   # Views Helpers (Probably should go in a helpers file)
@@ -63,5 +63,19 @@ class Customer < ActiveRecord::Base
     return "#{self.first_name} #{self.last_name}"
   end
   
+  # Non-Views Methods
+  #----------------------------------------------------
+  def cancel_account
+    self.cancelled_at = Time.now
+  end
+  
+  def cancelled?
+    return self.cancelled_at.nil?
+  end
+
+  def active_for_authentication?
+    super && !cancelled_at
+  end
+
   private
 end

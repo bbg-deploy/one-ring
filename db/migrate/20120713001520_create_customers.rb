@@ -46,6 +46,9 @@ class CreateCustomers < ActiveRecord::Migration
       ## CIM Customer Profile ID for Authorize.net
       t.string :cim_customer_profile_id
 
+      ## Cancelable
+      t.datetime :cancelled_at #Allows for me to let customers cancel accounts
+
       t.timestamps
     end
 
