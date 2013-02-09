@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        customer:
+          attributes:
+            date_of_birth:
+              invalid_date: 'Invalid date selection.'

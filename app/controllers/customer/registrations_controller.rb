@@ -21,12 +21,12 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         # set_flash_message is a Devise method
         set_flash_message :notice, :signed_up
         sign_in @customer
-        respond_with @customer, :location => after_sign_up_path_for(@customer)
+        respond_with @customer, :location => customer_home_path
       else
         # set_flash_message is a Devise method
         set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}"
         expire_session_data_after_sign_in!
-        respond_with @customer, :location => after_inactive_sign_up_path_for(@customer)
+        respond_with @customer, :location => home_path
       end
     else
       flash[:error] = "There was a problem with some of your information"
@@ -47,47 +47,25 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     prev_unconfirmed_email = @customer.unconfirmed_email if @customer.respond_to?(:unconfirmed_email)
 
     if @customer.update_with_password(update_customer_params)
-      if is_navigational_format?
-        flash_key = update_needs_confirmation?(@customer, prev_unconfirmed_email) ?
-          :update_needs_confirmation : :updated
-        set_flash_message :notice, flash_key
-      end
+      flash_key = update_needs_confirmation?(@customer, prev_unconfirmed_email) ? :update_needs_confirmation : :updated
+      set_flash_message :notice, flash_key
       sign_in resource_name, @customer, :bypass => true
-      respond_with @customer, :location => after_update_path_for(@customer)
+      respond_with @customer, :location => customer_home_path
     else
       # Set passwords to blank before we redirect
       clean_up_passwords @customer
       respond_with @customer
     end
-
-=begin
-    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
-
-    if resource.update_with_password(resource_params)
-      if is_navigational_format?
-        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
-          :update_needs_confirmation : :updated
-        set_flash_message :notice, flash_key
-      end
-      sign_in resource_name, resource, :bypass => true
-      respond_with resource, :location => after_update_path_for(resource)
-    else
-      clean_up_passwords resource
-      respond_with resource
-    end
-=end
   end
 
   # DELETE /customer
   def destroy
     # Don't actually destroy the customer object, just set it to 'cancelled'
     @customer = current_customer
-#    @customer.destroy
     @customer.cancel_account
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-    set_flash_message :notice, :destroyed if is_navigational_format?
-    respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
+    set_flash_message :notice, :destroyed
+    respond_with @customer, :location => home_path
   end
 
   # GET /resource/cancel
@@ -101,24 +79,8 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
-  def after_sign_up_path_for(customer)
-    customer_home_path
-  end
-  
-  def after_inactive_sign_up_path_for(customer)
-    home_path
-  end
-
   def after_sign_in_path_for(customer)
     customer_home_path
-  end
-
-  def after_update_path_for(customer)
-    customer_home_path
-  end
-
-  def after_sign_out_path_for(customer)
-    home_path
   end
 
   private

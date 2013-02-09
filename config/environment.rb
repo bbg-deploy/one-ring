@@ -20,8 +20,8 @@ end
 =end
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   if instance.error_message.kind_of?(Array)
-    %(#{html_tag}<small class="ferror">#{instance.error_message.join(',')}</small>).html_safe
+    %(#{html_tag}<small class="error">#{instance.error_message.join(',')}</small>).html_safe
   else
-    %(#{html_tag}<small class="ferror">#{instance.error_message}</small>).html_safe
+    %(#{html_tag}<small class="error">#{instance.error_message}</small>).html_safe
   end
 end

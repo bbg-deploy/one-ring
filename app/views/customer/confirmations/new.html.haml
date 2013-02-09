@@ -1,9 +1,17 @@
 = provide(:title, 'Confirmation Instructions')
 
 .row
-  .span6
-    %h2 Resend confirmation instructions
-    = simple_form_for(@customer, :url => customer_confirmation_path, :html => { :class => 'well', :method => :post }) do |f|
-      = f.input :email, hint:'Enter your email address'
-      = f.button :submit, :label => 'Resend Confirmation Email', :value => 'Resend Confirmation Email', :class => 'btn btn-primary'
-    = render 'customer/shared/authentication_links'
+  .eight.columns
+    %h2 Confirm Your Email
+    = form_for(@customer, :url => customer_confirmation_path, :method => :post, :html => { :class => "" }) do |f|
+      %fieldset
+        %legend Email
+        .row
+          .eight.columns
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "you@email.com"
+          .four.columns
+            %p.helper-text
+              = "Must match your current email on file"
+      = f.submit "Resend Confirmation Email", :class => "radius button"
+    = render "customer/shared/authentication_links"

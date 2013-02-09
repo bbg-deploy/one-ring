@@ -1,11 +1,21 @@
 class Customer::ConfirmationsController < Devise::ConfirmationsController
- # GET /resource/confirmation/new
+  # TODO: Write tests and refactor all of this!
+  # GET /resource/confirmation/new
   def new
     @customer = Customer.new
   end
 
   # POST /resource/confirmation
   def create
+=begin
+    response = Customer.send_confirmation_instructions(params[:customer])
+
+    if successfully_sent?(response)
+      respond_with({}, :location => after_resending_confirmation_instructions_path_for(resource_name))
+    else
+      respond_with(response)
+    end
+=end
     self.resource = resource_class.send_confirmation_instructions(resource_params)
 
     if successfully_sent?(resource)
@@ -22,7 +32,7 @@ class Customer::ConfirmationsController < Devise::ConfirmationsController
     if resource.errors.empty?
       set_flash_message(:notice, :confirmed) if is_navigational_format?
       sign_in(resource_name, resource)
-      respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource) }
+      respond_with_navigational(resource){ redirect_to customer_home_path }
     else
       respond_with_navigational(resource.errors, :status => :unprocessable_entity){ render :new }
     end

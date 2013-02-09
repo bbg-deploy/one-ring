@@ -3,9 +3,7 @@
 .row
   %h2 Edit Your Account Information
   .eight.columns
-    = nested_form_for(@customer, :url => customer_registration_path, :html => { :class => "" }) do |f|
-      - @customer.errors.full_messages.each do |msg|
-        = msg
+    = nested_form_for(@customer, :url => customer_registration_path, :method => :put, :html => { :class => "" }) do |f|
       %fieldset
         %legend Account Information
         .row

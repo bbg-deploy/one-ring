@@ -3,7 +3,7 @@ module MailerMacros
     ActionMailer::Base.deliveries.last
   end  
   
-  def reset_email  
+  def reset_email
     ActionMailer::Base.deliveries = []  
   end  
 end

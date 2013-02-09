@@ -12,12 +12,8 @@ describe Customer::RegistrationsController do
   end
 
   context "as anonymous user", :anonymous => true do
-    let(:customer) do
-      FactoryGirl.build(:customer)
-    end
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:customer]
-      customer.confirm!
     end
 
     it "does not have a current customer" do
@@ -321,7 +317,7 @@ describe Customer::RegistrationsController do
           it { should render_template(:edit) }
         end
 
-        context "with current_password", :failing => true do
+        context "with current_password" do
           before(:each) do
             attributes.merge!(:current_password => customer.password)
             put :update, :customer => attributes, :format => 'html'
