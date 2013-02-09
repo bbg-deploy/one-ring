@@ -151,14 +151,112 @@ describe Customer::RegistrationsController do
     end
   end
   
-  context "as confirmed authenticated customer", :authenticated => true do
+  context "as unconfirmed authenticated customer", :unconfirmed => true do
     let(:customer) do
       FactoryGirl.create(:customer)
     end
     before(:each) do
-      customer.confirm!
       @request.env["devise.mapping"] = Devise.mappings[:customer]
       sign_in customer
+      reset_email
+    end
+ 
+    describe "#new", :new => true do
+      before(:each) do
+        get :new, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+
+    describe "#create", :create => true do
+      before(:each) do
+        attributes = FactoryGirl.build(:customer_attributes_hash)
+        post :create, :customer => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+
+    describe "#edit", :edit => true do
+      before(:each) do
+        get :edit, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+
+    describe "#update", :update => true do
+      before(:each) do
+        attributes = FactoryGirl.build(:customer_attributes_hash)
+        put :update, :customer => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+
+    describe "#destroy", :destroy => true do
+      before(:each) do
+        delete :destroy, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+
+    describe "#cancel", :cancel => true do
+      before(:each) do
+        get :cancel, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+    end
+  end
+
+  context "as confirmed authenticated customer", :confirmed => true do
+    let(:customer) do
+      FactoryGirl.create(:customer)
+    end
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:customer]
+      customer.confirm!
+      sign_in customer
+      reset_email
     end
     
     it "has a current customer" do
