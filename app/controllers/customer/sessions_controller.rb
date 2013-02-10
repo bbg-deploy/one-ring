@@ -5,24 +5,24 @@ class Customer::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-    self.resource = build_resource(nil, :unsafe => true)
-    clean_up_passwords(resource)
-    respond_with(resource, serialize_options(resource))
+    @customer = Customer.new
+    clean_up_passwords(@customer)
+    respond_with(@customer, serialize_options(@customer))
   end
 
   # POST /resource/sign_in
   def create
-    self.resource = warden.authenticate!(auth_options)
-    set_flash_message(:notice, :signed_in) if is_navigational_format?
-    sign_in(resource_name, resource)
-    respond_with resource, :location => after_sign_in_path_for(resource)
+    @customer = warden.authenticate!(auth_options)
+    set_flash_message(:notice, :signed_in)
+    sign_in(:customer, @customer)
+    respond_with @customer, :location => after_sign_in_path_for(@customer)
   end
 
   # DELETE /resource/sign_out
   def destroy
-    redirect_path = after_sign_out_path_for(resource_name)
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+    redirect_path = home_path
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(:customer))
+    set_flash_message :notice, :signed_out if signed_out
 
     # We actually need to hardcode this as Rails default responder doesn't
     # support returning empty response on GET request
@@ -45,19 +45,16 @@ class Customer::SessionsController < Devise::SessionsController
     { :scope => resource_name, :recall => "#{controller_path}#new" }
   end
   
-  
-  # Customizing sessions controller to direct the user
-  # back to the page he came from before signing in
-  # Otherwise, direct him to the root URL
+  protected
+  # Direct the user back to original request after sign in
   #-------------------------------------------------------
   # http://stackoverflow.com/questions/4291755/rspec-test-of-custom-devise-session-controller-fails-with-abstractcontrollerac
-
   def after_sign_in_path_for(resource)
     if session[:post_auth_path]
       url = session[:post_auth_path]
       session[:post_auth_path] = nil
     else
-      url = home_path
+      url = customer_home_path
     end
     url
   end
