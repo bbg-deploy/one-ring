@@ -44,6 +44,7 @@ group :development, :test do
   gem 'brakeman', '~> 1.8.0'
   gem 'timecop', '>= 0.5.7'  
   gem 'ffaker', '~> 1.15.0'
+  gem 'heroku_san', '~> 4.2.3'
 end
 
 group :test do
