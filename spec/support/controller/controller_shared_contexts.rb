@@ -1,4 +1,32 @@
 module ControllerSharedContexts
+  shared_context "as unauthenticated customer" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:customer]
+    end
+  end
+
+  shared_context "as authenticated customer" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:customer]
+      sign_in customer
+    end
+  end
+
+  shared_context "with customer confirmation" do
+    before(:each) do
+      customer.confirm!
+      reset_email
+    end
+  end
+
+  shared_context "with customer reset password request" do
+    before(:each) do
+      customer.send_reset_password_instructions
+      reset_email
+    end
+  end
+
+
   shared_context "as anonymous" do
     let(:user) { nil }
     before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }

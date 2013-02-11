@@ -1,4 +1,5 @@
 module FeatureSharedContexts
+=begin
   shared_context "as anonymous visitor" do
     let(:user) { nil }
   end
@@ -22,4 +23,5 @@ module FeatureSharedContexts
     let(:admin) { FactoryGirl.create(:admin) }
     before(:each) { confirm_and_login(admin, :admin) }
   end
+=end
 end

@@ -1,9 +1,9 @@
 = provide(:title, 'Edit Password')
 
 .row
-  .span6
+  .six.columns
     %h2 Change your password
-    = simple_form_for(@customer, :url => edit_customer_password_path, :html => { :class => 'well', :method => :put }) do |f|
+    = simple_form_for(@customer, :url => customer_password_path, :method => :put , :html => { :class => '' }) do |f|
       = f.input :reset_password_token, :as => :hidden
       = f.input :password, :required => false, hint:'Enter new password'
       = f.input :password_confirmation, hint:'Confirm new password'
