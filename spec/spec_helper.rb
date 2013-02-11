@@ -66,7 +66,6 @@ Spork.prefork do
     config.include Devise::TestHelpers, :type => :controller
   
     # For Features
-    config.extend FeatureSharedContexts, :type => :feature
     config.include FeatureMacros, :type => :feature
     config.include Warden::Test::Helpers, :type => :feature
   

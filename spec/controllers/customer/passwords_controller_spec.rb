@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Customer::PasswordsController do
   include Devise::TestHelpers
 
-  let(:customer) { FactoryGirl.create(:customer) }
-  before(:each) { @request.env["devise.mapping"] = Devise.mappings[:customer] }
-
   describe "routing", :routing => true do
     let(:customer) { FactoryGirl.create(:customer) }
 
@@ -36,7 +33,6 @@ describe Customer::PasswordsController do
     end
 
     context "as authenticated customer" do
-      include_context "with customer confirmation"
       include_context "as authenticated customer"
       before(:each) do
         get :new, :format => 'html'
@@ -110,7 +106,6 @@ describe Customer::PasswordsController do
     end
 
     context "as authenticated customer" do
-      include_context "with customer confirmation"
       include_context "as authenticated customer"
       before(:each) do
         attributes = {:email => customer.email}
@@ -133,55 +128,89 @@ describe Customer::PasswordsController do
 
   describe "#edit", :edit => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
-      context "with no password reset token" do
-        before(:each) do
-          get :edit, :format => 'html'
-        end
-        
-        # Response
-        it { should_not assign_to(:customer) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(new_customer_session_path) }
-  
-        # Content
-        it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
-      end
-      
-      context "with invalid password reset token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "reset_password_token="
-          get :edit, :reset_password_token => "abcdef", :format => 'html'
-        end
-  
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(new_customer_session_path) }
-  
-        # Content
-        it { should set_the_flash[:alert].to(/reset token is invalid or expired/) }
-      end
+      context "without password reset requested" do
+        include_context "as unauthenticated customer"
 
-      context "with valid password reset token" do
-        include_context "with customer reset password request"
-        before(:each) do
-          @request.env['QUERY_STRING'] = "reset_password_token="
-          get :edit, :reset_password_token => "#{customer.reset_password_token}", :format => 'html'
+        describe "no password reset token" do
+          before(:each) do
+            get :edit, :format => 'html'
+          end
+          
+          # Response
+          it { should_not assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(new_customer_session_path) }
+    
+          # Content
+          it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
         end
-  
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-  
-        # Content
-        it { should_not set_the_flash }
-        it { should render_template(:edit) }
-      end
+
+        describe "with invalid password reset token" do
+          before(:each) do
+            @request.env['QUERY_STRING'] = "reset_password_token="
+            get :edit, :reset_password_token => "abcdef", :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(new_customer_session_path) }
+    
+          # Content
+          it { should set_the_flash[:alert].to(/reset token is invalid or expired/) }
+        end
+      end      
+
+      context "with password reset requested" do
+        include_context "as unauthenticated customer with password reset request"
+
+        describe "no password reset token" do
+          before(:each) do
+            get :edit, :format => 'html'
+          end
+          
+          # Response
+          it { should_not assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(new_customer_session_path) }
+    
+          # Content
+          it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+        end
+
+        describe "with invalid password reset token" do
+          before(:each) do
+            @request.env['QUERY_STRING'] = "reset_password_token="
+            get :edit, :reset_password_token => "abcdef", :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(new_customer_session_path) }
+    
+          # Content
+          it { should set_the_flash[:alert].to(/reset token is invalid or expired/) }
+        end
+
+        describe "valid password reset token" do
+          before(:each) do
+            @request.env['QUERY_STRING'] = "reset_password_token="
+            get :edit, :reset_password_token => "#{customer.reset_password_token}", :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
+        end
+      end      
     end
 
     context "as authenticated customer" do
-      include_context "with customer confirmation"
       include_context "as authenticated customer"
       before(:each) do
         get :edit, :format => 'html'
@@ -202,44 +231,75 @@ describe Customer::PasswordsController do
   end
 
   describe "#update", :update => true do
-    context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+    context "as unauthenticated, unconfirmed customer" do
+      context "without password reset requested" do
+        include_context "as unauthenticated, unconfirmed customer"
 
-      context "with no password reset token" do
-        before(:each) do
-          attributes = {:password => "newpass", :password_confirmation => "newpass"}
-          put :update, :customer => attributes, :format => 'html'
+        describe "with no password reset token" do
+          before(:each) do
+            attributes = {:password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+          
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
         end
+
+        describe "with invalid password reset token" do
+          before(:each) do
+            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
+        end
+      end
+
+      context "with password reset requested" do
+        include_context "as unauthenticated, unconfirmed customer with password reset request"
         
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-  
-        # Content
-        it { should_not set_the_flash }
-        it { should render_template(:edit) }
-      end
-
-      context "with invalid password reset token" do
-        before(:each) do
-          attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-          put :update, :customer => attributes, :format => 'html'
+        describe "with no password reset token" do
+          before(:each) do
+            attributes = {:password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+          
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
         end
-  
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-  
-        # Content
-        it { should_not set_the_flash }
-        it { should render_template(:edit) }
-      end
+       
+        describe "with invalid password reset token" do
+          before(:each) do
+            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
+        end
 
-
-      context "as unconfirmed customer" do
-        context "with valid password reset token" do
-          include_context "with customer reset password request"
-  
+        describe "with valid password reset token" do
           before(:each) do
             attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :customer => attributes, :format => 'html'
@@ -256,95 +316,89 @@ describe Customer::PasswordsController do
           it { should set_the_flash[:alert].to(/have to confirm your account/) }
             
           # Behavior
-          it "should change password", :failing => true do
-            customer.save!
+          it "should change password" do
+            original_pass = customer.encrypted_password
             customer.reload
-            puts "Customer pass = #{customer.password}"
+            customer.encrypted_password.should_not eq(original_pass)
           end    
         end        
       end
+    end
 
-      context "as confirmed customer" do
-        include_context "with customer confirmation"
-        
-        context "with valid password reset token" do
-          include_context "with customer reset password request"
-  
-          it "can change password", :ffailing => true do
-            customer.confirmed?.should be_true
-            customer.reset_password_token.should_not be_nil
-            
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            cust = Customer.reset_password_by_token(attributes)
-            puts "Bryce cust = #{cust.inspect}"
-          end
-          
+    context "as unauthenticated, confirmed customer" do
+      context "without password reset requested" do
+        include_context "as unauthenticated customer"
+
+        describe "with no password reset token" do
           before(:each) do
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
+            attributes = {:password => "newpass", :password_confirmation => "newpass"}
             put :update, :customer => attributes, :format => 'html'
           end
-
+          
           # Response
           it { should assign_to(:customer) }
-          it { should respond_with(:redirect) }
-          it { should redirect_to(customer_home_path) }
-      
+          it { should respond_with(:success) }
+    
           # Content
-          it { should set_the_flash[:notice].to(/password was changed successfully. You are now signed in/) }
-          
-          # Behavior
-          it "should change password", :failing => true do
-            customer.save!
-            customer.reload
-            puts "Customer pass = #{customer.password}"
-            customer.password.should eq("newpass")
-          end    
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
+        end
+
+        describe "with invalid password reset token" do
+          before(:each) do
+            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+    
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
         end
       end
-      
-      
-      context "with valid password reset token" do
-        include_context "with customer reset password request"
-        context "as unconfirmed customer" do
+
+      context "with password reset requested" do
+        include_context "as unauthenticated customer with password reset request"
+
+        describe "with no password reset token" do
           before(:each) do
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
+            attributes = {:password => "newpass", :password_confirmation => "newpass"}
+            put :update, :customer => attributes, :format => 'html'
+          end
+          
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
+        end
+       
+        describe "with invalid password reset token" do
+          before(:each) do
+            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :customer => attributes, :format => 'html'
           end
     
           # Response
           it { should assign_to(:customer) }
-          it { should respond_with(:redirect) }
-          # Should go to sign-in page instead of customer home because the account is not confirmed
-          it { should redirect_to(new_customer_session_path) }
-      
+          it { should respond_with(:success) }
+    
           # Content
-          it { should set_the_flash[:notice].to(/password was changed successfully/) }
-          it { should set_the_flash[:alert].to(/have to confirm your account/) }
-          
-          # Behavior
-          it "should change password", :failing => true do
-#            subject.current_customer.password.should eq("newpass")
-#            subject.current_customer.should eq(customer)
-            customer.save!
-            customer.reload
-            puts "Customer pass = #{customer.password}"
-          end    
+          it { should_not set_the_flash }
+          it { should render_template(:edit) }
         end
-        
-        context "as confirmed customer" do
-          include_context "with customer confirmation"
 
-          it "can change password", :ffailing => true do
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            cust = Customer.reset_password_by_token(attributes)
-            puts "Bryce cust = #{cust.inspect}"
-          end
-          
+        describe "with valid password reset token" do
           before(:each) do
             attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :customer => attributes, :format => 'html'
           end
-    
+      
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:redirect) }
@@ -352,23 +406,18 @@ describe Customer::PasswordsController do
       
           # Content
           it { should set_the_flash[:notice].to(/password was changed successfully. You are now signed in/) }
-          
+            
           # Behavior
-          it "should change password", :failing => true do
-            customer.save!
+          it "should change password" do
+            original_pass = customer.encrypted_password
             customer.reload
-            puts "Customer pass = #{customer.password}"
-            customer.password.should eq("newpass")
-
-#            subject.current_customer.password.should eq("newpass")
-#            subject.current_customer.should eq(customer)
+            customer.encrypted_password.should_not eq(original_pass)
           end    
         end        
       end
     end
 
     context "as authenticated customer" do
-      include_context "with customer confirmation"
       include_context "as authenticated customer"
       before(:each) do
         attributes = {:password => "newpass", :password_confirmation => "newpass"}

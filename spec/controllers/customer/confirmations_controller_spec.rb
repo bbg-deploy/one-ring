@@ -11,19 +11,9 @@ describe Customer::ConfirmationsController do
     it { should route(:get, "/customer/confirmation").to(:action => :show) }
   end
 
-  context "as unconfirmed customer (not logged in)", :unconfirmed => true do
-    let(:customer) do
-      FactoryGirl.create(:customer)
-    end
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-
-    it "does not have a current customer" do
-      subject.current_customer.should be_nil
-    end
-
-    describe "#new", :new => true do
+  describe "#new", :new => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
       before(:each) do
         get :new, :format => 'html'
       end
@@ -34,10 +24,53 @@ describe Customer::ConfirmationsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template(:new) }
     end
 
-    describe "#create", :create => true do
-      context "with matching email" do
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+      before(:each) do
+        get :new, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
+  end
+
+  describe "#create", :create => true do
+    context "as unauthenticated, unconfirmed customer" do
+      include_context "as unauthenticated, unconfirmed customer"
+
+      describe "with invalid email" do
+        before(:each) do
+          attributes = {:email => "fake@email.com"}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Parameters
+#       it { should permit(:email).for(:create) }
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+
+        # Behavior
+        it "should not send confirmation email" do
+          last_email.should be_nil
+        end
+      end
+
+      describe "with valid email" do
         before(:each) do
           attributes = {:email => customer.email}
           post :create, :customer => attributes, :format => 'html'
@@ -55,114 +88,20 @@ describe Customer::ConfirmationsController do
         it { should set_the_flash[:notice].to(/email with instructions about how to confirm/) }
 
         # Behavior
-        describe "confirmation email" do
-          let(:email) { ActionMailer::Base::deliveries.last }
-
-          it "should not be nil" do
-            email.should_not be_nil
-          end
-
-          it "should be sent to customer" do
-            email.to.should eq([customer.email])
-          end
-
-          it "should have confirmation link in body" do
-            email.body.should match(/#{customer.confirmation_token}/)
-          end
-        end
-      end
-      
-      context "with invalid email" do
-        before(:each) do
-          attributes = {:email => "invalid@email.com"}
-          post :create, :customer => attributes, :format => 'html'
-        end
-
-        # Parameters
-#       it { should permit(:email).for(:create) }
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }
-
-        # Behavior
-        describe "confirmation email" do
-          let(:email) { ActionMailer::Base::deliveries.last }
-
-          it "should be nil" do
-            email.should be_nil
-          end
+        it "should send confirmation email" do
+          last_email.should_not be_nil
+          last_email.to.should eq([customer.email])
+          last_email.body.should match(/#{customer.confirmation_token}/)
         end
       end
     end
 
-    describe "#show", :show => true do
-      context "with invalid confirmation token" do
+    context "as unauthenticated, confirmed customer" do
+      include_context "as unauthenticated customer"
+
+      describe "with valid email" do
         before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "1234234234", :format => 'html'
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }        
-      end
-
-      context "with valid confirmation token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
-        end        
-        # Response
-        it { should assign_to(:customer) }
-        it { should redirect_to(customer_home_path) }
-  
-        # Content
-        it { should set_the_flash[:notice].to(/successfully confirmed/) }
-      end
-    end
-  end
-  
-  context "as confirmed customer (not logged in)", :confirmed => true do
-    let(:customer) do
-      FactoryGirl.create(:customer)
-    end
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-      customer.confirm!
-      reset_email
-    end
-
-    it "does not have a current customer" do
-      subject.current_customer.should be_nil
-    end
-    
-    it "is a confirmed customer" do
-      customer.confirmed?.should be_true
-    end
-
-    describe "#new", :new => true do
-      before(:each) do
-        get :new, :format => 'html'
-      end
-
-      # Response
-      it { should assign_to(:customer) }
-      it { should respond_with(:success) }
-
-      # Content
-      it { should_not set_the_flash }
-    end
-
-    describe "#create", :create => true do
-      context "with matching email" do
-        before(:each) do
+          reset_email
           attributes = {:email => customer.email}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -175,148 +114,85 @@ describe Customer::ConfirmationsController do
         it { should respond_with(:success) }
 
         # Content
-        it { should_not set_the_flash }
+        it { should render_template(:new) }
 
         # Behavior
-        describe "confirmation email" do
-          let(:email) { ActionMailer::Base::deliveries.last }
-
-          it "should be nil" do
-            email.should be_nil
-          end
+        it "should not send email" do
+          last_email.should be_nil
         end
       end
-      
-      context "with invalid email" do
-        before(:each) do
-          attributes = {:email => "invalid@email.com"}
-          post :create, :customer => attributes, :format => 'html'
-        end
-
-        # Parameters
-#       it { should permit(:email).for(:create) }
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }
-
-        # Behavior
-        describe "confirmation email" do
-          let(:email) { ActionMailer::Base::deliveries.last }
-
-          it "should be nil" do
-            email.should be_nil
-          end
-        end
-      end
-    end
-
-    describe "#show", :show => true do
-      context "with invalid confirmation token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "1234234234", :format => 'html'
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }        
-      end
-
-      context "with valid confirmation token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
-        end        
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }        
-      end
-    end
-  end
-  
-  context "as authenticated customer", :authenticated => true do
-    let(:customer) do
-      FactoryGirl.create(:customer)
-    end
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-      customer.confirm!
-      sign_in customer
-      reset_email      
     end
     
-    it "has a current customer" do
-      subject.current_customer.should_not be_nil
-    end
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
 
-    describe "#new", :new => true do
-      before(:each) do
-        get :new, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(customer_home_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
-    end
-
-    describe "#create", :create => true do
-      before(:each) do
-        attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
-      end
-
-      # Parameters
-#       it { should permit(:email).for(:create) }
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(customer_home_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
-    end
-
-    describe "#show", :show => true do
-      context "with invalid confirmation token" do
+      describe "with valid email" do
         before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "1234234234", :format => 'html'
+          attributes = {:email => customer.email}
+          post :create, :customer => attributes, :format => 'html'
         end
-
+  
+        # Parameters
+  #       it { should permit(:email).for(:create) }
+  
         # Response
         it { should_not assign_to(:customer) }
         it { should respond_with(:redirect) }
         it { should redirect_to(customer_home_path) }
-
+  
         # Content
         it { should set_the_flash[:alert].to(/already signed in/) }
       end
+    end
+  end
 
-      context "with valid confirmation token" do
+  describe "#show", :show => true do
+    context "as unauthenticated, unconfirmed customer" do
+      include_context "as unauthenticated, unconfirmed customer"
+      
+      describe "with invalid token" do
+        before(:each) do
+          @request.env['QUERY_STRING'] = "confirmation_token="
+          get :show, :confirmation_token => "1234234234", :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+      end
+
+      describe "with valid token" do
         before(:each) do
           @request.env['QUERY_STRING'] = "confirmation_token="
           get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
         end        
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should redirect_to(customer_home_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/successfully confirmed/) }
+      end
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
+      describe "with valid token" do
+        before(:each) do
+          @request.env['QUERY_STRING'] = "confirmation_token="
+          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+        end        
+
         # Response
         it { should_not assign_to(:customer) }
-        it { should respond_with(:redirect) }
         it { should redirect_to(customer_home_path) }
-
+  
         # Content
         it { should set_the_flash[:alert].to(/already signed in/) }
       end

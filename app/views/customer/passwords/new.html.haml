@@ -1,9 +1,11 @@
-= provide(:title, 'New Password')
+= provide(:title, 'Forgotten Password')
 
 .row
-  .span6
-    %h2 Forgot your password?
-    = simple_form_for(@customer, :url => customer_password_path, :html => { :class => 'well', :method => :post }) do |f|
-      = f.input :email
-      = f.button :submit, :label => 'Send me password reset instructions', :value => 'Send password reset', :class => 'btn btn-primary'
+  %h2 Forgot your password?
+  .six.columns
+    = form_for(@customer, :url => customer_password_path, :method => :post , :html => { :class => 'well' }) do |f|
+      %fieldset
+        %legend Account Information
+        = f.email_field :email, :placeholder => "you@email.com"
+        = f.submit "Reset Password", :class => "radius button"
     = render "customer/shared/authentication_links"

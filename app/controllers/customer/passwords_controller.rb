@@ -1,48 +1,49 @@
 class Customer::PasswordsController < Devise::PasswordsController
+  include ActiveModel::ForbiddenAttributesProtection
+
   prepend_before_filter :require_no_authentication
   # Render the #edit only if coming from a reset password email link
   append_before_filter :assert_reset_token_passed, :only => :edit
 
-  # GET /resource/password/new
+  # GET /customer/password/new
   def new
     @customer = Customer.new
   end
 
-  # POST /resource/password
+  # POST /customer/password
   def create
-    self.resource = resource_class.send_reset_password_instructions(resource_params)
+    @customer = Customer.send_reset_password_instructions(create_customer_params)
 
-    if successfully_sent?(resource)
-      respond_with({}, :location => after_sending_reset_password_instructions_path_for(resource_name))
+    if successfully_sent?(@customer)
+      respond_with({}, :location => new_customer_session_path)
     else
-      respond_with(resource)
+      respond_with(@customer)
     end
   end
 
-  # GET /resource/password/edit?reset_password_token=abcdef
+  # GET /customer/password/edit?reset_password_token=abcdef
   def edit
-    self.resource = resource_class.find_or_initialize_with_error_by(:reset_password_token, params[:reset_password_token])
-    if resource.errors.empty?
-      respond_with(resource)
+    @customer = Customer.find_or_initialize_with_error_by(:reset_password_token, params[:reset_password_token])
+    if @customer.errors.empty?
+      respond_with(@customer)
     else
       set_flash_message :alert, :invalid_reset_token
-      redirect_to new_session_path(resource_name)
+      redirect_to new_customer_session_path
     end
   end
 
-  # PUT /resource/password
+  # PUT /customer/password
   def update
-    self.resource = resource_class.reset_password_by_token(resource_params)
+    @customer = Customer.reset_password_by_token(update_customer_params)
 
-    if resource.errors.empty?
-      resource.unlock_access! if unlockable?(resource)
-      flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
-      set_flash_message(:notice, flash_message) if is_navigational_format?
-      resource.save!
-      sign_in(resource_name, resource)
-      respond_with resource, :location => customer_home_path
+    if @customer.errors.empty?
+      @customer.unlock_access! if unlockable?(@customer)
+      flash_message = @customer.active_for_authentication? ? :updated : :updated_not_active
+      set_flash_message(:notice, flash_message)
+      sign_in(:customer, @customer)
+      respond_with @customer, :location => customer_home_path
     else
-      respond_with resource
+      respond_with @customer
     end
   end
 
@@ -51,24 +52,28 @@ class Customer::PasswordsController < Devise::PasswordsController
     customer_home_path
   end
 
-  # The path used after sending reset password instructions
-  def after_sending_reset_password_instructions_path_for(resource_name)
-    new_session_path(resource_name)
-  end
-
   # Check if a reset_password_token is provided in the request
   def assert_reset_token_passed
     if params[:reset_password_token].blank?
       set_flash_message(:error, :no_token)
-      redirect_to new_session_path(resource_name)
+      redirect_to new_customer_session_path
     end
   end
 
   # Check if proper Lockable module methods are present & unlock strategy
-  # allows to unlock resource on password reset
-  def unlockable?(resource)
-    resource.respond_to?(:unlock_access!) &&
-      resource.respond_to?(:unlock_strategy_enabled?) &&
-      resource.unlock_strategy_enabled?(:email)
+  # allows to unlock customer on password reset
+  def unlockable?(customer)
+    customer.respond_to?(:unlock_access!) &&
+      customer.respond_to?(:unlock_strategy_enabled?) &&
+      customer.unlock_strategy_enabled?(:email)
+  end
+
+  private
+  def create_customer_params
+    params.require(:customer).permit(:email)
+  end
+
+  def update_customer_params
+    params.require(:customer).permit(:reset_password_token, :password, :password_confirmation)
   end
 end

@@ -9,18 +9,13 @@ describe Customer::RegistrationsController do
     it { should route(:get, "/customer/edit").to(:action => :edit) }
     it { should route(:put, "/customer").to(:action => :update) }
     it { should route(:delete, "/customer").to(:action => :destroy) }
+    it { should route(:get, "/customer/cancel").to(:action => :cancel) }
   end
 
-  context "as anonymous user", :anonymous => true do
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-
-    it "does not have a current customer" do
-      subject.current_customer.should be_nil
-    end
-
-    describe "#new", :new => true do
+  describe "#new", :new => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+      
       before(:each) do
         get :new, :format => 'html'
       end
@@ -31,12 +26,32 @@ describe Customer::RegistrationsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template(:new) }
     end
 
-    describe "#create", :create => true do
-      context "with valid attributes" do
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
+      before(:each) do
+        get :new, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
+  end
+
+  describe "#create", :create => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+
+      describe "with valid attributes" do
+        let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
         before(:each) do
-          attributes = FactoryGirl.build(:customer_attributes_hash)
           post :create, :customer => attributes, :format => 'html'
         end
 
@@ -61,15 +76,19 @@ describe Customer::RegistrationsController do
         end
 
         it "is not signed in after registration" do
-          attributes = FactoryGirl.build(:customer_attributes_hash)
-          post :create, :customer => attributes, :format => 'html'
           subject.current_customer.should be_nil
+        end
+
+        it "sends a confirmation email" do
+          last_email.should_not be_nil
+          last_email.to.should eq([attributes[:email]])
+          last_email.body.should match(/#{customer.confirmation_token}/)
         end
       end
       
-      context "with invalid attributes" do
+      describe "with invalid attributes" do
+        let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :username => nil) }
         before(:each) do
-          attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
           post :create, :customer => attributes, :format => 'html'
         end
 
@@ -94,189 +113,16 @@ describe Customer::RegistrationsController do
           post :create, :customer => attributes, :format => 'html'
           subject.current_customer.should be_nil
         end
+
+        it "does not send confirmation email" do
+          last_email.should be_nil
+        end
       end
-    end
+    end    
 
-    describe "#edit", :edit => true do
-      before(:each) do
-        get :edit, :format => 'html'
-      end
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
 
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
-    end
-
-    describe "#update", :update => true do
-      before(:each) do
-        attributes = FactoryGirl.build(:customer_attributes_hash)
-        put :update, :customer => attributes, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
-    end
-
-    describe "#destroy", :destroy => true do
-      before(:each) do
-        delete :destroy, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
-    end
-
-    describe "#cancel", :cancel => true do
-      before(:each) do
-        get :cancel, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_registration_path) }
-
-      # Content
-      it { should_not set_the_flash }
-    end
-  end
-  
-  context "as unconfirmed authenticated customer", :unconfirmed => true do
-    let(:customer) do
-      FactoryGirl.create(:customer)
-    end
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-      sign_in customer
-      reset_email
-    end
- 
-    describe "#new", :new => true do
-      before(:each) do
-        get :new, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-
-    describe "#create", :create => true do
-      before(:each) do
-        attributes = FactoryGirl.build(:customer_attributes_hash)
-        post :create, :customer => attributes, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-
-    describe "#edit", :edit => true do
-      before(:each) do
-        get :edit, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-
-    describe "#update", :update => true do
-      before(:each) do
-        attributes = FactoryGirl.build(:customer_attributes_hash)
-        put :update, :customer => attributes, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-
-    describe "#destroy", :destroy => true do
-      before(:each) do
-        delete :destroy, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-
-    describe "#cancel", :cancel => true do
-      before(:each) do
-        get :cancel, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-    end
-  end
-
-  context "as confirmed authenticated customer", :confirmed => true do
-    let(:customer) do
-      FactoryGirl.create(:customer)
-    end
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-      customer.confirm!
-      sign_in customer
-      reset_email
-    end
-    
-    it "has a current customer" do
-      subject.current_customer.should_not be_nil
-    end
-
-    describe "#new", :new => true do
-      before(:each) do
-        get :new, :format => 'html'
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(customer_home_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
-    end
-
-    describe "#create", :create => true do
       before(:each) do
         attributes = FactoryGirl.build(:customer_attributes_hash)
         post :create, :customer => attributes, :format => 'html'
@@ -289,8 +135,27 @@ describe Customer::RegistrationsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
     end
+  end
 
-    describe "#edit", :edit => true do
+  describe "#edit", :edit => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+
+      before(:each) do
+        get :edit, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
       before(:each) do
         get :edit, :format => 'html'
       end
@@ -301,13 +166,34 @@ describe Customer::RegistrationsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template(:edit) }
+    end    
+  end
+
+  describe "#update", :update => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+
+      before(:each) do
+        attributes = FactoryGirl.build(:customer_attributes_hash)
+        put :update, :customer => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
 
-    describe "#update", :update => true do
-      context "with new password" do
-        context "without password confirmation" do
+      describe "with new password" do
+        describe "without password confirmation" do
+          let(:attributes) { {:password => "newpass", :current_password => customer.current_password} }
           before(:each) do
-            attributes = {:password => "newpass", :current_password => customer.current_password}
             put :update, :customer => attributes, :format => 'html'
           end
           
@@ -320,9 +206,10 @@ describe Customer::RegistrationsController do
           it { should render_template(:edit) }
         end
 
-        context "with password confirmation" do
+        describe "with password confirmation" do
+          let(:attributes) { {:password => "newpass", :password_confirmation => "newpass", :current_password => customer.password} }
+
           before(:each) do
-            attributes = {:password => "newpass", :password_confirmation => "newpass", :current_password => customer.password}
             put :update, :customer => attributes, :format => 'html'
           end
           
@@ -335,42 +222,25 @@ describe Customer::RegistrationsController do
         end
       end
 
-      context "with invalid attributes" do
-        context "without current_password" do
-          before(:each) do
-            attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
-            put :update, :customer => attributes, :format => 'html'
-          end
-          
-          # Response
-          it { should assign_to(:customer) }
-          it { should respond_with(:success) }
-    
-          # Content
-          it { should_not set_the_flash }
-          it { should render_template(:edit) }
+      describe "with invalid attributes" do
+        let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :username => nil) }
+        before(:each) do
+          put :update, :customer => attributes, :format => 'html'
         end
-
-        context "with current_password" do
-          before(:each) do
-            attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
-            attributes.merge!(:current_password => customer.password)
-            put :update, :customer => attributes, :format => 'html'
-          end
-          
-          # Response
-          it { should assign_to(:customer) }
-          it { should respond_with(:success) }
-    
-          # Content
-          it { should_not set_the_flash }
-          it { should render_template(:edit) }
-        end
+        
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:edit) }
       end
 
-      context "with valid attributes (same email)" do
+      describe "with valid attributes (same email)" do
         let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :email => customer.email).except(:email_confirmation) }
-        context "without current_password" do
+
+        describe "without current_password" do
           before(:each) do
             put :update, :customer => attributes, :format => 'html'
           end
@@ -384,7 +254,7 @@ describe Customer::RegistrationsController do
           it { should render_template(:edit) }
         end
 
-        context "with current_password" do
+        describe "with current_password" do
           before(:each) do
             attributes.merge!(:current_password => customer.password)
             put :update, :customer => attributes, :format => 'html'
@@ -399,7 +269,7 @@ describe Customer::RegistrationsController do
         end
       end
 
-      context "with valid attributes (new email)" do
+      describe "with valid attributes (new email)" do
         let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
         context "without current_password" do
           before(:each) do
@@ -415,7 +285,7 @@ describe Customer::RegistrationsController do
           it { should render_template(:edit) }
         end
 
-        context "with current_password" do
+        describe "with current_password" do
           before(:each) do
             attributes.merge!(:current_password => customer.password)
             put :update, :customer => attributes, :format => 'html'
@@ -427,16 +297,43 @@ describe Customer::RegistrationsController do
     
           # Content
           it { should set_the_flash[:notice].to(/updated your account successfully, but we need to verify your new email/) }
+
+          # Behavior
           it "should unconfirm the customer" do
             customer.unconfirmed_email.should be_nil
             customer.reload
             customer.unconfirmed_email.should_not be_nil
           end
+
+          it "sends a confirmation email" do
+            last_email.should_not be_nil
+            last_email.to.should eq([attributes[:email]])
+            last_email.body.should match(/#{customer.confirmation_token}/)
+          end
         end
       end
     end
+  end
 
-    describe "#destroy", :destroy => true do
+  describe "#destroy", :destroy => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+
+      before(:each) do
+        delete :destroy, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
       before(:each) do
         delete :destroy, :format => 'html'
       end
@@ -458,8 +355,27 @@ describe Customer::RegistrationsController do
         customer.should be_valid
       end
     end
+  end
 
-    describe "#cancel", :cancel => true do
+  describe "#cancel", :cancel => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+
+      before(:each) do
+        get :cancel, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_registration_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
       before(:each) do
         get :cancel, :format => 'html'
       end
