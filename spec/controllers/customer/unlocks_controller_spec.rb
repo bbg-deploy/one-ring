@@ -42,7 +42,7 @@ describe Customer::UnlocksController do
 
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
-   end
+    end
   end
 
   describe "#create", :create => true do
@@ -110,9 +110,88 @@ describe Customer::UnlocksController do
         it { should set_the_flash[:notice].to(/email with instructions about how to unlock/) }
       end
     end
+
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+ 
+      before(:each) do
+        attributes = {:email => customer.email}
+        post :create, :customer => attributes, :format => 'html'
+      end
+
+       # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
   end
 
   describe "#show", :show => true do
+    context "as unauthenticated, locked customer" do
+      include_context "as unauthenticated, locked customer"
+      
+      describe "without token" do
+        before(:each) do
+          get :show, :format => 'html'
+        end
 
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+      end
+
+      describe "with invalid token" do
+        before(:each) do
+          @request.env['QUERY_STRING'] = "unlock_token="
+          get :show, :unlock_token => "1234234234", :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+      end
+
+      describe "with valid token" do
+        before(:each) do
+          @request.env['QUERY_STRING'] = "unlock_token="
+          get :show, :unlock_token => "#{customer.unlock_token}", :format => 'html'
+        end        
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should redirect_to(new_customer_session_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/unlocked successfully. Please sign in/) }
+      end
+    end
+
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+ 
+      before(:each) do
+        @request.env['QUERY_STRING'] = "unlock_token="
+        get :show, :unlock_token => "abcdef", :format => 'html'
+      end        
+
+       # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
   end
 end
