@@ -1,10 +1,12 @@
-= provide(:title, 'Edit Password')
+= provide(:title, 'Change Password')
 
 .row
+  %h2 Change your password
   .six.columns
-    %h2 Change your password
-    = simple_form_for(@customer, :url => customer_password_path, :method => :put , :html => { :class => '' }) do |f|
-      = f.input :reset_password_token, :as => :hidden
-      = f.input :password, :required => false, hint:'Enter new password'
-      = f.input :password_confirmation, hint:'Confirm new password'
-      = f.button :submit, :label => 'Change Password', :value => 'Change Password', :class => 'btn btn-primary'
+    = form_for(@customer, :url => customer_password_path, :method => :put , :html => { :class => '' }) do |f|
+      %fieldset
+        %legend Password Reset
+        = f.hidden_field :reset_password_token, :placeholder => "rockstar"
+        = f.password_field :password, :placeholder => "newpassword"
+        = f.password_field :password_confirmation, :placeholder => "newpassword"
+      = f.submit "Change Password", :class => "radius button"
