@@ -11,15 +11,15 @@
 #
 
 production:
-  app: credda-sso
   stack: cedar
+  app: credda-onering
   config:
     BUNDLE_WITHOUT: "development:test"
     GOOGLE_ANALYTICS: "UA-12345678-1"
 
 staging:
   stack: cedar
-  app: credda-sso-staging
+  app: credda-onering-staging
   config: &default
     BUNDLE_WITHOUT: "development:test"
   addons:
@@ -29,5 +29,5 @@ staging:
     - scheduler:standard
 
 demo:
-  app: credda-sso-demo
+  app: credda-onering-demo
   config: *default
