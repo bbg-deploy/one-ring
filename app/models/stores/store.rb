@@ -15,6 +15,11 @@ class Store < ActiveRecord::Base
     StoreAuthenticationMailer
   end
     
+  # Associations - Organization
+  #----------------------------------------------------------------------------
+  belongs_to :organization
+  accepts_nested_attributes_for :organization
+
   # Associations - Profile
   #----------------------------------------------------------------------------
   has_many :addresses, :as => :addressable, :class_name => 'Address', 
