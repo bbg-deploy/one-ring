@@ -18,15 +18,16 @@ CustomSsoProvider::Application.routes.draw do
 
   # Store Namespace
   #-----------------------------------------------------------------
-  devise_for :stores, :path => 'store'#, :controllers => {
-#    :confirmations => 'store/confirmations',
-#    :passwords => 'store/passwords',
-#    :registrations => 'store/registrations',
-#    :sessions => 'store/sessions',
-#    :unlocks => 'store/unlocks'
-#  }
+  devise_for :stores, :path => 'store', :controllers => {
+    :confirmations => 'store/confirmations',
+    :passwords => 'store/passwords',
+    :registrations => 'store/registrations',
+    :sessions => 'store/sessions',
+    :unlocks => 'store/unlocks'
+  }
 
-#  namespace :store do
-#    root :to                  => "home#index", :as => :home
-#  end
+  namespace :store do
+    root :to                  => "pages#home", :as => :home
+  end
+
 end
