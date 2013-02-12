@@ -30,4 +30,17 @@ CustomSsoProvider::Application.routes.draw do
     root :to                  => "pages#home", :as => :home
   end
 
+  # Employee Namespace
+  #-----------------------------------------------------------------
+  devise_for :employees, :path => 'employee', :controllers => {
+    :confirmations => 'employee/confirmations',
+    :passwords => 'employee/passwords',
+    :registrations => 'employee/registrations',
+    :sessions => 'employee/sessions',
+    :unlocks => 'employee/unlocks'
+  }
+
+  namespace :employee do
+    root :to                  => "pages#home", :as => :home
+  end
 end

@@ -13,7 +13,6 @@ class CreateEmployees < ActiveRecord::Migration
       t.string :middle_name
       t.string :last_name,              :null => false
       t.date   :date_of_birth,          :null => false
-      t.string :social_security_number, :null => false
 
       ## Recoverable
       t.string   :reset_password_token

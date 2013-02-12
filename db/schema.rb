@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
     t.string   "middle_name"
     t.string   "last_name",                              :null => false
     t.date     "date_of_birth",                          :null => false
-    t.string   "social_security_number",                 :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

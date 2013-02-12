@@ -190,7 +190,7 @@ module ControllerSharedContexts
     end
   end
 
-  shared_context "as unauthenticated, locked customer" do
+  shared_context "as unauthenticated, locked employee" do
     let(:employee) do
       employee = FactoryGirl.create(:employee)
       employee.confirm!

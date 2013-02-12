@@ -128,8 +128,8 @@ describe Address do
   describe "behavior", :behavior => true do
     describe "geocoding" do
       it "makes a request to Google " do
-        address = FactoryGirl.create(:store)
-        a_request(:get, /http:\/\/maps.googleapis.com\/maps\/api\/geocode\/json?.*/).should have_been_made.times(2)
+        address = FactoryGirl.create(:address)
+        a_request(:get, /http:\/\/maps.googleapis.com\/maps\/api\/geocode\/json?.*/).should have_been_made.times(3)
       end
   
       subject { FactoryGirl.create(:address) }
