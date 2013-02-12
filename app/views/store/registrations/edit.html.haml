@@ -43,8 +43,10 @@
             = f.text_field :employer_identification_number, :placeholder => "50-5331994"
       %fieldset
         %legend Address
+        = f.fields_for :addresses
       %fieldset
         %legend Phone Number
+        = f.fields_for :phone_numbers
       %fieldset
         %legend Enter Current Password
         .row

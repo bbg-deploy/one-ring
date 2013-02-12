@@ -10,7 +10,6 @@ class Store::RegistrationsController < Devise::RegistrationsController
     @store = Store.new
     1.times { @store.addresses.build }
     1.times { @store.phone_numbers.build }
-#    @store.build_phone_number
     respond_with @store
   end
 

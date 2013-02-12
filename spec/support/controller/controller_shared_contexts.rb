@@ -162,4 +162,86 @@ module ControllerSharedContexts
       sign_in store
     end
   end
+
+  # Employee Contexts
+  #----------------------------------------------------------------------------  
+  shared_context "as unauthenticated, unconfirmed employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  shared_context "as unauthenticated employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  shared_context "as unauthenticated, locked customer" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      employee.lock_access!
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  shared_context "as unauthenticated employee with password reset request" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      employee.send_reset_password_instructions
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  shared_context "as unauthenticated, unconfirmed employee with password reset request" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.send_reset_password_instructions
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  shared_context "as authenticated employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+      sign_in employee
+    end
+  end
 end
