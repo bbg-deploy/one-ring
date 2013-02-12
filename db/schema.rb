@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.string   "authentication_token"
+    t.datetime "cancelled_at"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end

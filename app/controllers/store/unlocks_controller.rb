@@ -10,7 +10,7 @@ class Store::UnlocksController < Devise::UnlocksController
 
   # POST /store/unlock
   def create
-    @store = Store.send_unlock_instructions(create_customer_params)
+    @store = Store.send_unlock_instructions(create_store_params)
 
     if successfully_sent?(@store)
       respond_with({}, :location => new_store_session_path)

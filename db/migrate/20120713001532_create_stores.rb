@@ -40,6 +40,9 @@ class CreateStores < ActiveRecord::Migration
       ## Token authenticatable
       t.string :authentication_token
 
+      ## Cancelable
+      t.datetime :cancelled_at #Allows for me to let customers cancel accounts
+
       t.timestamps
     end
 

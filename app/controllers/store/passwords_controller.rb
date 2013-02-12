@@ -40,7 +40,7 @@ class Store::PasswordsController < Devise::PasswordsController
       @store.unlock_access! if unlockable?(@store)
       flash_message = @store.active_for_authentication? ? :updated : :updated_not_active
       set_flash_message(:notice, flash_message)
-      sign_in(:customer, @store)
+      sign_in(:store, @store)
       respond_with @store, :location => store_home_path
     else
       respond_with @store

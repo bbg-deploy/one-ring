@@ -8,8 +8,9 @@ class Store::RegistrationsController < Devise::RegistrationsController
   # GET /store/sign_up
   def new
     @store = Store.new
-    @store.build_mailing_address
-    @store.build_phone_number
+    1.times { @store.addresses.build }
+    1.times { @store.phone_numbers.build }
+#    @store.build_phone_number
     respond_with @store
   end
 
@@ -52,8 +53,8 @@ class Store::RegistrationsController < Devise::RegistrationsController
       respond_with @store, :location => store_home_path
     else
       # Set passwords to blank before we redirect
-      clean_up_passwords @customer
-      respond_with @customer
+      clean_up_passwords @store
+      respond_with @store
     end
   end
 
@@ -84,10 +85,10 @@ class Store::RegistrationsController < Devise::RegistrationsController
 
   private
   def create_store_params
-    params.require(:store).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes, :terms_agreement)
+    params.require(:store).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :name, :employer_identification_number, :addresses_attributes, :phone_numbers_attributes, :terms_agreement)
   end
 
   def update_store_params
-    params.require(:store).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, :mailing_address_attributes, :phone_number_attributes)
+    params.require(:store).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :name, :employer_identification_number, :addresses_attributes, :phone_numbers_attributes)
   end
 end

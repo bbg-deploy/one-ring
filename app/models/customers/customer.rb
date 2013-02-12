@@ -66,6 +66,7 @@ class Customer < ActiveRecord::Base
   # Non-Views Methods
   #----------------------------------------------------
   #TODO: This should probably all go in the Authentication concern.
+=begin
   def cancel_account
     self.cancelled_at = Time.now
   end
@@ -77,6 +78,6 @@ class Customer < ActiveRecord::Base
   def active_for_authentication?
     super && !cancelled_at
   end
-
+=end
   private
 end

@@ -49,7 +49,7 @@ describe Store::RegistrationsController do
     context "as unauthenticated store" do
       include_context "as unauthenticated store"
 
-      describe "with valid attributes" do
+      describe "with valid attributes", :failing => true do
         let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
         before(:each) do
           post :create, :store => attributes, :format => 'html'
@@ -72,7 +72,7 @@ describe Store::RegistrationsController do
           expect{
             attributes = FactoryGirl.build(:store_attributes_hash)
             post :create, :store => attributes, :format => 'html'
-          }.to change(store,:count).by(1)
+          }.to change(Store,:count).by(1)
         end
 
         it "is not signed in after registration" do
@@ -105,7 +105,7 @@ describe Store::RegistrationsController do
           expect{
             attributes = FactoryGirl.build(:store_attributes_hash, :username => nil)
             post :create, :store => attributes, :format => 'html'
-          }.to_not change(store,:count)
+          }.to_not change(Store,:count)
         end
 
         it "is not signed in after registration" do

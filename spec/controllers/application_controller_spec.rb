@@ -55,31 +55,4 @@ describe ApplicationController do
       end
     end
   end
-  
-  # Current Ability
-  #----------------------------------------------------------------------------
-  describe "current ability" do
-#    specify { subject.current_ability.should_not be_nil }
-#    specify { subject.current_ability.should be_a(AnonymousAbility) }  
-  end
-  
-  describe "current user" do
-    context "as anonymous user" do
-      include_context "as anonymous"
-      specify { subject.current_store.should be_nil }
-      specify { subject.current_customer.should be_nil }  
-    end
-
-    context "as store" do
-      include_context "as store"
-      specify { subject.current_store.should_not be_nil }
-      specify { subject.current_customer.should be_nil }  
-    end
-
-    context "as customer" do
-      include_context "as customer"
-      specify { subject.current_store.should be_nil }
-      specify { subject.current_customer.should_not be_nil }  
-    end
-  end
 end
