@@ -89,23 +89,23 @@ describe Employee do
       it { should_not allow_value(nil, "!", "cat", "Chris Topher", "admin", "demo", "12Street", "ithastoomanycharacters").for(:username) }
 
       it "downcases username" do
-        customer = FactoryGirl.create(:customer, :username => "BiLLy")
-        customer.username.should eq("billy")
+        employee = FactoryGirl.create(:employee, :username => "BiLLy")
+        employee.username.should eq("billy")
       end
 
       it "strips leading whitespace" do
-        customer = FactoryGirl.create(:customer, :username => " whitespace")
-        customer.username.should eq("whitespace")
+        employee = FactoryGirl.create(:employee, :username => " whitespace")
+        employee.username.should eq("whitespace")
       end
 
       it "strips trailing whitespace" do
-        customer = FactoryGirl.create(:customer, :username => "whitespace ")
-        customer.username.should eq("whitespace")
+        employee = FactoryGirl.create(:employee, :username => "whitespace ")
+        employee.username.should eq("whitespace")
       end
 
       it "does not allow whitespace in the middle" do
-        customer = FactoryGirl.build(:customer, :username => "white space")
-        customer.should_not be_valid
+        employee = FactoryGirl.build(:employee, :username => "white space")
+        employee.should_not be_valid
       end
     end
 
@@ -114,27 +114,27 @@ describe Employee do
       it { should validate_presence_of(:email) }
       it { should validate_confirmation_of(:email) }
       it { should validate_uniqueness_of(:email) }
-      it { should allow_value("valid@notcredda.com").for(:email) }
-      it { should_not allow_value(nil, "valid@credda.com", "valid.notcredda.com", "@notcredda.com").for(:email) }
+      it { should allow_value("valid@credda.com").for(:email) }
+      it { should_not allow_value(nil, "valid@notcredda.com", "valid.credda.com", "@credda.com").for(:email) }
 
       it "downcases email" do
-        customer = FactoryGirl.create(:customer, :email => "TEST@notcredda.com")
-        customer.email.should eq("test@notcredda.com")
+        employee = FactoryGirl.create(:employee, :email => "TEST@credda.com")
+        employee.email.should eq("test@credda.com")
       end
 
       it "strips leading whitespace" do
-        customer = FactoryGirl.create(:customer, :email => " white@notcredda.com")
-        customer.email.should eq("white@notcredda.com")
+        employee = FactoryGirl.create(:employee, :email => " white@credda.com")
+        employee.email.should eq("white@credda.com")
       end
       
       it "strips trailing whitespace" do
-        customer = FactoryGirl.create(:customer, :email => "white@notcredda.com ")
-        customer.email.should eq("white@notcredda.com")
+        employee = FactoryGirl.create(:employee, :email => "white@credda.com ")
+        employee.email.should eq("white@credda.com")
       end
 
       it "strips whitespace in the middle" do
-        customer = FactoryGirl.create(:customer, :email => "white @ notcredda.com")
-        customer.email.should eq("white@notcredda.com")
+        employee = FactoryGirl.create(:employee, :email => "white @ credda.com")
+        employee.email.should eq("white@credda.com")
       end
     end
 
