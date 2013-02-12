@@ -12,8 +12,10 @@ class Organization < ActiveRecord::Base
   # Validate fields before saving them to the DB
   # Custom Validators are found in lib/validators
   #----------------------------------------------------  
-  validates :name, :presence => true
-  validates :website, :presence => true
+  before_validation :strip_name_whitespace
+  before_validation :strip_website_whitespace
+  validates :name, :presence => true, :uniqueness => true
+  validates :website, :presence => true, :uniqueness => true
 
   # Public
   #----------------------------------------------------------------------------
@@ -22,4 +24,17 @@ class Organization < ActiveRecord::Base
   # Private Methods
   #----------------------------------------------------------------------------
   private
+  def strip_name_whitespace
+    # Strips leading and trailing whitespace
+    unless self.name.nil?
+      self.name = self.name.strip
+    end
+  end
+
+  def strip_website_whitespace
+    # Strips leading and trailing whitespace
+    unless self.website.nil?
+      self.website = self.website.strip
+    end
+  end
 end

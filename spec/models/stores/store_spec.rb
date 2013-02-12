@@ -6,7 +6,6 @@ describe Store, :store => true do
   describe "factory validation", :factory_validation => true do
     specify { Store.new.should be_an_instance_of(Store) }
 
-
     describe "store factory" do
       it_behaves_like "valid record", :store
       
@@ -24,7 +23,6 @@ describe Store, :store => true do
     describe "invalid_store factory" do
       it_behaves_like "invalid record", :invalid_store
     end
-
   end
   
   # Database
