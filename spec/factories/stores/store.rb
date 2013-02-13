@@ -37,7 +37,7 @@ FactoryGirl.define do
   end
 
   factory :store_attributes_hash, class: Hash do
-    organization {|a| a.association(:organization)}
+    organization {|a| a.association(:organization, number_of_stores: 0)}
     sequence(:username) {|n| "hashed_store_#{n}" }
     password "fakepass"
     password_confirmation { password }

@@ -1,5 +1,24 @@
 = provide(:title, 'Home')
 
 .row
-  .twelve.columns
-    %h1 Customer Home
+  %h1 Customer Home
+  .eight.columns
+    %h5 Account Information
+    %p 
+      = "Username: #{current_customer.username}"
+    %p
+      = "Email: #{current_customer.email}"
+    %h5 Personal Information
+    %p 
+      = "Name: #{current_user.name}"
+    %p
+      = "Date of Birth: #{current_user.date_of_birth}"
+    %h5 Contact Information
+    %p 
+      = "Address: #{current_customer.mailing_address}"
+    %p
+      = "Phone Number: #{current_customer.phone_number}"
+    = link_to "Edit Account Info", edit_customer_registration_path, :class => "button radius"
+  .four.columns
+    %h5 Payment Profiles
+    = link_to "Add Payment Profile", new_customer_payment_profile_path, :class => "button radius"

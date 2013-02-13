@@ -21,6 +21,13 @@ class PhoneNumber < ActiveRecord::Base
   validates :cell_phone, :inclusion => {:in => [true, false]}
   validate  :validate_phone_number_type_match
   
+
+  # Public Methods
+  #----------------------------------------------------------------------------
+  def to_s
+    self.phone_number
+  end
+
   # Private Methods
   #----------------------------------------------------------------------------
   private

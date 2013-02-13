@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
   # TODO: Validate that all permissions are acceptable and confirm this logic
   #----------------------------------------------------------------------------
   respond_to :html
-  respond_to :js
-  respond_to :json, :xml, :except => [:edit, :update]
-  respond_to :atom, :csv, :rss, :only => :index
+#  respond_to :js
+#  respond_to :json, :xml, :except => [:edit, :update]
+#  respond_to :atom, :csv, :rss, :only => :index
 
   rescue_from ActiveRecord::RecordNotFound, :with => :respond_to_not_found
   

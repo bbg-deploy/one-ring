@@ -14,6 +14,7 @@ if (Customer.find_by_username("customer").nil?)
       puts "-- CIMCustomerProfileID is nil"
     end
   end
+
   #Payment Profiles
   payment_profile = create_payment_profile({:customer => customer})
   unless payment_profile.nil?

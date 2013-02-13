@@ -65,7 +65,7 @@ gem 'devise', '>= 2.2.3'
 gem 'authority', '>= 2.3.2'
 
 # Role Management
-gem 'rolify', '>= 3.1'
+gem 'cancan', '~> 1.6.9'
 
 #Tableless Models
 gem 'activerecord-tableless', '~> 1.0.1'

@@ -1,0 +1,56 @@
+= provide(:title, 'Edit Account')
+
+.row
+  %h2 Edit Your Account Information
+  .eight.columns
+    = nested_form_for(@employee, :url => employee_registration_path, :method => :put, :html => { :class => "" }) do |f|
+      %fieldset
+        %legend Account Information
+        .row
+          .eight.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+        .row
+          .eight.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      %fieldset
+        %legend New Password
+        .row
+          .eight.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      %fieldset
+        %legend Personal Information
+        .row
+          .four.columns 
+            = f.label "First Name"
+            = f.text_field :first_name, :placeholder => "Elvis"
+          .four.columns 
+            = f.label "Middle Name"
+            = f.text_field :middle_name, :placeholder => "The King"
+          .four.columns 
+            = f.label "Last Name"
+            = f.text_field :last_name, :placeholder => "Presley"
+        .row
+          .six.columns 
+            = f.label "Date of Birth"
+            = f.datepicker :date_of_birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 18
+      %fieldset
+        %legend Enter Current Password
+        .row
+          .six.columns
+            = f.label "Current Password"
+            = f.password_field :current_password
+      = f.submit "Save Account Changes", :class => "radius button"

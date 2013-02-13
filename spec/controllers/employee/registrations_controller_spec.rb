@@ -72,7 +72,7 @@ describe Employee::RegistrationsController do
           expect{
             attributes = FactoryGirl.build(:employee_attributes_hash)
             post :create, :employee => attributes, :format => 'html'
-          }.to change(employee,:count).by(1)
+          }.to change(Employee,:count).by(1)
         end
 
         it "is not signed in after registration" do
@@ -105,7 +105,7 @@ describe Employee::RegistrationsController do
           expect{
             attributes = FactoryGirl.build(:employee_attributes_hash, :username => nil)
             post :create, :employee => attributes, :format => 'html'
-          }.to_not change(employee,:count)
+          }.to_not change(Employee,:count)
         end
 
         it "is not signed in after registration" do
