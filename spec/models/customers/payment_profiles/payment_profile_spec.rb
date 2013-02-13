@@ -34,6 +34,13 @@ describe PaymentProfile do
       end
     end
 
+    describe "payment_profile_bank_account_attributes_hash" do
+      it "creates new payment_profile when passed to PaymentProfile" do
+        attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash)
+        payment_profile = PaymentProfile.create!(attributes)
+        payment_profile.should be_valid
+      end
+    end
   end
  
   # Associations

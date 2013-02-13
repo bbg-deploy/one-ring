@@ -13,7 +13,7 @@ CustomSsoProvider::Application.routes.draw do
   }
   namespace :customer do
     root :to                  => "pages#home", :as => :home
-    resources :payment_profiles, :path => "payment_methods", :except => [:show, :delete]
+    resources :payment_profiles, :path => "payment_methods"
   end
 
   # Store Namespace

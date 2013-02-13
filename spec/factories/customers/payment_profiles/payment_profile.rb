@@ -113,4 +113,15 @@ FactoryGirl.define do
 
     initialize_with { attributes }
   end
+
+  factory :payment_profile_bank_account_attributes_hash, class: Hash do
+    customer { |a| a.association(:customer) }
+    payment_type "bank_account"
+    first_name "John"
+    last_name "Smith"
+    billing_address_attributes { FactoryGirl.build(:address_attributes_hash, :addressable => nil, :address_type => :billing).except(:addressable) }
+    bank_account_attributes { FactoryGirl.build(:bank_account_attributes_hash, :payment_profile => nil) .except(:payment_profile) }
+
+    initialize_with { attributes }
+  end
 end
