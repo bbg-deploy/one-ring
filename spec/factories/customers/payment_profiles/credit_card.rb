@@ -46,7 +46,6 @@ FactoryGirl.define do
   end
 
   factory :credit_card_attributes_hash, class: Hash do
-    # Credit Card Details
     payment_profile { |a| a.association(:payment_profile) }
     first_name "Tom"
     last_name "Jones"

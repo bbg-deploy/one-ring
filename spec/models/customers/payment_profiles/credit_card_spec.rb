@@ -38,11 +38,10 @@ describe CreditCard do
       it_behaves_like "invalid record", :invalid_credit_card
     end
 
-    describe "credit_card_attributes_hash", :failing => true do
+    describe "credit_card_attributes_hash" do
       it "creates new credit_card when passed to CreditCard" do
         attributes = FactoryGirl.build(:credit_card_attributes_hash)
-        puts "Attriutes = #{attributes.inspect}"
-        credit_card = CreditCard.create(attributes)
+        credit_card = CreditCard.create!(attributes)
         credit_card.should be_valid
       end
     end

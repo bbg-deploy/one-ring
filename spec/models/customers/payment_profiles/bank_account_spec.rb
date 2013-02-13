@@ -13,6 +13,14 @@ describe BankAccount do
     describe "invalid_bank_account factory" do
       it_behaves_like "invalid record", :invalid_bank_account
     end
+
+    describe "bank_account_attributes_hash" do
+      it "creates new bank_account when passed to BankAccount" do
+        attributes = FactoryGirl.build(:bank_account_attributes_hash)
+        bank_account = BankAccount.create!(attributes)
+        bank_account.should be_valid
+      end
+    end
   end
  
   # Associations

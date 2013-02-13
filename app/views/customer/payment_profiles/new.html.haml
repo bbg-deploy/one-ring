@@ -1,5 +1,15 @@
 = provide(:title, "New Payment Account")
 
 .row
-  %h1 New Linked Account
-  = render 'tabbable_form'
+  .eight.columns
+    %h2 New Payment Method
+    %dl.tabs.pill
+      %dd.active
+        = link_to "Bank Account", "#bankAccount"
+      %dd
+        = link_to "Credit Card", "#creditCard"
+    %ul.tabs-content
+      %li#bankAccountTab.active
+        = render "bank_account_form"
+      %li#creditCardTab
+        = render "credit_card_form"
