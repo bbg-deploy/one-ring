@@ -6,11 +6,36 @@ describe PaymentProfile do
   describe "factory validation", :factory_validation => true do
     specify { PaymentProfile.new.should be_an_instance_of(PaymentProfile) }
 
-    it_behaves_like "valid record", :payment_profile
-    it_behaves_like "invalid record", :invalid_payment_profile
-    it_behaves_like "valid record", :credit_card_payment_profile
-    it_behaves_like "valid record", :bank_account_payment_profile
-    it_behaves_like "invalid record", :invalid_credit_card_payment_profile
+    describe "payment_profile factory" do
+      it_behaves_like "valid record", :payment_profile
+    end
+
+    describe "invalid_payment_profile factory" do
+      it_behaves_like "invalid record", :invalid_payment_profile
+    end
+
+    describe "credit_card_payment_profile factory" do
+      it_behaves_like "valid record", :credit_card_payment_profile
+    end
+
+    describe "bank_account_payment_profile factory" do
+      it_behaves_like "valid record", :bank_account_payment_profile
+    end
+
+    describe "invalid_credit_card_payment_profile factory" do
+      it_behaves_like "invalid record", :invalid_credit_card_payment_profile
+    end
+
+    describe "payment_profile_credit_card_attributes_hash" do
+      it "creates new payment_profile when passed to PaymentProfile" do
+        attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash)
+        payment_profile = PaymentProfile.new(attributes)
+        payment_profile.cim_customer_payment_profile_id = "10210023"
+        payment_profile.save!
+        payment_profile.should be_valid
+      end
+    end
+
   end
  
   # Associations
@@ -153,7 +178,7 @@ describe PaymentProfile do
       end
     end
 
-    describe "authorize_net_billing_details", :failing => true do
+    describe "authorize_net_billing_details" do
       let(:payment_profile) { FactoryGirl.create(:credit_card_payment_profile) }
       let(:billing_details) { payment_profile.authorize_net_billing_details }
 

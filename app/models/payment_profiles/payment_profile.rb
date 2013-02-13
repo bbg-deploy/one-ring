@@ -21,7 +21,8 @@ class PaymentProfile < ActiveRecord::Base
   
   # Attributes
   #----------------------------------------------------------------------------
-  attr_accessible :customer, :first_name, :last_name, :payment_type, :last_four_digits
+  attr_accessible :customer, :first_name, :last_name, :payment_type, :last_four_digits,
+                  :billing_address_attributes, :credit_card_attributes, :bank_account_attributes
 
   # Validations
   #----------------------------------------------------------------------------
