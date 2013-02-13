@@ -29,9 +29,7 @@ describe PaymentProfile do
     describe "payment_profile_credit_card_attributes_hash" do
       it "creates new payment_profile when passed to PaymentProfile" do
         attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash)
-        payment_profile = PaymentProfile.new(attributes)
-        payment_profile.cim_customer_payment_profile_id = "10210023"
-        payment_profile.save!
+        payment_profile = PaymentProfile.create!(attributes)
         payment_profile.should be_valid
       end
     end

@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
     t.string   "first_name",                      :null => false
     t.string   "last_name",                       :null => false
     t.string   "last_four_digits",                :null => false
-    t.string   "cim_customer_payment_profile_id", :null => false
+    t.string   "cim_customer_payment_profile_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end

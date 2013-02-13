@@ -1,10 +1,6 @@
 class PaymentProfile < ActiveRecord::Base
   include ActiveModel::Validations
-#  include AuthorizeNet
   extend Enumerize
- 
-  # AuthorizeNet Class methods
-#  has_cim_customer_payment_profile
   
   # Associations
   #----------------------------------------------------------------------------

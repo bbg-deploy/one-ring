@@ -12,9 +12,9 @@ class CreditCard < ActiveRecord::Base
   column :expiration_date, :date
   column :ccv_number, :string
 
-  attr_accessible :payment_profile, :first_name, :last_name, 
-                  :brand, :credit_card_number, :expiration_date, :ccv_number
+  attr_accessible :payment_profile, :brand, :credit_card_number, :expiration_date, :ccv_number
 
+  before_validation :set_names
   enumerize :brand, :in => [:visa, :master, :american_express, :discover, :diners_club, :jcb]
   validates :payment_profile, :presence => true
   validates :first_name, :presence => true
@@ -25,11 +25,11 @@ class CreditCard < ActiveRecord::Base
   validates :ccv_number, :presence => true
   after_validation :credit_card_validity
 
-  def save(options = nil)
-    if self.valid?
-      return true
+  def save(validate = true)
+    if (validate)
+      return self.valid?
     else
-      return false
+      return true
     end
   end
 
@@ -70,6 +70,11 @@ class CreditCard < ActiveRecord::Base
   end
 
   private
+  def set_names
+    self.first_name = self.payment_profile.first_name unless (self.payment_profile.nil?)
+    self.last_name = self.payment_profile.last_name unless (self.payment_profile.nil?)
+  end
+
   def credit_card_validity
     credit_card = build_credit_card
     if (credit_card != false)

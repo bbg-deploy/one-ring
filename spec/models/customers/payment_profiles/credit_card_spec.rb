@@ -59,15 +59,9 @@ describe CreditCard do
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do  
     describe "first_name" do
-      it_behaves_like "attr_accessible", :credit_card, :first_name,
-        ["Bryce", "Chris"], #Valid values
-        [nil] #Invalid values
     end
 
     describe "last_name" do
-      it_behaves_like "attr_accessible", :credit_card, :first_name,
-        ["Senz", "Dugas"], #Valid values
-        [nil] #Invalid values
     end
 
     describe "credit_card_number" do

@@ -1,4 +1,6 @@
 = nested_form_for( @payment_profile, :url => customer_payment_profiles_path, :method => :post, :html => { :class => '' } ) do |f|
+  - @payment_profile.errors.each do |error|
+    = error.inspect
   %fieldset
     %legend Account Information
     .row
@@ -23,8 +25,29 @@
       .row
         .six.columns
           = credit_card.label "Expiration Date"
-          = credit_card.select :expiration_date, :collection => (Time.now.year)..(Time.now.year + 5)
+          = credit_card.date_select :expiration_date, :order => [:month, :year], :start_year => Time.now.year
         .six.columns
           = credit_card.label "CCV Number"
           = credit_card.text_field :ccv_number
+  %fieldset
+    %legend Address
+    = f.fields_for :billing_address do |address|
+      .row
+        .twelve.columns
+          = address.label "Street"
+          = address.text_field :street, :placeholder => "123 Famous St."
+      .row
+        .six.columns
+          = address.label "City"
+          = address.text_field :city, :placeholder => "Charleston"
+        .three.columns
+          = address.label "State"
+          = address.select :state, us_states, {}
+        .three.columns
+          = address.label "Zip Code"
+          = address.text_field :zip_code, :placeholder => "11111"
+      .row
+        .twelve.columns
+          = address.label "Country"
+          = address.select :country, countries, {}
   = f.button :submit, :label => 'Save', :value => 'Save', :class => 'button radius'

@@ -35,15 +35,9 @@ describe BankAccount do
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do  
     describe "first_name" do
-      it_behaves_like "attr_accessible", :bank_account, :first_name,
-        ["Bryce", "Chris"], #Valid values
-        [nil] #Invalid values
     end
 
     describe "last_name" do
-      it_behaves_like "attr_accessible", :bank_account, :first_name,
-        ["Senz", "Dugas"], #Valid values
-        [nil] #Invalid values
     end
 
     describe "account_holder" do

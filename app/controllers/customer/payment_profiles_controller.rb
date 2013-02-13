@@ -20,6 +20,7 @@ class Customer::PaymentProfilesController < Customer::ApplicationController
     @payment_profile = PaymentProfile.new
     @payment_profile.build_credit_card
     @payment_profile.build_bank_account
+    @payment_profile.build_billing_address
     respond_with(:customer, @payment_profile)
   end
 

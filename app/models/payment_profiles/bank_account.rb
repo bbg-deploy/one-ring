@@ -14,6 +14,7 @@ class BankAccount < ActiveRecord::Base
 
   attr_accessible :payment_profile, :account_holder, :account_type, :account_number, :routing_number
 
+  before_validation :set_names
   enumerize :account_holder, :in => [:personal, :business]
   enumerize :account_type, :in => [:checking, :savings]
   validates :payment_profile, :presence => true
@@ -26,10 +27,8 @@ class BankAccount < ActiveRecord::Base
   after_validation :echeck_validity
 
   def save(validate = true)
-    if (validate) && (self.valid?)
-      return true
-    elsif (validate) && !(self.valid?)
-      return false
+    if (validate)
+      return self.valid?
     else
       return true
     end
@@ -77,6 +76,11 @@ class BankAccount < ActiveRecord::Base
   end
 
   private
+  def set_names
+    self.first_name = self.payment_profile.first_name unless (self.payment_profile.nil?)
+    self.last_name = self.payment_profile.last_name unless (self.payment_profile.nil?)
+  end
+
   def echeck_validity
     echeck = build_echeck
     if (echeck != false)

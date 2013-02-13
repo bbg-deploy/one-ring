@@ -2,10 +2,7 @@ require 'factory_girl'
 
 FactoryGirl.define do
   factory :credit_card, class: CreditCard do
-    # Credit Card Details
     payment_profile { |a| a.association(:payment_profile) }
-    first_name "Tom"
-    last_name "Jones"
     brand "visa"
     credit_card_number "4111111111111111"
     expiration_date { 5.years.from_now }
@@ -47,8 +44,6 @@ FactoryGirl.define do
 
   factory :credit_card_attributes_hash, class: Hash do
     payment_profile { |a| a.association(:payment_profile) }
-    first_name "Tom"
-    last_name "Jones"
     brand "visa"
     credit_card_number "4111111111111111"
     expiration_date { 5.years.from_now }

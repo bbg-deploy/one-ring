@@ -6,7 +6,7 @@ class CreatePaymentProfiles < ActiveRecord::Migration
       t.string :first_name,                          :null => false
       t.string :last_name,                           :null => false
       t.string :last_four_digits,                    :null => false
-      t.string :cim_customer_payment_profile_id,     :null => false
+      t.string :cim_customer_payment_profile_id
 
       t.timestamps
     end

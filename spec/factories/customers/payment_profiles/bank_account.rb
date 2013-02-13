@@ -3,8 +3,6 @@ require 'factory_girl'
 FactoryGirl.define do
   factory :bank_account, class: BankAccount do
     payment_profile { |a| a.association(:payment_profile) }
-    first_name "Tom"
-    last_name "Jones"
     account_holder "personal"
     account_type "checking"
     routing_number "111000025"
@@ -17,8 +15,6 @@ FactoryGirl.define do
 
   factory :bank_account_attributes_hash, class: Hash do
     payment_profile { |a| a.association(:payment_profile) }
-    first_name "Tom"
-    last_name "Jones"
     account_holder "personal"
     account_type "checking"
     routing_number "111000025"
