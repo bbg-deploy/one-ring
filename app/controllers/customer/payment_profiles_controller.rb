@@ -1,4 +1,5 @@
 class Customer::PaymentProfilesController < Customer::ApplicationController
+  load_and_authorize_resource
 
   # GET /customer/payment_profiles
   #-----------------------------------------------------------------------

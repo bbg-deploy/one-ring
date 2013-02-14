@@ -52,8 +52,8 @@ describe Customer::PaymentProfilesController do
     context "as unauthenticated customer" do
       include_context "as unauthenticated customer"
       describe "creating bank account profile" do
+        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash)
           post :create, :payment_profile => attributes, :format => 'html'
         end
   
@@ -67,8 +67,8 @@ describe Customer::PaymentProfilesController do
       end
 
       describe "creating credit card profile" do
+        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash)
           post :create, :payment_profile => attributes, :format => 'html'
         end
   
@@ -85,8 +85,8 @@ describe Customer::PaymentProfilesController do
     context "as authenticated customer" do
       include_context "as authenticated customer"
       describe "creating bank account profile" do
+        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash)
           post :create, :payment_profile => attributes, :format => 'html'
         end
   
@@ -100,8 +100,8 @@ describe Customer::PaymentProfilesController do
       end
 
       describe "creating credit card profile" do
+        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash)
           post :create, :payment_profile => attributes, :format => 'html'
         end
   
@@ -117,54 +117,216 @@ describe Customer::PaymentProfilesController do
   end
 
   describe "#show", :show => true do
-    context "as unauthenticated, unconfirmed customer" do
-      include_context "as unauthenticated, unconfirmed customer"
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
       
-      describe "with invalid token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "1234234234", :format => 'html'
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should_not set_the_flash }
-        it { should render_template(:new) }
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      before(:each) do
+        get :show, :id => payment_profile.id, :format => 'html'
       end
 
-      describe "with valid token" do
-        before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
-        end        
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
 
-        # Response
-        it { should assign_to(:customer) }
-        it { should redirect_to(customer_home_path) }
-  
-        # Content
-        it { should set_the_flash[:notice].to(/successfully confirmed/) }
-      end
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
     
     context "as authenticated customer" do
       include_context "as authenticated customer"
 
-      describe "with valid token" do
+      describe "with customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         before(:each) do
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
-        end        
+          get :show, :id => payment_profile.id, :format => 'html'
+        end
 
         # Response
-        it { should_not assign_to(:customer) }
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:show) }
+      end
+
+      describe "with other customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+        before(:each) do
+          get :show, :id => payment_profile.id, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
         it { should redirect_to(customer_home_path) }
   
         # Content
-        it { should set_the_flash[:alert].to(/already signed in/) }
+        it { should set_the_flash[:alert].to(/Access denied/) }
+      end
+    end
+  end
+
+  describe "#edit", :edit => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+      
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      before(:each) do
+        get :edit, :id => payment_profile.id, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
+      describe "with customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
+        before(:each) do
+          get :edit, :id => payment_profile.id, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:edit) }
+      end
+
+      describe "with other customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+        before(:each) do
+          get :edit, :id => payment_profile.id, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(customer_home_path) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
+      end
+    end
+  end
+
+  describe "#update", :update => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+      
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      let(:attributes) { { :first_name => "Billy" } }
+      before(:each) do
+        put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
+      describe "with customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
+        let(:attributes) { { :first_name => "Billy" } }
+        before(:each) do
+          put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(customer_payment_profile_path(payment_profile.id)) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/Successfully updated/) }
+      end
+
+      describe "with other customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+        let(:attributes) { { :first_name => "Billy" } }
+        before(:each) do
+          put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(customer_home_path) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
+      end
+    end
+  end
+
+  describe "#destroy", :destroy => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+      
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      before(:each) do
+        delete :destroy, :id => payment_profile.id, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+
+      describe "with customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
+        before(:each) do
+          delete :destroy, :id => payment_profile.id, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(customer_payment_profiles_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/Successfully deleted/) }
+      end
+
+      describe "with other customer's payment_profile" do
+        let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+        before(:each) do
+          delete :destroy, :id => payment_profile.id, :format => 'html'
+        end
+
+        # Response
+        it { should assign_to(:payment_profile) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(customer_home_path) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
       end
     end
   end
