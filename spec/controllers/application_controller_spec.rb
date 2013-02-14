@@ -8,7 +8,7 @@ describe ApplicationController do
     end
     
     def denied
-      raise Authority::SecurityViolation(nil, nil, nil)
+      raise CanCan::AccessDenied
     end
   end
 
@@ -19,6 +19,8 @@ describe ApplicationController do
       map.draw do
         get '/not_found' => "anonymous#not_found",     :as => :not_found
         get '/denied'    => "anonymous#denied",        :as => :denied
+        
+        get '/home'      => "anonymous#home",          :as => :home
       end
       yield
     end
@@ -27,15 +29,15 @@ describe ApplicationController do
   describe "handling ActiveRecord::RecordNotFound" do
     it "renders the 404 template" do
       with_error_routing do
-        get :not_found#, :format => 'html'
-        response.should render_template 'error/404'
+        get :not_found, :format => 'html'
+        response.should redirect_to(home_path)
       end
     end
 
     it "sets flash warning" do
       with_error_routing do
         get :not_found, :format => 'html'
-        flash[:warning].should =~ /Oops, we couldn't find that./
+        flash[:alert].should =~ /Oops, we couldn't find that./
       end
     end
   end
@@ -44,14 +46,14 @@ describe ApplicationController do
     it "renders the 403 template" do
       with_error_routing do
         get :denied, :format => 'html'
-        response.should render_template 'error/403'
+        response.should redirect_to(home_path)
       end
     end
 
     it "sets flash warning" do
       with_error_routing do
         get :denied, :format => 'html'
-        flash[:warning].should =~ /Hey! You're not allowed back here!/
+        flash[:alert].should =~ /Access denied/
       end
     end
   end

@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  load_and_authorize_resource
+  
   def home
     respond_to do |format|
       format.json { }   

@@ -38,16 +38,15 @@ class ApplicationController < ActionController::Base
     return (request.user_agent =~ /Mobile|webOS/)
   end
 
+  #----------------------------------------------------------------------------
   def respond_to_not_found
     flash[:alert] = t(:msg_not_found)
 
     respond_to do |format|
-      format.html {
-        render :template => '/error/404', :status => 404
-      }
+      format.html { redirect_to user_home_path }
       format.js   { render(:update) { |page| page.reload } }
-      format.json { render :text => flash[:warning], :status => :not_found }
-      format.xml  { render :text => flash[:warning], :status => :not_found }
+      format.json { render :text => flash[:alert], :status => :not_found }
+      format.xml  { render :text => flash[:alert], :status => :not_found }
     end
   end
 
@@ -58,8 +57,8 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to user_home_path }
       format.js   { render(:update) { |page| page.reload } }
-      format.json { render :text => flash[:warning], :status => :unauthorized }
-      format.xml  { render :text => flash[:warning], :status => :unauthorized }
+      format.json { render :text => flash[:alert], :status => :unauthorized }
+      format.xml  { render :text => flash[:alert], :status => :unauthorized }
     end
   end
   
