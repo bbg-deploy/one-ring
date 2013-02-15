@@ -1,4 +1,5 @@
 class Customer::PaymentProfilesController < Customer::ApplicationController
+  include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 
   # GET /customer/payment_profiles
@@ -28,8 +29,8 @@ class Customer::PaymentProfilesController < Customer::ApplicationController
   # POST /customer/payment_profiles
   #-------------------------------------------------------------------
   def create
-    params[:payment_profile][:customer] = current_customer
-    @payment_profile = PaymentProfile.new(params[:payment_profile])
+    @payment_profile = PaymentProfile.new(create_payment_profile_params)
+    @payment_profile.customer = current_customer
     if @payment_profile.save
       cookies[:last_payment_profile_id] = @payment_profile.id
       flash[:notice] = "Successfully created payment profile."  
@@ -49,7 +50,7 @@ class Customer::PaymentProfilesController < Customer::ApplicationController
   def update
     @payment_profile = PaymentProfile.find(params[:id])
     
-    if @payment_profile.update_attributes(params[:payment_profile])
+    if @payment_profile.update_attributes(update_payment_profile_params)
       flash[:notice] = "Successfully updated payment profile."
     else
       flash[:notice] = "Updating payment profile failed."
@@ -64,5 +65,14 @@ class Customer::PaymentProfilesController < Customer::ApplicationController
     @payment_profile.destroy
     flash[:notice] = "Successfully deleted payment profile."  
     respond_with(:customer, @payment_profile)
+  end
+
+  private
+  def create_payment_profile_params
+    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, :billing_address_attributes, :credit_card_attributes, :bank_account_attributes)
+  end
+
+  def update_payment_profile_params
+    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, :billing_address_attributes, :credit_card_attributes, :bank_account_attributes)
   end
 end

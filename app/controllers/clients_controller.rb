@@ -1,4 +1,6 @@
 class ClientsController < ApplicationController
+  include ActiveModel::ForbiddenAttributesProtection
+  prepend_before_filter :authenticate_employee!
   load_and_authorize_resource
 
   # GET /clients
@@ -25,7 +27,7 @@ class ClientsController < ApplicationController
   # POST /clients
   #-------------------------------------------------------------------
   def create
-    @client = Client.new(params[:client])
+    @client = Client.new(create_client_params)
     if @client.save
       flash[:notice] = "Successfully created client."  
     end
@@ -43,7 +45,7 @@ class ClientsController < ApplicationController
   #-----------------------------------------------------------------
   def update
     @client = Client.find(params[:id])
-    if @client.update_attributes(params[:client])
+    if @client.update_attributes(update_client_params)
       flash[:notice] = "Successfully updated client."
     else
       flash[:notice] = "Updating client."
@@ -58,5 +60,14 @@ class ClientsController < ApplicationController
     @client.destroy
     flash[:notice] = "Successfully deleted client."  
     respond_with(@client)
+  end
+
+  private
+  def create_client_params
+    params.require(:client).permit(:name, :app_id, :app_id_confirmation)
+  end
+
+  def update_client_params
+    params.require(:client).permit(:name, :app_id, :app_id_confirmation)
   end
 end

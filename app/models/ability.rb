@@ -8,7 +8,7 @@ class Ability
     elsif user.kind_of? Store
       can :manage, :none
     elsif user.kind_of? Employee
-      can :read, :none
+      can :manage, Client
     else
       can :manage, :none
     end

@@ -4,9 +4,6 @@ describe Customer::PaymentProfilesController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do
-    let(:customer) { FactoryGirl.create(:customer) }
-    let(:payment_profile) { FactoryGirl.create(:payment_profile) }
-
     it { should route(:get, "/customer/payment_methods").to(:action => :index) }
     it { should route(:get, "/customer/payment_methods/new").to(:action => :new) }
     it { should route(:post, "/customer/payment_methods").to(:action => :create) }
@@ -64,10 +61,18 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+        # Behavior
+        it "should not create new PaymentProfile" do
+          expect {
+            attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer)
+            post :create, :payment_profile => attributes, :format => 'html'
+          }.to_not change(PaymentProfile, :count)
+        end
       end
 
       describe "creating credit card profile" do
-        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
+        let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
         before(:each) do
           post :create, :payment_profile => attributes, :format => 'html'
         end
@@ -79,6 +84,14 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+        # Behavior
+        it "should not create new PaymentProfile" do
+          expect {
+            attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer)
+            post :create, :payment_profile => attributes, :format => 'html'
+          }.to_not change(PaymentProfile, :count)
+        end
       end
     end
 
@@ -97,10 +110,18 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:notice].to(/Successfully created payment/) }
+
+        # Behavior
+        it "should create new PaymentProfile" do
+          expect {
+            attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer)
+            post :create, :payment_profile => attributes, :format => 'html'
+          }.to change(PaymentProfile, :count).by(1)
+        end
       end
 
       describe "creating credit card profile" do
-        let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
+        let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
         before(:each) do
           post :create, :payment_profile => attributes, :format => 'html'
         end
@@ -112,6 +133,14 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:notice].to(/Successfully created payment/) }
+
+        # Behavior
+        it "should create new PaymentProfile" do
+          expect {
+            attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer)
+            post :create, :payment_profile => attributes, :format => 'html'
+          }.to change(PaymentProfile, :count).by(1)
+        end
       end
     end
   end
@@ -229,7 +258,7 @@ describe Customer::PaymentProfilesController do
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       let(:attributes) { { :first_name => "Billy" } }
       before(:each) do
-        put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+        put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
       end
 
       # Response
@@ -239,6 +268,13 @@ describe Customer::PaymentProfilesController do
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      #Behavior
+      it "should not update payment profile" do
+        payment_profile.first_name.should_not eq("Billy")
+        payment_profile.reload
+        payment_profile.first_name.should_not eq("Billy")
+      end
     end
     
     context "as authenticated customer" do
@@ -248,7 +284,7 @@ describe Customer::PaymentProfilesController do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         let(:attributes) { { :first_name => "Billy" } }
         before(:each) do
-          put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+          put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
         end
 
         # Response
@@ -258,13 +294,20 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:notice].to(/Successfully updated/) }
+        
+        #Behavior
+        it "should update payment profile" do
+          payment_profile.first_name.should_not eq("Billy")
+          payment_profile.reload
+          payment_profile.first_name.should eq("Billy")
+        end
       end
 
       describe "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         let(:attributes) { { :first_name => "Billy" } }
         before(:each) do
-          put :update, :id => payment_profile.id, :attributes => attributes, :format => 'html'
+          put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
         end
 
         # Response
@@ -274,6 +317,13 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:alert].to(/Access denied/) }
+
+        #Behavior
+        it "should not update payment profile" do
+          payment_profile.first_name.should_not eq("Billy")
+          payment_profile.reload
+          payment_profile.first_name.should_not eq("Billy")
+        end
       end
     end
   end
@@ -294,6 +344,18 @@ describe Customer::PaymentProfilesController do
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should persist PaymentProfile" do
+        expect { payment_profile.reload }.to_not raise_error
+      end
+
+      it "should not delete PaymentProfile" do
+        payment_profile = FactoryGirl.create(:payment_profile)
+        expect {
+          delete :destroy, :id => payment_profile.id, :format => 'html'
+        }.to_not change(PaymentProfile, :count)
+      end
     end
     
     context "as authenticated customer" do
@@ -312,6 +374,18 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:notice].to(/Successfully deleted/) }
+
+        # Behavior
+        it "should not persist PaymentProfile" do
+          expect { payment_profile.reload }.to raise_error
+        end
+
+        it "should not delete PaymentProfile" do
+          payment_profile = FactoryGirl.create(:payment_profile)
+          expect {
+            delete :destroy, :id => payment_profile.id, :format => 'html'
+          }.to change(PaymentProfile, :count).by(-1)
+        end
       end
 
       describe "with other customer's payment_profile" do
@@ -327,6 +401,18 @@ describe Customer::PaymentProfilesController do
   
         # Content
         it { should set_the_flash[:alert].to(/Access denied/) }
+
+        # Behavior
+        it "should persist PaymentProfile" do
+          expect { payment_profile.reload }.to_not raise_error
+        end
+
+        it "should not delete PaymentProfile" do
+          payment_profile = FactoryGirl.create(:payment_profile)
+          expect {
+            delete :destroy, :id => payment_profile.id, :format => 'html'
+          }.to_not change(PaymentProfile, :count)
+        end
       end
     end
   end

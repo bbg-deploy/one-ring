@@ -1,7 +1,6 @@
 class Employee < ActiveRecord::Base
   include ActiveModel::Validations
   include Authentication
-
   has_friendly_username
   is_authenticatable
   is_registerable
@@ -15,6 +14,10 @@ class Employee < ActiveRecord::Base
   def devise_mailer
     EmployeeAuthenticationMailer
   end
+
+  # Associations
+  #----------------------------------------------------------------------------
+  has_many :employee_roles, :through => :employee_role_assignments
 
   # Accessible Methods
   #----------------------------------------------------------------------------

@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   def current_user
     return current_customer unless current_customer.nil?
     return current_store unless current_store.nil?
+    return current_employee unless current_employee.nil?
     return nil
   end
 
