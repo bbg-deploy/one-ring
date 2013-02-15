@@ -61,11 +61,9 @@ gem 'doorkeeper', '~> 0.6.7'
 # Authentication
 gem 'devise', '>= 2.2.3'
 
-# Authorization
-gem 'authority', '>= 2.3.2'
-
-# Role Management
-gem 'rolify', '>= 3.1'
+# Authorization & Role Management
+gem 'rolify', '~> 3.1'
+gem 'cancan', '~> 1.6.9'
 
 #Tableless Models
 gem 'activerecord-tableless', '~> 1.0.1'

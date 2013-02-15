@@ -50,7 +50,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     if @customer.update_with_password(update_customer_params)
       flash_key = update_needs_confirmation?(@customer, prev_unconfirmed_email) ? :update_needs_confirmation : :updated
       set_flash_message :notice, flash_key
-      sign_in resource_name, @customer, :bypass => true
+      sign_in :customer, @customer, :bypass => true
       respond_with @customer, :location => customer_home_path
     else
       # Set passwords to blank before we redirect
@@ -64,12 +64,12 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     # Don't actually destroy the customer object, just set it to 'cancelled'
     @customer = current_customer
     @customer.cancel_account
-    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    Devise.sign_out_all_scopes ? sign_out : sign_out(:customer)
     set_flash_message :notice, :destroyed
     respond_with @customer, :location => home_path
   end
 
-  # GET /resource/cancel
+  # GET /customer/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to
   # cancel oauth signing in/up in the middle of the process,

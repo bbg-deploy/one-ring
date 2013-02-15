@@ -1,0 +1,17 @@
+= provide(:title, 'Confirmation Instructions')
+
+.row
+  .eight.columns
+    %h2 Confirm Your Email
+    = form_for(@employee, :url => employee_confirmation_path, :method => :post, :html => { :class => "" }) do |f|
+      %fieldset
+        %legend Email
+        .row
+          .eight.columns
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "you@email.com"
+          .four.columns
+            %p.helper-text
+              = "Must match your current email on file"
+      = f.submit "Resend Confirmation Email", :class => "radius button"
+    = render "employee/shared/authentication_links"

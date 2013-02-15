@@ -10,6 +10,7 @@ FactoryGirl.define do
       phone_number_factory :store_phone_number
     end
 
+    organization {|a| a.association(:organization)}
     sequence(:username) {|n| "store_#{n}" }
     password "fakepass"
     password_confirmation { password }
@@ -36,6 +37,7 @@ FactoryGirl.define do
   end
 
   factory :store_attributes_hash, class: Hash do
+    organization {|a| a.association(:organization, number_of_stores: 0)}
     sequence(:username) {|n| "hashed_store_#{n}" }
     password "fakepass"
     password_confirmation { password }

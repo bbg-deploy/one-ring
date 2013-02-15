@@ -1,14 +1,30 @@
-= simple_form_for( @payment_profile, :url => customer_payment_profiles_path, :html => { :class => 'well' } ) do |f|
-  = f.error_notification
-  = f.input :payment_type, :as => :hidden, :input_html => { :value => "bank_account" }
-  %h4 Account Holder
-  = f.input :first_name, :label => "First Name", :input_html => { :value => "#{@current_customer.first_name}" }
-  = f.input :last_name, :label => "Last Name", :input_html => { :value => "#{@current_customer.last_name}" }
-  %h4 Bank Account Details
-  = f.input :bank_account_holder, :collection => ["personal", "business"]
-  = f.input :bank_account_type, :collection => ["checking", "savings"]
-  = f.input :bank_account_number
-  = f.input :bank_routing_number 
-    
-  = f.button :submit, :label => 'Save', :value => 'Save', :class => 'btn btn-primary'
-  = link_to "Cancel", customer_payment_profiles_path, :class => 'btn'
+= nested_form_for( @payment_profile, :url => customer_payment_profiles_path, :method => :post, :html => { :class => '' } ) do |f|
+  %fieldset
+    %legend Account Information
+    .row
+      = f.hidden_field :payment_type, :value => "bank_account"
+    .row
+      .six.columns 
+        = f.label "First Name"
+        = f.text_field :first_name, :placeholder => "Elvis"
+      .six.columns 
+        = f.label "Last Name"
+        = f.text_field :last_name, :placeholder => "Presley"
+  %fieldset
+    %legend Bank Account Details
+    = f.fields_for :bank_account do |bank_account|
+      .row
+        .six.columns
+          = bank_account.label "Account Holder"
+          = bank_account.select :account_holder, :collection => ["personal", "business"]
+        .six.columns
+          = bank_account.label "Account Type"
+          = bank_account.select :account_type, :collection => ["checking", "savings"]
+      .row
+        .six.columns
+          = bank_account.label "Account Number"
+          = bank_account.text_field :account_number
+        .six.columns
+          = bank_account.label "Routing Number"
+          = bank_account.text_field :routing_number
+  = f.button :submit, :label => 'Save', :value => 'Save', :class => 'button radius'

@@ -3,5 +3,5 @@
 
 en:
   msg_not_found: "Oops, we couldn't find that."
-  msg_not_authorized: "Hey! You're not allowed back here!"
+  msg_not_authorized: "Access denied."
   msg_profile_incomplete: "We need your contact information before we can process your applications."

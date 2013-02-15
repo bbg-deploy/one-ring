@@ -1,6 +1,9 @@
 class CreateStores < ActiveRecord::Migration
   def change
     create_table(:stores) do |t|
+      # Belongs to organization
+      t.references :organization
+
       ## Strings to capture user names
       t.string :username,           :null => false, :default => ""
 
@@ -39,6 +42,9 @@ class CreateStores < ActiveRecord::Migration
 
       ## Token authenticatable
       t.string :authentication_token
+
+      ## Cancelable
+      t.datetime :cancelled_at #Allows for me to let customers cancel accounts
 
       t.timestamps
     end

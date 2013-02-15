@@ -1,0 +1,53 @@
+= provide(:title, 'Registration')
+
+.row
+  .eight.columns
+    %h2 Sign up
+    = nested_form_for(@store, :url => store_registration_path, :method => :post, :html => { :class => "" }) do |f|
+      %fieldset
+        %legend Account Information
+        .row
+          .eight.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+        .row
+          .eight.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+        .row
+          .eight.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      %fieldset
+        %legend Business Information
+        .row
+          .twelve.columns 
+            = f.label "Name"
+            = f.text_field :name, :placeholder => "Widget Co."
+        .row
+          .six.columns
+            = f.label "Employer Identification Number"
+            = f.text_field :employer_identification_number, :placeholder => "50-5331994"
+      %fieldset
+        %legend Address
+        = f.fields_for :addresses
+      %fieldset
+        %legend Phone Number
+        = f.fields_for :phone_numbers
+      %fieldset
+        %legend Terms & Conditions
+        = f.label "You agree to Credda's Terms & Conditions"
+        = f.check_box :terms_agreement
+      = f.submit "Sign up", :class => "radius button"
+    = render "store/shared/authentication_links"

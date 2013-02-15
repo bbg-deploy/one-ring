@@ -60,7 +60,7 @@ FactoryGirl.define do
     sequence(:username) { |n| "hashed_customer_#{n}" }
     password "fakepass"
     password_confirmation { password }
-    email { "hashed_#{username}@notcredda.com" }
+    email { "#{username}@notcredda.com" }
     email_confirmation { email }
     first_name "John"
     middle_name "Quincy"

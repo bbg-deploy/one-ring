@@ -31,6 +31,10 @@ class Address < ActiveRecord::Base
   def full_address
     [self.street, self.city, self.state, self.country].compact.join(', ')
   end
+
+  def to_s
+    self.full_address
+  end
   
   # Private Methods
   #----------------------------------------------------------------------------

@@ -62,21 +62,6 @@ class Customer < ActiveRecord::Base
   def name
     return "#{self.first_name} #{self.last_name}"
   end
-  
-  # Non-Views Methods
-  #----------------------------------------------------
-  #TODO: This should probably all go in the Authentication concern.
-  def cancel_account
-    self.cancelled_at = Time.now
-  end
-  
-  def cancelled?
-    return self.cancelled_at.nil?
-  end
-
-  def active_for_authentication?
-    super && !cancelled_at
-  end
 
   private
 end

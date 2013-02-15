@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
     t.datetime "updated_at",                       :null => false
   end
 
+  create_table "clients", :force => true do |t|
+    t.string   "name",             :null => false
+    t.string   "app_id",           :null => false
+    t.string   "app_access_token", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "clients", ["app_access_token"], :name => "index_clients_on_app_access_token", :unique => true
+  add_index "clients", ["app_id"], :name => "index_clients_on_app_id", :unique => true
+
   create_table "customers", :force => true do |t|
     t.string   "username",                :default => "", :null => false
     t.string   "email",                   :default => "", :null => false
@@ -66,6 +77,57 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
   add_index "customers", ["reset_password_token"], :name => "index_customers_on_reset_password_token", :unique => true
   add_index "customers", ["unlock_token"], :name => "index_customers_on_unlock_token", :unique => true
   add_index "customers", ["username"], :name => "index_customers_on_username", :unique => true
+
+  create_table "employee_assignments", :id => false, :force => true do |t|
+    t.integer "employee_id"
+    t.integer "employee_role_id"
+  end
+
+  add_index "employee_assignments", ["employee_id", "employee_role_id"], :name => "index_employee_assignments_on_employee_id_and_employee_role_id"
+
+  create_table "employee_roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "employee_roles", ["name"], :name => "index_employee_roles_on_name"
+
+  create_table "employees", :force => true do |t|
+    t.string   "username",               :default => "", :null => false
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "first_name",                             :null => false
+    t.string   "middle_name"
+    t.string   "last_name",                              :null => false
+    t.date     "date_of_birth",                          :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.integer  "failed_attempts",        :default => 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
+    t.string   "authentication_token"
+    t.datetime "cancelled_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "employees", ["authentication_token"], :name => "index_employees_on_authentication_token", :unique => true
+  add_index "employees", ["confirmation_token"], :name => "index_employees_on_confirmation_token", :unique => true
+  add_index "employees", ["email"], :name => "index_employees_on_email", :unique => true
+  add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
+  add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
+  add_index "employees", ["username"], :name => "index_employees_on_username", :unique => true
 
   create_table "oauth_access_grants", :force => true do |t|
     t.integer  "resource_owner_id", :null => false
@@ -106,13 +168,23 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
 
   add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
 
+  create_table "organizations", :force => true do |t|
+    t.string   "name",       :default => "", :null => false
+    t.string   "website",    :default => "", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :unique => true
+  add_index "organizations", ["website"], :name => "index_organizations_on_website", :unique => true
+
   create_table "payment_profiles", :force => true do |t|
     t.integer  "customer_id",                     :null => false
     t.string   "payment_type",                    :null => false
     t.string   "first_name",                      :null => false
     t.string   "last_name",                       :null => false
     t.string   "last_four_digits",                :null => false
-    t.string   "cim_customer_payment_profile_id", :null => false
+    t.string   "cim_customer_payment_profile_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end
@@ -130,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
   end
 
   create_table "stores", :force => true do |t|
+    t.integer  "organization_id"
     t.string   "username",                       :default => "", :null => false
     t.string   "email",                          :default => "", :null => false
     t.string   "encrypted_password",             :default => "", :null => false
@@ -151,6 +224,7 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.string   "authentication_token"
+    t.datetime "cancelled_at"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end

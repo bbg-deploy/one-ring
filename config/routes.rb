@@ -13,20 +13,37 @@ CustomSsoProvider::Application.routes.draw do
   }
   namespace :customer do
     root :to                  => "pages#home", :as => :home
-    resources :payment_profiles, :path => "payment_methods", :except => [:show, :delete]
+    resources :payment_profiles, :path => "payment_methods"
   end
 
   # Store Namespace
   #-----------------------------------------------------------------
-  devise_for :stores, :path => 'store'#, :controllers => {
-#    :confirmations => 'store/confirmations',
-#    :passwords => 'store/passwords',
-#    :registrations => 'store/registrations',
-#    :sessions => 'store/sessions',
-#    :unlocks => 'store/unlocks'
-#  }
+  devise_for :stores, :path => 'store', :controllers => {
+    :confirmations => 'store/confirmations',
+    :passwords => 'store/passwords',
+    :registrations => 'store/registrations',
+    :sessions => 'store/sessions',
+    :unlocks => 'store/unlocks'
+  }
 
-#  namespace :store do
-#    root :to                  => "home#index", :as => :home
-#  end
+  namespace :store do
+    root :to                  => "pages#home", :as => :home
+  end
+
+  # Employee Namespace
+  #-----------------------------------------------------------------
+  devise_for :employees, :path => 'employee', :controllers => {
+    :confirmations => 'employee/confirmations',
+    :passwords => 'employee/passwords',
+    :registrations => 'employee/registrations',
+    :sessions => 'employee/sessions',
+    :unlocks => 'employee/unlocks'
+  }
+
+  namespace :employee do
+    root :to                  => "pages#home", :as => :home
+  end
+
+  resources :clients
+
 end

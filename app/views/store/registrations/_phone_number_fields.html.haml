@@ -1,0 +1,9 @@
+.row
+  .six.columns
+    = f.label "Phone Number"
+    = f.hidden_field :phone_number_type, :value => 'customer'
+    = f.text_field :phone_number, :placeholder => "555-444-1234"
+  .six.columns
+    = f.label "Is this a cell phone?"
+    = f.check_box :cell_phone
+    = f.hidden_field :primary, :value => '1'

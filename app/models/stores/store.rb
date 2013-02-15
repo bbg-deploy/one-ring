@@ -15,6 +15,10 @@ class Store < ActiveRecord::Base
     StoreAuthenticationMailer
   end
     
+  # Associations - Organization
+  #----------------------------------------------------------------------------
+  belongs_to :organization
+
   # Associations - Profile
   #----------------------------------------------------------------------------
   has_many :addresses, :as => :addressable, :class_name => 'Address', 
@@ -26,7 +30,7 @@ class Store < ActiveRecord::Base
 
   # Use attr_accessible to control security
   #----------------------------------------------------  
-  attr_accessible :name, :employer_identification_number, 
+  attr_accessible :organization, :name, :employer_identification_number, 
                   :addresses, :addresses_attributes,
                   :phone_numbers, :phone_numbers_attributes
 
