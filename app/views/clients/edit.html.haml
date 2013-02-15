@@ -1,4 +1,4 @@
-provide(:title, "Edit Payment Method")
+= provide(:title, "Edit Payment Method")
 
 .row
   .eight.columns
@@ -16,8 +16,8 @@ provide(:title, "Edit Payment Method")
         .row
           .eight.columns 
             = f.label "Application ID"
-            = f.password_field :app_id, :placeholder => "S3cuREdLeASe"
-            = f.password_field :app_id_confirmation, :placeholder => "Enter Application ID Again"
+            = f.text_field :app_id, :placeholder => "S3cuREdLeASe"
+            = f.text_field :app_id_confirmation, :placeholder => "Enter Application ID Again"
           .four.columns
             %p.helper-text
               = "Must be greater than 6 characters"
