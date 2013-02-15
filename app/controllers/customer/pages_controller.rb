@@ -1,4 +1,6 @@
 class Customer::PagesController < Customer::ApplicationController
+  skip_authorization_check
+
   def home
     respond_to do |format|
       format.json { }   

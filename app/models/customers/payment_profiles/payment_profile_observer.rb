@@ -7,10 +7,10 @@ class PaymentProfileObserver < ActiveRecord::Observer
       begin
         payment_profile_id = service.create_cim_customer_payment_profile(payment_profile)
         payment_profile.set_cim_customer_payment_profile_id(payment_profile_id)
-      rescue StandardError => e
-        puts "Error: #{e.message}"
-        AdminNotificationMailer.report_error("PaymentProfileObserver", "before_create", e.message).deliver
-        payment_profile.errors.add(:base, "There was a problem on our end. Please try again a bit later.")
+#      rescue StandardError => e
+#        puts "Error: #{e.message}"
+#        AdminNotificationMailer.report_error("PaymentProfileObserver", "before_create", e.message).deliver
+#        payment_profile.errors.add(:base, "There was a problem on our end. Please try again a bit later.")
       end
     end
   end

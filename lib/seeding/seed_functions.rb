@@ -36,7 +36,7 @@ module SeedFunctions
                  :terms_agreement => "1" }
                    
     options = defaults.merge(options)
-    customer = Customer.create(options)
+    customer = Customer.new(options)
     begin
       customer.save!
     rescue StandardError => e
@@ -60,6 +60,11 @@ module SeedFunctions
     dummy_zip_code = dummy_customer.mailing_address.zip_code
     dummy_country  = dummy_customer.mailing_address.country
     
+#    dummy_street   = "10 Rutledge Ct."
+#    dummy_city     = "Sterling"
+#    dummy_state    = "Virginia"
+#    dummy_zip_code = "20165"
+#    dummy_country  = "United States of America"
 
     #Dummy Credit Card Details
     dummy_credit_card_brand = "visa"
@@ -99,7 +104,7 @@ module SeedFunctions
     else
       defaults = {
         :customer                       => dummy_customer,
-        :payment_type                   => "credit_card",
+        :payment_type                   => "bank_account",
         :first_name                     => dummy_first_name,
         :last_name                      => dummy_last_name,
         :billing_address_attributes => {
@@ -119,13 +124,18 @@ module SeedFunctions
       }
     end
     
+    
     options = defaults.merge(options)
-    payment_profile = PaymentProfile.create(options)
 
+#    options = FactoryGirl.build(:payment_profile_bank_account_attributes_hash, :customer => dummy_customer)
+ #   puts "Options = #{options}"
+    payment_profile = PaymentProfile.new(options)
+    puts "Errors = #{payment_profile.errors.inspect}"
     begin
       payment_profile.save!
     rescue StandardError => e
       puts "Payment Profile not saved"
+      puts "Error = #{e.inspect}"
       puts e.message
     else
       return payment_profile

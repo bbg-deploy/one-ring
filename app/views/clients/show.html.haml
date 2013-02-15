@@ -2,8 +2,11 @@
 
 .row
   .eight.columns
-  %h1 = "#{client.name}"
+  %h1 
+    = "#{@client.name}"
   %p
-    = "Client name = #{client.name}"
+    = "Client name = #{@client.name}"
   %p
-    = "Client app ID = #{client.app_id}"
+    = "Client app ID = #{@client.app_id}"
+  %p
+    = "Client app access token = #{@client.app_access_token}"    

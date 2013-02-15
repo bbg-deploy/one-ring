@@ -32,9 +32,9 @@ class PaymentProfile < ActiveRecord::Base
   validates :billing_address, :presence => true
   validates_associated :billing_address
   validates_associated :credit_card, :if => lambda { |payment_profile| payment_profile.try(:payment_type) == "credit_card" }, :on => :create
-  validates_associated :bank_account, :if => lambda { |payment_profile| payment_profile.try(:payment_type) == "bank_account" }, :on => :create
+#  validates_associated :bank_account, :if => lambda { |payment_profile| payment_profile.try(:payment_type) == "bank_account" }, :on => :create
   validates :last_four_digits, :presence => true, :length => { :is => 4 }
-  validate :has_payment_method, :on => :create
+#  validate :has_payment_method, :on => :create
   
   def authorize_net_billing_details
     return {

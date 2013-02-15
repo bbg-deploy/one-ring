@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
-  prepend_before_filter :authenticate_employee!
+ # prepend_before_filter :authenticate_employee!
   load_and_authorize_resource
 
   # GET /clients
@@ -17,10 +17,10 @@ class ClientsController < ApplicationController
     respond_with(@client)
   end
   
-  # GET /client/new
+  # GET /clients/new
   #-------------------------------------------------------------------
   def new
-    @client = PaymentProfile.new
+    @client = Client.new
     respond_with(@client)
   end
 

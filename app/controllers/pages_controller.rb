@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  load_and_authorize_resource
-  
+  skip_authorization_check
+
   def home
     respond_to do |format|
       format.json { }   

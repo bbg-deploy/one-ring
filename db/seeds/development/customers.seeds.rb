@@ -16,7 +16,7 @@ if (Customer.find_by_username("customer").nil?)
   end
 
   #Payment Profiles
-  payment_profile = create_payment_profile({:customer => customer})
+  payment_profile = create_payment_profile({:customer => customer, :payment_type => "credit_card"})
   unless payment_profile.nil?
     puts "-- created Payment Profile for #{customer.username}"
   end
