@@ -1,0 +1,24 @@
+provide(:title, "Edit Payment Method")
+
+.row
+  .eight.columns
+    %h2 Edit Single Sign-On Client
+    = form_for(@client, :url => client_path, :method => :put, :html => { :class => "" }) do |f|
+      %fieldset
+        %legend Client Information
+        .row
+          .eight.columns
+            = f.label "Name"
+            = f.text_field :name, :placeholder => "Lease Application"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+        .row
+          .eight.columns 
+            = f.label "Application ID"
+            = f.password_field :app_id, :placeholder => "S3cuREdLeASe"
+            = f.password_field :app_id_confirmation, :placeholder => "Enter Application ID Again"
+          .four.columns
+            %p.helper-text
+              = "Must be greater than 6 characters"
+      = f.submit "Edit Client", :class => "radius button"

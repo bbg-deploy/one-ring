@@ -43,4 +43,7 @@ CustomSsoProvider::Application.routes.draw do
   namespace :employee do
     root :to                  => "pages#home", :as => :home
   end
+
+  resources :clients
+
 end
