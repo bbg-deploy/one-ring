@@ -6,12 +6,12 @@ class CreateEmployeeRoles < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table(:employees_role_assignments, :id => false) do |t|
+    create_table(:employee_assignments, :id => false) do |t|
       t.references :employee
       t.references :employee_role
     end
 
     add_index(:employee_roles, :name)
-    add_index(:employees_role_assignments, [ :employee_id, :employee_role_id ])
+    add_index(:employee_assignments, [ :employee_id, :employee_role_id ])
   end
 end

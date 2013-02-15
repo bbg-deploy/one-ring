@@ -78,6 +78,21 @@ ActiveRecord::Schema.define(:version => 20130205062842) do
   add_index "customers", ["unlock_token"], :name => "index_customers_on_unlock_token", :unique => true
   add_index "customers", ["username"], :name => "index_customers_on_username", :unique => true
 
+  create_table "employee_assignments", :id => false, :force => true do |t|
+    t.integer "employee_id"
+    t.integer "employee_role_id"
+  end
+
+  add_index "employee_assignments", ["employee_id", "employee_role_id"], :name => "index_employee_assignments_on_employee_id_and_employee_role_id"
+
+  create_table "employee_roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "employee_roles", ["name"], :name => "index_employee_roles_on_name"
+
   create_table "employees", :force => true do |t|
     t.string   "username",               :default => "", :null => false
     t.string   "email",                  :default => "", :null => false
