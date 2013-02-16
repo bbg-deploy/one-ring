@@ -2,6 +2,13 @@
 
 .row
   .twelve.columns
+    %h1 Customers
+    - @customer.each do |customer|
+      %p
+        = "#{customer.username}, #{customer.password}"
+
+.row
+  .twelve.columns
     %h1 Credda User Manager v1.0
 .row
   .four.columns
