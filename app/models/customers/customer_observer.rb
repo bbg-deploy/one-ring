@@ -26,6 +26,10 @@ class CustomerObserver < ActiveRecord::Observer
   end
 
   def after_save(customer)
-    AdminNotificationMailer.report_new_user(customer).deliver
+    begin
+      AdminNotificationMailer.report_new_user(customer).deliver
+    rescue => e
+      puts "AdminNotificationMailer error.  New user email not sent."
+    end
   end
 end
