@@ -2,7 +2,7 @@
 require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
-CustomSsoProvider::Application.initialize!
+Onering::Application.initialize!
 
 # Overried the Actionview base error rendering for forms
 # http://stackoverflow.com/questions/8713479/custom-html-error-wrappers-for-form-elements
