@@ -60,12 +60,6 @@ module SeedFunctions
     dummy_zip_code = dummy_customer.mailing_address.zip_code
     dummy_country  = dummy_customer.mailing_address.country
     
-#    dummy_street   = "10 Rutledge Ct."
-#    dummy_city     = "Sterling"
-#    dummy_state    = "Virginia"
-#    dummy_zip_code = "20165"
-#    dummy_country  = "United States of America"
-
     #Dummy Credit Card Details
     dummy_credit_card_brand = "visa"
     dummy_credit_card_number = "4111111111111111"
@@ -126,11 +120,8 @@ module SeedFunctions
     
     
     options = defaults.merge(options)
-
-#    options = FactoryGirl.build(:payment_profile_bank_account_attributes_hash, :customer => dummy_customer)
- #   puts "Options = #{options}"
     payment_profile = PaymentProfile.new(options)
-    puts "Errors = #{payment_profile.errors.inspect}"
+#    puts "Errors = #{payment_profile.errors.inspect}"
     begin
       payment_profile.save!
     rescue StandardError => e

@@ -155,6 +155,26 @@ describe PaymentProfile do
       end
     end
 
+    describe "set_cim_customer_payment_profile_id" do
+      context "without cim_customer_payment_profile_id" do
+        let(:payment_profile) { FactoryGirl.build(:payment_profile, :cim_customer_payment_profile_id => nil) }
+        it "sets profile id" do
+          payment_profile.cim_customer_payment_profile_id.should be_nil
+          payment_profile.set_cim_customer_payment_profile_id("1234567")
+          payment_profile.cim_customer_payment_profile_id.should eq("1234567")
+        end
+      end
+
+      context "without cim_customer_payment_profile_id" do
+        let(:payment_profile) { FactoryGirl.build(:payment_profile) }
+        it "does not change profile id" do
+          payment_profile.cim_customer_payment_profile_id.should_not be_nil
+          payment_profile.set_cim_customer_payment_profile_id("1234567")
+          payment_profile.cim_customer_payment_profile_id.should_not eq("1234567")
+        end
+      end
+    end
+
     describe "authorize_net_payment_details" do
       context "with credit card" do
         let(:payment_profile) { FactoryGirl.create(:credit_card_payment_profile) }
