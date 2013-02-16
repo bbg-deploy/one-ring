@@ -121,7 +121,6 @@ module SeedFunctions
     
     options = defaults.merge(options)
     payment_profile = PaymentProfile.new(options)
-#    puts "Errors = #{payment_profile.errors.inspect}"
     begin
       payment_profile.save!
     rescue StandardError => e
