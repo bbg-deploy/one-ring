@@ -10,8 +10,6 @@ gem 'pg', :require => 'pg'
 
 # Gems used only for assets and not required
 # in production environments by default.
-# Gems used only for assets and not required
-# in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -103,6 +101,5 @@ gem 'geocoder', '~> 1.1.2'
 gem 'simple_form', '~> 2.0.2'
 gem 'nested_form', '~> 0.3.0'
 gem 'wicked', '~> 0.3.2'
-gem 'jquery_datepicker'
 #TODO: Look into using this instead of nested_form
 gem 'cocoon', '~> 1.0.22'
