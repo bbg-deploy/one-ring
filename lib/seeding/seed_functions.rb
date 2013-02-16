@@ -37,6 +37,8 @@ module SeedFunctions
                    
     options = defaults.merge(options)
     customer = Customer.new(options)
+    puts "Customer = #{customer.inspect}"
+    puts "Valid? = #{customer.valid?}"
     begin
       customer.save!
     rescue StandardError => e
