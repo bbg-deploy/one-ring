@@ -9,4 +9,5 @@
   %p
     = "Client app ID = #{@client.app_id}"
   %p
-    = "Client app access token = #{@client.app_access_token}"    
+    = "Client app access token = #{@client.app_access_token}"
+  = link_to "Edit Client Info", edit_employee_client_path(@client), :class => 'button radius'

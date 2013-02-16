@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe ClientsController do
+describe Employee::ClientsController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do
-    it { should route(:get, "/clients").to(:action => :index) }
-    it { should route(:get, "/clients/new").to(:action => :new) }
-    it { should route(:post, "/clients").to(:action => :create) }
-    it { should route(:get, "/clients/1").to(:action => :show, :id => 1) }
-    it { should route(:get, "/clients/1/edit").to(:action => :edit, :id => 1) }
-    it { should route(:put, "/clients/1").to(:action => :update, :id => 1) }
-    it { should route(:delete, "/clients/1").to(:action => :destroy, :id => 1) }
+    it { should route(:get, "/employee/clients").to(:action => :index) }
+    it { should route(:get, "/employee/clients/new").to(:action => :new) }
+    it { should route(:post, "/employee/clients").to(:action => :create) }
+    it { should route(:get, "/employee/clients/1").to(:action => :show, :id => 1) }
+    it { should route(:get, "/employee/clients/1/edit").to(:action => :edit, :id => 1) }
+    it { should route(:put, "/employee/clients/1").to(:action => :update, :id => 1) }
+    it { should route(:delete, "/employee/clients/1").to(:action => :destroy, :id => 1) }
   end
 
   describe "#new", :new => true do
@@ -82,7 +82,7 @@ describe ClientsController do
       # Response
       it { should assign_to(:client) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(client_path(Client.last)) }
+      it { should redirect_to(employee_client_path(Client.last)) }
 
       # Content
       it { should set_the_flash[:notice].to(/Successfully created client/) }
@@ -207,7 +207,7 @@ describe ClientsController do
       # Response
       it { should assign_to(:client) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(client_path(client.id)) }
+      it { should redirect_to(employee_client_path(client.id)) }
 
       # Content
       it { should set_the_flash[:notice].to(/Successfully updated/) }
@@ -262,7 +262,7 @@ describe ClientsController do
       # Response
       it { should assign_to(:client) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(clients_path) }
+      it { should redirect_to(employee_clients_path) }
 
       # Content
       it { should set_the_flash[:notice].to(/Successfully deleted/) }
