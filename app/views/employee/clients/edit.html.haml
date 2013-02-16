@@ -3,7 +3,7 @@
 .row
   .eight.columns
     %h2 Edit Single Sign-On Client
-    = form_for(@client, :url => client_path, :method => :put, :html => { :class => "" }) do |f|
+    = form_for(@client, :url => employee_client_path, :method => :put, :html => { :class => "" }) do |f|
       %fieldset
         %legend Client Information
         .row

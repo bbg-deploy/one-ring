@@ -55,8 +55,8 @@ group :test do
 #  gem 'shoulda-matchers', :github => 'thoughtbot/shoulda-matchers'
 end
 
-# OAuth
-gem 'doorkeeper', '~> 0.6.7'
+# API Authorization
+#gem 'doorkeeper', '~> 0.6.7'
 
 # Authentication
 gem 'devise', '>= 2.2.3'

@@ -1,4 +1,4 @@
-class ClientsController < ApplicationController
+class Employee::ClientsController < Employee::ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
  # prepend_before_filter :authenticate_employee!
   load_and_authorize_resource
@@ -7,21 +7,21 @@ class ClientsController < ApplicationController
   #-----------------------------------------------------------------------
   def index
     @clients = Client.all
-    respond_with(@clients)
+    respond_with(:employee, @clients)
   end
 
   # GET /clients/1
   #-------------------------------------------------------------------
   def show
     @client = Client.find(params[:id])
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
   
   # GET /clients/new
   #-------------------------------------------------------------------
   def new
     @client = Client.new
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
 
   # POST /clients
@@ -31,14 +31,14 @@ class ClientsController < ApplicationController
     if @client.save
       flash[:notice] = "Successfully created client."  
     end
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
 
   # GET /clients/1/edit
   #-------------------------------------------------------------------
   def edit
     @client = Client.find(params[:id])
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
 
   # PUT /clients/1
@@ -50,7 +50,7 @@ class ClientsController < ApplicationController
     else
       flash[:notice] = "Updating client."
     end
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
   
   # DELETE /customer/clients/1
@@ -59,7 +59,7 @@ class ClientsController < ApplicationController
     @client = Client.find(params[:id])
     @client.destroy
     flash[:notice] = "Successfully deleted client."  
-    respond_with(@client)
+    respond_with(:employee, @client)
   end
 
   private
