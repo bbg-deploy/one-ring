@@ -3,9 +3,9 @@
 .row
   .twelve.columns
     %h1 Customers
-    - @customer.each do |customer|
+    - @customers.each do |customer|
       %p
-        = "#{customer.username}, #{customer.password}"
+        = "#{customer.username}, #{customer.encrypted_password}"
 
 .row
   .twelve.columns
