@@ -41,7 +41,6 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'brakeman', '~> 1.8.0'
   gem 'timecop', '>= 0.5.7'  
-  gem 'ffaker', '~> 1.15.0'
   gem 'heroku_san', '~> 4.2.3'
 end
 
@@ -88,6 +87,7 @@ gem 'fuzzy_match', '~> 1.4.0'
 gem 'fuzzy-string-match_pure', '>= 0.9.4'
 gem 'acts_as_list', '~> 0.1.8'
 gem 'awesome_nested_set', '>= 2.1.4'
+gem 'ffaker', '~> 1.15.0'
 
 # Gems for validating types of input
 gem 'validates_existence', '>= 0.4'
