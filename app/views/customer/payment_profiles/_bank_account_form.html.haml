@@ -1,4 +1,5 @@
 = nested_form_for( @payment_profile, :url => customer_payment_profiles_path, :method => :post, :html => { :class => '' } ) do |f|
+  = "#{@payment_profile.errors.inspect}"
   %fieldset
     %legend Account Information
     .row
@@ -27,4 +28,25 @@
         .six.columns
           = bank_account.label "Routing Number"
           = bank_account.text_field :routing_number
+  %fieldset
+    %legend Address
+    = f.fields_for :billing_address do |address|
+      .row
+        .twelve.columns
+          = address.label "Street"
+          = address.text_field :street, :placeholder => "123 Famous St."
+      .row
+        .six.columns
+          = address.label "City"
+          = address.text_field :city, :placeholder => "Charleston"
+        .three.columns
+          = address.label "State"
+          = address.select :state, us_states, {}
+        .three.columns
+          = address.label "Zip Code"
+          = address.text_field :zip_code, :placeholder => "11111"
+      .row
+        .twelve.columns
+          = address.label "Country"
+          = address.select :country, countries, {}
   = f.button :submit, :label => 'Save', :value => 'Save', :class => 'button radius'

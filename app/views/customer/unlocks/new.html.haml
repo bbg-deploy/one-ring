@@ -2,7 +2,7 @@
 
 .row
   %h2 Resend unlock instructions
-  .six.columns
+  .six.columns#unlock
     = form_for(@customer, :url => customer_unlock_path, :method => :post , :html => { :class => '' }) do |f|
       %fieldset
         %legend Account Information

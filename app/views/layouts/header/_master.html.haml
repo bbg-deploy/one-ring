@@ -2,5 +2,7 @@
   = render 'layouts/header/customer'
 - elsif current_user.is_a?(Store)
   = render 'layouts/header/store'
+- elsif current_user.is_a?(Employee)
+  = render 'layouts/header/employee'
 - else
   = render 'layouts/header/anonymous'

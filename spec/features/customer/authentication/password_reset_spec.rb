@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "password reset" do
-  context "anonymous" do
-    include_context "as anonymous visitor"
+  context "as anonymous" do
+    include_context "as anonymous"
     let(:customer) { FactoryGirl.create(:customer) }
     before(:each) do
       visit new_customer_password_path
@@ -10,22 +10,21 @@ describe "password reset" do
 
     describe "with valid attributes" do
       it "sends password reset email" do
-        within("#customer-new-password") do
+        within("#new-password") do
           fill_in 'customer_email', :with => customer.email
-          click_button 'Send password reset'
+          click_button 'Reset Password'
         end
         
-        reset_email = ActionMailer::Base.deliveries.last
-        reset_email.to.should eq([customer.email])
-        reset_email.from.should eq(["no-reply@credda.com"])
+        last_email.to.should eq([customer.email])
+        last_email.from.should eq(["no-reply@credda.com"])
         subject = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['mailer']['reset_password_instructions']['subject']
-        reset_email.subject.should eq(subject)
+        last_email.subject.should eq(subject)
       end      
 
       it "redirects to sign in page" do
-        within("#customer-new-password") do
+        within("#new-password") do
           fill_in 'customer_email', :with => customer.email
-          click_button 'Send password reset'
+          click_button 'Reset Password'
         end
         
         current_path.should eq(new_customer_session_path)
@@ -37,19 +36,18 @@ describe "password reset" do
 
     describe "with invalid email" do
       it "does not send email" do
-        within("#customer-new-password") do
+        within("#new-password") do
           fill_in 'customer_email', :with => "invalid@email.com"
-          click_button 'Send password reset'
+          click_button 'Reset Password'
         end
         
-        reset_email = ActionMailer::Base.deliveries.last
-        reset_email.should be_nil
-      end      
+        last_email.should be_nil
+      end
 
       it "reloads password page" do
-        within("#customer-new-password") do
+        within("#new-password") do
           fill_in 'customer_email', :with => "invalid@email.com"
-          click_button 'Send password reset'
+          click_button 'Reset Password'
         end
         
         current_path.should eq(customer_password_path)
@@ -60,8 +58,8 @@ describe "password reset" do
     end
   end
 
-  context "authenticated" do
-    include_context "as authenticated customer"
+  context "as customer" do
+    include_context "as customer"
 
     it "redirects to customer home" do
       visit new_customer_password_path

@@ -2,16 +2,17 @@ require 'spec_helper'
 
 describe "sign up" do
   context "anonymous", :anonymous => true do
-    include_context "as anonymous visitor"
+    include_context "as anonymous"
     let(:registered_customer) { FactoryGirl.create(:customer) }
     let(:customer) { FactoryGirl.build(:customer) }
     before(:each) do
       visit new_customer_registration_path
     end
 
+    #TODO: Move "within" statments into shared macros or something.  THis isn't DRY.
     describe "with valid attributes" do
       it "creates new customer" do
-        within("#registrations-new") do
+        within("#new-registration") do
           # Account Information
           fill_in 'customer_username', :with => customer.username
           fill_in 'customer_email', :with => customer.email
@@ -47,7 +48,7 @@ describe "sign up" do
 
     describe "with taken username" do
       it "creates new customer" do
-        within("#registrations-new") do
+        within("#new-registration") do
           # Account Information
           fill_in 'customer_username', :with => registered_customer.username
           fill_in 'customer_email', :with => customer.email
@@ -83,7 +84,7 @@ describe "sign up" do
 
     describe "with taken email" do
       it "creates new customer" do
-        within("#registrations-new") do
+        within("#new-registration") do
           # Account Information
           fill_in 'customer_username', :with => customer.username
           fill_in 'customer_email', :with => registered_customer.email
@@ -118,8 +119,8 @@ describe "sign up" do
     end
   end
 
-  context "authenticated", :authenticated => true do
-    include_context "as authenticated customer"
+  context "as customer", :authenticated => true do
+    include_context "as customer"
 
     it "redirects to customer home" do
       visit new_customer_registration_path

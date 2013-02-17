@@ -5,9 +5,9 @@
     %h2 New Payment Method
     %dl.tabs.pill
       %dd.active
-        = link_to "Bank Account", "#bankAccount"
+        = link_to "Bank Account", "#bankAccount", :id => 'bankAccount'
       %dd
-        = link_to "Credit Card", "#creditCard"
+        = link_to "Credit Card", "#creditCard", :id => 'creditCard'
     %ul.tabs-content
       %li#bankAccountTab.active
         = render "bank_account_form"

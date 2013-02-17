@@ -2,7 +2,7 @@
 
 .row
   %h2 Edit Your Account Information
-  .eight.columns
+  .eight.columns#edit-registration
     = nested_form_for(@customer, :url => customer_registration_path, :method => :put, :html => { :class => "" }) do |f|
       %fieldset
         %legend Account Information

@@ -2,7 +2,7 @@
 
 .row
   %h2 Forgot your password?
-  .six.columns
+  .six.columns#new-password
     = form_for(@customer, :url => customer_password_path, :method => :post , :html => { :class => 'well' }) do |f|
       %fieldset
         %legend Account Information

@@ -2,7 +2,7 @@
 
 .row
   %h2 Change your password
-  .six.columns
+  .six.columns#edit-password
     = form_for(@customer, :url => customer_password_path, :method => :put , :html => { :class => '' }) do |f|
       %fieldset
         %legend Password Reset
