@@ -13,8 +13,24 @@ module OneRing
         error!('401 Unauthorized', 401) unless warden.authenticated?(:customer)
       end
 
+      def authenticate_store!
+        error!('401 Unauthorized', 401) unless warden.authenticated?(:store)
+      end
+
+      def authenticate_employee!
+        error!('401 Unauthorized', 401) unless warden.authenticated?(:employee)
+      end
+
       def current_customer
         warden.customer
+      end
+
+      def current_store
+        warden.store
+      end
+
+      def current_employee
+        warden.employee
       end
     end
 
@@ -24,67 +40,44 @@ module OneRing
         authenticate_customer!
       end      
 
-      desc "Retrieve a user's status."
-
+      desc "Check authentication."
+      # Test Verification
       get :home do
         return "Successfully authenticated."
       end
+
+      # Authentication Actions
+      desc "Logout Customer."
+      delete :logout do
+        warden.logout
+      end
+
+      # Payment Profiles
+      
     end
 
-    resource :statuses do
-=begin
-      desc "Return a public timeline."
-      get :public_timeline do
-        Status.limit(20)
-      end
-      desc "Return a personal timeline."
-      get :home_timeline do
-        authenticate!
-        current_user.statuses.limit(20)
-      end
+    desc "Store Namespace"
+    namespace :store do
+      before do
+        authenticate_store!
+      end      
 
-      desc "Return a status."
-      params do
-        requires :id, :type => Integer, :desc => "Status id."
-      end
-      get ':id' do
-        Status.find(params[:id])
-      end
+      desc "Check authentication."
+      get :home do
+        return "Successfully authenticated."
+      end      
+    end
 
-      desc "Create a status."
-      params do
-        requires :status, :type => String, :desc => "Your status."
-      end
-      post do
-        authenticate!
-        Status.create!({
-          :user => current_user,
-          :text => params[:status]
-        })
-      end
+    desc "Employee Namespace"
+    namespace :employee do
+      before do
+        authenticate_employee!
+      end      
 
-      desc "Update a status."
-      params do
-        requires :id, :type => String, :desc => "Status ID."
-        requires :status, :type => String, :desc => "Your status."
+      desc "Check authentication."
+      get :home do
+        return "Successfully authenticated."
       end
-      put ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).update({
-          :user => current_user,
-          :text => params[:status]
-        })
-      end
-
-      desc "Delete a status."
-      params do
-        requires :id, :type => String, :desc => "Status ID."
-      end
-      delete ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).destroy
-      end
-=end
     end
   end
 end

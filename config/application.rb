@@ -67,7 +67,6 @@ module Onering
     config.autoload_paths += Dir["#{config.root}/app/models/**/"]
 
     # Autoload the api directory
-#    config.paths.add "app/api", :glob => "**/*.rb"
     config.autoload_paths += Dir["#{config.root}/app/api"]
     config.autoload_paths += Dir["#{config.root}/app/api/*"]
 
