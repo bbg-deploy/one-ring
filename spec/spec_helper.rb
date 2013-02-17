@@ -17,6 +17,7 @@ Spork.prefork do
   require 'email_spec'
   require 'database_cleaner'
   
+  Dir[Rails.root.join("spec/api/**/*.rb")].each {|f| require f}
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   # Don't allow our tests to make outgoing web requests
@@ -69,7 +70,7 @@ Spork.prefork do
     config.extend FeatureSharedContexts, :type => :feature
     config.include FeatureMacros, :type => :feature
     config.include Warden::Test::Helpers, :type => :feature
-  
+
     # Global Macros & Helpers
     config.include(EmailSpec::Helpers)
     config.include(EmailSpec::Matchers)
