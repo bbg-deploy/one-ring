@@ -25,7 +25,7 @@ class CustomerObserver < ActiveRecord::Observer
     end
   end
 
-  def after_save(customer)
+  def after_create(customer)
     begin
       AdminNotificationMailer.report_new_user(customer).deliver
     rescue => e

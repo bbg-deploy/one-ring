@@ -110,9 +110,9 @@ describe CustomerObserver, :observer => true do
     end
   end
 
-  # After Save
+  # After Create
   #----------------------------------------------------------------------------
-  describe "after_save", :after_save => true do
+  describe "after_save", :after_create => true do
     it "should email Administrator" do
       Customer.observers.enable :customer_observer do
         mailer = mock
