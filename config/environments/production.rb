@@ -56,11 +56,12 @@ Onering::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
+  #TODO: Use HEROKU Environment variables to store this information
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :domain               => 'credda.com',
-    :user_name            => 'bryce.senz',
+    :user_name            => 'bryce.senz@credda.com',
     :password             => 'inshape19',
     :authentication       => 'plain',
     :enable_starttls_auto => true

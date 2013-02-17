@@ -58623,3 +58623,694 @@ Content-Transfer-Encoding: 7bit
   [1m[36m (0.0ms)[0m  [1mBEGIN[0m
   [1m[35m (1.0ms)[0m  UPDATE "stores" SET "confirmation_token" = NULL, "confirmed_at" = '2013-02-16 23:29:36.834785', "updated_at" = '2013-02-16 23:29:36.835785' WHERE "stores"."id" = 3
   [1m[36m (7.0ms)[0m  [1mCOMMIT[0m
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-17 09:11:00 +0900
+Processing by PagesController#home as HTML
+  [1m[36mCustomer Load (41.0ms)[0m  [1mSELECT "customers".* FROM "customers" [0m
+  Rendered pages/home.html.haml within layouts/application (24.0ms)
+Compiled font-face-definitions.css  (34ms)  (pid 7304)
+Compiled foundation_and_overrides.css  (9945ms)  (pid 7304)
+Compiled screen.css  (325ms)  (pid 7304)
+Compiled pages.css  (146ms)  (pid 7304)
+Compiled forms.css  (152ms)  (pid 7304)
+Compiled footer.css  (160ms)  (pid 7304)
+Compiled application.css  (11154ms)  (pid 7304)
+Compiled jquery.js  (9ms)  (pid 7304)
+Compiled jquery_ujs.js  (3ms)  (pid 7304)
+Compiled jquery-ui.js  (37ms)  (pid 7304)
+Compiled foundation/modernizr.foundation.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.placeholder.js  (5ms)  (pid 7304)
+Compiled foundation/jquery.foundation.alerts.js  (10ms)  (pid 7304)
+Compiled foundation/jquery.foundation.accordion.js  (2ms)  (pid 7304)
+Compiled foundation/jquery.foundation.buttons.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.tooltips.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.forms.js  (4ms)  (pid 7304)
+Compiled foundation/jquery.foundation.tabs.js  (4ms)  (pid 7304)
+Compiled foundation/jquery.foundation.navigation.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.topbar.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.reveal.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.orbit.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.magellan.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.joyride.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.clearing.js  (3ms)  (pid 7304)
+Compiled foundation/jquery.foundation.mediaQueryToggle.js  (2ms)  (pid 7304)
+Compiled foundation/app.js  (2ms)  (pid 7304)
+Compiled foundation/index.js  (2577ms)  (pid 7304)
+Compiled application.js  (3132ms)  (pid 7304)
+  Rendered layouts/header/_anonymous.html.haml (9.0ms)
+  Rendered layouts/header/_master.html.haml (23.0ms)
+  Rendered layouts/messages/_messages.html.haml (5.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (7.0ms)
+Completed 200 OK in 16248ms (Views: 16102.9ms | ActiveRecord: 63.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:18 +0900
+Served asset /application.css - 200 OK (70ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:18 +0900
+Served asset /font-face-definitions.css - 200 OK (9ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:18 +0900
+Served asset /foundation_and_overrides.css - 200 OK (24ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:19 +0900
+Served asset /pages.css - 200 OK (10ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:19 +0900
+Served asset /screen.css - 200 OK (25ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:19 +0900
+Served asset /forms.css - 200 OK (11ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:20 +0900
+Served asset /footer.css - 200 OK (9ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:20 +0900
+Served asset /jquery.js - 200 OK (120ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:20 +0900
+Served asset /jquery_ujs.js - 200 OK (180ms)
+
+
+Started GET "/assets/foundation/modernizr.foundation.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:21 +0900
+Served asset /foundation/modernizr.foundation.js - 200 OK (24ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.accordion.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:21 +0900
+Served asset /foundation/jquery.foundation.accordion.js - 200 OK (18ms)
+
+
+Started GET "/assets/foundation/jquery.placeholder.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:22 +0900
+Served asset /foundation/jquery.placeholder.js - 200 OK (94ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.alerts.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:22 +0900
+Served asset /foundation/jquery.foundation.alerts.js - 200 OK (13ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:22 +0900
+Served asset /jquery-ui.js - 200 OK (101ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.buttons.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:22 +0900
+Served asset /foundation/jquery.foundation.buttons.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:22 +0900
+Served asset /foundation/jquery.foundation.tooltips.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.forms.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:23 +0900
+Served asset /foundation/jquery.foundation.forms.js - 200 OK (22ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tabs.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:23 +0900
+Served asset /foundation/jquery.foundation.tabs.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.navigation.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:23 +0900
+Served asset /foundation/jquery.foundation.navigation.js - 200 OK (30ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.topbar.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:23 +0900
+Served asset /foundation/jquery.foundation.topbar.js - 200 OK (19ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.reveal.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:24 +0900
+Served asset /foundation/jquery.foundation.reveal.js - 200 OK (21ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.orbit.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:24 +0900
+Served asset /foundation/jquery.foundation.orbit.js - 200 OK (21ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.magellan.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:24 +0900
+Served asset /foundation/jquery.foundation.magellan.js - 200 OK (13ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.joyride.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:24 +0900
+Served asset /foundation/jquery.foundation.joyride.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.clearing.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:25 +0900
+Served asset /foundation/jquery.foundation.clearing.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.mediaQueryToggle.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:25 +0900
+Served asset /foundation/jquery.foundation.mediaQueryToggle.js - 200 OK (18ms)
+
+
+Started GET "/assets/foundation/app.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:25 +0900
+Served asset /foundation/app.js - 200 OK (13ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:25 +0900
+Served asset /foundation/index.js - 200 OK (65ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:25 +0900
+Served asset /application.js - 200 OK (167ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-02-17 09:11:26 +0900
+Served asset /logo-color.png - 200 OK (222ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-02-17 09:11:26 +0900
+Served asset /grey-texture-background-small.png - 200 OK (60ms)
+
+
+Started GET "/assets/cork-background.png" for 127.0.0.1 at 2013-02-17 09:11:26 +0900
+Served asset /cork-background.png - 200 OK (92ms)
+
+
+Started GET "/employee/sign_up" for 127.0.0.1 at 2013-02-17 09:11:37 +0900
+Processing by Employee::RegistrationsController#new as HTML
+  Rendered employee/shared/_authentication_links.haml (10.0ms)
+  Rendered employee/registrations/new.html.haml within layouts/application (4600.3ms)
+  Rendered layouts/header/_anonymous.html.haml (1.0ms)
+  Rendered layouts/header/_master.html.haml (5.0ms)
+  Rendered layouts/messages/_messages.html.haml (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (1.0ms)
+Completed 200 OK in 4765ms (Views: 4689.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:42 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:43 +0900
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:43 +0900
+Served asset /screen.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:43 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:43 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:43 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-17 09:11:44 +0900
+Served asset /footer.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:44 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:44 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:44 +0900
+Served asset /jquery-ui.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/modernizr.foundation.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:44 +0900
+Served asset /foundation/modernizr.foundation.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.placeholder.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:45 +0900
+Served asset /foundation/jquery.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.alerts.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:45 +0900
+Served asset /foundation/jquery.foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.accordion.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:45 +0900
+Served asset /foundation/jquery.foundation.accordion.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.buttons.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:45 +0900
+Served asset /foundation/jquery.foundation.buttons.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:45 +0900
+Served asset /foundation/jquery.foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.forms.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:46 +0900
+Served asset /foundation/jquery.foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tabs.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:46 +0900
+Served asset /foundation/jquery.foundation.tabs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.navigation.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:46 +0900
+Served asset /foundation/jquery.foundation.navigation.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.topbar.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:46 +0900
+Served asset /foundation/jquery.foundation.topbar.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.reveal.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:46 +0900
+Served asset /foundation/jquery.foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.orbit.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/jquery.foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.magellan.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/jquery.foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.joyride.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/jquery.foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.clearing.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/jquery.foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.mediaQueryToggle.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/jquery.foundation.mediaQueryToggle.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/app.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:47 +0900
+Served asset /foundation/app.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:48 +0900
+Served asset /foundation/index.js - 304 Not Modified (6ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-17 09:11:48 +0900
+Served asset /application.js - 304 Not Modified (6ms)
+
+
+Started POST "/employee" for 127.0.0.1 at 2013-02-17 09:12:57 +0900
+Processing by Employee::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"T/AHSJeABwt8cCJqm52BZaRS1eQb+r8csY13Jhh3v2A=", "employee"=>{"username"=>"demoemployee", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"bryce.senz@credda.com", "email_confirmation"=>"bryce.senz@credda.com", "first_name"=>"Bryce", "middle_name"=>"The", "last_name"=>"Best", "date_of_birth"=>"02/07/1984", "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mEmployee Exists (29.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'demoemployee' LIMIT 1[0m
+  [1m[35mEmployee Exists (1.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'bryce.senz@credda.com' LIMIT 1
+  [1m[36mEmployee Load (2.0ms)[0m  [1mSELECT "employees".* FROM "employees" WHERE "employees"."confirmation_token" = 'BAvefEKUXpGs5Mq5M61K' LIMIT 1[0m
+  [1m[35mSQL (4.0ms)[0m  INSERT INTO "employees" ("authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING "id"  [["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Sun, 17 Feb 2013 00:12:58 UTC +00:00], ["confirmation_token", "BAvefEKUXpGs5Mq5M61K"], ["confirmed_at", nil], ["created_at", Sun, 17 Feb 2013 00:12:58 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Mon, 02 Jul 1984], ["email", "bryce.senz@credda.com"], ["encrypted_password", "$2a$10$lH69sAdDznt2VgJmtni7xen95sTWvA9SR3Vrt89YTRIBewYuof9sS"], ["failed_attempts", 0], ["first_name", "Bryce"], ["last_name", "Best"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "The"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Sun, 17 Feb 2013 00:12:58 UTC +00:00], ["username", "demoemployee"]]
+  Rendered employee_authentication_mailer/confirmation_instructions.html.haml (8.0ms)
+  [1m[36m (1.0ms)[0m  [1mROLLBACK[0m
+Completed 500 Internal Server Error in 1120ms
+
+ActionView::Template::Error (Missing host to link to! Please provide the :host parameter, set default_url_options[:host], or set :only_path to true):
+    3: %p 
+    4:   You can confirm your account email through the link below:
+    5: %p
+    6:   = link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+  app/views/employee_authentication_mailer/confirmation_instructions.html.haml:6:in `_app_views_employee_authentication_mailer_confirmation_instructions_html_haml__919431366_45490524'
+  app/controllers/employee/registrations_controller.rb:18:in `create'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (5.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (4.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (70.0ms)
+
+
+Started POST "/employee" for 127.0.0.1 at 2013-02-17 09:13:37 +0900
+Processing by Employee::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"T/AHSJeABwt8cCJqm52BZaRS1eQb+r8csY13Jhh3v2A=", "employee"=>{"username"=>"demoemployee", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"bryce.senz@credda.com", "email_confirmation"=>"bryce.senz@credda.com", "first_name"=>"Bryce", "middle_name"=>"The", "last_name"=>"Best", "date_of_birth"=>"02/07/1984", "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mEmployee Exists (2.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'demoemployee' LIMIT 1[0m
+  [1m[35mEmployee Exists (1.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'bryce.senz@credda.com' LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mROLLBACK[0m
+  Rendered employee/shared/_authentication_links.haml (3.0ms)
+  Rendered employee/registrations/new.html.haml within layouts/application (21.0ms)
+  Rendered layouts/header/_anonymous.html.haml (1.0ms)
+  Rendered layouts/header/_master.html.haml (6.0ms)
+  Rendered layouts/messages/_messages.html.haml (1.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (0.0ms)
+Completed 200 OK in 207ms (Views: 91.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:37 +0900
+Served asset /application.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:37 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:38 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:38 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:38 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:38 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-17 09:13:38 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:39 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:39 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:39 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/modernizr.foundation.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:39 +0900
+Served asset /foundation/modernizr.foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.placeholder.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:39 +0900
+Served asset /foundation/jquery.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.alerts.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:40 +0900
+Served asset /foundation/jquery.foundation.alerts.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.accordion.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:40 +0900
+Served asset /foundation/jquery.foundation.accordion.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.buttons.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:40 +0900
+Served asset /foundation/jquery.foundation.buttons.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:40 +0900
+Served asset /foundation/jquery.foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.forms.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:40 +0900
+Served asset /foundation/jquery.foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tabs.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:41 +0900
+Served asset /foundation/jquery.foundation.tabs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.navigation.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:41 +0900
+Served asset /foundation/jquery.foundation.navigation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.topbar.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:41 +0900
+Served asset /foundation/jquery.foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.reveal.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:41 +0900
+Served asset /foundation/jquery.foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.orbit.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:41 +0900
+Served asset /foundation/jquery.foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.magellan.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:42 +0900
+Served asset /foundation/jquery.foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.joyride.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:42 +0900
+Served asset /foundation/jquery.foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.clearing.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:42 +0900
+Served asset /foundation/jquery.foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.mediaQueryToggle.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:42 +0900
+Served asset /foundation/jquery.foundation.mediaQueryToggle.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/app.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:42 +0900
+Served asset /foundation/app.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:43 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-17 09:13:43 +0900
+Served asset /application.js - 304 Not Modified (6ms)
+
+
+Started POST "/employee" for 127.0.0.1 at 2013-02-17 09:13:53 +0900
+Processing by Employee::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"T/AHSJeABwt8cCJqm52BZaRS1eQb+r8csY13Jhh3v2A=", "employee"=>{"username"=>"demoemployee", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"bryce.senz@credda.com", "email_confirmation"=>"bryce.senz@credda.com", "first_name"=>"Bryce", "middle_name"=>"The", "last_name"=>"Best", "date_of_birth"=>"02/07/1984", "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mEmployee Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'demoemployee' LIMIT 1[0m
+  [1m[35mEmployee Exists (2.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'bryce.senz@credda.com' LIMIT 1
+  [1m[36mEmployee Load (1.0ms)[0m  [1mSELECT "employees".* FROM "employees" WHERE "employees"."confirmation_token" = 'mCq8pZEyqY2FwLjzLTm4' LIMIT 1[0m
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "employees" ("authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING "id"  [["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Sun, 17 Feb 2013 00:13:54 UTC +00:00], ["confirmation_token", "mCq8pZEyqY2FwLjzLTm4"], ["confirmed_at", nil], ["created_at", Sun, 17 Feb 2013 00:13:54 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Mon, 02 Jul 1984], ["email", "bryce.senz@credda.com"], ["encrypted_password", "$2a$10$WdWxogOd0Crnz/hV8HtWkOC8B2xCYyeX2bwzL1odxyTLpJ9HJRmHu"], ["failed_attempts", 0], ["first_name", "Bryce"], ["last_name", "Best"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "The"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Sun, 17 Feb 2013 00:13:54 UTC +00:00], ["username", "demoemployee"]]
+  Rendered employee_authentication_mailer/confirmation_instructions.html.haml (7.0ms)
+  [1m[36m (2.0ms)[0m  [1mROLLBACK[0m
+Completed 500 Internal Server Error in 308ms
+
+ActionView::Template::Error (Missing host to link to! Please provide the :host parameter, set default_url_options[:host], or set :only_path to true):
+    3: %p 
+    4:   You can confirm your account email through the link below:
+    5: %p
+    6:   = link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+  app/views/employee_authentication_mailer/confirmation_instructions.html.haml:6:in `_app_views_employee_authentication_mailer_confirmation_instructions_html_haml__919431366_45490524'
+  app/controllers/employee/registrations_controller.rb:18:in `create'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (4.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (58.0ms)
+Connecting to database specified by database.yml
+
+
+Started POST "/employee" for 127.0.0.1 at 2013-02-17 09:22:53 +0900
+Processing by Employee::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"T/AHSJeABwt8cCJqm52BZaRS1eQb+r8csY13Jhh3v2A=", "employee"=>{"username"=>"demoemployee", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"bryce.senz@credda.com", "email_confirmation"=>"bryce.senz@credda.com", "first_name"=>"Bryce", "middle_name"=>"The", "last_name"=>"Best", "date_of_birth"=>"02/07/1984", "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mEmployee Exists (55.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'demoemployee' LIMIT 1
+  [1m[36mEmployee Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'bryce.senz@credda.com' LIMIT 1[0m
+  [1m[35mEmployee Load (2.0ms)[0m  SELECT "employees".* FROM "employees" WHERE "employees"."confirmation_token" = 'GoxokUxxEa3Hyjs35KxN' LIMIT 1
+  [1m[36mSQL (3.0ms)[0m  [1mINSERT INTO "employees" ("authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING "id"[0m  [["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Sun, 17 Feb 2013 00:22:54 UTC +00:00], ["confirmation_token", "GoxokUxxEa3Hyjs35KxN"], ["confirmed_at", nil], ["created_at", Sun, 17 Feb 2013 00:22:54 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Mon, 02 Jul 1984], ["email", "bryce.senz@credda.com"], ["encrypted_password", "$2a$10$N4YdMrpDrNB2trXgrKoL0OGVAnaIKTLnbLqq7uCU7pKk2d2OCxOgO"], ["failed_attempts", 0], ["first_name", "Bryce"], ["last_name", "Best"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "The"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Sun, 17 Feb 2013 00:22:54 UTC +00:00], ["username", "demoemployee"]]
+  Rendered employee_authentication_mailer/confirmation_instructions.html.haml (4.0ms)
+
+Sent mail to bryce.senz@credda.com (2522ms)
+Date: Sun, 17 Feb 2013 09:22:58 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <512022e280e27_1fc8342198c5956e@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>
+  Welcome bryce.senz@credda.com!
+</p>
+<p>
+  You can confirm your account email through the link below:
+</p>
+<p>
+  <a href="http://credda.com/employee/confirmation?confirmation_token=GoxokUxxEa3Hyjs35KxN">Confirm my account</a>
+</p>
+
+  [1m[35m (1.0ms)[0m  ROLLBACK
+Completed 500 Internal Server Error in 7107ms
+
+Net::SMTPAuthenticationError (535-5.7.1 Username and Password not accepted. Learn more at
+):
+  app/controllers/employee/registrations_controller.rb:18:in `create'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (37.0ms)
+Connecting to database specified by database.yml
+
+
+Started POST "/employee" for 127.0.0.1 at 2013-02-17 09:28:13 +0900
+Processing by Employee::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"T/AHSJeABwt8cCJqm52BZaRS1eQb+r8csY13Jhh3v2A=", "employee"=>{"username"=>"demoemployee", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "email"=>"bryce.senz@credda.com", "email_confirmation"=>"bryce.senz@credda.com", "first_name"=>"Bryce", "middle_name"=>"The", "last_name"=>"Best", "date_of_birth"=>"02/07/1984", "terms_agreement"=>"1"}, "commit"=>"Sign up"}
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mEmployee Exists (24.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'demoemployee' LIMIT 1
+  [1m[36mEmployee Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'bryce.senz@credda.com' LIMIT 1[0m
+  [1m[35mEmployee Load (1.0ms)[0m  SELECT "employees".* FROM "employees" WHERE "employees"."confirmation_token" = 'zboYx9e7Y53bHwajfueq' LIMIT 1
+  [1m[36mSQL (4.0ms)[0m  [1mINSERT INTO "employees" ("authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING "id"[0m  [["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Sun, 17 Feb 2013 00:28:15 UTC +00:00], ["confirmation_token", "zboYx9e7Y53bHwajfueq"], ["confirmed_at", nil], ["created_at", Sun, 17 Feb 2013 00:28:15 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Mon, 02 Jul 1984], ["email", "bryce.senz@credda.com"], ["encrypted_password", "$2a$10$HGQP9Oe3yCrGJrISBMxY1.7rXiRgd.DhiYp.wul88susONNI3Mo9m"], ["failed_attempts", 0], ["first_name", "Bryce"], ["last_name", "Best"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "The"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Sun, 17 Feb 2013 00:28:15 UTC +00:00], ["username", "demoemployee"]]
+  Rendered employee_authentication_mailer/confirmation_instructions.html.haml (4.0ms)
+
+Sent mail to bryce.senz@credda.com (3906ms)
+Date: Sun, 17 Feb 2013 09:28:19 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <512024231a2ef_155831e69c026723@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>
+  Welcome bryce.senz@credda.com!
+</p>
+<p>
+  You can confirm your account email through the link below:
+</p>
+<p>
+  <a href="http://credda.com/employee/confirmation?confirmation_token=zboYx9e7Y53bHwajfueq">Confirm my account</a>
+</p>
+
+  [1m[35m (3.0ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 8345ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-02-17 09:28:22 +0900
+Processing by PagesController#home as HTML
+  [1m[36mCustomer Load (6.0ms)[0m  [1mSELECT "customers".* FROM "customers" [0m
+  Rendered pages/home.html.haml within layouts/application (13.0ms)
+  Rendered layouts/header/_anonymous.html.haml (5.0ms)
+  Rendered layouts/header/_master.html.haml (12.0ms)
+  Rendered layouts/messages/_messages.html.haml (6.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.haml (7.0ms)
+Completed 200 OK in 551ms (Views: 469.0ms | ActiveRecord: 10.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:23 +0900
+Served asset /application.css - 304 Not Modified (98ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:24 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (4ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:24 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (14ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:24 +0900
+Served asset /screen.css - 304 Not Modified (14ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:24 +0900
+Served asset /pages.css - 304 Not Modified (7ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:24 +0900
+Served asset /forms.css - 304 Not Modified (32ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-02-17 09:28:25 +0900
+Served asset /footer.css - 304 Not Modified (5ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:25 +0900
+Served asset /jquery.js - 304 Not Modified (35ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:25 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (20ms)
+
+
+Started GET "/assets/foundation/modernizr.foundation.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:25 +0900
+Served asset /foundation/modernizr.foundation.js - 304 Not Modified (24ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:26 +0900
+Served asset /jquery-ui.js - 304 Not Modified (34ms)
+
+
+Started GET "/assets/foundation/jquery.placeholder.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:26 +0900
+Served asset /foundation/jquery.placeholder.js - 304 Not Modified (17ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.alerts.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:26 +0900
+Served asset /foundation/jquery.foundation.alerts.js - 304 Not Modified (21ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.accordion.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:27 +0900
+Served asset /foundation/jquery.foundation.accordion.js - 304 Not Modified (113ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.buttons.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:27 +0900
+Served asset /foundation/jquery.foundation.buttons.js - 304 Not Modified (17ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:27 +0900
+Served asset /foundation/jquery.foundation.tooltips.js - 304 Not Modified (15ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.forms.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:27 +0900
+Served asset /foundation/jquery.foundation.forms.js - 304 Not Modified (19ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.tabs.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:27 +0900
+Served asset /foundation/jquery.foundation.tabs.js - 304 Not Modified (18ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.navigation.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:28 +0900
+Served asset /foundation/jquery.foundation.navigation.js - 304 Not Modified (18ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.topbar.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:28 +0900
+Served asset /foundation/jquery.foundation.topbar.js - 304 Not Modified (13ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.reveal.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:28 +0900
+Served asset /foundation/jquery.foundation.reveal.js - 304 Not Modified (95ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.orbit.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:28 +0900
+Served asset /foundation/jquery.foundation.orbit.js - 304 Not Modified (20ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.magellan.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:28 +0900
+Served asset /foundation/jquery.foundation.magellan.js - 304 Not Modified (24ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.joyride.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:29 +0900
+Served asset /foundation/jquery.foundation.joyride.js - 304 Not Modified (17ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.clearing.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:29 +0900
+Served asset /foundation/jquery.foundation.clearing.js - 304 Not Modified (18ms)
+
+
+Started GET "/assets/foundation/jquery.foundation.mediaQueryToggle.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:29 +0900
+Served asset /foundation/jquery.foundation.mediaQueryToggle.js - 304 Not Modified (15ms)
+
+
+Started GET "/assets/foundation/app.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:29 +0900
+Served asset /foundation/app.js - 304 Not Modified (16ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:30 +0900
+Served asset /foundation/index.js - 304 Not Modified (164ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-02-17 09:28:30 +0900
+Served asset /application.js - 304 Not Modified (181ms)

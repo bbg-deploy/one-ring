@@ -29,7 +29,7 @@ class CustomerObserver < ActiveRecord::Observer
     begin
       AdminNotificationMailer.report_new_user(customer).deliver
     rescue => e
-      puts "AdminNotificationMailer error.  New user email not sent."
+      puts "AdminNotificationMailer error.  New customer email not sent."
     end
   end
 end
