@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "sign in" do
-  context "anonymous", :anonymous => true do
-    include_context "as anonymous visitor"
+  context "as anonymous", :anonymous => true do
+    include_context "as anonymous"
     let(:customer) { FactoryGirl.create(:customer) }
     before(:each) do
       visit new_customer_session_path
@@ -11,7 +11,7 @@ describe "sign in" do
     context "as uncomfirmed" do
       context "with valid credentials" do
         it "reloads sign-in page" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => customer.password
             click_button 'Sign in'
@@ -19,7 +19,7 @@ describe "sign in" do
           current_path.should eq(new_customer_session_path)
         end
         it "displays unconfirmed error message" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => customer.password
             click_button 'Sign in'
@@ -35,7 +35,7 @@ describe "sign in" do
         end
         
         it "reloads sign-in page" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -43,7 +43,7 @@ describe "sign in" do
           current_path.should eq(new_customer_session_path)
         end
         it "displays unconfirmed error message" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -66,7 +66,7 @@ describe "sign in" do
           customer.access_locked?.should be_true
         end
         it "logs in customer" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => customer.password
             click_button 'Sign in'
@@ -76,7 +76,7 @@ describe "sign in" do
       end
       context "with invalid credentials" do
         it "reloads sign-in page" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -84,7 +84,7 @@ describe "sign in" do
           current_path.should eq(new_customer_session_path)
         end
         it "displays unconfirmed error message" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -102,7 +102,7 @@ describe "sign in" do
       end
       context "with valid credentials" do
         it "logs in customer with username" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.username
             fill_in 'customer_password', :with => customer.password
             click_button 'Sign in'
@@ -111,7 +111,7 @@ describe "sign in" do
         end      
 
         it "logs in customer with email" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => customer.password
             click_button 'Sign in'
@@ -121,7 +121,7 @@ describe "sign in" do
       end
       context "with invalid credentials" do
         it "reloads sign-in page" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -129,7 +129,7 @@ describe "sign in" do
           current_path.should eq(new_customer_session_path)
         end
         it "displays unconfirmed error message" do
-          within("#customer-new-session") do
+          within("#new-session") do
             fill_in 'customer_login', :with => customer.email
             fill_in 'customer_password', :with => "incorrect"
             click_button 'Sign in'
@@ -142,8 +142,8 @@ describe "sign in" do
     end
   end
   
-  context "authenticated", :authenticated => true do
-    include_context "as authenticated customer"
+  context "as customer", :authenticated => true do
+    include_context "as customer"
 
     it "redirects to customer home" do
       visit new_customer_session_path

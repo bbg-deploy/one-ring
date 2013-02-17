@@ -66,6 +66,7 @@ Spork.prefork do
     config.include Devise::TestHelpers, :type => :controller
   
     # For Features
+    config.extend FeatureSharedContexts, :type => :feature
     config.include FeatureMacros, :type => :feature
     config.include Warden::Test::Helpers, :type => :feature
   
@@ -75,7 +76,7 @@ Spork.prefork do
     config.include(MailerMacros)
     config.include(WebmockMacros)
     config.include(GarbageCollection)
-    
+      
     config.before(:suite) do
       DatabaseCleaner.strategy = :transaction
       DatabaseCleaner.clean_with(:truncation)

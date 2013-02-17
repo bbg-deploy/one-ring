@@ -24,4 +24,12 @@
           = link_to "Edit Account Info", edit_customer_registration_path, :class => 'button radius'
   .four.columns
     %h3 Payment Profiles
+    - current_customer.payment_profiles.each do |payment_profile|
+      .panel
+        %p
+          = "Name: #{payment_profile.name}"
+        %p
+          = "Last Four Digits: #{payment_profile.last_four_digits}"
+        %p
+          = "Type: #{payment_profile.payment_type}"
     = link_to "Add Payment Profile", new_customer_payment_profile_path, :class => "button radius"

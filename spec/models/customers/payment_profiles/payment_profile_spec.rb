@@ -131,10 +131,17 @@ describe PaymentProfile do
   # Behavior
   #----------------------------------------------------------------------------
   describe "behavior", :behavior => true do
+    describe "name" do
+      it "returns name" do
+        payment_profile = FactoryGirl.build(:payment_profile, :first_name => "Bob", :last_name => "Loblaw")
+        payment_profile.name.should eq("Bob Loblaw")
+      end
+    end
+    
     describe "set_last_four_digits" do
       context "with bank_account" do
         let(:bank_account) { FactoryGirl.build(:bank_account, :account_number => "112233445566") }
-        let(:payment_profile) { FactoryGirl.build(:payment_profile, :payment_type => "bank_account")}
+        let(:payment_profile) { FactoryGirl.build(:payment_profile, :payment_type => "bank_account") }
 
         it "should set last_four_digits" do
           payment_profile.bank_account = bank_account

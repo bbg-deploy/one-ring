@@ -36,6 +36,10 @@ class PaymentProfile < ActiveRecord::Base
   validates :last_four_digits, :presence => true, :length => { :is => 4 }
   validate :has_payment_method, :on => :create
   
+  def name
+    return "#{self.first_name} #{self.last_name}"
+  end
+
   def authorize_net_billing_details
     return {
       :first_name => self.first_name,
