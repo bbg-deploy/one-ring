@@ -15,7 +15,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: credda_sso_development
+  database: credda_onering_development
   pool: 5
   username: postgres
   password: inshape19
@@ -42,7 +42,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: credda_sso_test
+  database: credda_onering_test
   pool: 5
   username: postgres
   password: inshape19
@@ -51,7 +51,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: credda_sso_production
+  database: credda_onering_production
   pool: 5
   username: postgres
   password: inshape19

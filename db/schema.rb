@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "clients", ["app_id"], :name => "index_clients_on_app_id", :unique => true
 
   create_table "customers", :force => true do |t|
+    t.string   "account_number",                          :null => false
     t.string   "username",                :default => "", :null => false
     t.string   "email",                   :default => "", :null => false
     t.string   "encrypted_password",      :default => "", :null => false
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "updated_at",                              :null => false
   end
 
+  add_index "customers", ["account_number"], :name => "index_customers_on_account_number", :unique => true
   add_index "customers", ["authentication_token"], :name => "index_customers_on_authentication_token", :unique => true
   add_index "customers", ["cim_customer_profile_id"], :name => "index_customers_on_cim_customer_profile_id", :unique => true
   add_index "customers", ["confirmation_token"], :name => "index_customers_on_confirmation_token", :unique => true
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "employee_roles", ["name"], :name => "index_employee_roles_on_name"
 
   create_table "employees", :force => true do |t|
+    t.string   "account_number",                         :null => false
     t.string   "username",               :default => "", :null => false
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -122,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "updated_at",                             :null => false
   end
 
+  add_index "employees", ["account_number"], :name => "index_employees_on_account_number", :unique => true
   add_index "employees", ["authentication_token"], :name => "index_employees_on_authentication_token", :unique => true
   add_index "employees", ["confirmation_token"], :name => "index_employees_on_confirmation_token", :unique => true
   add_index "employees", ["email"], :name => "index_employees_on_email", :unique => true
@@ -164,6 +168,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
 
   create_table "stores", :force => true do |t|
     t.integer  "organization_id"
+    t.string   "account_number",                                 :null => false
     t.string   "username",                       :default => "", :null => false
     t.string   "email",                          :default => "", :null => false
     t.string   "encrypted_password",             :default => "", :null => false
@@ -190,6 +195,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "updated_at",                                     :null => false
   end
 
+  add_index "stores", ["account_number"], :name => "index_stores_on_account_number", :unique => true
   add_index "stores", ["authentication_token"], :name => "index_stores_on_authentication_token", :unique => true
   add_index "stores", ["confirmation_token"], :name => "index_stores_on_confirmation_token", :unique => true
   add_index "stores", ["email"], :name => "index_stores_on_email", :unique => true

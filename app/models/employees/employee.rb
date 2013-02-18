@@ -25,6 +25,8 @@ class Employee < ActiveRecord::Base
 
   # Validations
   #----------------------------------------------------------------------------
+  before_validation :generate_account_number, :on => :create
+  validates :account_number, :presence => true, :uniqueness => true
   validates :email, :credda_email => true
   validates :first_name, :presence => true, :name_format => true
   validates :middle_name, :name_format => true
@@ -43,4 +45,12 @@ class Employee < ActiveRecord::Base
   end
 
   private
+  def generate_account_number
+    if self.account_number.nil?
+      begin
+        token = 'UEM' + SecureRandom.hex(5).upcase
+      end if Employee.where({:account_number => token}).empty?
+      self.account_number = token
+    end
+  end
 end

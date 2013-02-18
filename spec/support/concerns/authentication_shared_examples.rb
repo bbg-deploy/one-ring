@@ -1,7 +1,7 @@
 module AuthenticationSharedExamples
   shared_examples_for "devise authenticatable" do |factory|
     let(:user) do
-      user = FactoryGirl.build(factory)
+      user = FactoryGirl.create(factory)
       user.confirm!
       user.reload
     end
@@ -54,7 +54,7 @@ module AuthenticationSharedExamples
 
   shared_examples_for "devise recoverable" do |factory|
     let(:user) do
-      user = FactoryGirl.build(factory)
+      user = FactoryGirl.create(factory)
       user.confirm!
       user.reload
     end
@@ -133,7 +133,7 @@ module AuthenticationSharedExamples
 
   shared_examples_for "devise lockable" do |factory|
     let(:user) do
-      user = FactoryGirl.build(factory)
+      user = FactoryGirl.create(factory)
       user.confirm!
       user.lock_access!
       user.reload
@@ -230,7 +230,7 @@ module AuthenticationSharedExamples
 
   shared_examples_for "devise rememberable" do |factory|
     let(:user) do 
-      user = FactoryGirl.build(factory)
+      user = FactoryGirl.create(factory)
       user.confirm!
       user.reload
     end
@@ -263,7 +263,7 @@ module AuthenticationSharedExamples
 
   shared_examples_for "devise timeoutable" do |factory|
     let(:user) do 
-      user = FactoryGirl.build(factory)
+      user = FactoryGirl.create(factory)
       user.confirm!
       user.reload
     end
@@ -284,7 +284,7 @@ module AuthenticationSharedExamples
   end
 
   shared_examples_for "devise confirmable" do |factory|
-    let(:user) { FactoryGirl.build(factory) }
+    let(:user) { FactoryGirl.create(factory) }
     before(:all) do
       # Confirmable Configuration
       reconfirmable ||= true

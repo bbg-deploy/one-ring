@@ -9,7 +9,7 @@ FactoryGirl.define do
       with_phone_number   true
       phone_number_factory :phone_number
     end
-
+    
     sequence(:username) { |n| "customer_#{n}" }
     password "fakepass"
     password_confirmation { password }

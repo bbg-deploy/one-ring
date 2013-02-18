@@ -38,6 +38,8 @@ class Customer < ActiveRecord::Base
 
   # Validations
   #----------------------------------------------------------------------------
+  before_validation :generate_account_number, :on => :create
+  validates :account_number, :presence => true, :uniqueness => true
   validates :email, :not_credda_email => true
   validates :first_name, :presence => true, :name_format => true
   validates :middle_name, :name_format => true
@@ -57,11 +59,22 @@ class Customer < ActiveRecord::Base
   # Methods
   #----------------------------------------------------------------------------
   public
-  # Views Helpers (Probably should go in a helpers file)
-  #----------------------------------------------------
   def name
     return "#{self.first_name} #{self.last_name}"
   end
 
   private
+  # Digests the password using bcrypt.
+  # def password_digest(password)
+  #      ::BCrypt::Password.create("#{password}#{self.class.pepper}", :cost => self.class.stretches).to_s
+  # end
+
+  def generate_account_number
+    if self.account_number.nil?
+      begin
+        token = 'UCU' + SecureRandom.hex(5).upcase
+      end if Customer.where({:account_number => token}).empty?
+      self.account_number = token
+    end
+  end
 end

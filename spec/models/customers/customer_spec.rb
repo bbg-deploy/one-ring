@@ -55,6 +55,8 @@ describe Customer do
   #----------------------------------------------------------------------------
   describe "database", :database => true do
     # Account Information
+    it { should have_db_column(:account_number) }
+    it { should have_db_index(:account_number) }
     it { should have_db_column(:username) }
     it { should have_db_index(:username) }
     it { should have_db_column(:email) }
@@ -156,6 +158,20 @@ describe Customer do
     before(:each) do
       attributes = FactoryGirl.build(:customer_attributes_hash)
       customer = Customer.create!(attributes) 
+    end
+
+    describe "account_number" do
+      it { should validate_uniqueness_of(:account_number) }
+
+      it "should not be nil" do
+        customer = FactoryGirl.create(:customer)
+        customer.account_number.should_not be_nil
+      end
+
+      it "should start with 'UCU'" do
+        customer = FactoryGirl.create(:customer)
+        customer.account_number.start_with?('UCU').should be_true
+      end
     end
 
     describe "username" do

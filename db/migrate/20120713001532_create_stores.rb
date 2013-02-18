@@ -4,6 +4,9 @@ class CreateStores < ActiveRecord::Migration
       # Belongs to organization
       t.references :organization
 
+      ## Unique Account Number
+      t.string :account_number,     :null => false
+
       ## Strings to capture user names
       t.string :username,           :null => false, :default => ""
 
@@ -49,6 +52,7 @@ class CreateStores < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :stores, :account_number,       :unique => true
     add_index :stores, :username,             :unique => true
     add_index :stores, :email,                :unique => true
     add_index :stores, :reset_password_token, :unique => true

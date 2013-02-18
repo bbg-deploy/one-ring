@@ -37,6 +37,8 @@ class Store < ActiveRecord::Base
   # Validate fields before saving them to the DB
   # Custom Validators are found in lib/validators
   #----------------------------------------------------  
+  before_validation :generate_account_number, :on => :create
+  validates :account_number, :presence => true, :uniqueness => true
   validates :email, :not_credda_email => true
   validates :name, :presence => true
   validates :employer_identification_number, :presence => true,
@@ -55,4 +57,12 @@ class Store < ActiveRecord::Base
   # Private Methods
   #----------------------------------------------------------------------------
   private
+  def generate_account_number
+    if self.account_number.nil?
+      begin
+        token = 'UST' + SecureRandom.hex(5).upcase
+      end if Store.where({:account_number => token}).empty?
+      self.account_number = token
+    end
+  end
 end

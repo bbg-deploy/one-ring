@@ -1,6 +1,9 @@
 class CreateEmployees < ActiveRecord::Migration
   def change
     create_table(:employees) do |t|
+      ## Unique Account Number
+      t.string :account_number,     :null => false
+
       ## Strings to capture user names
       t.string :username,           :null => false, :default => ""
 
@@ -48,6 +51,7 @@ class CreateEmployees < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :employees, :account_number,       :unique => true
     add_index :employees, :username,             :unique => true
     add_index :employees, :email,                :unique => true
     add_index :employees, :reset_password_token, :unique => true

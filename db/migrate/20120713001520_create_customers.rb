@@ -1,6 +1,9 @@
 class CreateCustomers < ActiveRecord::Migration
   def change
     create_table(:customers) do |t|
+      ## Unique Account Number
+      t.string :account_number,     :null => false
+
       ## Strings to capture user names
       t.string :username,           :null => false, :default => ""
 
@@ -52,6 +55,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :customers, :account_number,           :unique => true
     add_index :customers, :username,                 :unique => true
     add_index :customers, :email,                    :unique => true
     add_index :customers, :reset_password_token,     :unique => true

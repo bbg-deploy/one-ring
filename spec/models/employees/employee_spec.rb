@@ -27,6 +27,8 @@ describe Employee do
   #----------------------------------------------------------------------------
   describe "database", :database => true do
     # Account Information
+    it { should have_db_column(:account_number) }
+    it { should have_db_index(:account_number) }
     it { should have_db_column(:username) }
     it { should have_db_index(:username) }
     it { should have_db_column(:email) }
@@ -79,6 +81,20 @@ describe Employee do
     before(:each) do
       attributes = FactoryGirl.build(:employee_attributes_hash)
       employee = Employee.create!(attributes) 
+    end
+
+    describe "account_number" do
+      it { should validate_uniqueness_of(:account_number) }
+
+      it "should not be nil" do
+        employee = FactoryGirl.create(:employee)
+        employee.account_number.should_not be_nil
+      end
+
+      it "should start with 'UEM'" do
+        employee = FactoryGirl.create(:employee)
+        employee.account_number.start_with?('UEM').should be_true
+      end
     end
 
     describe "username" do
