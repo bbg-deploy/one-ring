@@ -51,4 +51,47 @@ describe Customer::AuthController do
       it { should_not set_the_flash }
     end
   end
+
+  describe "#access_token", :authorize => true do
+    context "as unauthenticated customer" do
+      include_context "as unauthenticated customer"
+      
+      context "with invalid id and secret" do
+        let(:client) { FactoryGirl.create(:client) }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => SecureRandom.hex, :format => 'html'
+        end
+  
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+      end
+
+      context "with valid id and secret" do
+        let(:client) { FactoryGirl.create(:client) }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :format => 'html'
+        end
+  
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+      end
+    end
+
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
+      let(:client) { FactoryGirl.create(:client) }
+    end
+  end
 end
