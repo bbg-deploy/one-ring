@@ -32,13 +32,10 @@ class AccessGrant < ActiveRecord::Base
   end
 
   def redirect_uri_for(redirect_uri)
-    #TODO: what was 'state' supposed to accomplish?
     if redirect_uri =~ /\?/
-#      redirect_uri + "&code=#{code}&response_type=code&state=#{state}"
-      redirect_uri + "&code=#{code}&response_type=code"
+      redirect_uri + "&code=#{self.code}&response_type=code&state=#{self.state}"
     else
-#      redirect_uri + "?code=#{code}&response_type=code&state=#{state}"
-      redirect_uri + "?code=#{code}&response_type=code"
+      redirect_uri + "?code=#{self.code}&response_type=code&state=#{self.state}"
     end
   end
 
