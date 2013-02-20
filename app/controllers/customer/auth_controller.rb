@@ -5,16 +5,14 @@ class Customer::AuthController < Customer::ApplicationController
   #TODO: re-evaluate this; maybe this is how I controll access for each client?
   skip_authorization_check
 
-  def welcome
-    render :text => "Hiya!"
-  end
-
+  # GET /authorize
   def authorize
     AccessGrant.prune!
     access_grant = current_customer.access_grants.create({:client => application, :state => params[:state]}, :without_protection => true)
     redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
   end
 
+  # GET /access_token
   def access_token
     application = Client.authenticate(params[:client_id], params[:client_secret])
 
