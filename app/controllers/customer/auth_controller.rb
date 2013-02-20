@@ -2,14 +2,16 @@ class Customer::AuthController < Customer::ApplicationController
   before_filter :authenticate_customer!, :except => [:access_token]
   skip_before_filter :verify_authenticity_token, :only => [:access_token]
 
+  #TODO: re-evaluate this; maybe this is how I controll access for each client?
+  skip_authorization_check
+
   def welcome
-    render :text => "Hiya! #{current_customer.first_name} #{current_customer.last_name}"
+    render :text => "Hiya!"
   end
 
   def authorize
-    #TODO: What is this all about?
     AccessGrant.prune!
-    access_grant = current_user.access_grants.create({:client => application, :state => params[:state]}, :without_protection => true)
+    access_grant = current_customer.access_grants.create({:client => application, :state => params[:state]}, :without_protection => true)
     redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
   end
 
@@ -35,16 +37,16 @@ class Customer::AuthController < Customer::ApplicationController
     render :text => "ERROR: #{params[:message]}"
   end
 
-  def user
+  def customer
     hash = {
-      :provider => 'josh_id',
-      :id => current_user.id.to_s,
+      :provider => 'credda',
+      :id => current_customer.id.to_s,
       :info => {
-         :email      => current_user.email,
+         :email      => current_customer.email,
       },
       :extra => {
-         :first_name => current_user.first_name,
-         :last_name  => current_user.last_name
+         :first_name => current_customer.first_name,
+         :last_name  => current_customer.last_name
       }
     }
 
@@ -55,7 +57,7 @@ class Customer::AuthController < Customer::ApplicationController
   # This will be called ONLY if the user is authenticated and token is valid
   # Extend the UserManager session
   def isalive
-    warden.set_user(current_user, :scope => :user)
+    warden.set_user(current_customer, :scope => :customer)
     response = { 'status' => 'ok' }
 
     respond_to do |format|
@@ -64,9 +66,7 @@ class Customer::AuthController < Customer::ApplicationController
   end
 
   protected
-
   def application
     @application ||= Client.find_by_app_id(params[:client_id])
   end
-
 end

@@ -16,6 +16,10 @@ class Customer < ActiveRecord::Base
     CustomerAuthenticationMailer
   end
 
+  # Associations - Omniauth
+  #----------------------------------------------------------------------------
+  has_many :access_grants, :as => :accessible, :dependent => :destroy
+
   # Associations - Contact Information
   #----------------------------------------------------------------------------
   has_one :mailing_address, :as => :addressable, :class_name => 'Address', 

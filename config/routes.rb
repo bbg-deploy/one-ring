@@ -13,6 +13,13 @@ Onering::Application.routes.draw do
   namespace :customer do
     root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods"
+
+    # OmniAuth Provider paths
+    #-----------------------------------------------------------------
+    match '/auth/authorize' => 'auth#authorize'
+    match '/auth/access_token' => 'auth#access_token'
+    match '/auth/customer' => 'auth#customer'
+    match '/oauth/token' => 'auth#access_token'
   end
 
   # Store Namespace

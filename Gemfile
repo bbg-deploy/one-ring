@@ -56,7 +56,7 @@ end
 gem 'grape', '~> 0.2.6'
 #gem 'doorkeeper', '~> 0.6.7'
 
-# Authentication
+# Authentication & SSO
 gem 'devise', '>= 2.2.3'
 
 # Authorization & Role Management

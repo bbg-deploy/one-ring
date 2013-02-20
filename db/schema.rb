@@ -13,6 +13,18 @@
 
 ActiveRecord::Schema.define(:version => 20130205053546) do
 
+  create_table "access_grants", :force => true do |t|
+    t.integer  "accessible_id",           :null => false
+    t.string   "accessible_type",         :null => false
+    t.integer  "client_id",               :null => false
+    t.string   "code"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.datetime "access_token_expires_at"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
   create_table "addresses", :force => true do |t|
     t.integer  "addressable_id",                   :null => false
     t.string   "addressable_type",                 :null => false
