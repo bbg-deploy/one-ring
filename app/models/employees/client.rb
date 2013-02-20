@@ -1,7 +1,12 @@
 class Client < ActiveRecord::Base
   include ActiveModel::Validations
 
+  # Associations
+  #----------------------------------------------------------------------------
+  has_many :access_grants, :dependent => :destroy
 
+  # Mass Assignment Attributes
+  #----------------------------------------------------------------------------
   attr_accessible :name, :app_id, :app_id_confirmation
 
   # Validations

@@ -1,9 +1,24 @@
 class AccessGrant < ActiveRecord::Base
+  include ActiveModel::Validations
+
+  # Associations
+  #----------------------------------------------------------------------------
   belongs_to :accessible, :polymorphic => true
   belongs_to :client
+
+  # Mass Assignment Attributes
+  #----------------------------------------------------------------------------
+  attr_accessible :accessible, :client
+
+  # Validations
+  #----------------------------------------------------------------------------
+  validate :accessible, :presence => true, :immutable => true
+  validate :client, :presence => true, :immutable => true
   before_create :generate_tokens
 
-
+  # Public Methods
+  #----------------------------------------------------------------------------
+  public
   def self.prune!
     delete_all(["created_at < ?", 3.days.ago])
   end
@@ -17,10 +32,13 @@ class AccessGrant < ActiveRecord::Base
   end
 
   def redirect_uri_for(redirect_uri)
+    #TODO: what was 'state' supposed to accomplish?
     if redirect_uri =~ /\?/
-      redirect_uri + "&code=#{code}&response_type=code&state=#{state}"
+#      redirect_uri + "&code=#{code}&response_type=code&state=#{state}"
+      redirect_uri + "&code=#{code}&response_type=code"
     else
-      redirect_uri + "?code=#{code}&response_type=code&state=#{state}"
+#      redirect_uri + "?code=#{code}&response_type=code&state=#{state}"
+      redirect_uri + "?code=#{code}&response_type=code"
     end
   end
 
