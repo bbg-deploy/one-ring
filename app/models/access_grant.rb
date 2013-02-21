@@ -12,8 +12,8 @@ class AccessGrant < ActiveRecord::Base
 
   # Validations
   #----------------------------------------------------------------------------
-  validate :accessible, :presence => true, :immutable => true
-  validate :client, :presence => true, :immutable => true
+  validates :accessible, :presence => true, :immutable => true
+  validates :client, :presence => true, :immutable => true
   before_create :generate_tokens
 
   # Public Methods

@@ -18,25 +18,28 @@ describe AccessGrant do
     it { should have_db_column(:accessible_type) }
     it { should have_db_column(:client_id) }
     it { should have_db_column(:code) }
+    it { should have_db_column(:access_token) }
+    it { should have_db_column(:refresh_token) }
+    it { should have_db_column(:access_token_expires_at) }
   end
 
   # Associations
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do
     describe "accessible" do
-#      it_behaves_like "immutable polymorphic", :access_grant, :accessible
+      it_behaves_like "immutable polymorphic", :access_grant, :accessible
       it { should belong_to(:accessible) }
     end    
 
     describe "client" do
-#      it_behaves_like "immutable belongs_to", :access_grant, :client
+      it_behaves_like "immutable belongs_to", :access_grant, :client
       it { should belong_to(:client) }
     end    
   end
 
   # Attributes
   #----------------------------------------------------------------------------
-  describe "attributes", :attributes => true do
+  describe "attributes", :attributes => true do    
     describe "accessible" do
       it { should allow_mass_assignment_of(:accessible) }
       it { should validate_presence_of(:accessible) }
@@ -87,12 +90,13 @@ describe AccessGrant do
       end
     end
 
-    describe "self.authenticate" do
+    describe "self.authenticate", :failing => true do
+      let(:client) { FactoryGirl.create(:client) }
       let(:access_grant) { FactoryGirl.create(:access_grant) }
       it "should append correct data" do
-        uri = "www.google.com"
-        redirect = access_grant.redirect_uri_for(uri)
-        redirect.should eq("www.google.com?code=#{access_grant.code}&response_type=code")
+        client.reload
+        redirect = access_grant.redirect_uri_for(client.app_id)
+        redirect.should eq("#{client.redirect_uri}?code=#{access_grant.code}&response_type=code&state=")
       end
     end
     

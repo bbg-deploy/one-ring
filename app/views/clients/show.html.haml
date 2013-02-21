@@ -22,6 +22,4 @@
     .three.columns
       = link_to "Edit Client Info", edit_client_path(@client), :class => 'button radius'
     .three.columns
-      = link_to 'Test Authorization (Doorkeeper)', oauth_authorization_path(:client_id => @client.app_id, :redirect_uri => @client.redirect_uri, :response_type => 'code' ), :class => 'button radius'
-    .three.columns
-      = link_to 'Test Authorization', customer_authorization_path(:client_id => @client.app_id, :redirect_uri => @client.redirect_uri, :response_type => 'code' ), :class => 'button radius'
+      = link_to 'Test Customer Authorization', customer_authorization_path(:client_id => @client.app_id, :redirect_uri => @client.redirect_uri, :response_type => 'code' ), :class => 'button radius'

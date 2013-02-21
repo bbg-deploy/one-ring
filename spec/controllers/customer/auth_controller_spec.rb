@@ -4,28 +4,21 @@ describe Customer::AuthController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do
-    it "is a pending example"
-#    it { should route(:get, "/customer/sign_up").to(:action => :new) }
-#    it { should route(:post, "/customer").to(:action => :create) }
-#    it { should route(:get, "/customer/edit").to(:action => :edit) }
-#    it { should route(:put, "/customer").to(:action => :update) }
-#    it { should route(:delete, "/customer").to(:action => :destroy) }
-#    it { should route(:get, "/customer/cancel").to(:action => :cancel) }
+    it { should route(:get, "/customer/oauth/authorize").to(:action => :authorize) }
+    it { should route(:get, "/customer/oauth/access_token").to(:action => :access_token) }
   end
 
   describe "#authorize", :authorize => true do
     context "as unauthenticated customer" do
       include_context "as unauthenticated customer"
       let(:client) { FactoryGirl.create(:client) }
-      let(:redirect_uri) { "/customer/auth" }
       
       before(:each) do
-        get :authorize, :client_id => client.app_id, :redirect_uri => redirect_uri, :state => 'test', :format => 'html'
+        get :authorize, :client_id => client.app_id, :state => 'test', :format => 'html'
         @access_grant = AccessGrant.last
       end
 
       # Response
-      it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to new_customer_session_path }
 
@@ -36,23 +29,22 @@ describe Customer::AuthController do
     context "as authenticated customer" do
       include_context "as authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
-      let(:redirect_uri) { "/customer/auth" }
 
       before(:each) do
-        get :authorize, :client_id => client.app_id, :redirect_uri => redirect_uri, :state => 'test', :format => 'html'
+        get :authorize, :client_id => client.app_id, :state => 'test', :format => 'html'
         @access_grant = AccessGrant.last
       end
 
       # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to("http://test.host/customer/auth?code=#{@access_grant.code}&response_type=code&state=test") }
+      it { should respond_with(:redirect) }
+      it { should redirect_to("#{client.redirect_uri}?code=#{@access_grant.code}&response_type=code&state=test") }
 
       # Content
       it { should_not set_the_flash }
     end
   end
 
-  describe "#access_token", :authorize => true do
+  describe "#access_token", :access_token => true do
     context "as unauthenticated customer" do
       include_context "as unauthenticated customer"
       
@@ -64,7 +56,6 @@ describe Customer::AuthController do
         end
   
         # Response
-        it { should_not assign_to(:customer) }
         it { should respond_with(:success) }
         it { should respond_with_content_type(:json) }
   
@@ -83,7 +74,6 @@ describe Customer::AuthController do
         end
   
         # Response
-        it { should_not assign_to(:customer) }
         it { should respond_with(:success) }
         it { should respond_with_content_type(:json) }
   
@@ -94,23 +84,23 @@ describe Customer::AuthController do
         end
       end
 
-      context "with valid id and secret, no access grant" do
+      context "with valid id, secret, and code", :failing => true do
         let(:client) { FactoryGirl.create(:client) }
+        let(:access_grant) { FactoryGirl.create(:access_grant, :client => client)}
         let(:code) { SecureRandom.hex }
         
         before(:each) do
-          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :code => code, :format => 'html'
+          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :code => access_grant.code, :format => 'html'
         end
   
         # Response
-        it { should_not assign_to(:customer) }
         it { should respond_with(:success) }
         it { should respond_with_content_type(:json) }
   
         # Content
         it { should_not set_the_flash }
         it "responds with error" do
-          response.body.should eq("{\"error\":\"Could not authenticate access code\"}")
+          response.body.should eq("{\"access_token\":\"#{access_grant.access_token}\",\"refresh_token\":\"#{access_grant.refresh_token}\",\"expires_in\":1800}")
         end
       end
     end
@@ -118,6 +108,62 @@ describe Customer::AuthController do
     context "as authenticated customer" do
       include_context "as authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
+
+      context "with invalid id and secret" do
+        let(:client) { FactoryGirl.create(:client) }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => SecureRandom.hex, :format => 'html'
+        end
+  
+        # Response
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"error\":\"Could not find application\"}")
+        end
+      end
+
+      context "with valid id and secret, no code" do
+        let(:client) { FactoryGirl.create(:client) }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :format => 'html'
+        end
+  
+        # Response
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"error\":\"Could not authenticate access code\"}")
+        end
+      end
+
+      context "with valid id, secret, and code", :failing => true do
+        let(:client) { FactoryGirl.create(:client) }
+        let(:access_grant) { FactoryGirl.create(:access_grant, :client => client)}
+        let(:code) { SecureRandom.hex }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :code => access_grant.code, :format => 'html'
+        end
+  
+        # Response
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"access_token\":\"#{access_grant.access_token}\",\"refresh_token\":\"#{access_grant.refresh_token}\",\"expires_in\":1800}")
+        end
+      end
     end
   end
 end

@@ -1,7 +1,7 @@
 class ClientsController < ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
-  skip_authorization_check
-#  load_and_authorize_resource
+  before_filter :authenticate_employee!
+  load_and_authorize_resource
 
   # GET /clients
   #-----------------------------------------------------------------------

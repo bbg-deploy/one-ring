@@ -1,6 +1,5 @@
 class Customer::AuthController < Customer::ApplicationController
-#  before_filter :authenticate_customer!, :except => [:access_token]
-  before_filter :authenticate_customer!
+  before_filter :authenticate_customer!, :except => [:access_token]
   skip_before_filter :verify_authenticity_token, :only => [:access_token]
 
   #TODO: re-evaluate this; maybe this is how I controll access for each client?
