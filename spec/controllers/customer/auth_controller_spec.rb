@@ -70,9 +70,12 @@ describe Customer::AuthController do
   
         # Content
         it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"error\":\"Could not find application\"}")
+        end
       end
 
-      context "with valid id and secret" do
+      context "with valid id and secret, no code" do
         let(:client) { FactoryGirl.create(:client) }
         
         before(:each) do
@@ -86,6 +89,29 @@ describe Customer::AuthController do
   
         # Content
         it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"error\":\"Could not authenticate access code\"}")
+        end
+      end
+
+      context "with valid id and secret, no access grant" do
+        let(:client) { FactoryGirl.create(:client) }
+        let(:code) { SecureRandom.hex }
+        
+        before(:each) do
+          get :access_token, :client_id => client.app_id, :client_secret => client.app_access_token, :code => code, :format => 'html'
+        end
+  
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+        it { should respond_with_content_type(:json) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it "responds with error" do
+          response.body.should eq("{\"error\":\"Could not authenticate access code\"}")
+        end
       end
     end
 

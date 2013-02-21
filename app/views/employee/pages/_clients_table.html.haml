@@ -13,5 +13,5 @@
         %td
           = client.app_id
         %td
-          = link_to "Edit Client Information", edit_client_path(client), :class => 'button small radius'
+          = link_to "Edit Client Information", edit_employee_client_path(client.id), :class => 'button small radius'
 = link_to "Add New Client", new_employee_client_path, :class => 'button radius'

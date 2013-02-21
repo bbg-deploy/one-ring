@@ -58,6 +58,7 @@ gem 'grape', '~> 0.2.6'
 
 # Authentication & SSO
 gem 'devise', '>= 2.2.3'
+gem 'doorkeeper', '~> 0.6.7'
 
 # Authorization & Role Management
 gem 'rolify', '~> 3.1'
