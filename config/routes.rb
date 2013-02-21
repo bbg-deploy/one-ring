@@ -1,4 +1,6 @@
 Onering::Application.routes.draw do
+  use_doorkeeper
+
   root :to              => "pages#home",             :as => :home
 
   # Customer Namespace
