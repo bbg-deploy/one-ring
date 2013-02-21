@@ -29,10 +29,10 @@ class Client < ActiveRecord::Base
     begin
       self.app_access_token = SecureRandom.hex
     end while self.class.exists?(app_access_token: app_access_token)
-  end
 
-  def changed_app_id
-    return self.app_id_changed?
+    begin
+      self.app_id = SecureRandom.hex
+    end while self.class.exists?(app_id: app_id)
   end
 
   def strip_name_whitespace

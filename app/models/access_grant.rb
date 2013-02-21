@@ -31,7 +31,9 @@ class AccessGrant < ActiveRecord::Base
     self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), SecureRandom.hex(16), SecureRandom.hex(16)
   end
 
-  def redirect_uri_for(redirect_uri)
+  def redirect_uri_for(client_id)
+    redirect_uri = Client.find_by_app_id(client_id).redirect_uri
+    
     if redirect_uri =~ /\?/
       redirect_uri + "&code=#{self.code}&response_type=code&state=#{self.state}"
     else

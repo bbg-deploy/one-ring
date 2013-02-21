@@ -45,12 +45,14 @@ ActiveRecord::Schema.define(:version => 20130221013241) do
     t.string   "name",             :null => false
     t.string   "app_id",           :null => false
     t.string   "app_access_token", :null => false
+    t.string   "redirect_uri",     :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
 
   add_index "clients", ["app_access_token"], :name => "index_clients_on_app_access_token", :unique => true
   add_index "clients", ["app_id"], :name => "index_clients_on_app_id", :unique => true
+  add_index "clients", ["redirect_uri"], :name => "index_clients_on_redirect_uri", :unique => true
 
   create_table "customers", :force => true do |t|
     t.string   "account_number",                          :null => false

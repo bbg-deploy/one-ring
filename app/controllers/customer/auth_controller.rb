@@ -1,5 +1,6 @@
 class Customer::AuthController < Customer::ApplicationController
-  before_filter :authenticate_customer!, :except => [:access_token]
+#  before_filter :authenticate_customer!, :except => [:access_token]
+  before_filter :authenticate_customer!
   skip_before_filter :verify_authenticity_token, :only => [:access_token]
 
   #TODO: re-evaluate this; maybe this is how I controll access for each client?
@@ -9,9 +10,7 @@ class Customer::AuthController < Customer::ApplicationController
   def authorize
     AccessGrant.prune!
     access_grant = current_customer.access_grants.create({:client => application, :state => params[:state]}, :without_protection => true)
-#    render :text => "AccessGrant = #{access_grant.nil?}, Params = #{params.inspect}"
-    redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
-#    redirect_to 'www.google.com'
+    redirect_to access_grant.redirect_uri_for(params[:client_id])
   end
 
   # GET /access_token

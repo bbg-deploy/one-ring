@@ -18,9 +18,9 @@ Onering::Application.routes.draw do
 
     # OmniAuth Provider paths
     #-----------------------------------------------------------------
-#    match '/auth/authorize' => 'auth#authorize'
-#    match '/auth/access_token' => 'auth#access_token'
-#    match '/auth/customer' => 'auth#customer'
+    match '/oauth/authorize' => 'auth#authorize', :as => :authorization
+    match '/oauth/access_token' => 'auth#access_token'
+    match '/oauth/customer' => 'auth#customer'
 #    match '/oauth/token' => 'auth#access_token'
   end
 

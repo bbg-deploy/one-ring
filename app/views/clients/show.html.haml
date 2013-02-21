@@ -2,12 +2,26 @@
 
 .row
   .eight.columns
-  %h1 
-    = "#{@client.name}"
-  %p
-    = "Client name = #{@client.name}"
-  %p
-    = "Client app ID = #{@client.app_id}"
-  %p
-    = "Client app access token = #{@client.app_access_token}"
-  = link_to "Edit Client Info", edit_employee_client_path(@client), :class => 'button radius'
+    %table
+      %thead
+        %tr
+          %th Name
+          %th Redirect URI
+          %th App ID
+          %th App Access Token
+      %tbody
+        %tr
+          %td 
+            = @client.name
+          %td
+            = @client.redirect_uri
+          %td
+            = @client.app_id
+          %td
+            = @client.app_access_token
+    .three.columns
+      = link_to "Edit Client Info", edit_client_path(@client), :class => 'button radius'
+    .three.columns
+      = link_to 'Test Authorization (Doorkeeper)', oauth_authorization_path(:client_id => @client.app_id, :redirect_uri => @client.redirect_uri, :response_type => 'code' ), :class => 'button radius'
+    .three.columns
+      = link_to 'Test Authorization', customer_authorization_path(:client_id => @client.app_id, :redirect_uri => @client.redirect_uri, :response_type => 'code' ), :class => 'button radius'

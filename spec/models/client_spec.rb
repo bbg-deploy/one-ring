@@ -28,20 +28,23 @@ describe Client do
     it { should have_db_index(:app_id) }
     it { should have_db_column(:app_access_token) }
     it { should have_db_index(:app_access_token) }
+    it { should have_db_column(:redirect_uri) }
+    it { should have_db_index(:redirect_uri) }
   end
 
   # Associations
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do
+    it { should have_many(:access_grants) }
   end
 
   # Attributes
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
-    before(:each) do
-      attributes = FactoryGirl.build(:client_attributes_hash)
-      client = Client.create!(attributes)
-    end
+#    before(:each) do
+#      attributes = FactoryGirl.build(:client_attributes_hash)
+#      client = Client.create!(attributes)
+#    end
 
     describe "name" do
       it { should allow_mass_assignment_of(:name) }
@@ -67,13 +70,11 @@ describe Client do
     end
 
     describe "app_id" do
-      it { should allow_mass_assignment_of(:app_id) }
-      it { should validate_presence_of(:app_id) }
-      it { should validate_confirmation_of(:app_id) }
-      it { should validate_uniqueness_of(:app_id) }
-      it { should ensure_length_of(:app_id).is_at_least(6).is_at_most(20) }
-      it { should allow_value("thisappid").for(:app_id) }
-      it { should_not allow_value(nil, "!", "cat", "thisappid?", "this app", " thisapp").for(:app_id) }
+      it { should_not allow_mass_assignment_of(:app_id) }
+    end
+
+    describe "app_access_code" do
+      it { should_not allow_mass_assignment_of(:app_access_token) }
     end
   end
   

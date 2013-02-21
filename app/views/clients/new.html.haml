@@ -3,7 +3,7 @@
 .row
   .eight.columns
     %h2 New Single Sign-On Client
-    = form_for(@client, :url => employee_clients_path, :method => :post, :html => { :class => "" }) do |f|
+    = form_for(@client, :url => clients_path, :method => :post, :html => { :class => "" }) do |f|
       %fieldset
         %legend Client Information
         .row
@@ -15,10 +15,9 @@
               = "Must be greater than 6 characters"
         .row
           .eight.columns 
-            = f.label "Application ID"
-            = f.text_field :app_id, :placeholder => "S3cuREdLeASe"
-            = f.text_field :app_id_confirmation, :placeholder => "Enter Application ID Again"
+            = f.label "Redirect URI"
+            = f.text_field :redirect_uri, :placeholder => "http://www.yourapp.com"
           .four.columns
             %p.helper-text
-              = "Must be greater than 6 characters"
+              = "Must be a valid full uri"
       = f.submit "Create Application Token", :class => "radius button"
