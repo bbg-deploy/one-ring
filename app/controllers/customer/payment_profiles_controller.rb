@@ -69,10 +69,10 @@ class Customer::PaymentProfilesController < Customer::ApplicationController
 
   private
   def create_payment_profile_params
-    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, :billing_address_attributes, :credit_card_attributes, :bank_account_attributes)
+    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, {:billing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, {:credit_card_attributes  => [:brand, :credit_card_number, :expiration_date, :ccv_number]}, {:bank_account_attributes  => [:account_holder, :account_type, :routing_number, :account_number]})
   end
 
   def update_payment_profile_params
-    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, :billing_address_attributes, :credit_card_attributes, :bank_account_attributes)
+    params.require(:payment_profile).permit(:first_name, :last_name, :payment_type, {:billing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, {:credit_card_attributes  => [:brand, :credit_card_number, :expiration_date, :ccv_number]}, {:bank_account_attributes  => [:account_holder, :account_type, :routing_number, :account_number]})
   end
 end

@@ -84,10 +84,10 @@ class Store::RegistrationsController < Devise::RegistrationsController
 
   private
   def create_store_params
-    params.require(:store).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :name, :employer_identification_number, :addresses_attributes, :phone_numbers_attributes, :terms_agreement)
+    params.require(:store).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :name, :employer_identification_number, {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]}, :terms_agreement)
   end
 
   def update_store_params
-    params.require(:store).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :name, :employer_identification_number, :addresses_attributes, :phone_numbers_attributes)
+    params.require(:store).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :name, :employer_identification_number, {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]})
   end
 end

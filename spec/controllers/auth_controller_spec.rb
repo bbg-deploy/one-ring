@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Customer::AuthController do
+describe AuthController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do

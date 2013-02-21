@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Layouts::ApplicationHelper do
+describe ApplicationHelper do
   describe "#full_title" do
     it "returns title when there is a page_title" do
       assign(:page_title, "Test Page Title")
