@@ -1,6 +1,13 @@
 Onering::Application.routes.draw do
   root :to              => "pages#home",             :as => :home
 
+  # OmniAuth Provider paths
+  #-----------------------------------------------------------------
+  match '/oauth/authorize' => 'auth#authorize', :as => :authorization
+  match '/oauth/access_token' => 'auth#access_token'
+  match '/oauth/customer' => 'auth#customer'
+#    match '/oauth/token' => 'auth#access_token'
+
   # Customer Namespace
   #-----------------------------------------------------------------
   devise_for :customers, :path => 'customer', :controllers => {
@@ -16,9 +23,9 @@ Onering::Application.routes.draw do
 
     # OmniAuth Provider paths
     #-----------------------------------------------------------------
-    match '/oauth/authorize' => 'auth#authorize', :as => :authorization
-    match '/oauth/access_token' => 'auth#access_token'
-    match '/oauth/customer' => 'auth#customer'
+#    match '/oauth/authorize' => 'auth#authorize', :as => :authorization
+#    match '/oauth/access_token' => 'auth#access_token'
+#    match '/oauth/customer' => 'auth#customer'
 #    match '/oauth/token' => 'auth#access_token'
   end
 

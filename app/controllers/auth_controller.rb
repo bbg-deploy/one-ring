@@ -1,4 +1,4 @@
-class Customer::AuthController < Customer::ApplicationController
+class AuthController < ApplicationController
   before_filter :authenticate_customer!, :except => [:access_token]
   skip_before_filter :verify_authenticity_token, :only => [:access_token]
 
