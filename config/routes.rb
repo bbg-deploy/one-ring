@@ -50,8 +50,11 @@ Onering::Application.routes.draw do
 
   namespace :employee do
     root :to                  => "pages#home", :as => :home
-    resources :clients
   end
+
+  # SSO Clients
+  #------------------------------------------------------------------
+  resources :clients
 
   # API
   #------------------------------------------------------------------

@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
  # Helpers
   helper_method :current_user
  
+  def require_administrator!
+    return !current_employee.nil?
+  end
+ 
   private
   def current_user
     return current_customer unless current_customer.nil?
