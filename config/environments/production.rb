@@ -52,7 +52,7 @@ Onering::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Default Mailer options
-  config.action_mailer.default_url_options = { :host => 'credda.com' }
+  config.action_mailer.default_url_options = { :host => 'www.credda.com' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 

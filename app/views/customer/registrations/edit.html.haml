@@ -3,7 +3,7 @@
 .row
   %h2 Edit Your Account Information
   .eight.columns#edit-registration
-    = nested_form_for(@customer, :url => customer_registration_path, :method => :put, :html => { :class => "" }) do |f|
+    = nested_form_for(@customer, :url => customer_registration_path, :method => :put, :html => { :class => "custom" }) do |f|
       %fieldset
         %legend Account Information
         .row
@@ -76,11 +76,13 @@
         = f.fields_for :phone_number do |phone|
           .row
             .six.columns
-              = f.label "Phone Number"
+              = phone.label "Phone Number"
               = phone.hidden_field :phone_number_type, :value => 'customer'
               = phone.text_field :phone_number, :placeholder => "555-444-1234"
-            .six.columns
-              = f.label "Is this a cell phone?"
+            .five.columns.checkbox-inline
+              %p.checkbox-text
+                = "Check here if this is a cell phone"
+            .one.column.checkbox-inline
               = phone.check_box :cell_phone
               = phone.hidden_field :primary, :value => '1'
       %fieldset

@@ -52,6 +52,22 @@ module AuthenticationSharedExamples
     end
   end
 
+  shared_examples_for "devise token authenticatable" do |factory|
+    let(:user) do
+      user = FactoryGirl.create(factory)
+      user.confirm!
+      user.reload
+    end
+    let(:user_class) { user.class }
+    
+    describe "generating authentication token" do
+      it "generates token on create" do
+        user.authentication_token.should_not be_nil
+      end
+    end
+  end
+
+
   shared_examples_for "devise recoverable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)

@@ -3,7 +3,7 @@
 .row
   .eight.columns#new-registration
     %h2 Sign up
-    = nested_form_for(@customer, :url => customer_registration_path, :method => :post, :html => { :class => "" }) do |f|
+    = nested_form_for(@customer, :url => customer_registration_path, :method => :post, :html => { :class => "custom" }) do |f|
       %fieldset
         %legend Account Information
         .row
@@ -77,13 +77,19 @@
               = phone.label "Phone Number"
               = phone.hidden_field :phone_number_type, :value => 'customer'
               = phone.text_field :phone_number, :placeholder => "555-444-1234"
-            .six.columns
-              = phone.label "Is this a cell phone?"
+            .five.columns.checkbox-inline
+              %p.checkbox-text
+                = "Check here if this is a cell phone"
+            .one.column.checkbox-inline
               = phone.check_box :cell_phone
               = phone.hidden_field :primary, :value => '1'
       %fieldset
         %legend Terms & Conditions
-        = f.label "You agree to Credda's Terms & Conditions"
-        = f.check_box :terms_agreement
+        .row
+          .eight.columns
+            %p.checkbox-text
+              = "Check the box to agree to Credda's Terms & Conditions"
+          .four.columns
+            = f.check_box :terms_agreement
       = f.submit "Sign up", :class => "radius button"
     = render "customer/shared/authentication_links"
