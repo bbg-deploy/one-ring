@@ -7,6 +7,9 @@ class Customer::SessionsController < Devise::SessionsController
   def new
     @customer = Customer.new
     clean_up_passwords(@customer)
+    # For devise debugging TODO: Remove this when everything works!
+    flash[:notice] = "Store = #{current_store.inspect}"
+    flash[:alert] = "#{request.env["devise.mapping"].inspect}"
     respond_with(@customer, serialize_options(@customer))
   end
 

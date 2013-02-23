@@ -8,11 +8,13 @@ module ControllerMacros
     raise CanCan::AccessDenied
   end
 
-  def login(user)
+  def login(user, scope)
+    scope_sym = scope.to_sym
     user_symbol = class_to_symbol(user)
     unless user_symbol.nil?
-      @request.env["devise.mapping"] = Devise.mappings[user_symbol]
-      sign_in user
+#      @request.env["devise.mapping"] = Devise.mappings[user_symbol]
+#      sign_in user
+      sign_in scope_sym, user
     end
   end
 

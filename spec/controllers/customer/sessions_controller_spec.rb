@@ -41,6 +41,35 @@ describe Customer::SessionsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
     end
+
+    context "as authenticated store", :failing => true do
+#      include_context "as unauthenticated store"
+      before(:each) do
+        store = FactoryGirl.create(:store)
+        store.confirm!
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        sign_in :store, store
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      it "should have current store" do
+#        subject.current_store.should_not be_nil
+      end
+
+      it "should not have current customer" do
+#        subject.current_customer.should be_nil
+      end
+
+
+      # Response
+#      it { should_not assign_to(:customer) }
+#      it { should respond_with(:redirect) }
+#      it { should redirect_to(store_home_path) }
+
+      # Content
+#      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
   end
 
   describe "#create", :create => true do
