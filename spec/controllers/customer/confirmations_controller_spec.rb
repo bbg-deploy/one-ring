@@ -52,16 +52,33 @@ describe Customer::ConfirmationsController do
       it { should redirect_to(customer_scope_conflict_path) }
 
       # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
     end
   end
 
   describe "#create", :create => true do
-    context "as unauthenticated, unconfirmed customer" do
-      include_context "as unauthenticated, unconfirmed customer"
+    context "as unauthenticated customer" do
+      include_context "with unauthenticated customer"
 
       describe "with invalid email" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => "fake@email.com"}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -85,6 +102,58 @@ describe Customer::ConfirmationsController do
 
       describe "with valid email" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
+          attributes = {:email => customer.email}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Parameters
+#       it { should permit(:email).for(:create) }
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should render_template(:new) }
+
+        # Behavior
+        it "should not send email" do
+          last_email.should be_nil
+        end
+      end
+    end
+    
+    context "with unconfirmed customer" do
+      include_context "with unconfirmed customer"
+
+      describe "with invalid email" do
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
+          attributes = {:email => "fake@email.com"}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Parameters
+#       it { should permit(:email).for(:create) }
+
+        # Response
+        it { should assign_to(:customer) }
+        it { should respond_with(:success) }
+
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+
+        # Behavior
+        it "should not send confirmation email" do
+          last_email.should be_nil
+        end
+      end
+
+      describe "with valid email" do
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -109,38 +178,12 @@ describe Customer::ConfirmationsController do
       end
     end
 
-    context "as unauthenticated, confirmed customer" do
-      include_context "as unauthenticated customer"
-
-      describe "with valid email" do
-        before(:each) do
-          reset_email
-          attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
-        end
-
-        # Parameters
-#       it { should permit(:email).for(:create) }
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-
-        # Content
-        it { should render_template(:new) }
-
-        # Behavior
-        it "should not send email" do
-          last_email.should be_nil
-        end
-      end
-    end
-    
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with valid email" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -157,14 +200,51 @@ describe Customer::ConfirmationsController do
         it { should set_the_flash[:alert].to(/already signed in/) }
       end
     end
+
+    context "as authenticated store", :failing => true do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        customer = FactoryGirl.create(:customer)
+        attributes = {:email => customer.email}
+        post :create, :customer => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        customer = FactoryGirl.create(:customer)
+        attributes = {:email => customer.email}
+        post :create, :customer => attributes, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
 
   describe "#show", :show => true do
-    context "as unauthenticated, unconfirmed customer" do
-      include_context "as unauthenticated, unconfirmed customer"
+    context "as unconfirmed customer" do
+      include_context "with unconfirmed customer"
       
       describe "with invalid token" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           @request.env['QUERY_STRING'] = "confirmation_token="
           get :show, :confirmation_token => "1234234234", :format => 'html'
         end
@@ -180,6 +260,7 @@ describe Customer::ConfirmationsController do
 
       describe "with valid token" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           @request.env['QUERY_STRING'] = "confirmation_token="
           get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
         end        
@@ -194,10 +275,11 @@ describe Customer::ConfirmationsController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with valid token" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           @request.env['QUERY_STRING'] = "confirmation_token="
           get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
         end        
@@ -209,6 +291,42 @@ describe Customer::ConfirmationsController do
         # Content
         it { should set_the_flash[:alert].to(/already signed in/) }
       end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env['QUERY_STRING'] = "confirmation_token="
+        customer = FactoryGirl.create(:customer)
+        get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env['QUERY_STRING'] = "confirmation_token="
+        customer = FactoryGirl.create(:customer)
+        get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
     end
   end
 end

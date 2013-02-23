@@ -40,7 +40,7 @@ class Customer::SessionsController < Devise::SessionsController
 
   protected
   def check_scope_conflict
-    redirect_to :action => :scope_conflict if (!(current_user.nil?) && (current_customer.nil?))
+    redirect_to customer_scope_conflict_path if (!(current_user.nil?) && (current_customer.nil?))
   end
 
   def serialize_options(resource)
