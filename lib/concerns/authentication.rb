@@ -83,7 +83,7 @@ module Authentication
       devise :lockable,
              :unlock_keys => [:email],
              :unlock_strategy => :both,
-             :maximum_attempts => 10,
+             :maximum_attempts => 5,
              :unlock_in => 1.hour
     end
 

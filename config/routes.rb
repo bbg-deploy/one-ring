@@ -20,7 +20,6 @@ Onering::Application.routes.draw do
     
   devise_scope :customer do
     get '/customer/scope_conflict' => 'customer/sessions#scope_conflict'
-#    get 'session/on_signin', :to => 'sessions#memorize_session'
   end
     
   namespace :customer do

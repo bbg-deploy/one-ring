@@ -11,9 +11,8 @@ describe Customer::SessionsController do
 
   describe "#new", :new => true do
     context "with no user" do
-      include_context "in devise :customer scope"
-
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -33,9 +32,9 @@ describe Customer::SessionsController do
     
     context "as authenticated customer" do
       include_context "with authenticated customer"
-      include_context "in devise :customer scope"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -56,9 +55,9 @@ describe Customer::SessionsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
-      include_context "in devise :customer scope"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -80,9 +79,9 @@ describe Customer::SessionsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
-      include_context "in devise :customer scope"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -106,10 +105,10 @@ describe Customer::SessionsController do
   describe "#create", :create => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
-      include_context "in devise :customer scope"
 
       describe "invalid login" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.email, :password => "wrongpass"}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -124,10 +123,45 @@ describe Customer::SessionsController do
         # Content
         it { should_not set_the_flash }
         it { should render_template(:new) }
+
+        # Behavior
+        it "should increment failed attempts count" do
+          customer.reload
+          customer.failed_attempts.should eq(1)
+        end
+      end
+
+      describe "locks after multiple invalid logins" do
+        before(:each) do
+          customer.failed_attempts = 5
+          customer.save
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
+          attributes = {:login => customer.email, :password => "wrongpass#{Random.new.rand(100)}"}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        it "has locked customer" do
+          customer.reload
+          customer.access_locked?.should be_true
+          customer.active_for_authentication?.should be_false
+        end
+
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:new) }
+        it "has locked message in alert" do
+          flash = response.request.env["rack.session"]["flash"]
+          flash.alert.should match(/account is locked/)
+        end
       end
 
       describe "valid login (email)" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.email, :password => customer.password}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -143,6 +177,7 @@ describe Customer::SessionsController do
 
       describe "valid login (username)" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.username, :password => customer.password}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -159,10 +194,10 @@ describe Customer::SessionsController do
           
     context "as unconfirmed customer" do
       include_context "with unconfirmed customer"
-      include_context "in devise :customer scope"
 
       describe "valid login" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.email, :password => customer.password}
           post :create, :customer => attributes, :format => 'html'
         end
@@ -182,12 +217,18 @@ describe Customer::SessionsController do
 
     context "as locked customer" do
       include_context "with locked customer"
-      include_context "in devise :customer scope"
 
       describe "valid login" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.email, :password => customer.password}
           post :create, :customer => attributes, :format => 'html'
+        end
+
+        it "should be locked" do
+          customer.access_locked?.should be_true
+          customer.active_for_authentication?.should be_false
+          customer.valid_for_authentication?.should be_false
         end
 
         # Response
@@ -195,16 +236,20 @@ describe Customer::SessionsController do
         it { should respond_with(:success) }
   
         # Content
-        it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+        it { should_not set_the_flash } # This controller technically doesn't set the flash
         it { should render_template :new}
+        it "has locked message in alert" do
+          flash = response.request.env["rack.session"]["flash"]
+          flash.alert.should match(/account is locked/)
+        end
       end
     end
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
-      include_context "in devise :customer scope"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         attributes = {:login => customer.username, :password => customer.password}
         post :create, :customer => attributes, :format => 'html'
       end
@@ -223,6 +268,7 @@ describe Customer::SessionsController do
       include_context "as unauthenticated customer"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         delete :destroy, :format => 'html'
       end
 
@@ -238,6 +284,7 @@ describe Customer::SessionsController do
       include_context "as authenticated customer"
 
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         delete :destroy, :format => 'html'
       end
 

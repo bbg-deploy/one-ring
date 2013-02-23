@@ -42,6 +42,7 @@ module ControllerSharedContexts
     let(:customer) do
       customer = FactoryGirl.create(:customer)
       customer.confirm!
+      customer.failed_attempts = 6
       customer.lock_access!
       reset_email
       customer.reload
