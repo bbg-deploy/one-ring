@@ -15,8 +15,11 @@ Onering::Application.routes.draw do
     :passwords => 'customer/passwords',
     :registrations => 'customer/registrations',
     :sessions => 'customer/sessions',
-    :unlocks => 'customer/unlocks'
-  }
+    :unlocks => 'customer/unlocks' } do
+    
+    get '/customer/scope_conflict' => 'customer/sessions#scope_conflict', :as => :scope_conflict
+  end
+    
   namespace :customer do
     root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods"

@@ -4,18 +4,22 @@ describe Customer::SessionsController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do
-    let(:customer) { FactoryGirl.create(:customer) }
-
     it { should route(:get, "/customer/sign_in").to(:action => :new) }
     it { should route(:post, "/customer/sign_in").to(:action => :create) }
     it { should route(:delete, "/customer/sign_out").to(:action => :destroy) }
   end
 
   describe "#new", :new => true do
-    context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+    context "with no user" do
+      include_context "in devise :customer scope"
+
       before(:each) do
         get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
       end
 
       # Response
@@ -28,9 +32,17 @@ describe Customer::SessionsController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
+      include_context "in devise :customer scope"
+
       before(:each) do
         get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should_not be_nil
       end
 
       # Response
@@ -42,61 +54,59 @@ describe Customer::SessionsController do
       it { should set_the_flash[:alert].to(/already signed in/) }
     end
 
-    context "as authenticated store", :failing => true do
-#      include_context "as unauthenticated store"
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      include_context "in devise :customer scope"
+
       before(:each) do
-        store = FactoryGirl.create(:store)
-        store.confirm!
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        sign_in :store, store
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
+      # Variables
       it "should have current store" do
-#        subject.current_store.should_not be_nil
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_store.should_not be_nil
       end
-
-      it "should not have current customer" do
-#        subject.current_customer.should be_nil
-      end
-
 
       # Response
-#      it { should_not assign_to(:customer) }
-#      it { should respond_with(:redirect) }
-#      it { should redirect_to(store_home_path) }
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
 
       # Content
-#      it { should set_the_flash[:alert].to(/already signed in/) }
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      include_context "in devise :customer scope"
+
+      before(:each) do
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
     end
   end
 
   describe "#create", :create => true do
-    context "as unauthenticated, unconfirmed customer" do
-      include_context "as unauthenticated, unconfirmed customer"
-
-      describe "valid login" do
-        before(:each) do
-          attributes = {:login => customer.email, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
-        end
-
-        # Parameters
-#       it { should permit(:email).for(:create) }
-
-        # Response
-        it { should_not assign_to(:customer) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(new_customer_session_path) }
-  
-        # Content
-        it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
-      end
-    end
-
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
+      include_context "in devise :customer scope"
 
       describe "invalid login" do
         before(:each) do
@@ -146,9 +156,53 @@ describe Customer::SessionsController do
         it { should set_the_flash[:notice].to(/Signed in successfully/) }
       end
     end
+          
+    context "as unconfirmed customer" do
+      include_context "with unconfirmed customer"
+      include_context "in devise :customer scope"
+
+      describe "valid login" do
+        before(:each) do
+          attributes = {:login => customer.email, :password => customer.password}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Parameters
+#       it { should permit(:email).for(:create) }
+
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(new_customer_session_path) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+      end
+    end
+
+    context "as locked customer" do
+      include_context "with locked customer"
+      include_context "in devise :customer scope"
+
+      describe "valid login" do
+        before(:each) do
+          attributes = {:login => customer.email, :password => customer.password}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+        it { should render_template :new}
+      end
+    end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
+      include_context "in devise :customer scope"
 
       before(:each) do
         attributes = {:login => customer.username, :password => customer.password}

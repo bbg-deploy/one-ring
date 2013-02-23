@@ -1,4 +1,96 @@
 module ControllerSharedContexts
+  # Devise Scopes
+  #----------------------------------------------------------------------------  
+  shared_context "in devise :customer scope" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:customer]
+    end
+  end
+
+  shared_context "in devise :store scope" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:store]
+    end
+  end
+
+  shared_context "in devise :employee scope" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:employee]
+    end
+  end
+
+  # New Customer Contexts
+  #----------------------------------------------------------------------------  
+  shared_context "with unauthenticated customer" do
+    let(:customer) do
+      customer = FactoryGirl.create(:customer)
+      customer.confirm!
+      reset_email
+      customer.reload
+    end
+  end
+
+  shared_context "with unconfirmed customer" do
+    let(:customer) do
+      customer = FactoryGirl.create(:customer)
+      reset_email
+      customer.reload
+    end
+  end
+
+  shared_context "with locked customer" do
+    let(:customer) do
+      customer = FactoryGirl.create(:customer)
+      customer.confirm!
+      customer.lock_access!
+      reset_email
+      customer.reload
+    end
+  end
+
+  shared_context "with authenticated customer" do
+    let(:customer) do
+      customer = FactoryGirl.create(:customer)
+      customer.confirm!
+      reset_email
+      customer.reload
+    end
+
+    before(:each) do
+      sign_in :customer, customer
+    end
+  end
+
+  # New Store Contexts
+  #----------------------------------------------------------------------------  
+  shared_context "with authenticated store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      store.confirm!
+      reset_email
+      store.reload
+    end
+
+    before(:each) do
+      sign_in :store, store
+    end
+  end
+
+  # New Employee Contexts
+  #----------------------------------------------------------------------------  
+  shared_context "with authenticated employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      reset_email
+      employee.reload
+    end
+
+    before(:each) do
+      sign_in :employee, employee
+    end
+  end
+
   # Customer Contexts
   #----------------------------------------------------------------------------  
   shared_context "as unauthenticated, unconfirmed customer" do

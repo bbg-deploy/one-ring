@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
  # Helpers
   helper_method :current_user
   
-  private
   def current_user
     return current_customer unless current_customer.nil?
     return current_store unless current_store.nil?
@@ -31,6 +30,7 @@ class ApplicationController < ActionController::Base
     return nil
   end
 
+  private
   def current_ability
     Ability.new(current_user)
   end
