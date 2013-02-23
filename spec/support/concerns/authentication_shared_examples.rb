@@ -67,7 +67,6 @@ module AuthenticationSharedExamples
     end
   end
 
-
   shared_examples_for "devise recoverable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)

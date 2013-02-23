@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Customer::SessionsController do
-  include Devise::TestHelpers
-
   describe "routing", :routing => true do
     it { should route(:get, "/customer/sign_in").to(:action => :new) }
     it { should route(:post, "/customer/sign_in").to(:action => :create) }

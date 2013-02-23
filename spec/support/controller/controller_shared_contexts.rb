@@ -1,24 +1,4 @@
 module ControllerSharedContexts
-  # Devise Scopes
-  #----------------------------------------------------------------------------  
-  shared_context "in devise :customer scope" do
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "in devise :store scope" do
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:store]
-    end
-  end
-
-  shared_context "in devise :employee scope" do
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:employee]
-    end
-  end
-
   # New Customer Contexts
   #----------------------------------------------------------------------------  
   shared_context "with unauthenticated customer" do

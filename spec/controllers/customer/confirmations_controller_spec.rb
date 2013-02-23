@@ -1,20 +1,16 @@
 require 'spec_helper'
 
 describe Customer::ConfirmationsController do
-  include Devise::TestHelpers
-
   describe "routing", :routing => true do
-    let(:customer) { FactoryGirl.create(:customer) }
-
     it { should route(:get, "/customer/confirmation/new").to(:action => :new) }
     it { should route(:post, "/customer/confirmation").to(:action => :create) }
     it { should route(:get, "/customer/confirmation").to(:action => :show) }
   end
 
   describe "#new", :new => true do
-    context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+    context "with no user" do
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -28,8 +24,9 @@ describe Customer::ConfirmationsController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
       end
 
@@ -37,6 +34,22 @@ describe Customer::ConfirmationsController do
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/already signed in/) }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
 
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
