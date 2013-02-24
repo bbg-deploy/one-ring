@@ -2,6 +2,7 @@ class Customer::UnlocksController < Devise::UnlocksController
   include ActiveModel::ForbiddenAttributesProtection
 
   prepend_before_filter :require_no_authentication
+  before_filter :check_scope_conflict
 
   # GET /customer/unlock/new
   def new
@@ -32,6 +33,10 @@ class Customer::UnlocksController < Devise::UnlocksController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to customer_scope_conflict_path if (!(current_user.nil?) && (current_customer.nil?))
+  end
+
   def after_sign_in_path_for(customer)
     customer_home_path
   end

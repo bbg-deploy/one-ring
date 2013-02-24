@@ -782,7 +782,7 @@ describe Customer::RegistrationsController do
       include_context "with authenticated employee"
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :cancel, :format => 'html'
+        get :cancel, :format => 'html'
       end
 
       # Variables
