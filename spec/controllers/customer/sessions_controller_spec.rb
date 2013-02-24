@@ -263,7 +263,7 @@ describe Customer::SessionsController do
 
   describe "#destroy", :destroy => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
 
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]
@@ -279,7 +279,7 @@ describe Customer::SessionsController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]

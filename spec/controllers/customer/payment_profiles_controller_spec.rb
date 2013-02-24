@@ -15,7 +15,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#new", :new => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       before(:each) do
         get :new, :format => 'html'
       end
@@ -30,7 +30,7 @@ describe Customer::PaymentProfilesController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       before(:each) do
         get :new, :format => 'html'
       end
@@ -47,7 +47,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#create", :create => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
@@ -96,7 +96,7 @@ describe Customer::PaymentProfilesController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
@@ -147,7 +147,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#show", :show => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
@@ -164,7 +164,7 @@ describe Customer::PaymentProfilesController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
@@ -200,7 +200,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#edit", :edit => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
@@ -217,7 +217,7 @@ describe Customer::PaymentProfilesController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
@@ -253,7 +253,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#update", :update => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       let(:attributes) { { :first_name => "Billy" } }
@@ -278,7 +278,7 @@ describe Customer::PaymentProfilesController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
@@ -330,7 +330,7 @@ describe Customer::PaymentProfilesController do
 
   describe "#destroy", :destroy => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
@@ -359,7 +359,7 @@ describe Customer::PaymentProfilesController do
     end
     
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
 
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }

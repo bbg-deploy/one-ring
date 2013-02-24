@@ -200,7 +200,7 @@ describe Customer::UnlocksController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
  
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]
@@ -391,7 +391,7 @@ describe Customer::UnlocksController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
  
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]

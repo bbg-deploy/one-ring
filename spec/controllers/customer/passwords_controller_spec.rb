@@ -694,7 +694,7 @@ describe Customer::PasswordsController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       before(:each) do
         customer.send_reset_password_instructions
         reset_email

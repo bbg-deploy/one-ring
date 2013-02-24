@@ -44,6 +44,34 @@ module ControllerSharedContexts
 
   # New Store Contexts
   #----------------------------------------------------------------------------  
+  shared_context "with unauthenticated store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      store.confirm!
+      reset_email
+      store.reload
+    end
+  end
+
+  shared_context "with unconfirmed store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      reset_email
+      store.reload
+    end
+  end
+
+  shared_context "with locked store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      store.confirm!
+      store.failed_attempts = 6
+      store.lock_access!
+      reset_email
+      store.reload
+    end
+  end
+
   shared_context "with authenticated store" do
     let(:store) do
       store = FactoryGirl.create(:store)
@@ -69,88 +97,6 @@ module ControllerSharedContexts
 
     before(:each) do
       sign_in :employee, employee
-    end
-  end
-
-  # Customer Contexts
-  #----------------------------------------------------------------------------  
-  shared_context "as unauthenticated, unconfirmed customer" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "as unauthenticated customer" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      customer.confirm!
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "as unauthenticated, locked customer" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      customer.confirm!
-      customer.lock_access!
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "as unauthenticated customer with password reset request" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      customer.confirm!
-      customer.send_reset_password_instructions
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "as unauthenticated, unconfirmed customer with password reset request" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      customer.send_reset_password_instructions
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-    end
-  end
-
-  shared_context "as authenticated customer" do
-    let(:customer) do
-      customer = FactoryGirl.create(:customer)
-      customer.confirm!
-      reset_email
-      customer.reload
-    end
-
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:customer]
-      sign_in customer
     end
   end
 

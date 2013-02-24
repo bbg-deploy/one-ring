@@ -9,8 +9,8 @@ describe AuthController do
   end
 
   describe "#authorize", :authorize => true do
-    context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+    context "with unauthenticated customer" do
+      include_context "with unauthenticated customer"
       let(:client) { FactoryGirl.create(:client) }
       
       before(:each) do
@@ -27,7 +27,7 @@ describe AuthController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
 
       before(:each) do
@@ -46,7 +46,7 @@ describe AuthController do
 
   describe "#access_token", :access_token => true do
     context "as unauthenticated customer" do
-      include_context "as unauthenticated customer"
+      include_context "with unauthenticated customer"
       
       context "with invalid id and secret" do
         let(:client) { FactoryGirl.create(:client) }
@@ -106,7 +106,7 @@ describe AuthController do
     end
 
     context "as authenticated customer" do
-      include_context "as authenticated customer"
+      include_context "with authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
 
       context "with invalid id and secret" do
