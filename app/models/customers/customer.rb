@@ -71,6 +71,14 @@ class Customer < ActiveRecord::Base
     super && self.cancelled_at.nil?
   end
 
+  def inactive_message 
+    if cancelled? 
+      :cancelled
+    else 
+      super # Use whatever other message 
+    end 
+  end
+
   private
   # Digests the password using bcrypt.
   # def password_digest(password)
