@@ -8,7 +8,9 @@ describe Customer::SessionsController do
   end
 
   describe "#new", :new => true do
-    context "with no user" do
+    context "as unauthenticated customer" do
+      include_context "with unauthenticated customer"
+      
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
@@ -114,6 +116,12 @@ describe Customer::SessionsController do
         # Parameters
 #       it { should permit(:email).for(:create) }
 
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
+        end
+
         # Response
         it { should_not assign_to(:customer) }
         it { should respond_with(:success) }
@@ -138,10 +146,10 @@ describe Customer::SessionsController do
           post :create, :customer => attributes, :format => 'html'
         end
 
-        it "has locked customer" do
-          customer.reload
-          customer.access_locked?.should be_true
-          customer.active_for_authentication?.should be_false
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
         end
 
         # Response
@@ -164,6 +172,12 @@ describe Customer::SessionsController do
           post :create, :customer => attributes, :format => 'html'
         end
 
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
+        end
+
         # Response
         it { should assign_to(:customer) }
         it { should respond_with(:redirect) }
@@ -178,6 +192,12 @@ describe Customer::SessionsController do
           @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:login => customer.username, :password => customer.password}
           post :create, :customer => attributes, :format => 'html'
+        end
+
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
         end
 
         # Response
@@ -203,6 +223,12 @@ describe Customer::SessionsController do
         # Parameters
 #       it { should permit(:email).for(:create) }
 
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
+        end
+
         # Response
         it { should_not assign_to(:customer) }
         it { should respond_with(:redirect) }
@@ -223,10 +249,10 @@ describe Customer::SessionsController do
           post :create, :customer => attributes, :format => 'html'
         end
 
-        it "should be locked" do
-          customer.access_locked?.should be_true
-          customer.active_for_authentication?.should be_false
-          customer.valid_for_authentication?.should be_false
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
         end
 
         # Response
@@ -240,6 +266,37 @@ describe Customer::SessionsController do
           flash = response.request.env["rack.session"]["flash"]
           flash.alert.should match(/account is locked/)
         end
+      end
+    end
+
+    context "as cancelled customer", :cancelled => true do
+      include_context "with cancelled customer"
+
+      describe "valid login" do
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:customer]
+          attributes = {:login => customer.email, :password => customer.password}
+          post :create, :customer => attributes, :format => 'html'
+        end
+
+        it "should be cancelled" do
+          customer.cancelled?.should be_true
+          customer.active_for_authentication.should be_false
+        end
+
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_customer.should be_nil
+        end
+
+        # Response
+        it { should_not assign_to(:customer) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/account has been cancelled/) }
+        it { should render_template :new}
       end
     end
 

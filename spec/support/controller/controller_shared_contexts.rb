@@ -29,6 +29,16 @@ module ControllerSharedContexts
     end
   end
 
+  shared_context "with cancelled customer" do
+    let(:customer) do
+      customer = FactoryGirl.create(:customer)
+      customer.confirm!
+      customer.cancel_account!
+      reset_email
+      customer.reload
+    end
+  end
+
   shared_context "with authenticated customer" do
     let(:customer) do
       customer = FactoryGirl.create(:customer)

@@ -64,7 +64,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   def destroy
     # Don't actually destroy the customer object, just set it to 'cancelled'
     @customer = current_customer
-    @customer.cancel_account
+    @customer.cancel_account!
     Devise.sign_out_all_scopes ? sign_out : sign_out(:customer)
     set_flash_message :notice, :destroyed
     respond_with @customer, :location => home_path

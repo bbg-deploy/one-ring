@@ -200,48 +200,90 @@ describe Employee do
   
   # Behavior
   #----------------------------------------------------------------------------
-  describe "behavior", :behavior => true do
+  describe "public methods", :public_methods => true do
+    describe "active_for_authentication?" do
+      let(:employee) { FactoryGirl.create(:employee) }
+
+      context "as unconfirmed" do
+        it "should be active for authentication" do
+          employee.active_for_authentication?.should be_false
+        end
+      end
+
+      context "as confirmed" do
+        it "should be active for authentication" do
+          employee.confirm!
+          employee.active_for_authentication?.should be_true
+        end
+      end
+
+      context "as locked" do
+        it "should not be active for authentication" do
+          employee.lock_access!
+          employee.active_for_authentication?.should be_false
+        end
+      end
+
+      context "as cancelled" do
+        it "should not be active for authentication" do
+          employee.cancel_account!
+          employee.active_for_authentication?.should be_false
+        end
+      end
+    end
   end
 
   # Devise
   #----------------------------------------------------------------------------
   describe "devise", :devise => true do
-    it_behaves_like "devise authenticatable", :employee do
-      # Authentication Configuration
-      let(:domain) { "notcredda.com" }
-      let(:case_insensitive_keys) { [:email] }
-      let(:strip_whitespace_keys) { [:email] }
-      let(:authentication_keys) { [:login] }
+    describe "database authenticatable" do
+      it_behaves_like "devise authenticatable", :employee do
+        # Authentication Configuration
+        let(:domain) { "notcredda.com" }
+        let(:case_insensitive_keys) { [:email] }
+        let(:strip_whitespace_keys) { [:email] }
+        let(:authentication_keys) { [:login] }
+      end
     end
     
-    it_behaves_like "devise recoverable", :employee do
-      # Recoverable Configuration
-      let(:reset_password_keys) { [:email] }
-      let(:reset_password_within) { 6.hours }
+    describe "recoverable" do
+      it_behaves_like "devise recoverable", :employee do
+        # Recoverable Configuration
+        let(:reset_password_keys) { [:email] }
+        let(:reset_password_within) { 6.hours }
+      end
     end
-
-    it_behaves_like "devise lockable", :employee do
-      # Lockable Configuration
-      let(:unlock_keys) { [:email] }
-      let(:unlock_strategy) { :both }
-      let(:maximum_attempts) { 10 }
-      let(:unlock_in) { 1.hour }
+  
+    describe "lockable" do
+      it_behaves_like "devise lockable", :employee do
+        # Lockable Configuration
+        let(:unlock_keys) { [:email] }
+        let(:unlock_strategy) { :both }
+        let(:maximum_attempts) { 5 }
+        let(:unlock_in) { 1.hour }
+      end
     end
-
-    it_behaves_like "devise rememberable", :employee do
-      # Rememberable Configuration
-      let(:remember_for) { 2.weeks }
+  
+    describe "rememberable" do
+      it_behaves_like "devise rememberable", :employee do
+        # Rememberable Configuration
+        let(:remember_for) { 2.weeks }
+      end
     end
-
-    it_behaves_like "devise timeoutable", :employee do
-      # Timeoutable Configuration
-      let(:timeout_in) { 30.minutes }
+  
+    describe "timeoutable" do
+      it_behaves_like "devise timeoutable", :employee do
+        # Timeoutable Configuration
+        let(:timeout_in) { 30.minutes }
+      end
     end
-
-    it_behaves_like "devise confirmable", :employee do
-      # Confirmable Configuration
-      let(:reconfirmable) { true }
-      let(:confirmation_keys) { [:email] }
+  
+    describe "confirmable" do
+      it_behaves_like "devise confirmable", :employee do
+        # Confirmable Configuration
+        let(:reconfirmable) { true }
+        let(:confirmation_keys) { [:email] }
+      end
     end
   end
 end

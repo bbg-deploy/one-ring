@@ -220,41 +220,86 @@ describe Store, :store => true do
     end
   end
   
-  # Behavior
+  # Public Methods
   #----------------------------------------------------------------------------
-  describe "behavior", :behavior => true do
-    describe "authentication", :authentication => true do
+  describe "public methods", :public_methods => true do
+    describe "active_for_authentication?" do
+      let(:store) { FactoryGirl.create(:store) }
+
+      context "as unconfirmed" do
+        it "should be active for authentication" do
+          store.active_for_authentication?.should be_false
+        end
+      end
+
+      context "as confirmed" do
+        it "should be active for authentication" do
+          store.confirm!
+          store.active_for_authentication?.should be_true
+        end
+      end
+
+      context "as locked" do
+        it "should not be active for authentication" do
+          store.lock_access!
+          store.active_for_authentication?.should be_false
+        end
+      end
+
+      context "as cancelled" do
+        it "should not be active for authentication" do
+          store.cancel_account!
+          store.active_for_authentication?.should be_false
+        end
+      end
+    end
+  end
+
+  # Devise
+  #----------------------------------------------------------------------------
+  describe "devise", :devise => true do
+    describe "database authenticatable" do
       it_behaves_like "devise authenticatable", :store do
         # Authentication Configuration
         let(:case_insensitive_keys) { [:email] }
         let(:strip_whitespace_keys) { [:email] }
         let(:authentication_keys) { [:login] }
       end
+    end
       
+    describe "recoverable" do
       it_behaves_like "devise recoverable", :store do
         # Recoverable Configuration
         let(:reset_password_keys) { [:email] }
         let(:reset_password_within) { 6.hours }
       end
+    end
   
+    describe "lockable" do
       it_behaves_like "devise lockable", :store do
         # Lockable Configuration
         let(:unlock_keys) { [:email] }
         let(:unlock_strategy) { :both }
-        let(:maximum_attempts) { 10 }
+        let(:maximum_attempts) { 5 }
         let(:unlock_in) { 1.hour }
       end
+    end
   
+    describe "rememberable" do
       it_behaves_like "devise rememberable", :store do
         # Rememberable Configuration
         let(:remember_for) { 2.weeks }
       end
+    end
   
+    describe "timeoutable" do
       it_behaves_like "devise timeoutable", :store do
         # Timeoutable Configuration
         let(:timeout_in) { 30.minutes }
       end
+    end
   
+    describe "confirmable" do
       it_behaves_like "devise confirmable", :store do
         # Confirmable Configuration
         let(:reconfirmable) { true }
