@@ -4,6 +4,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  before_filter :check_scope_conflict
 
   # GET /customer/sign_up
   def new
@@ -80,6 +81,10 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to customer_scope_conflict_path if (!(current_user.nil?) && (current_customer.nil?))
+  end
+
   def after_sign_in_path_for(customer)
     customer_home_path
   end
