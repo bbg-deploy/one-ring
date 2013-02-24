@@ -173,9 +173,9 @@ describe Customer::SessionsController do
         end
 
         # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_customer.should be_nil
+        it "should have current customer" do
+          subject.current_user.should_not be_nil
+          subject.current_customer.should_not be_nil
         end
 
         # Response
@@ -195,9 +195,9 @@ describe Customer::SessionsController do
         end
 
         # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_customer.should be_nil
+        it "should have current customer" do
+          subject.current_user.should_not be_nil
+          subject.current_customer.should_not be_nil
         end
 
         # Response
@@ -222,12 +222,6 @@ describe Customer::SessionsController do
 
         # Parameters
 #       it { should permit(:email).for(:create) }
-
-        # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_customer.should be_nil
-        end
 
         # Response
         it { should_not assign_to(:customer) }
@@ -269,7 +263,7 @@ describe Customer::SessionsController do
       end
     end
 
-    context "as cancelled customer", :cancelled => true  do
+    context "as cancelled customer" do
       include_context "with cancelled customer"
 
       describe "valid login" do

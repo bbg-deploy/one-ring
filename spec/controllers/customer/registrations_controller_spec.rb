@@ -653,7 +653,8 @@ describe Customer::RegistrationsController do
       it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
 
       # Behavior
-      it "should be 'canceled'" do
+      it "should be 'cancelled'" do
+        customer.reload
         customer.cancelled?.should be_true
       end
 
