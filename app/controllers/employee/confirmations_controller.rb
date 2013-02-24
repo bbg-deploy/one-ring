@@ -1,8 +1,8 @@
 class Employee::ConfirmationsController < Devise::ConfirmationsController
   include ActiveModel::ForbiddenAttributesProtection
-
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :show ]
+  before_filter :check_scope_conflict
 
   # GET /employee/confirmation/new
   def new
@@ -34,6 +34,10 @@ class Employee::ConfirmationsController < Devise::ConfirmationsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to employee_scope_conflict_path if (!(current_user.nil?) && (current_employee.nil?))
+  end
+
   def after_sign_in_path_for(employee)
     employee_home_path
   end

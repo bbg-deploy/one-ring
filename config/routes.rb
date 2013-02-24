@@ -17,7 +17,7 @@ Onering::Application.routes.draw do
     :sessions => 'customer/sessions',
     :unlocks => 'customer/unlocks'
   }
-    
+
   devise_scope :customer do
     get '/customer/scope_conflict' => 'customer/sessions#scope_conflict'
   end
@@ -44,6 +44,10 @@ Onering::Application.routes.draw do
     :unlocks => 'store/unlocks'
   }
 
+  devise_scope :store do
+    get '/store/scope_conflict' => 'store/sessions#scope_conflict'
+  end
+
   namespace :store do
     root :to                  => "pages#home", :as => :home
   end
@@ -57,6 +61,10 @@ Onering::Application.routes.draw do
     :sessions => 'employee/sessions',
     :unlocks => 'employee/unlocks'
   }
+
+  devise_scope :employee do
+    get '/employee/scope_conflict' => 'employee/sessions#scope_conflict'
+  end
 
   namespace :employee do
     root :to                  => "pages#home", :as => :home

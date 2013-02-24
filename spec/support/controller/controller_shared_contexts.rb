@@ -97,6 +97,44 @@ module ControllerSharedContexts
 
   # New Employee Contexts
   #----------------------------------------------------------------------------  
+  shared_context "with unauthenticated employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      reset_email
+      employee.reload
+    end
+  end
+
+  shared_context "with unconfirmed employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      reset_email
+      employee.reload
+    end
+  end
+
+  shared_context "with locked employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      customer.failed_attempts = 6
+      employee.lock_access!
+      reset_email
+      employee.reload
+    end
+  end
+
+  shared_context "with cancelled employee" do
+    let(:employee) do
+      employee = FactoryGirl.create(:employee)
+      employee.confirm!
+      employee.cancel_account!
+      reset_email
+      employee.reload
+    end
+  end
+
   shared_context "with authenticated employee" do
     let(:employee) do
       employee = FactoryGirl.create(:employee)
