@@ -44,6 +44,10 @@ class Employee < ActiveRecord::Base
     return "#{self.first_name} #{self.last_name}"
   end
 
+  def active_for_authentication?
+    super && self.cancelled_at.nil?
+  end
+
   private
   def generate_account_number
     if self.account_number.nil?

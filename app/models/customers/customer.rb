@@ -67,6 +67,10 @@ class Customer < ActiveRecord::Base
     return "#{self.first_name} #{self.last_name}"
   end
 
+  def active_for_authentication?
+    super && self.cancelled_at.nil?
+  end
+
   private
   # Digests the password using bcrypt.
   # def password_digest(password)

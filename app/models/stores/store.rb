@@ -52,8 +52,11 @@ class Store < ActiveRecord::Base
 
   # Public
   #----------------------------------------------------------------------------
-  public
-  
+  public  
+  def active_for_authentication?
+    super && self.cancelled_at.nil?
+  end
+
   # Private Methods
   #----------------------------------------------------------------------------
   private

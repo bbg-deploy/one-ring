@@ -219,6 +219,7 @@ describe Employee do
 
       context "as locked" do
         it "should not be active for authentication" do
+          employee.confirm!
           employee.lock_access!
           employee.active_for_authentication?.should be_false
         end
@@ -226,6 +227,7 @@ describe Employee do
 
       context "as cancelled" do
         it "should not be active for authentication" do
+          employee.confirm!
           employee.cancel_account!
           employee.active_for_authentication?.should be_false
         end

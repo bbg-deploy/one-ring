@@ -103,15 +103,12 @@ module Authentication
   end
     
   def cancel_account!
-    self.cancelled_at = Time.now
+    self.cancelled_at = DateTime.now
+    self.save!
   end
 
   def cancelled?
     return self.cancelled_at.nil?
-  end
-
-  def active_for_authentication?
-    super && !self.cancelled_at
   end
 
   private

@@ -269,7 +269,7 @@ describe Customer::SessionsController do
       end
     end
 
-    context "as cancelled customer", :cancelled => true do
+    context "as cancelled customer" do
       include_context "with cancelled customer"
 
       describe "valid login" do
@@ -279,9 +279,10 @@ describe Customer::SessionsController do
           post :create, :customer => attributes, :format => 'html'
         end
 
-        it "should be cancelled" do
+        it "should be cancelled", :cancelled => true do
           customer.cancelled?.should be_true
-          customer.active_for_authentication.should be_false
+          customer.reload
+          customer.active_for_authentication?.should be_false
         end
 
         # Variables

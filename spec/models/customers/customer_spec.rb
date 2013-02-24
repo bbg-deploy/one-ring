@@ -304,6 +304,7 @@ describe Customer do
 
       context "as locked" do
         it "should not be active for authentication" do
+          customer.confirm!
           customer.lock_access!
           customer.active_for_authentication?.should be_false
         end
@@ -311,6 +312,7 @@ describe Customer do
 
       context "as cancelled" do
         it "should not be active for authentication" do
+          customer.confirm!
           customer.cancel_account!
           customer.active_for_authentication?.should be_false
         end

@@ -241,6 +241,7 @@ describe Store, :store => true do
 
       context "as locked" do
         it "should not be active for authentication" do
+          store.confirm!
           store.lock_access!
           store.active_for_authentication?.should be_false
         end
@@ -248,6 +249,7 @@ describe Store, :store => true do
 
       context "as cancelled" do
         it "should not be active for authentication" do
+          store.confirm!
           store.cancel_account!
           store.active_for_authentication?.should be_false
         end
