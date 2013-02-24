@@ -50,29 +50,6 @@ describe Employee::ConfirmationsController do
       it { should set_the_flash[:alert].to(/already signed in/) }
     end
 
-    context "as authenticated store" do
-      include_context "with authenticated store"
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
-      end
-
-      # Variables
-      it "should not have current user" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
-        subject.current_store.should_not be_nil
-      end
-
-      # Response
-      it { should_not assign_to(:employee) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(employee_scope_conflict_path) }
-
-      # Content
-      it { should_not set_the_flash }
-    end
-
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
@@ -85,6 +62,29 @@ describe Employee::ConfirmationsController do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -256,31 +256,6 @@ describe Employee::ConfirmationsController do
       end
     end
 
-    context "as authenticated store" do
-      include_context "with authenticated store"
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        employee = FactoryGirl.create(:employee)
-        attributes = {:email => employee.email}
-        post :create, :employee => attributes, :format => 'html'
-      end
-
-      # Variables
-      it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
-        subject.current_store.should_not be_nil
-      end
-
-      # Response
-      it { should_not assign_to(:employee) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(employee_scope_conflict_path) }
-
-      # Content
-      it { should_not set_the_flash }
-    end
-
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
@@ -295,6 +270,31 @@ describe Employee::ConfirmationsController do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        employee = FactoryGirl.create(:employee)
+        attributes = {:email => employee.email}
+        post :create, :employee => attributes, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -380,31 +380,6 @@ describe Employee::ConfirmationsController do
       end
     end
 
-    context "as authenticated store" do
-      include_context "with authenticated store"
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        @request.env['QUERY_STRING'] = "confirmation_token="
-        employee = FactoryGirl.create(:employee)
-        get :show, :confirmation_token => "#{employee.confirmation_token}", :format => 'html'
-      end
-
-      # Variables
-      it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
-        subject.current_store.should_not be_nil
-      end
-
-      # Response
-      it { should_not assign_to(:employee) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(employee_scope_conflict_path) }
-
-      # Content
-      it { should_not set_the_flash }
-    end
-
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
@@ -419,6 +394,30 @@ describe Employee::ConfirmationsController do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        @request.env['QUERY_STRING'] = "confirmation_token="
+        employee = FactoryGirl.create(:employee)
+        get :show, :confirmation_token => "#{employee.confirmation_token}", :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
       end
 
       # Response

@@ -2,6 +2,7 @@ class Employee::UnlocksController < Devise::UnlocksController
   include ActiveModel::ForbiddenAttributesProtection
 
   prepend_before_filter :require_no_authentication
+  before_filter :check_scope_conflict
 
   # GET /employee/unlock/new
   def new
@@ -32,6 +33,10 @@ class Employee::UnlocksController < Devise::UnlocksController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to employee_scope_conflict_path if (!(current_user.nil?) && (current_employee.nil?))
+  end
+
   def after_sign_in_path_for(employee)
     employee_home_path
   end

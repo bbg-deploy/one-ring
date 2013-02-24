@@ -4,6 +4,7 @@ class Employee::RegistrationsController < Devise::RegistrationsController
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  before_filter :check_scope_conflict
 
   # GET /employee/sign_up
   def new
@@ -59,7 +60,7 @@ class Employee::RegistrationsController < Devise::RegistrationsController
   def destroy
     # Don't actually destroy the customer object, just set it to 'cancelled'
     @employee = current_employee
-    @employee.cancel_account
+    @employee.cancel_account!
     Devise.sign_out_all_scopes ? sign_out : sign_out(:employee)
     set_flash_message :notice, :destroyed
     respond_with @employee, :location => home_path
@@ -76,6 +77,10 @@ class Employee::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to employee_scope_conflict_path if (!(current_user.nil?) && (current_employee.nil?))
+  end
+
   def after_sign_in_path_for(employee)
     employee_home_path
   end

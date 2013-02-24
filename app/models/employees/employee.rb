@@ -48,6 +48,14 @@ class Employee < ActiveRecord::Base
     super && self.cancelled_at.nil?
   end
 
+  def inactive_message 
+    if cancelled? 
+      :cancelled
+    else 
+      super # Use whatever other message 
+    end 
+  end
+
   private
   def generate_account_number
     if self.account_number.nil?

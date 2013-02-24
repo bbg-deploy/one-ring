@@ -134,7 +134,7 @@ describe Customer::UnlocksController do
       end
     end
 
-    context "as unauthenticated, locked customer" do
+    context "as locked customer" do
       include_context "with locked customer"
 
       describe "invalid email" do
@@ -322,7 +322,7 @@ describe Customer::UnlocksController do
       end
     end
 
-    context "as unauthenticated, locked customer" do
+    context "as locked customer" do
       include_context "with locked customer"
       
       describe "without token" do

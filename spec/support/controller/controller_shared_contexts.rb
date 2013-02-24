@@ -118,7 +118,7 @@ module ControllerSharedContexts
     let(:employee) do
       employee = FactoryGirl.create(:employee)
       employee.confirm!
-      customer.failed_attempts = 6
+      employee.failed_attempts = 6
       employee.lock_access!
       reset_email
       employee.reload

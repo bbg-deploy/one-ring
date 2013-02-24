@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 describe Employee::PasswordsController do
-  include Devise::TestHelpers
-
   describe "routing", :routing => true do
-    let(:employee) { FactoryGirl.create(:employee) }
-
     it { should route(:get, "/employee/password/new").to(:action => :new) }
     it { should route(:post, "/employee/password").to(:action => :create) }
     it { should route(:get, "/employee/password/edit").to(:action => :edit) }
@@ -14,8 +10,9 @@ describe Employee::PasswordsController do
 
   describe "#new", :new => true do
     context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+      include_context "with unauthenticated employee"
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
         get :new, :format => 'html'
       end
 
@@ -23,6 +20,12 @@ describe Employee::PasswordsController do
         subject.try(:current_employee).should be_nil
       end
       
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_employee.should be_nil
+      end
+
       # Response
       it { should assign_to(:employee) }
       it { should respond_with(:success) }
@@ -33,13 +36,16 @@ describe Employee::PasswordsController do
     end
 
     context "as authenticated employee" do
-      include_context "as authenticated employee"
+      include_context "with authenticated employee"
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
         get :new, :format => 'html'
       end
       
-      it "should have employee" do
-        subject.try(:current_employee).should_not be_nil
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should_not be_nil
       end
 
       # Response
@@ -50,20 +56,73 @@ describe Employee::PasswordsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }      
     end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
 
   describe "#create", :create => true do
     context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+      include_context "with unauthenticated employee"
 
-      context "with mismatched email" do
+      describe "with mismatched email" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:employee]
           attributes = {:email => "fake@fakemail.com"}
           post :create, :employee => attributes, :format => 'html'
         end        
 
         # Parameters
 #       it { should permit(:email).for(:create) }
+
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_employee.should be_nil
+        end
 
         # Response
         it { should assign_to(:employee) }
@@ -79,14 +138,21 @@ describe Employee::PasswordsController do
         end
       end
       
-      context "with matching email" do
+      describe "with matching email" do
         before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:employee]
           attributes = {:email => employee.email}
           post :create, :employee => attributes, :format => 'html'
         end
         
         # Parameters
 #       it { should permit(:email).for(:create) }
+
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+          subject.current_employee.should be_nil
+        end
 
         # Response
         it { should assign_to(:employee) }
@@ -106,14 +172,17 @@ describe Employee::PasswordsController do
     end
 
     context "as authenticated employee" do
-      include_context "as authenticated employee"
+      include_context "with authenticated employee"
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
         attributes = {:email => employee.email}
         post :create, :employee => attributes, :format => 'html'
       end
       
-      it "should have employee" do
-        subject.try(:current_employee).should_not be_nil
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should_not be_nil
       end
 
       # Response
@@ -124,18 +193,75 @@ describe Employee::PasswordsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }      
     end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        employee = FactoryGirl.create(:employee)
+        attributes = {:email => employee.email}
+        post :create, :employee => attributes, :format => 'html'
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        employee = FactoryGirl.create(:employee)
+        attributes = {:email => employee.email}
+        post :create, :employee => attributes, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
 
   describe "#edit", :edit => true do
     context "as unauthenticated employee" do
-      context "without password reset requested" do
-        include_context "as unauthenticated employee"
+      include_context "with unauthenticated employee"
 
+      context "without password reset requested" do
         describe "no password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             get :edit, :format => 'html'
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+    
           # Response
           it { should_not assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -147,10 +273,17 @@ describe Employee::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             @request.env['QUERY_STRING'] = "reset_password_token="
             get :edit, :reset_password_token => "abcdef", :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -162,13 +295,21 @@ describe Employee::PasswordsController do
       end      
 
       context "with password reset requested" do
-        include_context "as unauthenticated employee with password reset request"
-
         describe "no password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             get :edit, :format => 'html'
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should_not assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -180,10 +321,20 @@ describe Employee::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             @request.env['QUERY_STRING'] = "reset_password_token="
             get :edit, :reset_password_token => "abcdef", :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -195,10 +346,20 @@ describe Employee::PasswordsController do
 
         describe "valid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             @request.env['QUERY_STRING'] = "reset_password_token="
             get :edit, :reset_password_token => "#{employee.reset_password_token}", :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -211,13 +372,17 @@ describe Employee::PasswordsController do
     end
 
     context "as authenticated employee" do
-      include_context "as authenticated employee"
+      include_context "with authenticated employee"
+
       before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
         get :edit, :format => 'html'
       end
       
-      it "should have employee" do
-        subject.try(:current_employee).should_not be_nil
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should_not be_nil
       end
 
       # Response
@@ -228,19 +393,72 @@ describe Employee::PasswordsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }      
     end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        get :edit, :format => 'html'
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        get :edit, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+    end
   end
 
   describe "#update", :update => true do
-    context "as unauthenticated, unconfirmed employee" do
-      context "without password reset requested" do
-        include_context "as unauthenticated, unconfirmed employee"
+    context "as unconfirmed employee" do
+      include_context "with unconfirmed employee"
 
+      context "without password reset requested" do
         describe "with no password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+    
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -252,10 +470,17 @@ describe Employee::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -267,14 +492,22 @@ describe Employee::PasswordsController do
       end
 
       context "with password reset requested" do
-        include_context "as unauthenticated, unconfirmed employee with password reset request"
-        
         describe "with no password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -286,10 +519,20 @@ describe Employee::PasswordsController do
        
         describe "with invalid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -301,16 +544,25 @@ describe Employee::PasswordsController do
 
         describe "with valid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#{employee.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
       
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
-          # Should go to sign-in page instead of employee home because the account is not confirmed
-          it { should redirect_to(new_employee_session_path) }
-      
+          it { should redirect_to(new_employee_session_path) } # Should go to sign-in page instead of employee home because the account is not confirmed
+
           # Content
           it { should set_the_flash[:notice].to(/password was changed successfully/) }
           it { should set_the_flash[:alert].to(/have to confirm your account/) }
@@ -325,16 +577,23 @@ describe Employee::PasswordsController do
       end
     end
 
-    context "as unauthenticated, confirmed employee" do
-      context "without password reset requested" do
-        include_context "as unauthenticated employee"
+    context "as unauthenticated employee" do
+      include_context "with unauthenticated employee"
 
+      context "without password reset requested" do
         describe "with no password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -346,10 +605,17 @@ describe Employee::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
     
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_employee.should be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -361,10 +627,12 @@ describe Employee::PasswordsController do
       end
 
       context "with password reset requested" do
-        include_context "as unauthenticated employee with password reset request"
-
         describe "with no password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
@@ -380,6 +648,10 @@ describe Employee::PasswordsController do
        
         describe "with invalid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
@@ -395,6 +667,10 @@ describe Employee::PasswordsController do
 
         describe "with valid password reset token" do
           before(:each) do
+            employee.send_reset_password_instructions
+            reset_email
+            employee.reload
+            @request.env["devise.mapping"] = Devise.mappings[:employee]
             attributes = {:reset_password_token => "#{employee.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             put :update, :employee => attributes, :format => 'html'
           end
@@ -418,14 +694,20 @@ describe Employee::PasswordsController do
     end
 
     context "as authenticated employee" do
-      include_context "as authenticated employee"
+      include_context "with authenticated employee"
       before(:each) do
+        employee.send_reset_password_instructions
+        reset_email
+        employee.reload
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
         attributes = {:password => "newpass", :password_confirmation => "newpass"}
         put :update, :employee => attributes, :format => 'html'
       end
       
-      it "should have employee" do
-        subject.try(:current_employee).should_not be_nil
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should_not be_nil
       end
 
       # Response
@@ -435,6 +717,54 @@ describe Employee::PasswordsController do
 
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }      
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        attributes = {:password => "newpass", :password_confirmation => "newpass"}
+        put :update, :employee => attributes, :format => 'html'
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:employee]
+        attributes = {:password => "newpass", :password_confirmation => "newpass"}
+        put :update, :employee => attributes, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_employee.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
     end
   end
 end

@@ -4,6 +4,7 @@ class Employee::PasswordsController < Devise::PasswordsController
   prepend_before_filter :require_no_authentication
   # Render the #edit only if coming from a reset password email link
   append_before_filter :assert_reset_token_passed, :only => :edit
+  before_filter :check_scope_conflict
 
   # GET /employee/password/new
   def new
@@ -48,6 +49,10 @@ class Employee::PasswordsController < Devise::PasswordsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to employee_scope_conflict_path if (!(current_user.nil?) && (current_employee.nil?))
+  end
+
   def after_sign_in_path_for(employee)
     employee_home_path
   end

@@ -304,6 +304,54 @@ describe Customer::SessionsController do
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
     end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
 
   describe "#destroy", :destroy => true do
@@ -337,5 +385,53 @@ describe Customer::SessionsController do
 
       # Content
       it { should set_the_flash[:notice].to(/Signed out successfully/) }    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        get :new, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
   end
 end
