@@ -223,6 +223,33 @@ describe Store, :store => true do
   # Public Methods
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "cancel_account!" do
+      let(:store) { FactoryGirl.create(:store) }
+      
+      it "should set cancelled account to current time" do
+        store.cancelled_at.should be_nil
+        store.cancel_account!
+        store.cancelled_at.should be_within(1.minute).of(DateTime.now)
+      end
+    end
+
+    describe "cancelled?" do
+      let(:store) { FactoryGirl.create(:store) }
+      
+      context "without cancellation" do
+        it "should be false" do
+          store.cancelled?.should be_false
+        end
+      end
+
+      context "without cancellation" do
+        it "should be true" do
+          store.cancel_account!
+          store.cancelled?.should be_true
+        end
+      end
+    end
+
     describe "active_for_authentication?" do
       let(:store) { FactoryGirl.create(:store) }
 

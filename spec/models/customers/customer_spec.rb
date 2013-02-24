@@ -286,6 +286,33 @@ describe Customer do
   # Public Methods
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "cancel_account!" do
+      let(:customer) { FactoryGirl.create(:customer) }
+      
+      it "should set cancelled account to current time" do
+        customer.cancelled_at.should be_nil
+        customer.cancel_account!
+        customer.cancelled_at.should be_within(1.minute).of(DateTime.now)
+      end
+    end
+
+    describe "cancelled?" do
+      let(:customer) { FactoryGirl.create(:customer) }
+      
+      context "without cancellation" do
+        it "should be false" do
+          customer.cancelled?.should be_false
+        end
+      end
+
+      context "without cancellation" do
+        it "should be true" do
+          customer.cancel_account!
+          customer.cancelled?.should be_true
+        end
+      end
+    end
+
     describe "active_for_authentication?" do
       let(:customer) { FactoryGirl.create(:customer) }
 

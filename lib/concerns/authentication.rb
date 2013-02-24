@@ -108,7 +108,7 @@ module Authentication
   end
 
   def cancelled?
-    return self.cancelled_at.nil?
+    return !self.cancelled_at.nil?
   end
 
   private

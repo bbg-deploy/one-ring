@@ -201,6 +201,33 @@ describe Employee do
   # Behavior
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "cancel_account!" do
+      let(:employee) { FactoryGirl.create(:employee) }
+      
+      it "should set cancelled account to current time" do
+        employee.cancelled_at.should be_nil
+        employee.cancel_account!
+        employee.cancelled_at.should be_within(1.minute).of(DateTime.now)
+      end
+    end
+
+    describe "cancelled?" do
+      let(:employee) { FactoryGirl.create(:employee) }
+      
+      context "without cancellation" do
+        it "should be false" do
+          employee.cancelled?.should be_false
+        end
+      end
+
+      context "without cancellation" do
+        it "should be true" do
+          employee.cancel_account!
+          employee.cancelled?.should be_true
+        end
+      end
+    end
+
     describe "active_for_authentication?" do
       let(:employee) { FactoryGirl.create(:employee) }
 
