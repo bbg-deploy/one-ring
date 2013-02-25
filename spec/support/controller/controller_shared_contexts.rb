@@ -82,6 +82,16 @@ module ControllerSharedContexts
     end
   end
 
+  shared_context "with cancelled store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      store.confirm!
+      store.cancel_account!
+      reset_email
+      store.reload
+    end
+  end
+
   shared_context "with authenticated store" do
     let(:store) do
       store = FactoryGirl.create(:store)

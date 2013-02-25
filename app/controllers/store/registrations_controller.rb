@@ -4,6 +4,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  before_filter :check_scope_conflict
 
   # GET /store/sign_up
   def new
@@ -61,7 +62,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
   def destroy
     # Don't actually destroy the store object, just set it to 'cancelled'
     @store = current_store
-    @store.cancel_account
+    @store.cancel_account!
     Devise.sign_out_all_scopes ? sign_out : sign_out(:store)
     set_flash_message :notice, :destroyed
     respond_with @store, :location => home_path
@@ -78,6 +79,10 @@ class Store::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to store_scope_conflict_path if (!(current_user.nil?) && (current_store.nil?))
+  end
+
   def after_sign_in_path_for(store)
     store_home_path
   end

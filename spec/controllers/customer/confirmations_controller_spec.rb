@@ -8,7 +8,9 @@ describe Customer::ConfirmationsController do
   end
 
   describe "#new", :new => true do
-    context "with no user" do
+    context "as unauthenticated customer" do\
+      include_context "with unauthenticated customer"
+      
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]
         get :new, :format => 'html'
@@ -58,7 +60,7 @@ describe Customer::ConfirmationsController do
       end
 
       # Variables
-      it "should not have current user" do
+      it "should have current store" do
         subject.current_user.should_not be_nil
         subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
@@ -81,7 +83,7 @@ describe Customer::ConfirmationsController do
       end
 
       # Variables
-      it "should not have current user" do
+      it "should have current employee" do
         subject.current_user.should_not be_nil
         subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
@@ -256,7 +258,7 @@ describe Customer::ConfirmationsController do
       end
     end
 
-    context "as authenticated store", :failing => true do
+    context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]

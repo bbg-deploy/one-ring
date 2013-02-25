@@ -2,6 +2,7 @@ class Store::SessionsController < Devise::SessionsController
   prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
   prepend_before_filter :allow_params_authentication!, :only => :create
   prepend_before_filter { request.env["devise.skip_timeout"] = true }
+  before_filter :check_scope_conflict, :only => [:new, :create]
 
   # GET /store/sign_in
   def new
@@ -33,6 +34,10 @@ class Store::SessionsController < Devise::SessionsController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to store_scope_conflict_path if (!(current_user.nil?) && (current_store.nil?))
+  end
+
   def serialize_options(resource)
     methods = resource_class.authentication_keys.dup
     methods = methods.keys if methods.is_a?(Hash)

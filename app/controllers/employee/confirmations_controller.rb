@@ -1,5 +1,6 @@
 class Employee::ConfirmationsController < Devise::ConfirmationsController
   include ActiveModel::ForbiddenAttributesProtection
+
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :show ]
   before_filter :check_scope_conflict

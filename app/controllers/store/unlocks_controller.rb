@@ -2,6 +2,7 @@ class Store::UnlocksController < Devise::UnlocksController
   include ActiveModel::ForbiddenAttributesProtection
 
   prepend_before_filter :require_no_authentication
+  before_filter :check_scope_conflict
 
   # GET /store/unlock/new
   def new
@@ -32,6 +33,10 @@ class Store::UnlocksController < Devise::UnlocksController
   end
 
   protected
+  def check_scope_conflict
+    redirect_to store_scope_conflict_path if (!(current_user.nil?) && (current_store.nil?))
+  end
+
   def after_sign_in_path_for(store)
     store_home_path
   end

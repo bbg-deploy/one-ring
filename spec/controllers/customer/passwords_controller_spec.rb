@@ -88,7 +88,7 @@ describe Customer::PasswordsController do
       end
 
       # Variables
-      it "should have current store" do
+      it "should have current employee" do
         subject.current_user.should_not be_nil
         subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil

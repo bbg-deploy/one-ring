@@ -62,7 +62,7 @@ describe Employee::UnlocksController do
       end
 
       # Variables
-      it "should have current employee" do
+      it "should have current customer" do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
@@ -233,7 +233,7 @@ describe Employee::UnlocksController do
       end
 
       # Variables
-      it "should have current employee" do
+      it "should have current customer" do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
@@ -423,7 +423,7 @@ describe Employee::UnlocksController do
       end
 
       # Variables
-      it "should have current employee" do
+      it "should have current customer" do
         subject.current_user.should_not be_nil
         subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
