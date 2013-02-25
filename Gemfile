@@ -52,6 +52,9 @@ group :test do
 #  gem 'shoulda-matchers', :github => 'thoughtbot/shoulda-matchers'
 end
 
+# Encryption
+gem 'symmetric-encryption'
+
 # API
 gem 'grape', '~> 0.2.6'
 #gem 'doorkeeper', '~> 0.6.7'

@@ -40,6 +40,9 @@ class Customer < ActiveRecord::Base
                   :mailing_address, :mailing_address_attributes, 
                   :phone_number, :phone_number_attributes
 
+  attr_encrypted :social_security_number
+  validates :encrypted_social_security_number, :symmetric_encryption => true
+
   # Validations
   #----------------------------------------------------------------------------
   before_validation :generate_account_number, :on => :create
