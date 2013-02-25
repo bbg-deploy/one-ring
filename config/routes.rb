@@ -1,5 +1,7 @@
 Onering::Application.routes.draw do
   root :to              => "pages#home",             :as => :home
+  get 'learn_more'      => "pages#learn_more",       :as => :learn_more
+
 
   # OmniAuth Provider paths
   #-----------------------------------------------------------------

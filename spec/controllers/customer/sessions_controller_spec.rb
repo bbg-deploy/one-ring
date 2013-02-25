@@ -208,6 +208,77 @@ describe Customer::SessionsController do
         # Content
         it { should set_the_flash[:notice].to(/Signed in successfully/) }
       end
+
+      describe "redirects to correct path" do
+        context "without referrer" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
+            attributes = {:login => customer.username, :password => customer.password}
+            post :create, :customer => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current customer" do
+            subject.current_user.should_not be_nil
+            subject.current_customer.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(customer_home_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
+        
+        context "with referer" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
+            session[:post_auth_path] = "/customer/edit"
+            attributes = {:login => customer.username, :password => customer.password}
+            post :create, :customer => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current customer" do
+            subject.current_user.should_not be_nil
+            subject.current_customer.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(edit_customer_registration_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
+        
+        context "with referer and pre_conflict_path" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
+            session[:post_auth_path] = "/customer"
+            session[:pre_conflict_path] = "/customer/edit"
+            attributes = {:login => customer.username, :password => customer.password}
+            post :create, :customer => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current customer" do
+            subject.current_user.should_not be_nil
+            subject.current_customer.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(edit_customer_registration_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
+      end
     end
           
     context "as unconfirmed customer" do
@@ -429,6 +500,214 @@ describe Customer::SessionsController do
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(customer_scope_conflict_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+  end
+
+  describe "#scope_conflict", :scope_conflict => true do
+    context "as unauthenticated customer" do
+      include_context "with unauthenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env["HTTP_REFERER"] = "/customer/edit"
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_customer.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+
+      # Behavior
+      it "should not set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should be_nil
+      end
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env["HTTP_REFERER"] = "/customer/edit"
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(customer_home_path) }
+
+      # Content
+      it { should_not set_the_flash }
+
+      # Behavior
+      it "should not set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should be_nil
+      end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env["HTTP_REFERER"] = "/customer/edit"
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:success) }
+      it { should render_template(:scope_conflict) }
+
+      # Content
+      it { should_not set_the_flash }
+
+      # Behavior
+      it "should set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should eq("/customer/edit")
+      end
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        @request.env["HTTP_REFERER"] = "/customer/edit"
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_customer.should be_nil
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:success) }
+      it { should render_template(:scope_conflict) }
+
+      # Content
+      it { should_not set_the_flash }
+
+      # Behavior
+      it "should set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should eq("/customer/edit")
+      end
+    end
+  end
+
+  describe "#resolve_conflict", :resolve_conflict => true do
+    context "as unauthenticated customer" do
+      include_context "with unauthenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_customer.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_customer.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_customer.should be_nil
+        subject.current_store.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:customer]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_customer.should be_nil
+        subject.current_employee.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
 
       # Content
       it { should_not set_the_flash }

@@ -40,7 +40,16 @@ class Customer::SessionsController < Devise::SessionsController
 
   # GET /customer/scope_conflict
   def scope_conflict
-    
+    redirect_to :action => :new if current_user.nil?
+    redirect_to customer_home_path unless current_customer.nil?
+    session[:pre_conflict_path] = request.referer if (!current_user.nil?) && (current_customer.nil?)
+  end
+
+  # DELETE /customer/resolve_conflict
+  def resolve_conflict
+    # Signs out all scopes
+    sign_out
+    redirect_to :action => :new
   end
 
   protected
@@ -64,7 +73,11 @@ class Customer::SessionsController < Devise::SessionsController
   #-------------------------------------------------------
   # http://stackoverflow.com/questions/4291755/rspec-test-of-custom-devise-session-controller-fails-with-abstractcontrollerac
   def after_sign_in_path_for(resource)
-    if session[:post_auth_path]
+    if session[:pre_conflict_path]
+      url = session[:pre_conflict_path]
+      session[:pre_conflict_path] = nil
+      session[:post_auth_path] = nil
+    elsif session[:post_auth_path]
       url = session[:post_auth_path]
       session[:post_auth_path] = nil
     else

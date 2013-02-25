@@ -1,0 +1,8 @@
+= provide(:title, 'Sign in')
+
+.row
+  %h2 Scope Conflict
+  .six.columns
+    = link_to "Sign out of other scopes", employee_resolve_conflict_path, :method => :delete, :class => "button radius"
+  .six.columns
+    = link_to "Stay signed in, take me home", home_path, :class => "button radius"

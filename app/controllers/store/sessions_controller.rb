@@ -33,16 +33,18 @@ class Store::SessionsController < Devise::SessionsController
     end
   end
 
+  # GET /store/scope_conflict
   def scope_conflict
-    session[:post_auth_path] = request.referer
-    redirect_to new_store_session_path if current_user.nil?
+    redirect_to :action => :new if current_user.nil?
     redirect_to store_home_path unless current_store.nil?
+    session[:pre_conflict_path] = request.referer if (!current_user.nil?) && (current_store.nil?)
   end
 
+  # DELETE /store/resolve_conflict
   def resolve_conflict
     # Signs out all scopes
     sign_out
-    redirect_to new_store_session_path
+    redirect_to :action => :new
   end
 
   protected
@@ -66,7 +68,11 @@ class Store::SessionsController < Devise::SessionsController
   #-------------------------------------------------------
   # http://stackoverflow.com/questions/4291755/rspec-test-of-custom-devise-session-controller-fails-with-abstractcontrollerac
   def after_sign_in_path_for(resource)
-    if session[:post_auth_path]
+    if session[:pre_conflict_path]
+      url = session[:pre_conflict_path]
+      session[:pre_conflict_path] = nil
+      session[:post_auth_path] = nil
+    elsif session[:post_auth_path]
       url = session[:post_auth_path]
       session[:post_auth_path] = nil
     else

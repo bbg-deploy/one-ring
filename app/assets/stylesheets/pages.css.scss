@@ -1,4 +1,6 @@
 @import "compass/css3/images";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
 
 .featured {
   margin-top: -2px;
@@ -6,4 +8,52 @@
   @include background-image(linear-gradient(#085A94, #21BDE7));
 }
 
-  
+#credit-application-image {
+  img {
+    @include box-shadow(#010101 0px 0px 25px)
+  }
+}
+
+.overview-row {
+  padding-top: 20px;
+}
+
+.overview-box {
+  margin-bottom: 20px;
+  background: #313131;
+  border: #53A853 solid 5px;
+  @include border-radius(10px 10px 10px 10px);
+  height: 160px;
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);      
+  .overview-header {
+    height: 20px;
+    background: #53A853; 
+    .overview-number {
+      float: left;
+      height: 26px;
+      width: 26px;
+      padding-left: 5px;
+      padding-top: 1px;
+      position: absolute;
+      z-index: 2;
+      margin-left: -15px;
+      margin-top: -10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #53A853;
+      background: white;
+      @include border-radius(20px 20px 20px 20px);
+      border: #53A853 4px solid;
+    }
+    .overview-title {
+      float: right;
+      margin-right: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+  .overview-body {
+    padding: 10px;
+  }
+}

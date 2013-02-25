@@ -206,7 +206,78 @@ describe Store::SessionsController do
         it { should redirect_to(store_home_path) }
   
         # Content
-        it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        it { should set_the_flash[:notice].to(/Signed in successfully/) }        
+      end
+
+      describe "redirects to correct path" do
+        context "without referrer" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:store]
+            attributes = {:login => store.username, :password => store.password}
+            post :create, :store => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current store" do
+            subject.current_user.should_not be_nil
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(store_home_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
+        
+        context "with referer" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:store]
+            session[:post_auth_path] = "/store/edit"
+            attributes = {:login => store.username, :password => store.password}
+            post :create, :store => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current store" do
+            subject.current_user.should_not be_nil
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(edit_store_registration_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
+        
+        context "with referer and pre_conflict_path" do
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:store]
+            session[:post_auth_path] = "/store"
+            session[:pre_conflict_path] = "/store/edit"
+            attributes = {:login => store.username, :password => store.password}
+            post :create, :store => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should have current store" do
+            subject.current_user.should_not be_nil
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(edit_store_registration_path) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Signed in successfully/) }
+        end
       end
     end
           
@@ -436,12 +507,13 @@ describe Store::SessionsController do
     end
   end
 
-  describe "#scope_conflict" do
+  describe "#scope_conflict", :scope_conflict => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
       
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:store]
+        @request.env["HTTP_REFERER"] = "/store/edit"
         get :scope_conflict, :format => 'html'
       end
 
@@ -457,6 +529,11 @@ describe Store::SessionsController do
 
       # Content
       it { should_not set_the_flash }
+
+      # Behavior
+      it "should not set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should be_nil
+      end
     end
 
     context "as authenticated store" do
@@ -464,6 +541,7 @@ describe Store::SessionsController do
       
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:store]
+        @request.env["HTTP_REFERER"] = "/store/edit"
         get :scope_conflict, :format => 'html'
       end
 
@@ -479,6 +557,11 @@ describe Store::SessionsController do
 
       # Content
       it { should_not set_the_flash }
+
+      # Behavior
+      it "should not set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should be_nil
+      end
     end
 
     context "as authenticated customer" do
@@ -486,6 +569,7 @@ describe Store::SessionsController do
       
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:store]
+        @request.env["HTTP_REFERER"] = "/store/edit"
         get :scope_conflict, :format => 'html'
       end
 
@@ -502,6 +586,11 @@ describe Store::SessionsController do
 
       # Content
       it { should_not set_the_flash }
+
+      # Behavior
+      it "should set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should eq("/store/edit")
+      end
     end
 
     context "as authenticated employee" do
@@ -509,6 +598,7 @@ describe Store::SessionsController do
       
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:store]
+        @request.env["HTTP_REFERER"] = "/store/edit"
         get :scope_conflict, :format => 'html'
       end
 
@@ -525,10 +615,15 @@ describe Store::SessionsController do
 
       # Content
       it { should_not set_the_flash }
+
+      # Behavior
+      it "should set 'pre_conflict_path'" do
+        session[:pre_conflict_path].should eq("/store/edit")
+      end
     end
   end
 
-  describe "#resolve_conflict", :failing => true do
+  describe "#resolve_conflict", :resolve_conflict => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
       
