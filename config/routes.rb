@@ -20,6 +20,7 @@ Onering::Application.routes.draw do
 
   devise_scope :customer do
     get '/customer/scope_conflict' => 'customer/sessions#scope_conflict'
+    delete '/customer/resolve_conflict' => 'customer/sessions#resolve_conflict'
   end
     
   namespace :customer do
@@ -46,6 +47,7 @@ Onering::Application.routes.draw do
 
   devise_scope :store do
     get '/store/scope_conflict' => 'store/sessions#scope_conflict'
+    delete '/store/resolve_conflict' => 'store/sessions#resolve_conflict'
   end
 
   namespace :store do
@@ -64,6 +66,7 @@ Onering::Application.routes.draw do
 
   devise_scope :employee do
     get '/employee/scope_conflict' => 'employee/sessions#scope_conflict'
+    delete '/employee/resolve_conflict' => 'employee/sessions#resolve_conflict'
   end
 
   namespace :employee do

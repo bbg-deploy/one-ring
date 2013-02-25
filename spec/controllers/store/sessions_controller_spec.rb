@@ -435,4 +435,188 @@ describe Store::SessionsController do
       it { should_not set_the_flash }
     end
   end
+
+  describe "#scope_conflict" do
+    context "as unauthenticated store" do
+      include_context "with unauthenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_store.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_user.should_not be_nil
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(store_home_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_user.should_not be_nil
+        subject.current_store.should be_nil
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:success) }
+      it { should render_template(:scope_conflict) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        get :scope_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_user.should_not be_nil
+        subject.current_store.should be_nil
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should respond_with(:success) }
+      it { should render_template(:scope_conflict) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+  end
+
+  describe "#resolve_conflict", :failing => true do
+    context "as unauthenticated store" do
+      include_context "with unauthenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_store.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_store.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_store.should be_nil
+        subject.current_customer.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:store]
+        delete :resolve_conflict, :format => 'html'
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+        subject.current_store.should be_nil
+        subject.current_employee.should be_nil
+      end
+
+      # Response
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should_not set_the_flash }
+    end
+  end
 end

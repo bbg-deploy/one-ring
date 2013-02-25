@@ -33,6 +33,18 @@ class Store::SessionsController < Devise::SessionsController
     end
   end
 
+  def scope_conflict
+    session[:post_auth_path] = request.referer
+    redirect_to new_store_session_path if current_user.nil?
+    redirect_to store_home_path unless current_store.nil?
+  end
+
+  def resolve_conflict
+    # Signs out all scopes
+    sign_out
+    redirect_to new_store_session_path
+  end
+
   protected
   def check_scope_conflict
     redirect_to store_scope_conflict_path if (!(current_user.nil?) && (current_store.nil?))
