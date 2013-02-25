@@ -36,16 +36,17 @@ class Customer < ActiveRecord::Base
 
   # Accessible Methods
   #----------------------------------------------------------------------------
+  attr_accessor :social_security_number
   attr_accessible :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number,
                   :mailing_address, :mailing_address_attributes, 
                   :phone_number, :phone_number_attributes
 
-  attr_encrypted :social_security_number
-  validates :encrypted_social_security_number, :symmetric_encryption => true
+#  attr_encrypted :ssn
 
   # Validations
   #----------------------------------------------------------------------------
   before_validation :generate_account_number, :on => :create
+  before_validation :set_encrypted_ssn
   validates :account_number, :presence => true, :uniqueness => true
   validates :email, :not_credda_email => true
   validates :first_name, :presence => true, :name_format => true
@@ -54,20 +55,26 @@ class Customer < ActiveRecord::Base
   validates :date_of_birth, :presence => true
   validates_date :date_of_birth, :before => lambda { 18.years.ago },
                                  :before_message => "must be at least 18 years old"
-  validates :social_security_number, :presence => true,
-                                     :uniqueness => true,
-                                     :social_security_number_format => true
+  validates :social_security_number, :social_security_number_format => true
+  validates :social_security_number, :presence => true, :on => :create
+  validates :encrypted_ssn, :presence => true, :symmetric_encryption => true
   validates :mailing_address, :presence => true
   validates_associated :mailing_address
   validates :phone_number, :presence => true
   validates_associated :phone_number
   validates_associated :payment_profiles
+  after_save :remove_ssn
 
   # Methods
   #----------------------------------------------------------------------------
   public
   def name
     return "#{self.first_name} #{self.last_name}"
+  end
+
+  def ssn_last_four
+    ssn = SymmetricEncryption.decrypt(self.encrypted_ssn)
+    return "XXX-XX-#{ssn.last(4)}"
   end
 
   def active_for_authentication?
@@ -83,11 +90,6 @@ class Customer < ActiveRecord::Base
   end
 
   private
-  # Digests the password using bcrypt.
-  # def password_digest(password)
-  #      ::BCrypt::Password.create("#{password}#{self.class.pepper}", :cost => self.class.stretches).to_s
-  # end
-
   def generate_account_number
     if self.account_number.nil?
       begin
@@ -95,5 +97,13 @@ class Customer < ActiveRecord::Base
       end if Customer.where({:account_number => token}).empty?
       self.account_number = token
     end
+  end
+
+  def set_encrypted_ssn
+    self.encrypted_ssn = SymmetricEncryption.encrypt(self.social_security_number) unless self.social_security_number.nil?
+  end
+  
+  def remove_ssn
+    self.social_security_number = nil
   end
 end

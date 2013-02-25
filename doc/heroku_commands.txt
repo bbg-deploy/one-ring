@@ -1,0 +1,6 @@
+# Deploy using Heroku-San
+rake demo deploy
+
+# Reset the database
+heroku run rake db:reset --app credda-onering-demo
+heroku run rake db:seed:development --app credda-onering-demo

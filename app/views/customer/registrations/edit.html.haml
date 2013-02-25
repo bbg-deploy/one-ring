@@ -49,7 +49,7 @@
             = f.datepicker :date_of_birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 18
           .six.columns
             = f.label "Social Security Number"
-            = f.text_field :social_security_number, :placeholder => "505-33-1994"
+            = f.text_field :social_security_number, :placeholder => @customer.ssn_last_four, :disabled => true
       %fieldset
         %legend Address
         = f.fields_for :mailing_address do |address|

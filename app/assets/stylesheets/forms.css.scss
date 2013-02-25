@@ -62,17 +62,21 @@ form {
     margin: 0px 0px 15px 0px;
   }
 
+  input[type="text"]:disabled {
+    background: #DEDEDE;
+  }
+  
   ::-webkit-input-placeholder { /* WebKit browsers */
-      color:    #CCCCCC;
+      color:    #777777;
   }
   :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-      color:    #CCCCCC;
+      color:    #777777;
   }
   ::-moz-placeholder { /* Mozilla Firefox 19+ */
-      color:    #CCCCCC;
+      color:    #777777;
   }
   :-ms-input-placeholder { /* Internet Explorer 10+ */
-      color:    #CCCCCC;
+      color:    #777777;
   }
 }
 

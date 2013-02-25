@@ -68,7 +68,7 @@ describe Customer do
     it { should have_db_column(:middle_name) }
     it { should have_db_column(:last_name) }
     it { should have_db_column(:date_of_birth) }
-    it { should have_db_column(:social_security_number) }
+    it { should have_db_column(:encrypted_ssn) }
 
     # Recoverable
     it { should have_db_column(:reset_password_token) }
@@ -270,7 +270,6 @@ describe Customer do
     describe "SSN" do
       it { should allow_mass_assignment_of(:social_security_number) }
       it { should validate_presence_of(:social_security_number) }
-      it { should validate_uniqueness_of(:social_security_number) }
       it { should allow_value("733111121", "733-11-1123").for(:social_security_number) }
       it { should_not allow_value(nil, "73311112", "7331111212", "733-00-1111", "733-11-0000", "987-65-4320", "666-34-1234").for(:social_security_number) }
     end
