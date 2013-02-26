@@ -36,17 +36,16 @@ class Customer < ActiveRecord::Base
 
   # Accessible Methods
   #----------------------------------------------------------------------------
-  attr_accessor :social_security_number
+  # TODO: Bring this all back when I have a dedicated server to deploy on
+#  attr_accessor :social_security_number
   attr_accessible :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number,
                   :mailing_address, :mailing_address_attributes, 
                   :phone_number, :phone_number_attributes
 
-#  attr_encrypted :ssn
-
   # Validations
   #----------------------------------------------------------------------------
   before_validation :generate_account_number, :on => :create
-  before_validation :set_encrypted_ssn
+#  before_validation :set_encrypted_ssn
   validates :account_number, :presence => true, :uniqueness => true
   validates :email, :not_credda_email => true
   validates :first_name, :presence => true, :name_format => true
@@ -57,13 +56,13 @@ class Customer < ActiveRecord::Base
                                  :before_message => "must be at least 18 years old"
   validates :social_security_number, :social_security_number_format => true
   validates :social_security_number, :presence => true, :on => :create
-  validates :encrypted_ssn, :presence => true, :symmetric_encryption => true
+#  validates :encrypted_ssn, :presence => true, :symmetric_encryption => true
   validates :mailing_address, :presence => true
   validates_associated :mailing_address
   validates :phone_number, :presence => true
   validates_associated :phone_number
   validates_associated :payment_profiles
-  after_save :remove_ssn
+#  after_save :remove_ssn
 
   # Methods
   #----------------------------------------------------------------------------
@@ -73,7 +72,8 @@ class Customer < ActiveRecord::Base
   end
 
   def ssn_last_four
-    ssn = SymmetricEncryption.decrypt(self.encrypted_ssn)
+#    ssn = SymmetricEncryption.decrypt(self.encrypted_ssn)
+    ssn = self.social_security_number
     return "XXX-XX-#{ssn.last(4)}"
   end
 
