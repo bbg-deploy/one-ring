@@ -53,7 +53,7 @@ group :test do
 end
 
 # Encryption
-gem 'symmetric-encryption'
+# gem 'symmetric-encryption'
 
 # API
 gem 'grape', '~> 0.2.6'
