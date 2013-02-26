@@ -58,47 +58,52 @@ release:
       # Base64 encode encrypted data without newlines
       encoding:     base64strict
 
+#production:
+#  # Since the key to encrypt and decrypt with must NOT be stored along with the
+#  # source code, we only hold a RSA key that is used to unlock the file
+#  # containing the actual symmetric encryption key
+#  private_rsa_key: |
+#    -----BEGIN RSA PRIVATE KEY-----
+#    MIIEowIBAAKCAQEAwxWKToeZb/Ot5J6y/yGbDyp2CmnuG2dbYxB1Sji//eV2edkT
+#    lC7LkXac0xrqhHPl9mmSXomnAfdvM2b4u5RN3Y27wymUR2AS2jDSBaL3BokdzL4l
+#    /xiZ+f/ypuBklp8XcOqW5AabBy2XM6Y3IC0+Wqn1UckEYO+srTwE2LHJhki4f7Ep
+#    clgjtSfAbK+7OFgz/Zq29BYJZbHmzhF+ABHfPWHYDgaFPu2aGMpm+YRX+POlowS4
+#    6xCIBvJ12R9UgG3SfmU6yDwF1mbRChsGQocE7PWYYovW7JqA0cnqpH6gJ1uPMcwr
+#    nZAMpiVWSLeaYzamgVXhkTIZO9NQfj/oKjtaOwIDAQABAoIBADUVYmoV+cl9zD6e
+#    dGR6F4Bb9HzG8FSinjppmxDUOmHzE3b6e5ph1WDCns/Oziu2gce4WGzDFh+x3Z9m
+#    EJ6yLzHvRD1JziBR4y9eA3gnLQKpQuOYhixQ3G0rmTKRcq2NospF+0MXDQ45+J/E
+#    RdHKneH7x1Y21asu7JTC9Sqlzglsu/pFdj6UfKdYtMowY18RrtiTs+D7iILcmeGO
+#    If4YUr8rLhOzf9zWEYYtKlEUXNzRfo+MPY9KCmrgwx+Sjj1rEIxH9+LdAgd5oirc
+#    J0y2RkSnCkrFEgfxSgRP7VIBQMo8TjpgGfm1j0NAYk8DAeCvx0xI+zydPQB4HDvV
+#    aCL4ImkCgYEA+QPQx4HuxmWt7VG2VZdX2UROCjaZ6g9oc56do7xcoKAxHIAJpR+G
+#    1QB5/Q90DrmMBLn255uu+1i/Fa908khYDOnackScdw/HkUNQ04+808TSmUINalcA
+#    9F5b/nF9x6nltw0deLpE3sCjRyJ0FADgs45V0DPQXALTmQE0Yv3b/T0CgYEAyI5y
+#    Mol1XL0WrykypxVALgRxM+afHSKQEWE1TFf5KYwuJSeccS3jFSMg0Ycz2GWvgCpC
+#    VAIrRqQ/83HHAtPonDP3Q8H8FHJNoSC4zAfLVzp20ZDKfw9B3ctbaNHLavOIPcUS
+#    FzEbTe0Xv9SFAGUngm48yKG4mEpWr6MI2bxTHNcCgYAWTb8vf3XRk13mucDpHasi
+#    rLmItKdIjaS/Zl+cQMzTHkYH1XgHsDE1dtt2TSIKB5iA+98fk5Qysxo6aQLCiLRK
+#    Q8/rGDYje+hWHH9q058IIML0MzRcZ/qP6Lu4qJWpgpAuux/+pkBw6zQ0tONMv19g
+#    9ci940YwV5h4ReFZVH+VyQKBgGCltIaCE1qTjMDwW4aFCR6j6WGXe4nww/h8HdEi
+#    e+H3ua0R/6PS9yGSghg2zVc0+XQL6VbOjMhIEsFgTQUh1XCg4kF20+GOi7ZgLG22
+#    O9lXRTcMTWkZkyYs/2nt39c0cK1DsMoYUg4leVJqOYXNOVLziLsuo+RPvqJ5MKSs
+#    ymiVAoGBAPWkHURWP0CXnVnJAjiSP+QRD8tWOECUx7nOX9tcqjxi/bbSi6qZhyM4
+#    GEaAiP2wDNerB9tWeJUTaDCESyr7bbk2zCIVcSbQGeidzaO7RoARRL4b3x3qSuOV
+#    ePo5RMowaLyhQDiPL7TS5/TqTSwjyIe2i2VbPbhFzuroL4dkfNWT
+#    -----END RSA PRIVATE KEY-----
+#
+#
+#  # List Symmetric Key files in the order of current / latest first
+#  ciphers:
+#    -
+#      # Filename containing Symmetric Encryption Key encrypted using the
+#      # RSA public key derived from the private key above
+#      key_filename: c:\Users\Bryce/onering_production.key
+#      iv_filename:  c:\Users\Bryce/onering_production.iv
+#      cipher:       aes-256-cbc
+#      # Base64 encode encrypted data without newlines
+#      encoding:     base64strict
+
 production:
-  # Since the key to encrypt and decrypt with must NOT be stored along with the
-  # source code, we only hold a RSA key that is used to unlock the file
-  # containing the actual symmetric encryption key
-  private_rsa_key: |
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEowIBAAKCAQEAwxWKToeZb/Ot5J6y/yGbDyp2CmnuG2dbYxB1Sji//eV2edkT
-    lC7LkXac0xrqhHPl9mmSXomnAfdvM2b4u5RN3Y27wymUR2AS2jDSBaL3BokdzL4l
-    /xiZ+f/ypuBklp8XcOqW5AabBy2XM6Y3IC0+Wqn1UckEYO+srTwE2LHJhki4f7Ep
-    clgjtSfAbK+7OFgz/Zq29BYJZbHmzhF+ABHfPWHYDgaFPu2aGMpm+YRX+POlowS4
-    6xCIBvJ12R9UgG3SfmU6yDwF1mbRChsGQocE7PWYYovW7JqA0cnqpH6gJ1uPMcwr
-    nZAMpiVWSLeaYzamgVXhkTIZO9NQfj/oKjtaOwIDAQABAoIBADUVYmoV+cl9zD6e
-    dGR6F4Bb9HzG8FSinjppmxDUOmHzE3b6e5ph1WDCns/Oziu2gce4WGzDFh+x3Z9m
-    EJ6yLzHvRD1JziBR4y9eA3gnLQKpQuOYhixQ3G0rmTKRcq2NospF+0MXDQ45+J/E
-    RdHKneH7x1Y21asu7JTC9Sqlzglsu/pFdj6UfKdYtMowY18RrtiTs+D7iILcmeGO
-    If4YUr8rLhOzf9zWEYYtKlEUXNzRfo+MPY9KCmrgwx+Sjj1rEIxH9+LdAgd5oirc
-    J0y2RkSnCkrFEgfxSgRP7VIBQMo8TjpgGfm1j0NAYk8DAeCvx0xI+zydPQB4HDvV
-    aCL4ImkCgYEA+QPQx4HuxmWt7VG2VZdX2UROCjaZ6g9oc56do7xcoKAxHIAJpR+G
-    1QB5/Q90DrmMBLn255uu+1i/Fa908khYDOnackScdw/HkUNQ04+808TSmUINalcA
-    9F5b/nF9x6nltw0deLpE3sCjRyJ0FADgs45V0DPQXALTmQE0Yv3b/T0CgYEAyI5y
-    Mol1XL0WrykypxVALgRxM+afHSKQEWE1TFf5KYwuJSeccS3jFSMg0Ycz2GWvgCpC
-    VAIrRqQ/83HHAtPonDP3Q8H8FHJNoSC4zAfLVzp20ZDKfw9B3ctbaNHLavOIPcUS
-    FzEbTe0Xv9SFAGUngm48yKG4mEpWr6MI2bxTHNcCgYAWTb8vf3XRk13mucDpHasi
-    rLmItKdIjaS/Zl+cQMzTHkYH1XgHsDE1dtt2TSIKB5iA+98fk5Qysxo6aQLCiLRK
-    Q8/rGDYje+hWHH9q058IIML0MzRcZ/qP6Lu4qJWpgpAuux/+pkBw6zQ0tONMv19g
-    9ci940YwV5h4ReFZVH+VyQKBgGCltIaCE1qTjMDwW4aFCR6j6WGXe4nww/h8HdEi
-    e+H3ua0R/6PS9yGSghg2zVc0+XQL6VbOjMhIEsFgTQUh1XCg4kF20+GOi7ZgLG22
-    O9lXRTcMTWkZkyYs/2nt39c0cK1DsMoYUg4leVJqOYXNOVLziLsuo+RPvqJ5MKSs
-    ymiVAoGBAPWkHURWP0CXnVnJAjiSP+QRD8tWOECUx7nOX9tcqjxi/bbSi6qZhyM4
-    GEaAiP2wDNerB9tWeJUTaDCESyr7bbk2zCIVcSbQGeidzaO7RoARRL4b3x3qSuOV
-    ePo5RMowaLyhQDiPL7TS5/TqTSwjyIe2i2VbPbhFzuroL4dkfNWT
-    -----END RSA PRIVATE KEY-----
-
-
-  # List Symmetric Key files in the order of current / latest first
-  ciphers:
-    -
-      # Filename containing Symmetric Encryption Key encrypted using the
-      # RSA public key derived from the private key above
-      key_filename: c:\Users\Bryce/onering_production.key
-      iv_filename:  c:\Users\Bryce/onering_production.iv
-      cipher:       aes-256-cbc
-      # Base64 encode encrypted data without newlines
-      encoding:     base64strict
+  key: 1234567890ABCDEF1234567890ABCDEF
+  iv: 1234567890ABCDEF
+  cipher: aes-128-cbc
