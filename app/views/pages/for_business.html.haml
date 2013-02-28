@@ -1,14 +1,21 @@
 = provide(:title, 'For Business')
 = provide(:page_id, "for_business")
 
-.row.featured
+.row
+  %h1.display Credda Can Help
   .six.columns
-    %h1.display Credda Can Help
     %p
       With Credda, your customers can enjoy a flexible payment option.
   .six.columns
-    #credit-application-image
-      = image_tag "credit-application.png", :onmouseover => "credit-application.png", :alt => "Instant credit decisions at Credda."
+    .panel
+      %h2 Store Sign In
+      %p Existing store partners can sign in here.
+      .row
+        .six.columns
+          = link_to("Sign in", new_store_session_path, :class => 'radius button' )
 .row
   .twelve.column
     %h4 Contact Credda Today
+    %p By email: mike.dugas@credda.com
+    %p By phone: 555-234-9876
+    

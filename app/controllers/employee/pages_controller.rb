@@ -1,4 +1,5 @@
 class Employee::PagesController < Employee::ApplicationController
+  before_filter :authenticate_employee!
   skip_authorization_check
 
   def home
