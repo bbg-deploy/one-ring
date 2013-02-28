@@ -44,7 +44,7 @@
         .row
           .six.columns 
             = f.label "Date of Birth"
-            = f.datepicker :date_of_birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 18
+            = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
       %fieldset
         %legend Terms & Conditions
         = f.label "You agree to Credda's Terms & Conditions"
