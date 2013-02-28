@@ -1,6 +1,37 @@
 require 'spec_helper'
 
 describe Customer::PasswordsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    post :create, :customer => attributes, :format => 'html'
+  end
+
+  def do_get_edit
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :edit, :format => 'html'
+  end
+  
+  def do_put_update(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    put :update, :customer => attributes, :format => 'html'
+  end
+
+
+  def do_get_show(token)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    @request.env['QUERY_STRING'] = "confirmation_token="
+    get :show, :confirmation_token => token, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/customer/password/new").to(:action => :new) }
     it { should route(:post, "/customer/password").to(:action => :create) }
@@ -8,12 +39,13 @@ describe Customer::PasswordsController do
     it { should route(:put, "/customer/password").to(:action => :update) }
   end
 
+  # Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       it "should not have customer" do
@@ -38,8 +70,7 @@ describe Customer::PasswordsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
       
       # Variables
@@ -60,8 +91,7 @@ describe Customer::PasswordsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -83,8 +113,7 @@ describe Customer::PasswordsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -110,10 +139,9 @@ describe Customer::PasswordsController do
 
       describe "with mismatched email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:email => "fake@fakemail.com"}
-          post :create, :customer => attributes, :format => 'html'
-        end        
+          attributes = {:email => "mismatch@email.com"}
+          do_post_create(attributes)
+        end
 
         # Parameters
 #       it { should permit(:email).for(:create) }
@@ -140,9 +168,8 @@ describe Customer::PasswordsController do
       
       describe "with matching email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
         
         # Parameters
@@ -174,9 +201,8 @@ describe Customer::PasswordsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
       
       # Variables
@@ -197,10 +223,9 @@ describe Customer::PasswordsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         customer = FactoryGirl.create(:customer)
         attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -222,10 +247,9 @@ describe Customer::PasswordsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         customer = FactoryGirl.create(:customer)
         attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -252,8 +276,7 @@ describe Customer::PasswordsController do
       context "without password reset requested" do
         describe "no password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            get :edit, :format => 'html'
+            do_get_edit
           end
           
           # Variables
@@ -375,8 +398,7 @@ describe Customer::PasswordsController do
       include_context "with authenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :edit, :format => 'html'
+        do_get_edit
       end
       
       # Variables
@@ -397,8 +419,7 @@ describe Customer::PasswordsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
@@ -420,8 +441,7 @@ describe Customer::PasswordsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
@@ -448,9 +468,8 @@ describe Customer::PasswordsController do
       context "without password reset requested" do
         describe "with no password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
@@ -470,9 +489,8 @@ describe Customer::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
@@ -497,9 +515,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
@@ -522,9 +539,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
@@ -547,9 +563,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
       
           # Variables
@@ -583,9 +598,8 @@ describe Customer::PasswordsController do
       context "without password reset requested" do
         describe "with no password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
@@ -605,9 +619,8 @@ describe Customer::PasswordsController do
 
         describe "with invalid password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
@@ -632,9 +645,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Response
@@ -651,9 +663,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Response
@@ -670,9 +681,8 @@ describe Customer::PasswordsController do
             customer.send_reset_password_instructions
             reset_email
             customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :customer => attributes, :format => 'html'
+            do_put_update(attributes)
           end
       
           # Response
@@ -699,9 +709,8 @@ describe Customer::PasswordsController do
         customer.send_reset_password_instructions
         reset_email
         customer.reload
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :customer => attributes, :format => 'html'
+        do_put_update(attributes)
       end
       
       # Variables
@@ -722,9 +731,8 @@ describe Customer::PasswordsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :customer => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
@@ -746,9 +754,8 @@ describe Customer::PasswordsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :customer => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables

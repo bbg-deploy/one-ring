@@ -1,19 +1,40 @@
 require 'spec_helper'
 
 describe Customer::ConfirmationsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    post :create, :customer => attributes, :format => 'html'
+  end
+
+  def do_get_show(token)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    @request.env['QUERY_STRING'] = "confirmation_token="
+    get :show, :confirmation_token => token, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/customer/confirmation/new").to(:action => :new) }
     it { should route(:post, "/customer/confirmation").to(:action => :create) }
     it { should route(:get, "/customer/confirmation").to(:action => :show) }
   end
 
+  # Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
-    context "as unauthenticated customer" do\
+    context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -33,8 +54,7 @@ describe Customer::ConfirmationsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -55,8 +75,7 @@ describe Customer::ConfirmationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -78,8 +97,7 @@ describe Customer::ConfirmationsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -105,9 +123,8 @@ describe Customer::ConfirmationsController do
 
       describe "with invalid email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => "fake@email.com"}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -135,9 +152,8 @@ describe Customer::ConfirmationsController do
 
       describe "with valid email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -168,9 +184,8 @@ describe Customer::ConfirmationsController do
 
       describe "with invalid email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => "fake@email.com"}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -198,9 +213,8 @@ describe Customer::ConfirmationsController do
 
       describe "with valid email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -234,9 +248,8 @@ describe Customer::ConfirmationsController do
 
       describe "with valid email" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
           attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Parameters
@@ -261,10 +274,9 @@ describe Customer::ConfirmationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         customer = FactoryGirl.create(:customer)
         attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -286,10 +298,9 @@ describe Customer::ConfirmationsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
         customer = FactoryGirl.create(:customer)
         attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -315,9 +326,7 @@ describe Customer::ConfirmationsController do
       
       describe "with invalid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "1234234234", :format => 'html'
+          do_get_show("12341234123")
         end
 
         # Variables
@@ -337,9 +346,7 @@ describe Customer::ConfirmationsController do
 
       describe "with valid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+          do_get_show(customer.confirmation_token)
         end        
 
         # Variables
@@ -362,9 +369,7 @@ describe Customer::ConfirmationsController do
 
       describe "with valid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "confirmation_token="
-          get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+          do_get_show(customer.confirmation_token)
         end        
 
         # Variables
@@ -385,10 +390,8 @@ describe Customer::ConfirmationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env['QUERY_STRING'] = "confirmation_token="
         customer = FactoryGirl.create(:customer)
-        get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+        do_get_show(customer.confirmation_token)
       end
 
       # Variables
@@ -410,10 +413,8 @@ describe Customer::ConfirmationsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env['QUERY_STRING'] = "confirmation_token="
         customer = FactoryGirl.create(:customer)
-        get :show, :confirmation_token => "#{customer.confirmation_token}", :format => 'html'
+        do_get_show(customer.confirmation_token)
       end
 
       # Variables
