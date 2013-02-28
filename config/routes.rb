@@ -4,6 +4,8 @@ Onering::Application.routes.draw do
   get "about"           => "pages#about",            :as => :about
   get "for_business"    => "pages#for_business",     :as => :store
   get "employees"       => "pages#employees",        :as => :employee
+  get "security"        => "pages#security",         :as => :security
+  get "privacy"         => "pages#privacy",          :as => :privacy
 
 
   # OmniAuth Provider paths

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Customer::PaymentProfilesController do
-  include Devise::TestHelpers
-
   describe "routing", :routing => true do
     it { should route(:get, "/customer/payment_methods").to(:action => :index) }
     it { should route(:get, "/customer/payment_methods/new").to(:action => :new) }

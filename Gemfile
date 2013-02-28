@@ -79,6 +79,9 @@ gem 'activemerchant', '~> 1.29.3', :require => 'active_merchant'
 # Security Gems
 gem 'strong_parameters', '>= 0.1.6'
 
+# For PDFs
+gem 'prawn'
+
 # Gems for seeding
 gem 'seedbank', '~> 0.2.0'
 

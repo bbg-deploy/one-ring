@@ -28,6 +28,29 @@ class PagesController < ApplicationController
     end 
   end
   
+  def security
+    respond_to do |format|
+      format.json { }   
+      format.xml  { }
+      format.html  # this renders for_business.html.haml
+    end 
+  end
+
+  def privacy
+    respond_to do |format|
+      format.json { }   
+      format.xml  { }
+      format.html  # this renders for_business.html.haml
+      format.pdf do
+        pdf = PrivacyPdf.new
+        send_data pdf.render, filename: "CreddaPrivacy.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end 
+  end
+  
+      
+      
+      
   private
   def require_no_authentication
     unless current_user.nil?
