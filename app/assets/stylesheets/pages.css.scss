@@ -8,8 +8,8 @@
   @include background-image(linear-gradient(#085A94, #21BDE7));
 }
 
-#credit-application-image {
-  img {
+#featuredContent {
+  #slider {
     @include box-shadow(#010101 0px 0px 25px)
   }
 }

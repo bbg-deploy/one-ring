@@ -2,12 +2,9 @@
 
 /* Body Sizing & Layout */
 html, body {
-  min-height: 100%;  
-}
-
-body {
-  // This is just needed for the top bar.
-  padding-top: 60px;
+//  min-height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 #main-wrapper {
@@ -16,7 +13,6 @@ body {
 .content {
   padding: 10px 5px;
 }
-
 
 body.anon {
   background: image-url("cork-background.png");
