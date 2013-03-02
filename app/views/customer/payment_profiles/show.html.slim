@@ -1,0 +1,16 @@
+= provide(:title, "Payment Profile")
+
+div.row
+  div.large-8.columns
+    h1 Currently linked Payment Accounts
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th Type
+          th Account
+          th
+      tbody
+        tr
+          td = @payment_profile.payment_type
+          td = @payment_profile.name
+    = link_to "Link New Account", new_customer_payment_profile_path, :class => 'button radius'

@@ -1,0 +1,18 @@
+= provide(:title, "Payment Accounts")
+
+h1 Currently linked Payment Accounts
+- if (@payment_profiles.nil?) || (@payment_profiles.empty?)
+  p You currently have no linked accounts.  Please add a payment account.
+- else
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th Type
+        th Account
+        th
+    tbody
+      - @payment_profiles.each do |payment_profile|
+        tr
+          td = payment_profile.payment_type
+          td = payment_profile.name
+= link_to "Link New Account", new_customer_payment_profile_path, :class => 'button radius'

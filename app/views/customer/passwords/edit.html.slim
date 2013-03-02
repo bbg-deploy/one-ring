@@ -1,11 +1,11 @@
 = provide(:title, 'Change Password')
 
-.row
-  %h2 Change your password
-  .six.columns#edit-password
+div.row
+  h2 Change your password
+  div.large-6.columns#edit-password
     = form_for(@customer, :url => customer_password_path, :method => :put , :html => { :class => '' }) do |f|
-      %fieldset
-        %legend Password Reset
+      fieldset
+        legend Password Reset
         = f.hidden_field :reset_password_token, :placeholder => "rockstar"
         = f.password_field :password, :placeholder => "newpassword"
         = f.password_field :password_confirmation, :placeholder => "newpassword"

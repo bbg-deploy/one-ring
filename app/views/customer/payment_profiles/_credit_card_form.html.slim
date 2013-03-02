@@ -1,51 +1,51 @@
 = nested_form_for( @payment_profile, :url => customer_payment_profiles_path, :method => :post, :html => { :class => '' } ) do |f|
-  %fieldset
-    %legend Account Information
-    .row
+  fieldset
+    legend Account Information
+    div.row
       = f.hidden_field :payment_type, :value => "credit_card"
-    .row
-      .six.columns 
+    div.row
+      div.large-6.columns 
         = f.label "First Name"
         = f.text_field :first_name, :placeholder => "Elvis"
-      .six.columns 
+      div.large-6.columns 
         = f.label "Last Name"
         = f.text_field :last_name, :placeholder => "Presley"
-  %fieldset
-    %legend Credit Card Details
+  fieldset
+    legend Credit Card Details
     = f.fields_for :credit_card do |credit_card|
-      .row
-        .four.columns
+      div.row
+        div.large-4.columns
           = credit_card.label "Brand"
           = credit_card.select :brand, :collection => ["mastercard", "visa"]
-        .eight.columns
+        div.large-8.columns
           = credit_card.label "Credit Card Number"
           = credit_card.text_field :credit_card_number
-      .row
-        .six.columns
+      div.row
+        div.large-6.columns
           = credit_card.label "Expiration Date"
           = credit_card.date_select :expiration_date, :order => [:month, :year], :start_year => Time.now.year
-        .six.columns
+        div.large-6.columns
           = credit_card.label "CCV Number"
           = credit_card.text_field :ccv_number
-  %fieldset
-    %legend Address
+  fieldset
+    legend Address
     = f.fields_for :billing_address do |address|
-      .row
-        .twelve.columns
+      div.row
+        div.large-12.columns
           = address.label "Street"
           = address.text_field :street, :placeholder => "123 Famous St."
-      .row
-        .six.columns
+      div.row
+        div.large-6.columns
           = address.label "City"
           = address.text_field :city, :placeholder => "Charleston"
-        .three.columns
+        div.large-6.columns
           = address.label "State"
           = address.select :state, us_states, {}
-        .three.columns
+        div.large-3.columns
           = address.label "Zip Code"
           = address.text_field :zip_code, :placeholder => "11111"
-      .row
-        .twelve.columns
+      div.row
+        div.large-12.columns
           = address.label "Country"
           = address.select :country, countries, {}
   = f.button :submit, :label => 'Save', :value => 'Save', :class => 'button radius'
