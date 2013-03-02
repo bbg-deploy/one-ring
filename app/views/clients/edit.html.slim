@@ -1,23 +1,21 @@
 = provide(:title, "Edit Payment Method")
 
-.row
-  .eight.columns
-    %h2 Edit Single Sign-On Client
+div.row
+  div.large-8.columns
+    h2 Edit Single Sign-On Client
     = form_for(@client, :url => client_path, :method => :put, :html => { :class => "" }) do |f|
-      %fieldset
-        %legend Client Information
-        .row
-          .eight.columns
+      fieldset
+        legend Client Information
+        div.row
+          div.large-8.columns
             = f.label "Name"
             = f.text_field :name, :placeholder => "Lease Application"
-          .four.columns
-            %p.helper-text
-              = "Must be greater than 6 characters"
-        .row
-          .eight.columns 
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+        div.row
+          div.large-8.columns 
             = f.label "Redirect URI"
             = f.text_field :redirect_uri, :placeholder => "http://www.yourapp.com"
-          .four.columns
-            %p.helper-text
-              = "Must be greater than 6 characters"
+          div.large-8.columns
+            p.helper-text Must be greater than 6 characters
       = f.submit "Edit Client", :class => "radius button"
