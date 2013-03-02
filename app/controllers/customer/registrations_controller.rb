@@ -31,9 +31,13 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         respond_with @customer, :location => home_path
       end
     else
-      flash[:error] = "There was a problem with some of your information"
-      clean_up_passwords @customer
-      respond_with @customer
+      if @customer.valid?
+        redirect_to :new
+      else
+        flash[:error] = "There was a problem with some of your information"
+        clean_up_passwords @customer
+        respond_with @customer
+      end
     end
   end
 
