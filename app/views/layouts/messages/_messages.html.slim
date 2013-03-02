@@ -1,0 +1,8 @@
+div.row
+  div.large-12.columns
+    div#flash-messages
+      - flash.each do |name, msg|
+        - if msg.is_a?(String)
+          div[data-alert class="alert-box alert-#{name == :notice ? 'success' : 'error'}"]
+            a.close &times;
+            = content_tag :div, msg, :id => "flash_#{name}"
