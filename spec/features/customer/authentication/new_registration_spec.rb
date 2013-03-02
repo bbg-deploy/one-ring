@@ -23,7 +23,6 @@ describe "sign up" do
     fill_in 'customer_mailing_address_attributes_zip_code', :with => customer.mailing_address.zip_code
     # Phone Number
     fill_in 'customer_phone_number_attributes_phone_number', :with => customer.phone_number.phone_number
-    #check 'customer_phone_number_attributes_cell_phone'
     choose 'customer_phone_number_attributes_cell_phone_1'
     # Terms & Conditions
     check 'customer[terms_agreement]'
@@ -39,7 +38,7 @@ describe "sign up" do
       visit new_customer_registration_path
     end
 
-    describe "with valid attributes" do
+    describe "valid registration" do
       context "with successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net_all_successful    
@@ -89,7 +88,7 @@ describe "sign up" do
       end
     end
 
-    describe "with taken username" do
+    describe "invalid registration (taken username)" do
       it "creates new customer" do
         within("#new-registration") do
           fill_in_customer_information(customer)
@@ -105,7 +104,7 @@ describe "sign up" do
       end      
     end
 
-    describe "with taken email" do
+    describe "invalid registration (taken email)" do
       it "creates new customer" do
         within("#new-registration") do
           fill_in_customer_information(customer)

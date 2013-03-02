@@ -155,10 +155,10 @@ describe Customer do
   # Attributes
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
-    before(:each) do
-      attributes = FactoryGirl.build(:customer_attributes_hash)
-      customer = Customer.create!(attributes) 
-    end
+#    before(:each) do
+#      attributes = FactoryGirl.build(:customer_attributes_hash)
+#      customer = Customer.create!(attributes) 
+#    end
 
     describe "account_number" do
       it { should validate_uniqueness_of(:account_number) }

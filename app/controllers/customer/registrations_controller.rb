@@ -30,7 +30,8 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         expire_session_data_after_sign_in!
         respond_with @customer, :location => home_path
       end
-    elsif @customer.valid?
+    elsif @customer.errors.empty?
+      # This catches Authorize.net errors
       flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
       redirect_to :action => :new
     else
@@ -56,7 +57,8 @@ class Customer::RegistrationsController < Devise::RegistrationsController
       set_flash_message :notice, flash_key
       sign_in :customer, @customer, :bypass => true
       respond_with @customer, :location => customer_home_path
-    elsif @customer.valid?
+    elsif @customer.errors.empty?
+      # This catches Authorize.net errors
       flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
       redirect_to :action => :edit
     else

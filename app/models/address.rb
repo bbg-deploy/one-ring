@@ -20,7 +20,7 @@ class Address < ActiveRecord::Base
   validates :street, :presence => true
   validates :city, :presence => true
   validates :state, :presence => true, :us_state => true
-  validates :zip_code, :presence => true
+  validates :zip_code, :presence => true, :length => { :is => 5 }
   validates :country, :presence => true, :country => true
   validate  :validate_address_type_match
   after_validation :geocode          # auto-fetch coordinates
