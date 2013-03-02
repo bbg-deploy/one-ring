@@ -1,35 +1,51 @@
 class CustomerObserver < ActiveRecord::Observer
   observe :customer
 
-  #TODO: Handle Errors gracefully
+  # Before Create
+  #----------------------------------------------------------------------------
   def before_create(customer)
     service = AuthorizeNetService.new
     if (customer.cim_customer_profile_id.nil?)
-      service.create_cim_customer_profile(customer)
+      begin
+        service.create_cim_customer_profile(customer)
+      rescue => e
+        AdminNotificationMailer.authorize_net_error(customer, e).deliver
+        return false
+      end
     end
   end
   
+  # Before Update
+  #----------------------------------------------------------------------------
   def before_update(customer)
     service = AuthorizeNetService.new
-    if (customer.cim_customer_profile_id.nil?)
-      service.create_cim_customer_profile(customer)
-    else
-      service.update_cim_customer_profile(customer)
+    unless (customer.cim_customer_profile_id.nil?)
+      begin
+        service.update_cim_customer_profile(customer)
+      rescue => e
+        AdminNotificationMailer.authorize_net_error(customer, e).deliver
+        return false
+      end
     end
   end
 
+  # Before Destroy
+  #----------------------------------------------------------------------------
   def before_destroy(customer)
     service = AuthorizeNetService.new
     unless (customer.cim_customer_profile_id.nil?)
-      service.delete_cim_customer_profile(customer)
+      begin
+        service.delete_cim_customer_profile(customer)
+      rescue => e
+        AdminNotificationMailer.authorize_net_error(customer, e).deliver
+        return false
+      end
     end
   end
 
+  # After Commit
+  #----------------------------------------------------------------------------
   def after_create(customer)
-    begin
-      AdminNotificationMailer.report_new_user(customer).deliver
-    rescue => e
-      puts "AdminNotificationMailer error.  New customer email not sent."
-    end
+    AdminNotificationMailer.new_user(customer).deliver
   end
 end

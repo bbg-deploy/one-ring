@@ -2,9 +2,15 @@ class AdminNotificationMailer < ActionMailer::Base
   default :from => "no-reply@credda.com"
   default :to => "admin@credda.com"
 
-  def report_new_user(user)
+  def new_user(user)
     mail(:subject => "You have a new user!",
          :body => "New user #{user.username} was just created.",
+         :template_path => "mailers/admin_notification_mailer")
+  end
+
+  def authorize_net_error(user, error)
+    mail(:subject => "Authorize.net Error",
+         :body => "Potential Customer: #{user.username}, #{user.email}. Error Message: #{error.message}, Error Trace: #{error.backtrace}",
          :template_path => "mailers/admin_notification_mailer")
   end
 
