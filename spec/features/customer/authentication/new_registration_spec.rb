@@ -29,6 +29,8 @@ describe "sign up" do
     check 'customer[terms_agreement]'
   end
 
+  # As Anonymous
+  #----------------------------------------------------------------------------
   context "anonymous", :anonymous => true do
     include_context "as anonymous"
     let(:registered_customer) { FactoryGirl.create(:customer) }
@@ -74,14 +76,13 @@ describe "sign up" do
               click_button 'Sign up'
             end
             
-#            page.should have_css("#flash-messages")
-#            message = "Error processing"
-#            page.should have_content(message)
-            current_path.should eq(customer_registration_path)
+            page.should have_css("#flash-messages")
+            message = "We had a problem processing your data"
+            page.should have_content(message)
+            current_path.should eq(new_customer_registration_path)
             
-            last_email.to.should eq("admin@credda.com")
+            last_email.to.should eq(["admin@credda.com"])
             last_email.body.should match(/Error Trace:/)
-            a_request(:get, /http:\/\/maps.googleapis.com\/maps\/api\/geocode\/json?.*/).should have_been_made.times(2)
             a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*createCustomerProfileRequest.*/).should have_been_made
           end
         end
@@ -121,6 +122,8 @@ describe "sign up" do
     end
   end
 
+  # As Customer
+  #----------------------------------------------------------------------------
   context "as customer", :authenticated => true do
     include_context "as customer"
 

@@ -1,6 +1,36 @@
 require 'spec_helper'
 
 describe "edit_account" do
+  # Feature Shared Methods
+  #----------------------------------------------------------------------------
+  def fill_in_customer_information(customer)
+    # Account Information
+    fill_in 'customer_username', :with => customer.username
+    fill_in 'customer_email', :with => customer.email
+    fill_in 'customer_email_confirmation', :with => customer.email
+    fill_in 'customer_password', :with => customer.password
+    fill_in 'customer_password_confirmation', :with => customer.password
+    # Personal Information
+    fill_in 'customer_first_name', :with => customer.first_name
+    fill_in 'customer_middle_name', :with => customer.middle_name
+    fill_in 'customer_last_name', :with => customer.last_name
+    fill_in 'customer_date_of_birth', :with => customer.date_of_birth
+    fill_in 'customer_social_security_number', :with => customer.social_security_number
+    # Mailing Address
+    fill_in 'customer_mailing_address_attributes_street', :with => customer.mailing_address.street
+    fill_in 'customer_mailing_address_attributes_city', :with => customer.mailing_address.city
+    select(customer.mailing_address.state, :from => 'customer_mailing_address_attributes_state')
+    fill_in 'customer_mailing_address_attributes_zip_code', :with => customer.mailing_address.zip_code
+    # Phone Number
+    fill_in 'customer_phone_number_attributes_phone_number', :with => customer.phone_number.phone_number
+    #check 'customer_phone_number_attributes_cell_phone'
+    choose 'customer_phone_number_attributes_cell_phone_1'
+    # Terms & Conditions
+    check 'customer[terms_agreement]'
+  end
+
+  # As Anonymous
+  #----------------------------------------------------------------------------
   context "as anonymous", :anonymous => true do
     include_context "as anonymous"
     before(:each) do
@@ -12,6 +42,8 @@ describe "edit_account" do
     end
   end
 
+  # As Customer
+  #----------------------------------------------------------------------------
   context "as customer", :authenticated => true do
     include_context "as customer"
     before(:each) do

@@ -30,14 +30,13 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         expire_session_data_after_sign_in!
         respond_with @customer, :location => home_path
       end
+    elsif @customer.valid?
+      flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
+      redirect_to :action => :new
     else
-      if @customer.valid?
-        redirect_to :new
-      else
-        flash[:error] = "There was a problem with some of your information"
-        clean_up_passwords @customer
-        respond_with @customer
-      end
+      flash[:error] = "There was a problem with some of your information"
+      clean_up_passwords @customer
+      respond_with @customer
     end
   end
 
@@ -57,6 +56,9 @@ class Customer::RegistrationsController < Devise::RegistrationsController
       set_flash_message :notice, flash_key
       sign_in :customer, @customer, :bypass => true
       respond_with @customer, :location => customer_home_path
+    elsif @customer.valid?
+      flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
+      redirect_to :action => :edit
     else
       # Set passwords to blank before we redirect
       clean_up_passwords @customer
