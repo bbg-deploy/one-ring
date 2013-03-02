@@ -8,9 +8,14 @@
   @include background-image(linear-gradient(#085A94, #21BDE7));
 }
 
-#featuredContent {
-  #slider {
-    @include box-shadow(#010101 0px 0px 25px)
+.orbit-container {
+  @include box-shadow(#010101 0px 0px 25px);
+  ul {
+    li {
+      img {
+        height: 335px;
+      }
+    }
   }
 }
 
