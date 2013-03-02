@@ -1,96 +1,91 @@
 = provide(:title, 'Edit Account')
 
-.row
-  %h2 Edit Your Account Information
-  .eight.columns#edit-registration
+div.row
+  h2 Edit Your Account Information
+  div.large-8.columns#edit-registration
     = nested_form_for(@customer, :url => customer_registration_path, :method => :put, :html => { :class => "custom" }) do |f|
-      %fieldset
-        %legend Account Information
-        .row
-          .eight.columns
+      fieldset
+        legend Account Information
+        div.row
+          div.large-8.columns
             = f.label "Username"
             = f.text_field :username, :placeholder => "rockstar"
-          .four.columns
-            %p.helper-text
-              = "Must be greater than 6 characters"
-        .row
-          .eight.columns 
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+        div.row
+          div.large-8.columns 
             = f.label "Email"
             = f.email_field :email, :placeholder => "user@email.com"
             = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
-          .four.columns
-            %p.helper-text
-              = "Must be greater than 6 characters"
-      %fieldset
-        %legend New Password
-        .row
-          .eight.columns 
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+      fieldset
+        legend New Password
+        div.row
+          div.large-8.columns 
             = f.label "Password"
             = f.password_field :password, :placeholder => "BlueSuedeShoes"
             = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
-          .four.columns
-            %p.helper-text
-              = "Must be greater than 6 characters"
-      %fieldset
-        %legend Personal Information
-        .row
-          .four.columns 
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+      fieldset
+        legend Personal Information
+        div.row
+          div.large-4.columns 
             = f.label "First Name"
             = f.text_field :first_name, :placeholder => "Elvis"
-          .four.columns 
+          div.large-4.columns 
             = f.label "Middle Name"
             = f.text_field :middle_name, :placeholder => "The King"
-          .four.columns 
+          div.large-4.columns 
             = f.label "Last Name"
             = f.text_field :last_name, :placeholder => "Presley"
-        .row
-          .six.columns 
+        div.row
+          div.large-6.columns 
             = f.label "Date of Birth"
             = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
-          .six.columns
+          div.large-6.columns
             = f.label "Social Security Number"
             = f.text_field :social_security_number, :placeholder => @customer.ssn_last_four, :disabled => true
-      %fieldset
-        %legend Address
+      fieldset
+        legend Address
         = f.fields_for :mailing_address do |address|
-          .row
-            .twelve.columns
+          div.row
+            div.large-12.columns
               = f.label "Street"
               = address.text_field :street, :placeholder => "123 Famous St."
-          .row
-            .six.columns
+          div.row
+            div.large-6.columns
               = f.label "City"
               = address.text_field :city, :placeholder => "Charleston"
-            .three.columns
+            div.large-3.columns
               = f.label "State"
               = address.select :state, us_states, {}
-            .three.columns
+            div.large-3.columns
               = f.label "Zip Code"
               = address.text_field :zip_code, :placeholder => "11111"
-          .row
-            .twelve.columns
+          div.row
+            div.large-12.columns
               = f.label "Country"
               = address.select :country, countries, {}
-      %fieldset
-        %legend Phone Number
+      fieldset
+        legend Phone Number
         = f.fields_for :phone_number do |phone|
-          .row
-            .six.columns
+          div.row
+            div.large-6.columns
               = phone.label "Phone Number"
               = phone.hidden_field :phone_number_type, :value => 'customer'
               = phone.text_field :phone_number, :placeholder => "555-444-1234"
-            .five.columns.checkbox-inline
+            div.large-5.columns.checkbox-inline
               %p.checkbox-text
                 = "Check here if this is a cell phone"
-            .one.column.checkbox-inline
+            div.large-1.column.checkbox-inline
               = phone.check_box :cell_phone
               = phone.hidden_field :primary, :value => '1'
-      %fieldset
-        %legend Enter Current Password
-        .row
-          .six.columns
+      fieldset
+        legend Enter Current Password
+        div.row
+          div.large-6.columns
             = f.label "Current Password"
             = f.password_field :current_password
       = f.submit "Save Account Changes", :class => "radius button"
-  .four.columns
-    %h4 TODO: Put other info here

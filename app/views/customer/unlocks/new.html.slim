@@ -1,11 +1,11 @@
 = provide(:title, 'Locked Account')
 
-.row
-  %h2 Resend unlock instructions
-  .six.columns#unlock
+div.row
+  h2 Resend unlock instructions
+  div.large-6.columns#unlock
     = form_for(@customer, :url => customer_unlock_path, :method => :post , :html => { :class => '' }) do |f|
-      %fieldset
-        %legend Account Information
+      fieldset
+        legend Account Information
         = f.email_field :email, :placeholder => "you@email.com"
         = f.submit "Send Unlock Instructions", :class => "radius button"
     = render "customer/shared/authentication_links"

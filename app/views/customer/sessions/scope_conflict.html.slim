@@ -1,0 +1,9 @@
+= provide(:title, 'Sign in')
+
+div.row
+  h2 Scope Conflict
+  p You've reached this page because you're trying to access this application under a different role.  To do so, you must first sign out of your current role.
+  div.large-6.columns
+    = link_to "Yes, sign me out", customer_resolve_conflict_path, :method => :delete, :class => "button radius"
+  div.large-6.columns
+    = link_to "No, stay signed in", home_path, :class => "button radius"
