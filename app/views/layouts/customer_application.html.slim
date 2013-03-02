@@ -13,9 +13,17 @@ html
     header
       = render 'layouts/header/master'
     div#main-wrapper
-      div[id = page_id]
-        = render 'layouts/messages/messages'
-        = content_for?(:content) ? yield(:content) : yield
+      div.row
+        div.large-3.columns
+          ul.side-nav
+            = nav_link image_tag("icons/bank.png"), home_path
+            = nav_link "Billpay", home_path
+            = nav_link "Payment Methods", home_path
+            = nav_link "Something", home_path
+        div.large-9.columns
+          div[id = page_id]
+            = render 'layouts/messages/messages'
+            = content_for?(:content) ? yield(:content) : yield
     footer
       = render 'layouts/footer/anonymous_footer'    
     = javascript_include_tag :application, :media => "all"

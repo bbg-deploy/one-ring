@@ -1,4 +1,5 @@
 class Customer::PagesController < Customer::ApplicationController
+  layout 'customer_application'
   before_filter :authenticate_customer!
   skip_authorization_check
 
