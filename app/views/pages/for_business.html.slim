@@ -1,0 +1,20 @@
+= provide(:title, 'For Business')
+= provide(:page_id, "for_business")
+
+div.row
+  h1.display Credda Can Help
+  div.large-6.columns
+    p With Credda, your customers can enjoy a flexible payment option.
+  div.large-6.columns
+    div.panel
+      h2 Store Sign In
+      p Existing store partners can sign in here.
+      div.row
+        div.large-6.columns
+          = link_to("Sign in", new_store_session_path, :class => 'radius button' )
+div.row
+  div.large-12.columns
+    h4 Contact Credda Today
+    p By email: mike.dugas@credda.com
+    p By phone: 555-234-9876
+    

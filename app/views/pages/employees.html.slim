@@ -1,0 +1,15 @@
+= provide(:title, 'Employees')
+
+div.row
+  div.large-12.columns
+    h1 Employee Login
+div.row
+  div.large-4.columns
+    div.panel
+      h2 Employees
+      p Login, registration, and account management for all of our wonderful employees
+      div.row
+        div.large-6.columns
+          = link_to("Sign in", new_employee_session_path, :class => 'radius button' )
+        div.large-6.columns
+          = link_to("Sign up", new_employee_registration_path, :class => 'radius button' )

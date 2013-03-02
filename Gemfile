@@ -17,8 +17,7 @@ group :assets do
   #Foundation
   gem 'compass-rails', '>= 1.0.3'
 #  gem 'zurb-foundation', '~> 3.2.5'
-  gem 'zurb-foundation', '~> 4.0.1'
-#  gem 'zurb-foundation', '4.0.0'
+  gem 'zurb-foundation', '~> 4.0.3'
 
   #Other
   gem 'uglifier', '>= 1.0.3'

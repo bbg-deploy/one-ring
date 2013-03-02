@@ -1,0 +1,81 @@
+= provide(:title, 'Privacy')
+= provide(:page_id, "privacy")
+
+div.row
+  div.large-8.columns
+    h1 Credda’s Privacy Policy
+  div.large-4.columns
+    = link_to "View As PDF", privacy_path(:format => :pdf), :class => 'radius button'
+div.row
+  div.large-12.columns
+    p Posted March 1st, 2013
+    p Credda values your privacy and is committed to ensuring your personal information is kept secure and is only used to help Credda conduct its business.  This notice describes our privacy policy.
+div.row
+  div.large-4.columns
+    h4 Information We Collect
+    div.section-container[data-section data-options="deep_linking: true"]
+      section.section
+        p.title = link_to "Website Behavior", "#website-behavior"
+        div.content[data-slug="#website-behavior"]
+          p Credda collects information on how you user our site in order to improve our website’s ease of use, and better design our experienc to meet your needs.
+          ul
+            li We may collect IP addresses, access times, browser types and browser languages. 
+            li We use both session and permanent cookies, which are small data files stored in your computer or device memory.
+      section.section
+        p.title = link_to "Personal Information", "#personal-information"
+        div.content[data-slug="#personal-information"]
+          p In order to process your credit application and maintain a financial relationship, Credda requires some personal information. This information is necessary to provide users with a meaningful service, verify the identity of users of our services, process your lease application, service your lease agreement, communicate with you regarding products or services you have with Credda, alert you of new products or services, special offers and updated policies, update our policies and procedures.
+          ul
+            li Personal identifying information associated with obtaining credit bureau reports such as your name, social security number and date of birth. 
+            li Personal information from others, such as credit bureaus, affiliates, or other companies.
+            li Contact information such as phone numbers, email addresses and residence addresses.
+            li Employment history and related information.
+            li Bank account and/or credit card information.  We consider your bank account information as eligible for us to process payments against. In addition, as part of our information collection process, we may detect additional bank accounts under your ownership.  We will consider these additional accounts to be part of the application process.
+            li Records of any financial transactions you make with us.
+  div.large-4.columns
+    h4 Information We Share
+    div.section-container[data-section]
+      section.section
+        p.title = link_to "Third Party Data Sharing", "#third-party-sharing"
+        div.content[data-slug="#third-party-sharing"]
+          p While Credda does not share, sell or rent your information to other entities for their marketing purposes, there are times when we will share your information. 
+          ul
+            li We provide information required by credit reporting agencies and abide by the Fair Credit Reporting Act in doing so.
+            li We occasionally hire third parties to perform a service on behalf of Credda such as marketing, sending postal mail, or analysis of website usage.
+            li We only provide information needed to deliver the service and the third parties are prohibited from using the information for any other purpose.
+        p.title = link_to "Law Enforcement Compliance", "#law-enforcement-compliance"
+        div.content[data-slug="#law-enforcement-compliance"]
+          p We share information with law enforcement, government officials or other third parties in the event of a subpoena, court order or similar legal procedure, or when Credda believes in good faith that the sharing of information is necessary to prevent physical or financial harm, to report suspected illegal activity or to investigate violations of our user agreements.
+  div.large-4.columns
+    h4 Information We Retain
+    div.section-container[data-section]
+      section.section
+        p.title = link_to "Customer Records", "#customer-records"
+        div.content[data-slug="#customer-records"]
+          p At any time, a customer may cancel his/her Credda account if all lease agreements are closed and in good standing.  Upon doing so, all sensitive payment information will be permanently removed from Credda’s system. However, we will retain the following information indefinitely:
+          ul 
+            li Account information such as username and email
+            li Customer name, phone number, address, date of birth and social security number
+            li Web traffic data, and data regarding customer behavior patterns within the Credda application
+        p.title = link_to "Transaction History", "#transaction-history"
+        div.content[data-slug="#transaction-history"]
+          p In order to keep accurate accounting and financial records, Credda will keep the non-sensitive records of all past Credda transactions (contracts, payments, etc.).
+div.row
+  div.large-6.columns
+    h4 Security Measures
+    p Credda takes many measures to safeguard our customer's information from loss, theft, misuse, alteration and unauthorized access.  For a more detailed overview of our security measures, please visit:
+    = link_to "www.credda.com/security", security_path        
+  div.large-6.columns
+    h4 Opt-Out
+    p You can opt out of electronic, postal, or sms marketing by logging into your account and updating your personal information.
+    p You can set your computer to reject (i.e. "opt out" of) cookies, and you will still be able to access our site. However, some features may not function properly or as efficiently.
+div.row
+  div.large-4.columns
+    h5 Children
+    p We do not knowingly collect personal information from children under 13 years old.  If we learn that we have collected the personal information of a child under 13 we will take steps to delete the information as soon as possible.
+  div.large-4.columns
+    h5 External Sites
+    p Credda is not liable for the privacy practices or the content of other websites linked to Credda’s website. 
+  div.large-4.columns
+    h5 Policy Changes
+    p We may update this policy from time to time and you can find the date of the latest version at the top of this website.  In the event that we update the policy, we will notify all our customers by the email address we have on file.
