@@ -35,33 +35,39 @@ describe BankAccount do
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do  
     describe "first_name" do
+      it { should validate_presence_of(:first_name) }
     end
 
     describe "last_name" do
+      it { should validate_presence_of(:last_name) }
     end
 
     describe "account_holder" do
-      it_behaves_like "attr_accessible", :bank_account, :account_holder,
-        ["personal", "business"], #Valid values
-        ["checking", nil] #Invalid values        
+      it { should allow_mass_assignment_of(:account_holder) }
+      it { should validate_presence_of(:account_holder) }
+      it { should allow_value("personal", "business").for(:account_holder) }
+      it { should_not allow_value(nil, "checking").for(:account_holder) }
     end
 
     describe "account_holder" do
-      it_behaves_like "attr_accessible", :bank_account, :account_type,
-        ["checking", "savings"], #Valid values
-        ["personal", "banking", nil] #Invalid values
+      it { should allow_mass_assignment_of(:account_type) }
+      it { should validate_presence_of(:account_type) }
+      it { should allow_value("checking", "savings").for(:account_type) }
+      it { should_not allow_value("personal", "banking", nil).for(:account_type) }
     end
 
     describe "account_number" do
-      it_behaves_like "attr_accessible", :bank_account, :account_number,
-        ["12345678", "98765432"], #Valid values
-        ["12", nil] #Invalid values
+      it { should allow_mass_assignment_of(:account_number) }
+      it { should validate_presence_of(:account_number) }
+      it { should allow_value("12345678", "98765432").for(:account_number) }
+      it { should_not allow_value("12", "banking", nil).for(:account_number) }
     end
 
     describe "routing_number" do
-      it_behaves_like "attr_accessible", :bank_account, :routing_number,
-        ["272483633", "211770200"], #Valid values
-        [nil] #Invalid values
+      it { should allow_mass_assignment_of(:routing_number) }
+      it { should validate_presence_of(:routing_number) }
+      it { should allow_value("272483633", "211770200").for(:routing_number) }
+      it { should_not allow_value(nil).for(:routing_number) }
     end
   end
 

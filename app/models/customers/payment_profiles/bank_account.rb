@@ -1,7 +1,7 @@
 class BankAccount < ActiveRecord::Base
   include ActiveModel::Validations
   extend Enumerize
-  has_no_table
+  has_no_table :database => :pretend_success
 
   belongs_to :payment_profile
 
@@ -26,39 +26,6 @@ class BankAccount < ActiveRecord::Base
   validates :account_number, :presence => true, :length => { :minimum => 3}
   validates :routing_number, :presence => true, :length => { :minimum => 3}
   after_validation :echeck_validity
-
-  def save(validate = true)
-    if (validate)
-      return self.valid?
-    else
-      return true
-    end
-  end
-
-  def save!
-    if self.valid?
-      return self
-    else
-      raise StandardError, self.errors
-    end
-  end
-
-  def reload
-    return self
-  end
-
-  def update_attributes(attributes = {})
-    if attributes
-      attributes.each do |name, value|
-        self.send("#{name}=", value)
-        if self.valid?
-          return true
-        else
-          return false
-        end
-      end
-    end
-  end
 
   def echeck_format
     return build_echeck
@@ -102,7 +69,6 @@ class BankAccount < ActiveRecord::Base
 
     return echeck
   end
-
 
   def validate_echeck(check)
     unless check.valid_routing_number?

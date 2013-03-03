@@ -71,7 +71,7 @@ gem 'rolify', '~> 3.1'
 gem 'cancan', '~> 1.6.9'
 
 #Tableless Models
-gem 'activerecord-tableless', '~> 1.0.1'
+gem 'activerecord-tableless', '~> 1.2.0'
 
 # Exception Handling
 gem 'exception_notification', '>= 3.0.0'

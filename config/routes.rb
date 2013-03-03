@@ -6,6 +6,7 @@ Onering::Application.routes.draw do
   get "employees"       => "pages#employees",        :as => :employee
   get "security"        => "pages#security",         :as => :security
   get "privacy"         => "pages#privacy",          :as => :privacy
+  get "contact"         => "pages#contact",          :as => :contact
 
 
   # OmniAuth Provider paths
@@ -33,13 +34,6 @@ Onering::Application.routes.draw do
     root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods"
     resources :payments, :only => [:index, :new, :create]
-
-    # OmniAuth Provider paths
-    #-----------------------------------------------------------------
-#    match '/oauth/authorize' => 'auth#authorize', :as => :authorization
-#    match '/oauth/access_token' => 'auth#access_token'
-#    match '/oauth/customer' => 'auth#customer'
-#    match '/oauth/token' => 'auth#access_token'
   end
 
   # Store Namespace
