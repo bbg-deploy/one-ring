@@ -6,6 +6,8 @@ module ApplicationHelper
       return "customer"
     elsif (!@current_store.nil?)
       return "store"
+    elsif (!@current_employee.nil?)
+      return "employee"
     else
       return "anon"
     end
@@ -26,7 +28,6 @@ module ApplicationHelper
   # Body Helpers
   #----------------------------------------------------------------------------
   def body_classes    
-#    user_classes = @current_user.nil? ? "anon" : @current_user.class.name.underscore
     controller_classes = "#{controller_name} #{(action_name =~ /.*index.*/) ? "index" : action_name}"
     device_classes = @mobile_device ? "mobile" : "full"
     return "#{device_classes} #{user_type} #{controller_classes}"

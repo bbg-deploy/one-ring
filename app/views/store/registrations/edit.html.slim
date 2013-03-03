@@ -1,0 +1,53 @@
+= provide(:title, 'Edit Account')
+
+div.row
+  h2 Edit Your Account Information
+  div.large-8.columns
+    = nested_form_for(@store, :url => store_registration_path, :method => :put, :html => { :class => "" }) do |f|
+      fieldset
+        legend Account Information
+        div.row
+          div.large-8.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+        div.row
+          div.large-8.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+      fieldset
+        legend New Password
+        div.row
+          div.large-8.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          div.large-4.columns
+            p.helper-text Must be greater than 6 characters
+      fieldset
+        legend Business Information
+        div.row
+          div.large-4.columns 
+            = f.label "Name"
+            = f.text_field :name, :placeholder => "Widget Co."
+        div.row
+          div.large-6.columns
+            = f.label "Employer Identification Number"
+            = f.text_field :employer_identification_number, :placeholder => "50-5331994"
+      fieldset
+        legend Address
+        = f.fields_for :addresses
+      fieldset
+        legend Phone Number
+        = f.fields_for :phone_numbers
+      fieldset
+        legend Enter Current Password
+        div.row
+          div.large-6.columns
+            = f.label "Current Password"
+            = f.password_field :current_password
+      = f.submit "Save Account Changes", :class => "radius button"

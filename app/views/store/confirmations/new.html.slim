@@ -1,0 +1,16 @@
+= provide(:title, 'Confirmation Instructions')
+
+div.row
+  div.large-8.columns
+    h2 Confirm Your Email
+    = form_for(@store, :url => store_confirmation_path, :method => :post, :html => { :class => "" }) do |f|
+      fieldset
+        legend Email
+        div.row
+          div.large-8.columns
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "you@email.com"
+          div.large-4.columns
+            p.helper-text Must match your current email on file
+      = f.submit "Resend Confirmation Email", :class => "radius button"
+    = render "store/shared/authentication_links"

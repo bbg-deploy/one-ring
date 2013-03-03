@@ -74,6 +74,8 @@ Spork.prefork do
     # Global Macros & Helpers
     config.include(EmailSpec::Helpers)
     config.include(EmailSpec::Matchers)
+#    config.include(SmsSpec::Helpers)
+#    config.include(SmsSpec::Matchers)
     config.include(MailerMacros)
     config.include(WebmockMacros)
     config.include(GarbageCollection)

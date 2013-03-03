@@ -4,8 +4,8 @@ describe AuthController do
   include Devise::TestHelpers
 
   describe "routing", :routing => true do
-    it { should route(:get, "/customer/oauth/authorize").to(:action => :authorize) }
-    it { should route(:get, "/customer/oauth/access_token").to(:action => :access_token) }
+    it { should route(:get, "/oauth/authorize").to(:action => :authorize) }
+    it { should route(:get, "/oauth/access_token").to(:action => :access_token) }
   end
 
   describe "#authorize", :authorize => true do

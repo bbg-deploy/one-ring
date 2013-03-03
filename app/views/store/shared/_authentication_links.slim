@@ -1,0 +1,14 @@
+div#authentication-links
+  ul
+    - if controller_name != 'sessions'
+      li Already have an account?
+        = link_to "Sign in", new_store_session_path, :class => ""
+    - if devise_mapping.registerable? && controller_name != 'registrations'
+      li Don't have an account yet?
+        = link_to "Sign up", new_store_registration_path, :class => ""
+    - if devise_mapping.recoverable? && controller_name != 'passwords'
+      li = link_to "Forgot your password?", new_store_password_path, :class => ""
+    - if devise_mapping.confirmable? && controller_name != 'confirmations'
+      li = link_to "Didn't receive confirmation instructions?", new_store_confirmation_path, :class => ""
+    - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+      li = link_to "Didn't receive unlock instructions?", new_store_unlock_path, :class => ""

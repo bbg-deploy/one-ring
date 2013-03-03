@@ -1,0 +1,11 @@
+= provide(:title, 'Forgotten Password')
+
+div.row
+  h2 Forgot your password?
+  div.large-6.columns
+    = form_for(@employee, :url => employee_password_path, :method => :post , :html => { :class => 'well' }) do |f|
+      fieldset
+        legend Account Information
+        = f.email_field :email, :placeholder => "you@email.com"
+        = f.submit "Reset Password", :class => "radius button"
+    = render "employee/shared/authentication_links"

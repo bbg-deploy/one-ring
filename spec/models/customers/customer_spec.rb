@@ -68,7 +68,7 @@ describe Customer do
     it { should have_db_column(:middle_name) }
     it { should have_db_column(:last_name) }
     it { should have_db_column(:date_of_birth) }
-    it { should have_db_column(:encrypted_ssn) }
+    it { should have_db_column(:social_security_number) }
 
     # Recoverable
     it { should have_db_column(:reset_password_token) }
@@ -155,10 +155,10 @@ describe Customer do
   # Attributes
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
-#    before(:each) do
-#      attributes = FactoryGirl.build(:customer_attributes_hash)
-#      customer = Customer.create!(attributes) 
-#    end
+    before(:each) do
+      attributes = FactoryGirl.build(:customer_attributes_hash)
+      customer = Customer.create!(attributes) 
+    end
 
     describe "account_number" do
       it { should validate_uniqueness_of(:account_number) }

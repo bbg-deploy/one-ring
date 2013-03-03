@@ -52,6 +52,7 @@ group :test do
   gem 'webmock', '>= 1.9.0'
   gem 'shoulda-matchers', '>= 1.4.2'
 #  gem 'shoulda-matchers', :github => 'thoughtbot/shoulda-matchers'
+#  gem 'sms-spec', '~> 0.1.6'
 end
 
 # Encryption
@@ -77,6 +78,9 @@ gem 'exception_notification', '>= 3.0.0'
 
 # Payment Gems
 gem 'activemerchant', '~> 1.29.3', :require => 'active_merchant'
+
+# Twilio
+gem 'twilio-ruby', '~> 3.9.0'
 
 # Security Gems
 gem 'strong_parameters', '>= 0.1.6'

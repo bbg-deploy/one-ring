@@ -1,0 +1,18 @@
+= provide(:title, 'Home')
+
+div.row
+  h1 Employee Home
+  div.large-8.columns
+    div.panel
+      div.row
+        div.large-8.columns
+          h4 User Information
+          p = "Username: #{current_employee.username}"
+          p = "Email: #{current_employee.email}"
+          p = "Name: #{current_employee.name}"
+          p = "Date of birth: #{current_employee.date_of_birth}"
+        div.four.columns
+          h5 Not Correct?
+          = link_to "Edit Account Info", edit_employee_registration_path, :class => 'button radius'
+  div.large-4.columns
+    = render 'employee/pages/clients_table'

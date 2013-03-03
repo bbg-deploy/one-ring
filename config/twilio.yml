@@ -1,0 +1,11 @@
+production:
+  account_sid: 'ACb35a0f5a40a7ff080b63e594aef69935'
+  auth_token: '45fae36b1d8de48f40dba573622a9d04'
+
+staging:
+  account_sid: 'ACb35a0f5a40a7ff080b63e594aef69935'
+  auth_token: '45fae36b1d8de48f40dba573622a9d04'
+
+demo:
+  account_sid: 'ACb35a0f5a40a7ff080b63e594aef69935'
+  auth_token: '45fae36b1d8de48f40dba573622a9d04'

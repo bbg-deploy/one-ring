@@ -1,0 +1,18 @@
+div.row
+  div.large-12.columns
+    = f.label "Street"
+    = f.text_field :street, :placeholder => "123 Famous St."
+div.row
+  div.large-6.columns
+    = f.label "City"
+    = f.text_field :city, :placeholder => "Charleston"
+  div.large-3.columns
+    = f.label "State"
+    = f.select :state, us_states, {}
+  div.large-3.columns
+    = f.label "Zip Code"
+    = f.text_field :zip_code, :placeholder => "11111"
+div.row
+  div.large-12.columns
+    = f.label "Country"
+    = f.select :country, countries, {}

@@ -1,0 +1,5 @@
+@import "compass/css3/images";
+
+ul.side-nav {
+  @include background(image-url("alum-dark-background.png"));
+}

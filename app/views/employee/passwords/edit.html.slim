@@ -1,0 +1,12 @@
+= provide(:title, 'Change Password')
+
+div.row
+  h2 Change your password
+  div.large-6.columns
+    = form_for(@employee, :url => employee_password_path, :method => :put , :html => { :class => '' }) do |f|
+      fieldset
+        legend Password Reset
+        = f.hidden_field :reset_password_token, :placeholder => "rockstar"
+        = f.password_field :password, :placeholder => "newpassword"
+        = f.password_field :password_confirmation, :placeholder => "newpassword"
+      = f.submit "Change Password", :class => "radius button"
