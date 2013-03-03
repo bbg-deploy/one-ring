@@ -1,4 +1,5 @@
 class BankAccount < ActiveRecord::Base
+  include ActiveModel::Validations
   extend Enumerize
   has_no_table
 

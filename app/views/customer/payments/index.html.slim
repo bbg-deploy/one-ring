@@ -1,0 +1,17 @@
+= provide(:title, "Payment History")
+
+- if (@payments.nil?) || (@payment.empty?)
+  p You have no payment history.
+- else
+  table
+    thead
+      tr
+        th Type
+        th Account
+        th
+    tbody
+      - @payments.each do |payment|
+        tr
+          td = payment
+          td = payment
+= link_to "Link New Account", new_customer_payment_profile_path, :class => 'button radius'

@@ -2,25 +2,18 @@
 
 div.row
   div.large-8.columns
-    h1 Customer Home
     div.panel
-      div.row
-        div.large-8.columns
-          h4 User Information
-          p = "Username: #{current_customer.username}"
-          p = "Email: #{current_customer.email}"
-          p = "Name: #{current_customer.name}"
-          p = "Date of birth: #{current_customer.date_of_birth}"
-          p = "Address: #{current_customer.mailing_address}"
-          p = "Phone Number: #{current_customer.phone_number}"
-        div.large-4.columns
-          h5 Not Correct?
-          = link_to "Edit Account Info", edit_customer_registration_path, :class => 'button radius'
+      - @contract_details.each do |contract|
+        h6 #{contract[:name]}
+        p #{contract[:description]}
+        p #{contract[:total]}
+    div.panel
+      h6 Make A Payment
+      = link_to "Pay Now", customer_home_path, :class => "button radius"
   div.large-4.columns
-    h3 Payment Profiles
-    - current_customer.payment_profiles.each do |payment_profile|
-      div.panel
-        p = "Name: #{payment_profile.name}"
-        p = "Last Four Digits: #{payment_profile.last_four_digits}"
-        p = "Type: #{payment_profile.payment_type}"
-    = link_to "Add Payment Profile", new_customer_payment_profile_path, :class => "button radius"
+    div.panel
+      h6 Questions or Issues?
+      = link_to "Call Credda", customer_home_path, :class => "button radius"
+    div.panel
+      h6 Lost?
+      = link_to "Take A Tour", customer_home_path, :class => "button radius"

@@ -14,6 +14,7 @@ html
       = render 'layouts/header/master'
     div#main-wrapper
       div.row
+        h1 = content_for?(:title) ? yield(:title) : "Credda"
         div.large-3.columns
           ul.side-nav
             = nav_link image_tag("icons/bank.png"), home_path
