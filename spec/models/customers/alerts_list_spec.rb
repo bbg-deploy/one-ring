@@ -68,15 +68,67 @@ describe AlertsList do
   # Public Methods
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "mailable" do
+      context "with mail=false" do
+        it "returns false" do
+          list = FactoryGirl.create(:alerts_list, :mail => "0")
+          list.mailable?.should be_false
+        end
+      end
+
+      context "with mail=true" do
+        it "returns true" do
+          list = FactoryGirl.create(:alerts_list, :mail => "1")
+          list.mailable?.should be_true
+        end
+      end
+    end
+
+    describe "emailable" do
+      context "with email=false" do
+        it "returns false" do
+          list = FactoryGirl.create(:alerts_list, :email => "0")
+          list.emailable?.should be_false
+        end
+      end
+
+      context "with email=true" do
+        it "returns true" do
+          list = FactoryGirl.create(:alerts_list, :email => "1")
+          list.emailable?.should be_true
+        end
+      end
+    end
+
+    describe "smsable" do
+      context "with sms=false" do
+        it "returns false" do
+          list = FactoryGirl.create(:alerts_list, :sms => "0")
+          list.smsable?.should be_false
+        end
+      end
+
+      context "with sms=true" do
+        it "returns true" do
+          list = FactoryGirl.create(:alerts_list, :sms => "1")
+          list.smsable?.should be_true
+        end
+      end
+    end
+
     describe "phonable" do
       context "with phone=false" do
-        list = FactoryGirl.create(:alerts_list, :phone => "0")
-        list.phonable?.should be_false
+        it "returns false" do
+          list = FactoryGirl.create(:alerts_list, :phone => "0")
+          list.phonable?.should be_false
+        end
       end
 
       context "with phone=true" do
-        list = FactoryGirl.create(:alerts_list, :phone => "1")
-        list.phonable?.should be_true
+        it "returns true" do
+          list = FactoryGirl.create(:alerts_list, :phone => "1")
+          list.phonable?.should be_true
+        end
       end
     end
   end

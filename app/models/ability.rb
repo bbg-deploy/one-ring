@@ -9,6 +9,7 @@ class Ability
       can :manage, :none
     elsif user.kind_of? Employee
       can :manage, Client
+      can :manage, Employee
     else
       can :manage, :none
     end

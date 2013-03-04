@@ -46,7 +46,7 @@ div.row
         legend Terms & Conditions
         div.large-12.columns.terms_agreement
           = f.check_box :terms_agreement
-          = f.label " ", :for => "customer_terms_agreement", :class => "terms_agreement"
+          = f.label " ", :for => "store_terms_agreement", :class => "terms_agreement"
           p.agreement I agree to Credda's Terms and Conditions
       = f.submit "Sign up", :class => "radius button"
     = render "store/shared/authentication_links"

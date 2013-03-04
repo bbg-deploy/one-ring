@@ -45,7 +45,8 @@ class Customer < ActiveRecord::Base
 #  attr_accessor :social_security_number
   attr_accessible :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number,
                   :mailing_address, :mailing_address_attributes, 
-                  :phone_number, :phone_number_attributes
+                  :phone_number, :phone_number_attributes,
+                  :alerts_list, :alerts_list_attributes
 
   # Validations
   #----------------------------------------------------------------------------
@@ -67,6 +68,8 @@ class Customer < ActiveRecord::Base
   validates :phone_number, :presence => true
   validates_associated :phone_number
   validates_associated :payment_profiles
+  validates :alerts_list, :presence => true
+  validates_associated :alerts_list
 #  after_save :remove_ssn
 
   # Methods

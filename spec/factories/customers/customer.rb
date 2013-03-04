@@ -8,6 +8,9 @@ FactoryGirl.define do
 
       with_phone_number   true
       phone_number_factory :phone_number
+
+      with_alerts_list   true
+      alerts_list_factory :alerts_list
     end
     
     sequence(:username) { |n| "customer_#{n}" }
@@ -30,6 +33,10 @@ FactoryGirl.define do
 
       if (evaluator.with_phone_number)
         customer.phone_number = FactoryGirl.build(evaluator.phone_number_factory, :phonable => customer)
+      end
+
+      if (evaluator.with_alerts_list)
+        customer.alerts_list = FactoryGirl.build(evaluator.alerts_list_factory, :customer => customer)
       end
     end
   end
@@ -69,6 +76,7 @@ FactoryGirl.define do
     sequence(:social_security_number, 1000) { |n| "430-87-#{n}" }
     mailing_address_attributes { FactoryGirl.build(:address_attributes_hash, :addressable => nil).except(:addressable) }
     phone_number_attributes    { FactoryGirl.build(:phone_number_attributes_hash, :phonable => nil).except(:phonable) }
+    alerts_list_attributes     { FactoryGirl.build(:alerts_list_attributes_hash, :customer => nil).except(:customer) }
     terms_agreement "1"
 
     initialize_with { attributes }

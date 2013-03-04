@@ -21,8 +21,8 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   # Don't allow our tests to make outgoing web requests
-  WebMock.disable_net_connect!
-  #WebMock.allow_net_connect!
+  #WebMock.disable_net_connect!
+  WebMock.allow_net_connect!
   
   RSpec.configure do |config|
     # Mock Framework

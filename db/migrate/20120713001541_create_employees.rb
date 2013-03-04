@@ -45,6 +45,9 @@ class CreateEmployees < ActiveRecord::Migration
       ## Token authenticatable
       t.string :authentication_token
 
+      ## Approvable
+      t.boolean :approved,                       :default => false, :null => false
+
       ## Cancelable
       t.datetime :cancelled_at #Allows for me to let customers cancel accounts
 
@@ -58,5 +61,6 @@ class CreateEmployees < ActiveRecord::Migration
     add_index :employees, :confirmation_token,   :unique => true
     add_index :employees, :unlock_token,         :unique => true
     add_index :employees, :authentication_token, :unique => true
+    add_index :employees, :approved
   end
 end

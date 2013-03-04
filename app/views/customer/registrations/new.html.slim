@@ -87,14 +87,37 @@ div.row
         legend Notifications
         = f.fields_for :alerts_list do |alerts|
           div.row
-            div.large-4.columns
-              = alerts.label "Postal Mail"
-              div.switch.round.small
-                = alerts.radio_button :mail, "0"
-                = alerts.label "No", :onclick => ""
-                = alerts.radio_button :mail, "1", :checked => "checked"
-                = alerts.label "Yes", :onclick => ""
-                span
+            div.large-12.columns
+              div.row
+                div.large-3.columns
+                  div.switch.round.small
+                    = alerts.radio_button :mail, "0", :checked => "unchecked"
+                    = alerts.label "No", :onclick => ""
+                    = alerts.radio_button :mail, "1", :checked => "checked"
+                    = alerts.label "Yes", :onclick => ""
+                    span
+                div.large-9.columns
+                  = alerts.label "Credda can mail you special offers", :class => "left"
+              div.row
+                div.large-3.columns
+                  div.switch.round.small
+                    = alerts.radio_button :email, "0", :checked => "unchecked"
+                    = alerts.label "No", :onclick => ""
+                    = alerts.radio_button :email, "1", :checked => "checked"
+                    = alerts.label "Yes", :onclick => ""
+                    span
+                div.large-9.columns
+                  = alerts.label "Credda can email you account details.", :class => "left"
+              div.row
+                div.large-3.columns
+                  div.switch.round.small
+                    = alerts.radio_button :sms, "0", :checked => "unchecked"
+                    = alerts.label "No", :onclick => ""
+                    = alerts.radio_button :sms, "1", :checked => "checked"
+                    = alerts.label "Yes", :onclick => ""
+                    span
+                div.large-9.columns
+                  = alerts.label "Credda can send you text alerts (will only work if you have a cell phone).", :class => "left"
       fieldset
         legend Terms & Conditions
         div.large-12.columns.terms_agreement

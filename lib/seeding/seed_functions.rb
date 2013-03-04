@@ -32,6 +32,11 @@ module SeedFunctions
                    :phone_number => Faker::PhoneNumber.short_phone_number,
                    :cell_phone => "0",
                    :primary => "1" },
+                 :alerts_list_attributes => {
+                   :mail => "1",
+                   :email => "1",
+                   :sms => "1",
+                   :phone => "0" },
                  :terms_agreement => "1" }
                    
     options = defaults.merge(options)

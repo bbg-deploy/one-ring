@@ -100,10 +100,21 @@ class Customer::RegistrationsController < Devise::RegistrationsController
 
   private
   def create_customer_params
-    params.require(:customer).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, {:mailing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, {:phone_number_attributes => [:phone_number_type, :phone_number, :cell_phone]}, :terms_agreement)
+    params.require(:customer).permit(
+      :username, :password, :password_confirmation, :email, :email_confirmation, 
+      :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, 
+      {:mailing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, 
+      {:phone_number_attributes => [:phone_number_type, :phone_number, :cell_phone]}, 
+      {:alerts_list_attributes => [:mail, :email, :sms, :phone]}, 
+      :terms_agreement )
   end
 
   def update_customer_params
-    params.require(:customer).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, {:mailing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, {:phone_number_attributes => [:phone_number_type, :phone_number, :cell_phone]})
+    params.require(:customer).permit(
+      :username, :password, :password_confirmation, :current_password, :email, :email_confirmation, 
+      :first_name, :middle_name, :last_name, :date_of_birth, :social_security_number, 
+      {:mailing_address_attributes  => [:street, :city, :state, :zip_code, :country]}, 
+      {:phone_number_attributes => [:phone_number_type, :phone_number, :cell_phone]}, 
+      {:alerts_list_attributes => [:mail, :email, :sms, :phone]} )
   end
 end

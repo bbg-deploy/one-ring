@@ -47,7 +47,9 @@ div.row
             = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
       fieldset
         legend Terms & Conditions
-        = f.label "You agree to Credda's Terms & Conditions"
-        = f.check_box :terms_agreement
+        div.large-12.columns.terms_agreement
+          = f.check_box :terms_agreement
+          = f.label " ", :for => "employee_terms_agreement", :class => "terms_agreement"
+          p.agreement I agree to Credda's Terms and Conditions
       = f.submit "Sign up", :class => "radius button"
     = render "employee/shared/authentication_links"
