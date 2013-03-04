@@ -57867,3 +57867,155 @@ Served asset /grey-texture-background-small.png - 200 OK (7ms)
 
 Started GET "/assets/paperwork.jpg" for 127.0.0.1 at 2013-03-04 15:27:50 +0900
 Served asset /paperwork.jpg - 200 OK (6ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-04 16:29:50 +0900
+Processing by PagesController#home as HTML
+  [1m[36mCustomer Load (7.0ms)[0m  [1mSELECT "customers".* FROM "customers" [0m
+  Rendered pages/home.html.slim within layouts/application (128.0ms)
+Compiled foundation_and_overrides.css  (3923ms)  (pid 6300)
+Compiled application.css  (13ms)  (pid 6300)
+Compiled vendor/custom.modernizr.js  (2ms)  (pid 6300)
+Compiled application.js  (46ms)  (pid 6300)
+  Rendered layouts/header/_anonymous.html.slim (14.0ms)
+  Rendered layouts/header/_master.html.slim (24.0ms)
+  Rendered layouts/messages/_messages.html.slim (8.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (9.0ms)
+Completed 200 OK in 5380ms (Views: 5284.3ms | ActiveRecord: 21.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:56 +0900
+Served asset /application.css - 200 OK (168ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:56 +0900
+Served asset /font-face-definitions.css - 200 OK (7ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:56 +0900
+Served asset /foundation_and_overrides.css - 200 OK (22ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:56 +0900
+Served asset /screen.css - 200 OK (5ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /navigation.css - 200 OK (6ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /pages.css - 200 OK (6ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /forms.css - 200 OK (11ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /footer.css - 200 OK (6ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /vendor/custom.modernizr.js - 200 OK (14ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:57 +0900
+Served asset /jquery.js - 200 OK (26ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:58 +0900
+Served asset /jquery_ujs.js - 200 OK (19ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:58 +0900
+Served asset /foundation/foundation.js - 200 OK (15ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:58 +0900
+Served asset /jquery-ui.js - 200 OK (93ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:58 +0900
+Served asset /foundation/foundation.alerts.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:59 +0900
+Served asset /foundation/foundation.clearing.js - 200 OK (16ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:59 +0900
+Served asset /foundation/foundation.cookie.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:59 +0900
+Served asset /foundation/foundation.dropdown.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:59 +0900
+Served asset /foundation/foundation.forms.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-04 16:29:59 +0900
+Served asset /foundation/foundation.joyride.js - 200 OK (80ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:00 +0900
+Served asset /foundation/foundation.magellan.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:00 +0900
+Served asset /foundation/foundation.orbit.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:00 +0900
+Served asset /foundation/foundation.reveal.js - 200 OK (18ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:00 +0900
+Served asset /foundation/foundation.placeholder.js - 200 OK (12ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:00 +0900
+Served asset /foundation/foundation.section.js - 200 OK (82ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:01 +0900
+Served asset /foundation/foundation.tooltips.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:01 +0900
+Served asset /foundation/foundation.topbar.js - 200 OK (13ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:01 +0900
+Served asset /foundation/index.js - 200 OK (51ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-04 16:30:01 +0900
+Served asset /application.js - 200 OK (123ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /logo-color.png - 200 OK (3ms)
+
+
+Started GET "/assets/classic_car.jpg" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /classic_car.jpg - 200 OK (6ms)
+
+
+Started GET "/assets/paperwork.jpg" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /paperwork.jpg - 200 OK (4ms)
+
+
+Started GET "/assets/father_son.jpg" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /father_son.jpg - 200 OK (3ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /grey-texture-background-small.png - 200 OK (5ms)
+
+
+Started GET "/assets/cork-background.png" for 127.0.0.1 at 2013-03-04 16:30:02 +0900
+Served asset /cork-background.png - 200 OK (4ms)
