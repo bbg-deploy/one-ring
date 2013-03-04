@@ -9,7 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require 'foundation'
  *= require 'font-face-definitions'
  *= require 'screen'
  *= require 'navigation'
@@ -17,3 +16,4 @@
  *= require 'forms'
  *= require 'footer'
  */
+@import 'foundation';
