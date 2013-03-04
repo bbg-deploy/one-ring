@@ -57720,3 +57720,4 @@ Content-Transfer-Encoding: 7bit
   [1m[36m (1.0ms)[0m  [1mUPDATE "stores" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-04 05:31:04.301690', "updated_at" = '2013-03-04 05:31:04.304690' WHERE "stores"."id" = 3[0m
   [1m[35m (1.0ms)[0m  COMMIT
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
