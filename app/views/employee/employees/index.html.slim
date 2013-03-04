@@ -1,0 +1,16 @@
+= provide(:title, "Employees")
+
+- if (@employees.nil?) || (@employees.empty?)
+  p There are currently no employees.
+- else
+  table
+    thead
+      tr
+        th Account Number
+        th Name
+        th
+    tbody
+      - @employees.each do |employee|
+        tr
+          td = employee.account_number
+          td = employee.name
