@@ -57721,3 +57721,149 @@ Content-Transfer-Encoding: 7bit
   [1m[35m (1.0ms)[0m  COMMIT
 Connecting to database specified by database.yml
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-04 15:27:33 +0900
+Processing by PagesController#home as HTML
+  [1m[36mCustomer Load (282.0ms)[0m  [1mSELECT "customers".* FROM "customers" [0m
+  Rendered pages/home.html.slim within layouts/application (134.0ms)
+Compiled foundation_and_overrides.css  (5799ms)  (pid 7264)
+Compiled application.css  (24ms)  (pid 7264)
+  Rendered layouts/header/_anonymous.html.slim (11.0ms)
+  Rendered layouts/header/_master.html.slim (90.0ms)
+  Rendered layouts/messages/_messages.html.slim (7.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (10.0ms)
+Completed 200 OK in 7734ms (Views: 7359.4ms | ActiveRecord: 298.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:42 +0900
+Served asset /application.css - 200 OK (122ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:42 +0900
+Served asset /foundation_and_overrides.css - 200 OK (90ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:42 +0900
+Served asset /font-face-definitions.css - 200 OK (73ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:43 +0900
+Served asset /navigation.css - 200 OK (15ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:43 +0900
+Served asset /screen.css - 200 OK (7ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:43 +0900
+Served asset /pages.css - 200 OK (5ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:43 +0900
+Served asset /forms.css - 200 OK (6ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-04 15:27:43 +0900
+Served asset /footer.css - 200 OK (4ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:44 +0900
+Served asset /jquery.js - 200 OK (95ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:44 +0900
+Served asset /jquery-ui.js - 200 OK (195ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:44 +0900
+Served asset /jquery_ujs.js - 200 OK (85ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:45 +0900
+Served asset /foundation/foundation.js - 200 OK (84ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:45 +0900
+Served asset /foundation/foundation.alerts.js - 200 OK (36ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:45 +0900
+Served asset /foundation/foundation.clearing.js - 200 OK (25ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:46 +0900
+Served asset /foundation/foundation.cookie.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:46 +0900
+Served asset /foundation/foundation.dropdown.js - 200 OK (95ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:46 +0900
+Served asset /foundation/foundation.forms.js - 200 OK (13ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:46 +0900
+Served asset /foundation/foundation.joyride.js - 200 OK (23ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:47 +0900
+Served asset /foundation/foundation.magellan.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:47 +0900
+Served asset /foundation/foundation.orbit.js - 200 OK (15ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:47 +0900
+Served asset /foundation/foundation.placeholder.js - 200 OK (82ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:47 +0900
+Served asset /foundation/foundation.reveal.js - 200 OK (17ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:48 +0900
+Served asset /foundation/foundation.section.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:48 +0900
+Served asset /foundation/foundation.tooltips.js - 200 OK (16ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:48 +0900
+Served asset /foundation/foundation.topbar.js - 200 OK (14ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:48 +0900
+Served asset /foundation/index.js - 200 OK (117ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-04 15:27:48 +0900
+Served asset /application.js - 200 OK (139ms)
+
+
+Started GET "/assets/cork-background.png" for 127.0.0.1 at 2013-03-04 15:27:49 +0900
+Served asset /cork-background.png - 200 OK (6ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-04 15:27:49 +0900
+Served asset /logo-color.png - 200 OK (6ms)
+
+
+Started GET "/assets/classic_car.jpg" for 127.0.0.1 at 2013-03-04 15:27:50 +0900
+Served asset /classic_car.jpg - 200 OK (6ms)
+
+
+Started GET "/assets/father_son.jpg" for 127.0.0.1 at 2013-03-04 15:27:50 +0900
+Served asset /father_son.jpg - 200 OK (77ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-04 15:27:50 +0900
+Served asset /grey-texture-background-small.png - 200 OK (7ms)
+
+
+Started GET "/assets/paperwork.jpg" for 127.0.0.1 at 2013-03-04 15:27:50 +0900
+Served asset /paperwork.jpg - 200 OK (6ms)

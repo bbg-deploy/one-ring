@@ -56,7 +56,6 @@ Onering::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
-  #TODO: Use HEROKU Environment variables to store this information
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.gmail.com",
     :port                 => 587,
@@ -80,4 +79,8 @@ Onering::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+
+    # For Heroku
+    config.assets.initialize_on_precompile = false
 end
