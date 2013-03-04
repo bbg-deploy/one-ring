@@ -11,6 +11,7 @@ class Customer::RegistrationsController < Devise::RegistrationsController
     @customer = Customer.new
     @customer.build_mailing_address
     @customer.build_phone_number
+    @customer.build_alerts_list
     respond_with @customer
   end
 

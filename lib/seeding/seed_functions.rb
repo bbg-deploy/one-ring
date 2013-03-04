@@ -29,7 +29,6 @@ module SeedFunctions
                    :zip_code => Faker::AddressUS.zip_code,
                    :country => "United States" },
                  :phone_number_attributes => { 
-                   :phone_number_type => "customer",
                    :phone_number => Faker::PhoneNumber.short_phone_number,
                    :cell_phone => "0",
                    :primary => "1" },
@@ -132,7 +131,7 @@ module SeedFunctions
     end
   end
 
-  # Stores Scope
+  # Employees Scope
   #----------------------------------------------------------------------------
   def create_employee(options = {})
     dummy_first_name = Faker::Name.first_name
@@ -183,7 +182,7 @@ module SeedFunctions
     end
   end
 
-  # Employee Scope
+  # Store Scope
   #----------------------------------------------------------------------------
   def create_store(options = {})
     dummy_name = "#{Faker::Company.name}"
@@ -207,7 +206,6 @@ module SeedFunctions
                    :zip_code => Faker::AddressUS.zip_code,
                    :country => "United States" } },
                  :phone_numbers_attributes => { "0" => { 
-                   :phone_number_type => "store",
                    :phone_number => Faker::PhoneNumber.short_phone_number,
                    :cell_phone => "0",
                    :primary => "1" } },

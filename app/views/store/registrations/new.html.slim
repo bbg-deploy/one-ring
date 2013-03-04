@@ -44,7 +44,9 @@ div.row
         = f.fields_for :phone_numbers
       fieldset
         legend Terms & Conditions
-        = f.label "You agree to Credda's Terms & Conditions"
-        = f.check_box :terms_agreement
+        div.large-12.columns.terms_agreement
+          = f.check_box :terms_agreement
+          = f.label " ", :for => "customer_terms_agreement", :class => "terms_agreement"
+          p.agreement I agree to Credda's Terms and Conditions
       = f.submit "Sign up", :class => "radius button"
     = render "store/shared/authentication_links"

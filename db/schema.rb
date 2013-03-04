@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "updated_at",                       :null => false
   end
 
+  create_table "alerts_lists", :force => true do |t|
+    t.integer  "customer_id",                    :null => false
+    t.boolean  "mail",        :default => false
+    t.boolean  "email",       :default => false
+    t.boolean  "sms",         :default => false
+    t.boolean  "phone",       :default => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
+
   create_table "clients", :force => true do |t|
     t.string   "name",             :null => false
     t.string   "app_id",           :null => false

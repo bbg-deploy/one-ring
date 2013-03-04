@@ -74,7 +74,6 @@ div.row
           div.row
             div.large-6.columns
               = phone.label "Phone Number"
-              = phone.hidden_field :phone_number_type, :value => 'customer'
               = phone.text_field :phone_number, :placeholder => "555-444-1234"
             div.large-4.columns
               = phone.label "Is this a cell phone?"
@@ -86,6 +85,18 @@ div.row
                 span
             div.large-2.columns
               = phone.hidden_field :primary, :value => '1'
+      fieldset
+        legend Notifications
+        = f.fields_for :alerts_list do |alerts|
+          div.row
+            div.large-4.columns
+              = alerts.label "Postal Mail"
+              div.switch.round.small
+                = alerts.radio_button :mail, "0"
+                = alerts.label "No", :onclick => ""
+                = alerts.radio_button :mail, "1"
+                = alerts.label "Yes", :onclick => ""
+                span
       fieldset
         legend Enter Current Password (Required)
         div.row

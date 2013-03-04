@@ -1,10 +1,12 @@
 div#authentication-links
   ul
     - if controller_name != 'sessions'
-      li Already have an account?
+      li 
+        ' Already have an account?
         = link_to "Sign in", new_store_session_path, :class => ""
     - if devise_mapping.registerable? && controller_name != 'registrations'
-      li Don't have an account yet?
+      li 
+        ' Don't have an account yet?
         = link_to "Sign up", new_store_registration_path, :class => ""
     - if devise_mapping.recoverable? && controller_name != 'passwords'
       li = link_to "Forgot your password?", new_store_password_path, :class => ""

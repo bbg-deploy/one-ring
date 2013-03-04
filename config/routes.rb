@@ -81,4 +81,6 @@ Onering::Application.routes.draw do
   # API
   #------------------------------------------------------------------
   mount OneRing::APIv1 => "/"
+
+  match "*path" => 'routing_errors#not_found'
 end

@@ -27,10 +27,21 @@ describe PhoneNumber do
     end
   end
 
+  # Database
+  #----------------------------------------------------------------------------
+  describe "database", :database => true do
+    it { should have_db_column(:phonable_id) }
+    it { should have_db_column(:phonable_type) }
+    it { should have_db_column(:phone_number) }
+    it { should have_db_column(:primary) }
+    it { should have_db_column(:cell_phone) }
+  end
+
   # Associations
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do
     describe "phonable" do
+      it { should belong_to(:phonable) }
       it_behaves_like "immutable polymorphic", :customer_phone_number, :phonable
       it_behaves_like "deletable belongs_to", :customer_phone_number, :phonable
       it_behaves_like "immutable polymorphic", :store_phone_number, :phonable
@@ -41,55 +52,24 @@ describe PhoneNumber do
   # Attributes
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
-    describe "phone_number_type" do
-      context "as Customer" do
-        it_behaves_like "attr_accessible", :customer_phone_number, :phone_number_type,
-          [:customer],  #Valid values
-          [:store] #Invalid values
-
-        describe "sets default phone_number type" do
-          it "sets to 'customer' if nil" do
-            phone_number = FactoryGirl.create(:customer_phone_number, :phone_number_type => nil)
-            phone_number.phone_number_type.customer?.should be_true
-            phone_number.reload
-            phone_number.phone_number_type.customer?.should be_true
-          end
-        end
-      end
-      
-      context "as Store" do
-        it_behaves_like "attr_accessible", :store_phone_number, :phone_number_type,
-          [:store],  #Valid values
-          [:customer] #Invalid values
-
-        describe "sets default phone_number type" do
-          it "sets to 'store' if nil" do
-            phone_number = FactoryGirl.create(:store_phone_number, :phone_number_type => nil)
-            phone_number.phone_number_type.store?.should be_true
-            phone_number.reload
-            phone_number.phone_number_type.store?.should be_true
-          end
-        end
-      end
-    end
-
     describe "phone_number" do
-      it_behaves_like "attr_accessible", :phone_number, :phone_number,
-        ["703-444-1234", "7034301245"],  #Valid values
-        [nil, "703-303-111", "703-987-11223", "703450432", "70343012345"] #Invalid values
+      it { should allow_mass_assignment_of(:phone_number) }
+      it { should validate_presence_of(:phone_number) }
+      it { should allow_value("703-309-1874", "7033091874").for(:phone_number) }
+      it { should_not allow_value(nil, "703-303-111", "703-987-11223", "703450432", "70343012345").for(:phone_number) }
     end
-  
+
     describe "primary" do
-      it_behaves_like "attr_accessible", :phone_number, :primary,
-        ["1", "0"],  #Valid values
-        [nil] #Invalid values
+      it { should allow_mass_assignment_of(:primary) }
+      it { should allow_value(true, false).for(:primary) }
+      it { should_not allow_value(nil, "!").for(:primary) }
     end
-  
+
     describe "cell_phone" do
-      it_behaves_like "attr_accessible", :phone_number, :cell_phone,
-        ["1", "0"],  #Valid values
-        [nil] #Invalid values
-    end
+      it { should allow_mass_assignment_of(:cell_phone) }
+      it { should allow_value(true, false).for(:cell_phone) }
+      it { should_not allow_value(nil, "!").for(:cell_phone) }
+    end  
   end
 
   # Behavior

@@ -119,15 +119,27 @@ describe CreditCard do
       end
 
       context "diners_club" do
-#        it_behaves_like "attr_accessible", :diners_club_credit_card, :credit_card_number,
-#          ["30569309025904", "38520000023237"], #Valid values
-#          ["30569309025905", "38520000023238", nil] #Invalid values        
+        it "allows valid diners club values" do
+          card = FactoryGirl.build(:diners_club_credit_card, :credit_card_number => "38520000023237")
+          card.valid?.should be_true
+        end
+
+        it "rejects invalid diners club values" do
+          card = FactoryGirl.build(:diners_club_credit_card, :credit_card_number => "38520000023238")
+          card.valid?.should be_false
+        end
       end
 
       context "jcb" do
-#        it_behaves_like "attr_accessible", :jcb_credit_card, :credit_card_number,
-#          ["3530111333300000"], #Valid values
-#          ["3530111333300001", nil] #Invalid values        
+        it "allows valid diners club values" do
+          card = FactoryGirl.build(:jcb_credit_card, :credit_card_number => "3530111333300000")
+          card.valid?.should be_true
+        end
+
+        it "rejects invalid diners club values" do
+          card = FactoryGirl.build(:jcb_credit_card, :credit_card_number => "3530111333300001")
+          card.valid?.should be_false
+        end
       end
     end
 

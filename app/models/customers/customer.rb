@@ -34,6 +34,11 @@ class Customer < ActiveRecord::Base
   has_many :payment_profiles, :dependent => :destroy, :inverse_of => :customer
   accepts_nested_attributes_for :payment_profiles
 
+  # Associations - Alerts List
+  #----------------------------------------------------------------------------
+  has_one :alerts_list, :dependent => :destroy, :inverse_of => :customer
+  accepts_nested_attributes_for :alerts_list
+
   # Accessible Methods
   #----------------------------------------------------------------------------
   # TODO: Bring this all back when I have a dedicated server to deploy on
