@@ -26,7 +26,7 @@ module SeedFunctions
                    :street => Faker::AddressUS.street_address,
                    :city => Faker::AddressUS.city,
                    :state => Faker::AddressUS.state,
-                   :zip_code => Faker::AddressUS.zip_code,
+                   :zip_code => Faker::AddressUS.zip_code.first(5),
                    :country => "United States" },
                  :phone_number_attributes => { 
                    :phone_number => Faker::PhoneNumber.short_phone_number,
@@ -203,7 +203,7 @@ module SeedFunctions
                    :street => Faker::AddressUS.street_address,
                    :city => Faker::AddressUS.city,
                    :state => Faker::AddressUS.state,
-                   :zip_code => Faker::AddressUS.zip_code,
+                   :zip_code => Faker::AddressUS.zip_code.first(5),
                    :country => "United States" } },
                  :phone_numbers_attributes => { "0" => { 
                    :phone_number => Faker::PhoneNumber.short_phone_number,
