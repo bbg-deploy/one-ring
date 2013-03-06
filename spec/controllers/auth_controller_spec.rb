@@ -26,7 +26,7 @@ describe AuthController do
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
 
-    context "as authenticated customer" do
+    context "with authenticated customer" do
       include_context "with authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
 
@@ -45,7 +45,7 @@ describe AuthController do
   end
 
   describe "#access_token", :access_token => true do
-    context "as unauthenticated customer" do
+    context "with unauthenticated customer" do
       include_context "with unauthenticated customer"
       
       context "with invalid id and secret" do
@@ -105,7 +105,7 @@ describe AuthController do
       end
     end
 
-    context "as authenticated customer" do
+    context "with authenticated customer" do
       include_context "with authenticated customer"
       let(:client) { FactoryGirl.create(:client) }
 
