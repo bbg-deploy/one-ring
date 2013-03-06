@@ -130,7 +130,7 @@ describe Store::RegistrationsController do
         it { should redirect_to(home_path) }
 
         # Content
-        it { should set_the_flash[:notice].to(/message with a confirmation link/) }
+        it { should set_the_flash[:notice].to(/administrator approval/) }
 
         # Behavior
         it "creates a new store" do
@@ -170,7 +170,7 @@ describe Store::RegistrationsController do
         it { should render_template(:new) }
 
         # Content
-        it { should set_the_flash[:error].to(/was a problem/) }
+        it { should set_the_flash[:alert].to(/was a problem/) }
 
         # Behavior
         it "does not creates a new store" do
@@ -405,7 +405,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
@@ -450,7 +450,7 @@ describe Store::RegistrationsController do
         it { should respond_with(:success) }
   
         # Content
-        it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
         it { should render_template(:edit) }
       end
 
@@ -474,7 +474,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
@@ -519,7 +519,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
