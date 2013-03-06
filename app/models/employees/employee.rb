@@ -45,18 +45,11 @@ class Employee < ActiveRecord::Base
   end
 
   def active_for_authentication?
-    super && self.cancelled_at.nil? && self.approved? 
-  end
-
-  def approve!
-    self.approved = true
-    self.save!
+    super && self.cancelled_at.nil?
   end
 
   def inactive_message 
-    if !approved? 
-      :not_approved 
-    elsif cancelled? 
+    if cancelled? 
       :cancelled
     else 
       super # Use whatever other message 

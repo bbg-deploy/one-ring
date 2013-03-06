@@ -121,14 +121,14 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "employee_roles", ["name"], :name => "index_employee_roles_on_name"
 
   create_table "employees", :force => true do |t|
-    t.string   "account_number",                            :null => false
-    t.string   "username",               :default => "",    :null => false
-    t.string   "email",                  :default => "",    :null => false
-    t.string   "encrypted_password",     :default => "",    :null => false
-    t.string   "first_name",                                :null => false
+    t.string   "account_number",                         :null => false
+    t.string   "username",               :default => "", :null => false
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "first_name",                             :null => false
     t.string   "middle_name"
-    t.string   "last_name",                                 :null => false
-    t.date     "date_of_birth",                             :null => false
+    t.string   "last_name",                              :null => false
+    t.date     "date_of_birth",                          :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -145,14 +145,12 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.string   "authentication_token"
-    t.boolean  "approved",               :default => false, :null => false
     t.datetime "cancelled_at"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "employees", ["account_number"], :name => "index_employees_on_account_number", :unique => true
-  add_index "employees", ["approved"], :name => "index_employees_on_approved"
   add_index "employees", ["authentication_token"], :name => "index_employees_on_authentication_token", :unique => true
   add_index "employees", ["confirmation_token"], :name => "index_employees_on_confirmation_token", :unique => true
   add_index "employees", ["email"], :name => "index_employees_on_email", :unique => true
