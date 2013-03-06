@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "sign up" do
+describe "new registration" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
   def fill_in_store_information(store)
@@ -27,33 +27,37 @@ describe "sign up" do
 
   # As Anonymous
   #----------------------------------------------------------------------------
-  context "anonymous", :anonymous => true do
+  context "as anonymous", :anonymous => true do
     include_context "as anonymous"
-    let(:registered_store) { FactoryGirl.create(:store) }
     let(:store) { FactoryGirl.build(:store) }
     before(:each) do
-      visit new_store_registration_path
+      visit new_store_registration_path      
     end
 
-    describe "valid registration" do
-      it "creates new customer" do
-        within("#new-registration") do
-          fill_in_store_information(store)
-          click_button 'Sign up'
+    context "with valid attributes", :failing => true do
+      Store.observers.enable :store_observer do
+        it "creates new store" do
+          within("#new-registration") do
+            fill_in_store_information(store)
+            click_button 'Sign up'
+          end
+          
+          # Page
+          flash_set(:notice, :devise, :needs_confirmation)
+          current_path.should eq(home_path)
+          
+          # Object
+          Store.find_by_username(store.username).should_not be_nil
+          
+          # External Behavior
+          confirmation_email_sent_to(store.email, store.confirmation_token)
+          admin_email_alert
         end
-        
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['signed_up_but_unconfirmed']
-        page.should have_content(message)
-        current_path.should eq(home_path)
-        
-        #TODO: More rigorous testing of what's happening.  Abstract into methods.
-        last_email.to.should eq([store.email])
       end
     end
 
-    describe "invalid registration (taken username)" do
-      it "does not create new store" do
+    context "with invalid attributes (taken username)" do
+      it "creates new store" do
         within("#new-registration") do
           fill_in_store_information(store)
           # Account Information
@@ -61,15 +65,21 @@ describe "sign up" do
           click_button 'Sign up'
         end
         
-        page.should have_css("#flash-messages")
-        message = "Usernamehas already been taken"
-        page.should have_content(message)
+        #Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :taken)
         current_path.should eq(store_registration_path)
+
+        #Object
+        Store.find_by_username(store.username).should be_nil
+                
+        # External Behavior
+        no_email_sent
       end      
     end
 
-    describe "invalid registration (taken email)" do
-      it "does not create new store" do
+    context "with invalid registration (taken email)" do
+      it "creates new store" do
         within("#new-registration") do
           fill_in_store_information(store)
           fill_in 'store_email', :with => registered_store.email
@@ -77,22 +87,57 @@ describe "sign up" do
           click_button 'Sign up'
         end
         
-        page.should have_css("#flash-messages")
-        message = "Emailhas already been taken"
-        page.should have_content(message)
+        #Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :taken)
         current_path.should eq(store_registration_path)
-      end
+
+        #Object
+        Store.find_by_username(store.username).should be_nil
+        
+        # External Behavior
+        no_email_sent
+        no_authorize_net_request
+      end      
     end
   end
 
   # As Customer
   #----------------------------------------------------------------------------
-  context "as store", :authenticated => true do
-    include_context "as store"
+  context "as authenticated customer", :customer => true do
+    include_context "as authenticated customer"
+    before(:each) do
+      visit new_customer_registration_path
+    end
 
-    it "redirects to store home" do
+    it "redirects to customer home" do
+      current_path.should eq(customer_home_path)
+    end
+  end
+
+  # As Customer
+  #----------------------------------------------------------------------------
+  context "as authenticated customer" do
+    include_context "as authenticated customer"
+    before(:each) do
       visit new_store_registration_path
-      current_path.should eq(store_home_path)
+    end
+
+    it "redirects to store scope conflict" do
+      current_path.should eq(store_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as authenticated employee" do
+    include_context "as authenticated employee"
+    before(:each) do
+      visit new_store_registration_path
+    end
+
+    it "redirects to store scope conflict" do
+      current_path.should eq(store_scope_conflict_path)
     end
   end
 end

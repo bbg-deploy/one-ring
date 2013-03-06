@@ -35,12 +35,18 @@ module FeatureMacros
   def has_error(source, message)
     if (source == :devise)
       root = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")
+    if (source == :custom)
+      root = nil
+    end
     else
       root = YAML.load_file("#{Rails.root}/config/locales/en.yml")
     end
 
     message = root['en']['errors']['messages']['not_locked'] if (message == :not_locked)
     message = root['en']['errors']['messages']['not_found'] if (message == :not_found)
+    message = "doesn't match confirmation" if (message == :confirmation_mismatch)
+    message = "already been taken" if (message == :taken)
+    message = "can't be blank" if (message == :blank)
     
     page.should have_css(".error")
     page.should have_content(message)
@@ -99,6 +105,8 @@ module FeatureMacros
   def admin_email_alert
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
+      puts "Mail = #{email.inspect}"
+      
       if (email.to == ["admin@credda.com"])
         found_email = true
         email.to.should eq(["admin@credda.com"])

@@ -66814,3 +66814,4 @@ Served asset /logo-color.png - 304 Not Modified (0ms)
 
 Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-05 14:31:13 +0900
 Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+Connecting to database specified by database.yml

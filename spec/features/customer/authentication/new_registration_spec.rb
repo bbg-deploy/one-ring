@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 describe "new registration" do
-  let!(:registered_customer) { FactoryGirl.create(:customer) }
-  before(:each) do
-    WebMock.reset!
-    webmock_geocoder
-    reset_email
-  end
-
   # Feature Shared Methods
   #----------------------------------------------------------------------------
   def fill_in_customer_information(customer)
@@ -37,15 +30,17 @@ describe "new registration" do
 
   # As Anonymous
   #----------------------------------------------------------------------------
-  context "anonymous", :anonymous => true do
+  context "as anonymous", :anonymous => true do
     include_context "as anonymous"
     let(:customer) { FactoryGirl.build(:customer) }
     before(:each) do
+      WebMock.reset!
+      webmock_geocoder
       visit new_customer_registration_path      
     end
 
-    describe "valid registration", :failing => true do
-      context "with successful Authorize.net response" do
+    context "with valid attributes" do
+      describe "successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net_all_successful    
         end
@@ -73,7 +68,7 @@ describe "new registration" do
         end
       end
 
-      context "with unsuccessful Authorize.net response" do
+      describe "unsuccessful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("createCustomerProfileRequest", :E00001)
         end
@@ -101,7 +96,7 @@ describe "new registration" do
       end
     end
 
-    describe "invalid registration (taken username)" do
+    context "with invalid attributes (taken username)" do
       it "creates new customer" do
         within("#new-registration") do
           fill_in_customer_information(customer)
@@ -124,7 +119,7 @@ describe "new registration" do
       end      
     end
 
-    describe "invalid registration (taken email)" do
+    context "with invalid registration (taken email)" do
       it "creates new customer" do
         within("#new-registration") do
           fill_in_customer_information(customer)
@@ -150,8 +145,8 @@ describe "new registration" do
 
   # As Customer
   #----------------------------------------------------------------------------
-  context "as customer", :customer => true do
-    include_context "as customer"
+  context "as authenticated customer", :customer => true do
+    include_context "as authenticated customer"
     before(:each) do
       visit new_customer_registration_path
     end
@@ -163,8 +158,8 @@ describe "new registration" do
 
   # As Store
   #----------------------------------------------------------------------------
-  context "as store", :store => true do
-    include_context "as store"
+  context "as authenticated store", :store => true do
+    include_context "as authenticated store"
     before(:each) do
       visit new_customer_registration_path
     end
@@ -176,8 +171,8 @@ describe "new registration" do
 
   # As Employee
   #----------------------------------------------------------------------------
-  context "as employee", :employee => true do
-    include_context "as employee"
+  context "as authenticated employee", :employee => true do
+    include_context "as authenticated employee"
     before(:each) do
       visit new_customer_registration_path
     end

@@ -1,4 +1,15 @@
 module FeatureSharedContexts
+  # Anonymous
+  #----------------------------------------------------------------------------
+  shared_context "as anonymous" do
+    let!(:registered_customer) { FactoryGirl.create(:customer) }
+    let!(:registered_store) { FactoryGirl.create(:store) }
+    let!(:registered_employee) { FactoryGirl.create(:employee) }
+    before(:each) do
+      reset_email
+    end
+  end
+
   # Customers
   #----------------------------------------------------------------------------
   shared_context "as unauthenticated customer" do
@@ -40,6 +51,33 @@ module FeatureSharedContexts
 
   # Stores
   #----------------------------------------------------------------------------
+  shared_context "as unauthenticated store" do
+    let!(:registered_store) { FactoryGirl.create(:store) }
+    let!(:store) { FactoryGirl.create(:store) }
+    before(:each) do
+      store.confirm!
+      reset_email
+    end
+  end
+
+  shared_context "as unconfirmed store" do
+    let!(:registered_store) { FactoryGirl.create(:store) }
+    let!(:store) { FactoryGirl.create(:store) }
+    before(:each) do
+      reset_email
+    end
+  end
+
+  shared_context "as locked store" do
+    let!(:registered_store) { FactoryGirl.create(:store) }
+    let!(:store) { FactoryGirl.create(:store) }
+    before(:each) do
+      store.confirm!
+      store.lock_access!
+      reset_email
+    end
+  end
+
   shared_context "as authenticated store" do
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }

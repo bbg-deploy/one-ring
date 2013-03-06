@@ -4,13 +4,11 @@ describe "password reset" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
 
-  # As Anonymous
+  # As Unauthenticated Customer
   #----------------------------------------------------------------------------
-  context "as anonymous" do
-    include_context "as anonymous"
-    let!(:customer) { FactoryGirl.create(:customer) }
+  context "as unauthenticated customer", :unauthenticated => true do
+    include_context "as unauthenticated customer"
     before(:each) do
-      reset_email
       visit new_customer_password_path
     end
 
@@ -56,10 +54,110 @@ describe "password reset" do
     end
   end
 
-  # As Customer
+  # As Unconfirmed Customer
   #----------------------------------------------------------------------------
-  context "as customer" do
-    include_context "as customer"
+  context "as unconfirmed customer", :unconfirmed => true do
+    include_context "as unconfirmed customer"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    describe "with valid attributes", :failing => true do
+      it "sends password reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Reset Password'
+        end
+        
+        # Page
+        flash_set(:notice, :devise, :password_reset)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should_not be_nil
+        
+        # External Behavior
+        password_reset_email_sent_to(customer.email, customer.reset_password_token)
+      end      
+    end
+
+    describe "with invalid email" do
+      it "does not reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Reset Password'
+        end
+
+        # Page
+        no_flash
+        has_error(:devise, :not_found)
+        current_path.should eq(customer_password_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should be_nil
+        
+        # External Behavior
+        no_email_sent
+      end
+    end
+  end
+
+  # As Locked Customer
+  #----------------------------------------------------------------------------
+  context "as locked customer", :locked => true do
+    include_context "as locked customer"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    describe "with valid attributes", :failing => true do
+      it "sends password reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Reset Password'
+        end
+        
+        # Page
+        flash_set(:notice, :devise, :password_reset)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should_not be_nil
+        
+        # External Behavior
+        password_reset_email_sent_to(customer.email, customer.reset_password_token)
+      end      
+    end
+
+    describe "with invalid email" do
+      it "does not reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Reset Password'
+        end
+
+        # Page
+        no_flash
+        has_error(:devise, :not_found)
+        current_path.should eq(customer_password_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should be_nil
+        
+        # External Behavior
+        no_email_sent
+      end
+    end
+  end
+
+  # As Authenticated Customer
+  #----------------------------------------------------------------------------
+  context "as authenticated customer" do
+    include_context "as authenticated customer"
     before(:each) do
       visit new_customer_password_path
     end
@@ -71,8 +169,8 @@ describe "password reset" do
 
   # As Store
   #----------------------------------------------------------------------------
-  context "as store", :store => true do
-    include_context "as store"
+  context "as authenticated store", :store => true do
+    include_context "as authenticated store"
     before(:each) do
       visit new_customer_password_path
     end
@@ -84,8 +182,8 @@ describe "password reset" do
 
   # As Employee
   #----------------------------------------------------------------------------
-  context "as employee", :employee => true do
-    include_context "as employee"
+  context "as authenticated employee", :employee => true do
+    include_context "as authenticated employee"
     before(:each) do
       visit new_customer_password_path
     end

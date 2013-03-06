@@ -4,10 +4,10 @@ describe "edit_account" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
 
-  # As Anonymous
+  # As Unauthenticated Customer
   #----------------------------------------------------------------------------
-  context "as anonymous", :anonymous => true do
-    include_context "as anonymous"
+  context "as unauthenticated customer", :unauthenticated => true do
+    include_context "as unauthenticated customer"
     before(:each) do
       visit edit_customer_registration_path
     end
@@ -18,17 +18,16 @@ describe "edit_account" do
     end
   end
 
-  # As Customer
+  # As Authenticated Customer
   #----------------------------------------------------------------------------
-  context "as customer", :authenticated => true do
-    include_context "as customer"
+  context "as authenticated customer", :authenticated => true do
+    include_context "as authenticated customer"
     before(:each) do
-      reset_email
       visit edit_customer_registration_path
     end
     
     describe "valid name change" do
-      context "with successful Authorize.net response" do
+      describe "successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net_all_successful    
         end
@@ -60,7 +59,7 @@ describe "edit_account" do
         end
       end
 
-      context "with unsuccessful Authorize.net response" do
+      describe "unsuccessful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("updateCustomerProfileRequest", :E00001)
         end
@@ -159,7 +158,7 @@ describe "edit_account" do
         
         # Page
         flash_set(:alert, :devise, :invalid_data)
-        page.should have_content("doesn't match confirmation")
+        has_error(:custom, :confirmation_mismatch)
         current_path.should eq(customer_registration_path)
 
         # Customer
@@ -184,7 +183,7 @@ describe "edit_account" do
         
         # Page
         flash_set(:alert, :devise, :invalid_data)
-        page.should have_content("can't be blank")
+        has_error(:custom, :blank)
         current_path.should eq(customer_registration_path)
 
         # Customer
@@ -200,8 +199,8 @@ describe "edit_account" do
 
   # As Store
   #----------------------------------------------------------------------------
-  context "as store", :store => true do
-    include_context "as store"
+  context "as authenticated store" do
+    include_context "as authenticated store"
     before(:each) do
       visit edit_customer_registration_path
     end
@@ -213,8 +212,8 @@ describe "edit_account" do
 
   # As Employee
   #----------------------------------------------------------------------------
-  context "as employee", :employee => true do
-    include_context "as employee"
+  context "as authenticated employee" do
+    include_context "as authenticated employee"
     before(:each) do
       visit edit_customer_registration_path
     end

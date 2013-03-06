@@ -29,7 +29,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
         respond_with @store, :location => home_path
       end
     else
-      flash[:error] = "There was a problem with some of your information"
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @store
       respond_with @store
     end
@@ -53,6 +53,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
       respond_with @store, :location => store_home_path
     else
       # Set passwords to blank before we redirect
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @store
       respond_with @store
     end

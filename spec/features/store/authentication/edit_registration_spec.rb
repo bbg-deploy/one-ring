@@ -4,23 +4,24 @@ describe "edit_account" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
 
-  # As Anonymous
+  # As Unauthenticated Customer
   #----------------------------------------------------------------------------
-  context "as anonymous", :anonymous => true do
-    include_context "as anonymous"
+  context "as unauthenticated store", :unauthenticated => true do
+    include_context "as unauthenticated store"
     before(:each) do
       visit edit_store_registration_path
     end
 
     it "redirects to store login" do
+      flash_set(:alert, :devise, :unauthenticated)
       current_path.should eq(new_store_session_path)
     end
   end
 
-  # As Customer
+  # As Authenticated Customer
   #----------------------------------------------------------------------------
-  context "as store", :authenticated => true do
-    include_context "as store"
+  context "as authenticated store", :authenticated => true do
+    include_context "as authenticated store"
     before(:each) do
       visit edit_store_registration_path
     end
@@ -31,17 +32,20 @@ describe "edit_account" do
           fill_in 'store_name', :with => "Gorilla Industries"
           # Current Password
           fill_in 'store_current_password', :with => store.password
-
+  
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['updated']
-        page.should have_content(message)
+        # Page
+        flash_set(:notice, :devise, :updated_registration)
         current_path.should eq(store_home_path)
-
+  
+        # Store
         store.reload
         store.name.should eq("Gorilla Industries")
+  
+        # External Behavior
+        no_email_sent
       end
     end
 
@@ -57,17 +61,17 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['update_needs_confirmation']
-        page.should have_content(message)
+        # Page
+        flash_set(:notice, :devise, :updated_registration_needs_confirmation)
         current_path.should eq(store_home_path)
 
+        # Customer
         store.reload
         store.email.should_not eq("newemail@notcredda.com")
         store.unconfirmed_email.should eq("newemail@notcredda.com")
 
-        last_email.to.should eq([store.unconfirmed_email])
-        last_email.body.should match(/confirm your account email/)
+        # External Behavior
+        confirmation_email_sent_to(store.unconfirmed_email, store.confirmation_token)
       end
     end
 
@@ -83,14 +87,17 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['updated']
-        page.should have_content(message)
+        # Page
+        flash_set(:notice, :devise, :updated_registration)
         current_path.should eq(store_home_path)
 
+        # Customer
         old_password = store.encrypted_password
         store.reload
         store.encrypted_password.should_not eq(old_password)
+
+        # External Behavior
+        no_email_sent      
       end
     end
 
@@ -106,13 +113,18 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        page.should have_content("doesn't match confirmation")
+        # Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :confirmation_mismatch)
         current_path.should eq(store_registration_path)
 
+        # Customer
         old_password = store.encrypted_password
         store.reload
         store.encrypted_password.should eq(old_password)
+
+        # External Behavior
+        no_email_sent        
       end
     end
 
@@ -126,14 +138,45 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        page.should have_content("can't be blank")
+        # Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :blank)
         current_path.should eq(store_registration_path)
 
+        # Customer
         old_password = store.encrypted_password
         store.reload
         store.encrypted_password.should eq(old_password)
+
+        # External Behavior
+        no_email_sent        
       end
+    end
+  end
+
+  # As Customer
+  #----------------------------------------------------------------------------
+  context "as authenticated customer" do
+    include_context "as authenticated customer"
+    before(:each) do
+      visit edit_store_registration_path
+    end
+
+    it "redirects to store scope conflict" do
+      current_path.should eq(store_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as authenticated employee" do
+    include_context "as authenticated employee"
+    before(:each) do
+      visit edit_store_registration_path
+    end
+
+    it "redirects to store scope conflict" do
+      current_path.should eq(store_scope_conflict_path)
     end
   end
 end

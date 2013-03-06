@@ -4,7 +4,7 @@ describe "unlock account" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
 
-  # As Unauthenticated
+  # As Unauthenticated Customer
   #----------------------------------------------------------------------------
   context "as unauthenticated customer", :unauthenticated => true do
     include_context "as unauthenticated customer"
@@ -51,7 +51,7 @@ describe "unlock account" do
     end
   end
     
-  # As Unconfirmed
+  # As Unconfirmed Customer
   #----------------------------------------------------------------------------
   context "as locked customer", :locked => true do
     include_context "as locked customer"

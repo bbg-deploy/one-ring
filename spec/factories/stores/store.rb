@@ -10,7 +10,7 @@ FactoryGirl.define do
       phone_number_factory :store_phone_number
     end
 
-    organization {|a| a.association(:organization)}
+    organization {|a| a.association(:organization, number_of_stores: 0)}
     sequence(:username) {|n| "store_#{n}" }
     password "fakepass"
     password_confirmation { password }
