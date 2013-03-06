@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "locked_at"
     t.string   "authentication_token"
     t.datetime "cancelled_at"
+    t.datetime "approved_at"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end

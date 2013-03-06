@@ -34,9 +34,9 @@ describe "new registration" do
       visit new_store_registration_path      
     end
 
-    context "with valid attributes", :failing => true do
-      Store.observers.enable :store_observer do
-        it "creates new store" do
+    context "with valid attributes" do
+      it "creates new store" do
+        Store.observers.enable :store_observer do
           within("#new-registration") do
             fill_in_store_information(store)
             click_button 'Sign up'

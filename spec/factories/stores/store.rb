@@ -31,6 +31,13 @@ FactoryGirl.define do
     end
   end
   
+  factory :confirmed_store, parent: :store do
+    after(:create) do |store|
+      store.approve_account!
+      store.confirm!
+    end
+  end
+
   factory :invalid_store, parent: :store do
     password "validpass"
     password_confirmation "invalidpass"

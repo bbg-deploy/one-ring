@@ -2,8 +2,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise authenticatable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)
-      user.confirm!
-      user.reload
     end
     let(:user_class) { user.class }
 
@@ -55,8 +53,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise token authenticatable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)
-      user.confirm!
-      user.reload
     end
     let(:user_class) { user.class }
     
@@ -70,8 +66,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise recoverable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)
-      user.confirm!
-      user.reload
     end
     let(:recovery_email) do
       user.send_reset_password_instructions
@@ -149,7 +143,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise lockable" do |factory|
     let(:user) do
       user = FactoryGirl.create(factory)
-      user.confirm!
       user.lock_access!
       user.reload
     end
@@ -246,8 +239,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise rememberable" do |factory|
     let(:user) do 
       user = FactoryGirl.create(factory)
-      user.confirm!
-      user.reload
     end
     before(:all) do
       # Rememberable Configuration
@@ -279,8 +270,6 @@ module AuthenticationSharedExamples
   shared_examples_for "devise timeoutable" do |factory|
     let(:user) do 
       user = FactoryGirl.create(factory)
-      user.confirm!
-      user.reload
     end
     before(:all) do
       # Timeoutable Configuration

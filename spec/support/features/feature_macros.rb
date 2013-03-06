@@ -105,8 +105,6 @@ module FeatureMacros
   def admin_email_alert
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
-      puts "Mail = #{email.inspect}"
-      
       if (email.to == ["admin@credda.com"])
         found_email = true
         email.to.should eq(["admin@credda.com"])

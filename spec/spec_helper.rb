@@ -86,6 +86,7 @@ Spork.prefork do
     end
     
     config.before(:each) do
+      ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
       reset_email
       webmock_geocoder
       webmock_authorize_net_all_successful    

@@ -2,7 +2,7 @@
 
 div.row
   h2 Resend unlock instructions
-  div.large-6.columns
+  div.large-6.columns#unlock
     = form_for(@store, :url => store_unlock_path, :method => :post , :html => { :class => '' }) do |f|
       fieldset
         legend Account Information

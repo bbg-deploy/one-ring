@@ -96,12 +96,6 @@ describe "sign in" do
     end
 
     context "with invalid credentials" do
-      before(:each) do
-        customer.confirm!
-        reset_email
-        visit new_customer_session_path
-      end
-      
       it "does not sign in" do
         within("#new-session") do
           fill_in 'customer_login', :with => customer.email

@@ -350,7 +350,7 @@ describe Customer do
   #----------------------------------------------------------------------------
   describe "devise", :devise => true do
     describe "database authenticatable" do
-      it_behaves_like "devise authenticatable", :customer do
+      it_behaves_like "devise authenticatable", :confirmed_customer do
         # Authentication Configuration
         let(:domain) { "notcredda.com" }
         let(:case_insensitive_keys) { [:email] }
@@ -360,7 +360,7 @@ describe Customer do
     end
     
     describe "recoverable" do
-      it_behaves_like "devise recoverable", :customer do
+      it_behaves_like "devise recoverable", :confirmed_customer do
         # Recoverable Configuration
         let(:reset_password_keys) { [:email] }
         let(:reset_password_within) { 6.hours }
@@ -368,7 +368,7 @@ describe Customer do
     end
 
     describe "lockable" do
-      it_behaves_like "devise lockable", :customer do
+      it_behaves_like "devise lockable", :confirmed_customer do
         # Lockable Configuration
         let(:unlock_keys) { [:email] }
         let(:unlock_strategy) { :both }
@@ -378,14 +378,14 @@ describe Customer do
     end
 
     describe "rememberable" do
-      it_behaves_like "devise rememberable", :customer do
+      it_behaves_like "devise rememberable", :confirmed_customer do
         # Rememberable Configuration
         let(:remember_for) { 2.weeks }
       end
     end
 
     describe "timeoutable" do
-      it_behaves_like "devise timeoutable", :customer do
+      it_behaves_like "devise timeoutable", :confirmed_customer do
         # Timeoutable Configuration
         let(:timeout_in) { 30.minutes }
       end
