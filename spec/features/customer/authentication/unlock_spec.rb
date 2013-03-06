@@ -1,130 +1,184 @@
 require 'spec_helper'
 
 describe "unlock account" do
-  context "as anonymous", :anonymous => true do
-    include_context "as anonymous"
-    let(:customer) { FactoryGirl.create(:customer) }
+  # Feature Shared Methods
+  #----------------------------------------------------------------------------
+
+  # As Unauthenticated
+  #----------------------------------------------------------------------------
+  context "as unauthenticated customer", :unauthenticated => true do
+    include_context "as unauthenticated customer"
     before(:each) do
       visit new_customer_unlock_path
     end
-    
-    context "unlocked" do
-      before(:each) do
-        customer.unlock_access!
-        reset_email
-      end
-      describe "with valid attributes" do
-        it "reloads unlock page" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => customer.email
-            click_button 'Send Unlock Instructions'
-          end
-          
-          # App Behavior
-          current_path.should eq(customer_unlock_path)
-          page.should have_css("#flash-messages")
-          message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['errors']['messages']['not_locked']
-          page.should have_content(message)
-        end      
 
-        it "does not send email" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => customer.email
-            click_button 'Send Unlock Instructions'
-          end
-          
-          last_email.should be_nil
-        end      
-      end
-  
-      describe "with invalid email" do
-        it "reloads unlock page" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => "invalid@email.com"
-            click_button 'Send Unlock Instructions'
-          end
-          
-          current_path.should eq(customer_unlock_path)
-          page.should have_css("#flash-messages")
-          message = "not found"
-          page.should have_content(message)          
-        end      
-
-        it "does not send email" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => customer.email
-            click_button 'Send Unlock Instructions'
-          end
-          
-          last_email.should be_nil
-        end      
-      end
+    describe "with valid attributes" do
+      it "does not take unlock actions" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        has_error(:devise, :not_locked)
+        no_flash
+        current_path.should eq(customer_unlock_path)
+        
+        # Object
+        
+        # External Behavior
+        no_email_sent
+      end      
     end
+
+    describe "with invalid email" do
+      it "does not take unlock actions" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        has_error(:devise, :not_found)
+        no_flash
+        current_path.should eq(customer_unlock_path)
+        
+        # Object
+        
+        # External Behavior
+        no_email_sent
+      end      
+    end
+  end
     
-    context "locked" do
-      before(:each) do
-        customer.lock_access!
-        reset_email
-      end
+  # As Unconfirmed
+  #----------------------------------------------------------------------------
+  context "as locked customer", :locked => true do
+    include_context "as locked customer"
+    before(:each) do
+      visit new_customer_unlock_path
+    end
 
-      describe "with valid attributes" do
-        it "redirects to sign in page" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => customer.email
-            click_button 'Send Unlock Instructions'
-          end
-          
-          current_path.should eq(new_customer_session_path)
-          page.should have_css("#flash-messages")
-          message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['unlocks']['send_instructions']
-          page.should have_content(message)          
-        end      
+    describe "with valid attributes" do
+      it "redirects to sign in page" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        flash_set(:notice, :devise, :unlock_account)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        
+        # External Behavior
+        unlock_email_sent_to(customer.email, customer.unlock_token)
+      end      
+    end
 
-        it "sends unlock reset email" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => customer.email
-            click_button 'Send Unlock Instructions'
-          end
-          
-          last_email.to.should eq([customer.email])
-          last_email.from.should eq(["no-reply@credda.com"])
-          subject = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['mailer']['unlock_instructions']['subject']
-          last_email.subject.should eq(subject)
-        end      
-      end
-  
-      describe "with invalid email" do
-        it "reloads unlock page" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => "invalid@email.com"
-            click_button 'Send Unlock Instructions'
-          end
-          
-          current_path.should eq(customer_unlock_path)
-          page.should have_css("#flash-messages")
-          message = "not found"
-          page.should have_content(message)          
-        end      
-
-
-        it "does not send email" do
-          within("#unlock") do
-            fill_in 'customer_email', :with => "invalid@email.com"
-            click_button 'Send Unlock Instructions'
-          end
-          
-          last_email.should be_nil
-        end      
-      end
+    describe "with invalid email" do
+      it "reloads unlock page" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        has_error(:devise, :not_found)
+        no_flash
+        current_path.should eq(customer_unlock_path)
+        
+        # Object
+        
+        # External Behavior
+        no_email_sent
+      end      
     end    
   end
   
-  context "as customer" do
-    include_context "as customer"
+  # As Locked
+  #----------------------------------------------------------------------------
+  context "as locked customer", :locked => true do
+    include_context "as locked customer"
+    before(:each) do
+      visit new_customer_unlock_path
+    end
+
+    describe "with valid attributes" do
+      it "redirects to sign in page" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        flash_set(:notice, :devise, :unlock_account)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        
+        # External Behavior
+        unlock_email_sent_to(customer.email, customer.unlock_token)
+      end      
+    end
+
+    describe "with invalid email" do
+      it "reloads unlock page" do
+        within("#unlock") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Send Unlock Instructions'
+        end
+        
+        # Page
+        has_error(:devise, :not_found)
+        no_flash
+        current_path.should eq(customer_unlock_path)
+        
+        # Object
+        
+        # External Behavior
+        no_email_sent
+      end      
+    end    
+  end
+  
+  # As Authenticated
+  #----------------------------------------------------------------------------
+  context "as authenticated customer" do
+    include_context "as authenticated customer"
+    before(:each) do
+      visit new_customer_unlock_path
+    end
 
     it "redirects to customer home" do
-      visit new_customer_unlock_path
       current_path.should eq(customer_home_path)
+    end
+  end
+
+  # As Store
+  #----------------------------------------------------------------------------
+  context "as authenticated store" do
+    include_context "as authenticated store"
+    before(:each) do
+      visit new_customer_unlock_path
+    end
+
+    it "redirects to customer home" do
+      current_path.should eq(customer_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as authenticated employee" do
+    include_context "as authenticated employee"
+    before(:each) do
+      visit new_customer_unlock_path
+    end
+
+    it "redirects to customer home" do
+      current_path.should eq(customer_scope_conflict_path)
     end
   end
 end

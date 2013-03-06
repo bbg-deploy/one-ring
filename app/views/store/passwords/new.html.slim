@@ -1,8 +1,7 @@
-= provide(:title, 'Forgotten Password')
+= provide(:title, 'Forgot Your Password?')
 
 div.row
-  h2 Forgot your password?
-  div.large-6.columns
+  div.large-6.columns#new-password
     = form_for(@store, :url => store_password_path, :method => :post , :html => { :class => 'well' }) do |f|
       fieldset
         legend Account Information

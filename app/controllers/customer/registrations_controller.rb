@@ -33,10 +33,10 @@ class Customer::RegistrationsController < Devise::RegistrationsController
       end
     elsif @customer.errors.empty?
       # This catches Authorize.net errors
-      flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['authorize_net']
       redirect_to :action => :new
     else
-      flash[:error] = "There was a problem with some of your information"
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @customer
       respond_with @customer
     end
@@ -60,10 +60,11 @@ class Customer::RegistrationsController < Devise::RegistrationsController
       respond_with @customer, :location => customer_home_path
     elsif @customer.errors.empty?
       # This catches Authorize.net errors
-      flash[:error] = "We had a problem processing your data. Our team has been notified of this error. Please try again later."
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['authorize_net']
       redirect_to :action => :edit
     else
       # Set passwords to blank before we redirect
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @customer
       respond_with @customer
     end

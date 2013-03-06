@@ -14,8 +14,8 @@ describe ClientsController do
   end
 
   describe "#new", :new => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
       before(:each) do
         get :new, :format => 'html'
       end
@@ -46,8 +46,8 @@ describe ClientsController do
   end
 
   describe "#create", :create => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
 
       let(:attributes) { FactoryGirl.build(:client_attributes_hash) }
       before(:each) do
@@ -98,8 +98,8 @@ describe ClientsController do
   end
 
   describe "#show", :show => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
       
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do
@@ -134,8 +134,8 @@ describe ClientsController do
   end
 
   describe "#edit", :edit => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
       
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do
@@ -170,8 +170,8 @@ describe ClientsController do
   end
 
   describe "#update", :update => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
       
       let(:client) { FactoryGirl.create(:client) }
       let(:attributes) { { :name => "NewApplication" } }
@@ -222,8 +222,8 @@ describe ClientsController do
   end
 
   describe "#destroy", :destroy => true do
-    context "as unauthenticated employee" do
-      include_context "as unauthenticated employee"
+    context "with unauthenticated employee" do
+      include_context "with unauthenticated employee"
       
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do

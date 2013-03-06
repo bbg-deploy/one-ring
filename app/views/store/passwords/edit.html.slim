@@ -1,8 +1,7 @@
 = provide(:title, 'Change Password')
 
 div.row
-  h2 Change your password
-  div.large-6.columns
+  div.large-6.columns#edit-password
     = form_for(@store, :url => store_password_path, :method => :put , :html => { :class => '' }) do |f|
       fieldset
         legend Password Reset

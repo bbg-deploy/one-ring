@@ -1,6 +1,13 @@
 require 'spec_helper'
 
-describe "sign up" do
+describe "new registration" do
+  let!(:registered_customer) { FactoryGirl.create(:customer) }
+  before(:each) do
+    WebMock.reset!
+    webmock_geocoder
+    reset_email
+  end
+
   # Feature Shared Methods
   #----------------------------------------------------------------------------
   def fill_in_customer_information(customer)
@@ -32,13 +39,12 @@ describe "sign up" do
   #----------------------------------------------------------------------------
   context "anonymous", :anonymous => true do
     include_context "as anonymous"
-    let(:registered_customer) { FactoryGirl.create(:customer) }
     let(:customer) { FactoryGirl.build(:customer) }
     before(:each) do
-      visit new_customer_registration_path
+      visit new_customer_registration_path      
     end
 
-    describe "valid registration" do
+    describe "valid registration", :failing => true do
       context "with successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net_all_successful    
@@ -51,14 +57,18 @@ describe "sign up" do
               click_button 'Sign up'
             end
             
-            page.should have_css("#flash-messages")
-            message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['signed_up_but_unconfirmed']
-            page.should have_content(message)
+            # Page
+            flash_set(:notice, :devise, :needs_confirmation)
             current_path.should eq(home_path)
             
-            last_email.to.should eq(["admin@credda.com"])
-            a_request(:get, /http:\/\/maps.googleapis.com\/maps\/api\/geocode\/json?.*/).should have_been_made.times(2)
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*createCustomerProfileRequest.*/).should have_been_made
+            # Object
+            Customer.find_by_username(customer.username).should_not be_nil
+            
+            # External Behavior
+            confirmation_email_sent_to(customer.email, customer.confirmation_token)
+            admin_email_alert
+            made_authorize_net_request("createCustomerProfileRequest")
+            made_google_api_request
           end
         end
       end
@@ -68,21 +78,24 @@ describe "sign up" do
           webmock_authorize_net("createCustomerProfileRequest", :E00001)
         end
         
-        it "does not create new customer", :failing => true do
+        it "does not create new customer" do
           Customer.observers.enable :customer_observer do
             within("#new-registration") do
               fill_in_customer_information(customer)
               click_button 'Sign up'
             end
             
-            page.should have_css("#flash-messages")
-            message = "We had a problem processing your data"
-            page.should have_content(message)
+            # Page
+            flash_set(:alert, :devise, :authorize_net_error)
             current_path.should eq(new_customer_registration_path)
             
-            last_email.to.should eq(["admin@credda.com"])
-            last_email.body.should match(/Error Trace:/)
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*createCustomerProfileRequest.*/).should have_been_made
+            # Object
+            Customer.find_by_username(customer.username).should be_nil
+
+            # External Behavior
+            admin_email_alert
+            made_authorize_net_request("createCustomerProfileRequest")
+            made_google_api_request
           end
         end
       end
@@ -97,10 +110,17 @@ describe "sign up" do
           click_button 'Sign up'
         end
         
-        page.should have_css("#flash-messages")
-        message = "Usernamehas already been taken"
-        page.should have_content(message)
+        #Page
+        flash_set(:alert, :devise, :invalid_data)
+        page.should have_content("Usernamehas already been taken")
         current_path.should eq(customer_registration_path)
+
+        #Object
+        Customer.find_by_username(customer.username).should be_nil
+        
+        # External Behavior
+        no_email_sent
+        no_authorize_net_request
       end      
     end
 
@@ -113,22 +133,57 @@ describe "sign up" do
           click_button 'Sign up'
         end
         
-        page.should have_css("#flash-messages")
-        message = "Emailhas already been taken"
-        page.should have_content(message)
+        #Page
+        flash_set(:alert, :devise, :invalid_data)
+        page.should have_content("Emailhas already been taken")
         current_path.should eq(customer_registration_path)
+
+        #Object
+        Customer.find_by_username(customer.username).should be_nil
+        
+        # External Behavior
+        no_email_sent
+        no_authorize_net_request
       end      
     end
   end
 
   # As Customer
   #----------------------------------------------------------------------------
-  context "as customer", :authenticated => true do
+  context "as customer", :customer => true do
     include_context "as customer"
+    before(:each) do
+      visit new_customer_registration_path
+    end
 
     it "redirects to customer home" do
-      visit new_customer_registration_path
       current_path.should eq(customer_home_path)
+    end
+  end
+
+  # As Store
+  #----------------------------------------------------------------------------
+  context "as store", :store => true do
+    include_context "as store"
+    before(:each) do
+      visit new_customer_registration_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as employee", :employee => true do
+    include_context "as employee"
+    before(:each) do
+      visit new_customer_registration_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
     end
   end
 end
