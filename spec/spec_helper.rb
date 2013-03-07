@@ -21,8 +21,8 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   # Don't allow our tests to make outgoing web requests
-  #WebMock.disable_net_connect!
-  WebMock.allow_net_connect!
+  WebMock.disable_net_connect!
+  #WebMock.allow_net_connect!
   
   RSpec.configure do |config|
     # Mock Framework
@@ -89,7 +89,8 @@ Spork.prefork do
       ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
       reset_email
       webmock_geocoder
-      webmock_authorize_net_all_successful    
+      webmock_authorize_net_all_successful
+      webmock_twilio_successful   
     end
 
     config.after(:each) do
