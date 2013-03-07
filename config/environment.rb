@@ -6,7 +6,6 @@ Onering::Application.initialize!
 
 # Overried the Actionview base error rendering for forms
 # http://stackoverflow.com/questions/8713479/custom-html-error-wrappers-for-form-elements
-#TODO: Get this to work!
 =begin
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   if instance.error_message.kind_of?(Array)

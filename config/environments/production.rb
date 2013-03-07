@@ -56,6 +56,7 @@ Onering::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
+=begin
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.gmail.com",
     :port                 => 587,
@@ -64,6 +65,16 @@ Onering::Application.configure do
     :password             => 'inshape19',
     :authentication       => 'plain',
     :enable_starttls_auto => true
+  }
+=end
+
+  ActionMailer::Base.smtp_settings = {
+    :address              => "smtp.sendgrid.net",
+    :port                 => 25,
+    :domain               => "credda.com",
+    :authentication       => :plain,
+    :user_name            => "credda",
+    :password             => "inshape19"
   }
 
   # Enable threaded mode
