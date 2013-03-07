@@ -13,8 +13,11 @@ describe AuthorizeNetService do
 
   # Service Initializer
   #----------------------------------------------------------------------------
-  describe "AuthorizeNetService", :failing => true do
-    #TODO: Write tests for setup
+  describe "initialize" do
+    it "should not be nil" do
+      service = AuthorizeNetService.new
+      service.should_not be_nil
+    end
   end
 
   # Customer Profile Methods
