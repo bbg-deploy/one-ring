@@ -29,8 +29,8 @@ describe ClientsController do
       it { should set_the_flash[:alert].to(/sign in or sign up/) }
     end
 
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
       before(:each) do
         get :new, :format => 'html'
       end
@@ -71,8 +71,8 @@ describe ClientsController do
       end
     end
 
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
 
       let(:attributes) { FactoryGirl.build(:client_attributes_hash) }
       before(:each) do
@@ -115,8 +115,8 @@ describe ClientsController do
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
     
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
 
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do
@@ -151,8 +151,8 @@ describe ClientsController do
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
     
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
 
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do
@@ -195,8 +195,8 @@ describe ClientsController do
       end
     end
     
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
 
       let(:client) { FactoryGirl.create(:client) }
       let(:attributes) { { :name => "NewApplication" } }
@@ -251,8 +251,8 @@ describe ClientsController do
       end
     end
     
-    context "as authenticated employee" do
-      include_context "as authenticated employee"
+    context "with authenticated employee" do
+      include_context "with authenticated employee"
 
       let(:client) { FactoryGirl.create(:client) }
       before(:each) do

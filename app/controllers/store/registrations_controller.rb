@@ -24,6 +24,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
         sign_in @store
         respond_with @store, :location => store_home_path
       else
+        StoreAuthenticationMailer.approval_notification(@store).deliver unless @store.approved?
         set_flash_message :notice, :"signed_up_but_#{@store.inactive_message}"
         expire_session_data_after_sign_in!
         respond_with @store, :location => home_path

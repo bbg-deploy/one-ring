@@ -9,4 +9,8 @@ class StoreAuthenticationMailer < Devise::Mailer
 #      :template_name => action
 #    }.merge(opts)
 #  end
+
+  def approval_notification(record, opts={})
+    devise_mail(record, :approval_notification, opts)
+  end
 end

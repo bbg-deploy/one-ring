@@ -26,6 +26,8 @@ en:
       not_approved: 'Your account has not been approved by your administrator yet.'
       authorize_net: 'There was a technical problem on our end.  Please try again later.'
     mailer:
+      approval_notification:
+        subject: "Account pending administrator approval"
       confirmation_instructions:
         subject: "Confirmation instructions"
       reset_password_instructions:

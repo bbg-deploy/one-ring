@@ -55,6 +55,7 @@ module FeatureSharedContexts
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
+      store.approve_account!
       store.confirm!
       reset_email
     end
@@ -64,6 +65,7 @@ module FeatureSharedContexts
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
+      store.approve_account!
       reset_email
     end
   end
@@ -72,6 +74,7 @@ module FeatureSharedContexts
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
+      store.approve_account!
       store.confirm!
       store.lock_access!
       reset_email
@@ -82,6 +85,7 @@ module FeatureSharedContexts
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
+      store.approve_account!
       store.confirm!
       login_as store, scope: :store
       reset_email
@@ -94,7 +98,6 @@ module FeatureSharedContexts
     let!(:registered_employee) { FactoryGirl.create(:employee) }
     let!(:employee) { FactoryGirl.create(:employee) }
     before(:each) do
-      employee.approve!
       employee.confirm!
       login_as employee, scope: :employee
       reset_email

@@ -4,7 +4,6 @@ class Store < ActiveRecord::Base
   has_friendly_username
   is_authenticatable
   is_registerable
-  is_confirmable
   is_recoverable
   is_lockable
   is_rememberable

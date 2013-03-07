@@ -17,8 +17,8 @@ describe OneRing do
       end      
     end
 
-    context "as customer" do
-      include_context "as customer"
+    context "as authenticated customer" do
+      include_context "as authenticated customer"
       
       before(:each) do
         get "#{namespace}/home"

@@ -55,12 +55,6 @@ describe Store, :store => true do
     it { should have_db_column(:current_sign_in_ip) }
     it { should have_db_column(:last_sign_in_ip) }
 
-    # Confirmable
-    it { should have_db_column(:confirmation_token) }
-    it { should have_db_column(:confirmed_at) }
-    it { should have_db_column(:confirmation_sent_at) }
-    it { should have_db_column(:unconfirmed_email) }
-
     # Lockable
     it { should have_db_column(:failed_attempts) }
     it { should have_db_column(:unlock_token) }
@@ -259,31 +253,16 @@ describe Store, :store => true do
         end
       end
 
-      context "as confirmed" do
-        it "should not be active for authentication" do
-          store.confirm!
-          store.active_for_authentication?.should be_false
-        end
-      end
-
       context "as approved" do
         it "should not be active for authentication" do
           store.approve_account!
-          store.active_for_authentication?.should be_false
-        end
-      end
-
-      context "as approved and confirmed" do
-        it "should not be active for authentication" do
-          store.approve_account!
-          store.confirm!
           store.active_for_authentication?.should be_true
         end
       end
 
       context "as locked" do
         it "should not be active for authentication" do
-          store.confirm!
+          store.approve_account!
           store.lock_access!
           store.active_for_authentication?.should be_false
         end
@@ -291,7 +270,7 @@ describe Store, :store => true do
 
       context "as cancelled" do
         it "should not be active for authentication" do
-          store.confirm!
+          store.approve_account!
           store.cancel_account!
           store.active_for_authentication?.should be_false
         end
@@ -303,7 +282,7 @@ describe Store, :store => true do
   #----------------------------------------------------------------------------
   describe "devise", :devise => true do
     describe "database authenticatable" do
-      it_behaves_like "devise authenticatable", :confirmed_store do
+      it_behaves_like "devise authenticatable", :approved_store do
         # Authentication Configuration
         let(:case_insensitive_keys) { [:email] }
         let(:strip_whitespace_keys) { [:email] }
@@ -312,7 +291,7 @@ describe Store, :store => true do
     end
       
     describe "recoverable" do
-      it_behaves_like "devise recoverable", :confirmed_store do
+      it_behaves_like "devise recoverable", :approved_store do
         # Recoverable Configuration
         let(:reset_password_keys) { [:email] }
         let(:reset_password_within) { 6.hours }
@@ -320,7 +299,7 @@ describe Store, :store => true do
     end
   
     describe "lockable" do
-      it_behaves_like "devise lockable", :confirmed_store do
+      it_behaves_like "devise lockable", :approved_store do
         # Lockable Configuration
         let(:unlock_keys) { [:email] }
         let(:unlock_strategy) { :both }
@@ -330,25 +309,17 @@ describe Store, :store => true do
     end
   
     describe "rememberable" do
-      it_behaves_like "devise rememberable", :confirmed_store do
+      it_behaves_like "devise rememberable", :approved_store do
         # Rememberable Configuration
         let(:remember_for) { 2.weeks }
       end
     end
   
     describe "timeoutable" do
-      it_behaves_like "devise timeoutable", :confirmed_store do
+      it_behaves_like "devise timeoutable", :approved_store do
         # Timeoutable Configuration
         let(:timeout_in) { 30.minutes }
       end
-    end
-  
-    describe "confirmable" do
-      it_behaves_like "devise confirmable", :store do
-        # Confirmable Configuration
-        let(:reconfirmable) { true }
-        let(:confirmation_keys) { [:email] }
-      end
-    end
+    end  
   end
 end
