@@ -74,8 +74,6 @@ Spork.prefork do
     # Global Macros & Helpers
     config.include(EmailSpec::Helpers)
     config.include(EmailSpec::Matchers)
-#    config.include(SmsSpec::Helpers)
-#    config.include(SmsSpec::Matchers)
     config.include(MailerMacros)
     config.include(WebmockMacros)
     config.include(GarbageCollection)
@@ -89,8 +87,8 @@ Spork.prefork do
       ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
       reset_email
       webmock_geocoder
-      webmock_authorize_net_all_successful
       webmock_twilio_successful   
+      webmock_authorize_net_all_successful
     end
 
     config.after(:each) do

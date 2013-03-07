@@ -17,7 +17,7 @@ describe StoreObserver, :observer => true do
       Store.observers.enable :store_observer do
         store = FactoryGirl.create(:store)
         notification_email = ActionMailer::Base.deliveries.last
-        notification_email.to.should eq(["admin@credda.com"])
+        notification_email.to.should eq(["bryce.senz@credda.com"])
       end
     end
 

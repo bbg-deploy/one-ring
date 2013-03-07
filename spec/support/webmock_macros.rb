@@ -1,10 +1,9 @@
 module WebmockMacros
   @google_maps_api_regex = "http:\/\/maps.googleapis.com\/maps\/api\/geocode\/json.*"
   @authorize_net_api_regex = "https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*"
-  @twilio_api_regex = "https://api.twilio.com/.*/SMS/Messages.*"
+  @twilio_api_regex = "https:\/\/api.twilio.com\/.*\/SMS\/Messages.*\/json.*"
 
-  #Note:  To get example responses, use Hurl.it
-  
+  #Note:  To get example responses, use Hurl.it  
   def webmock_geocoder
     response = File.new "spec/support/webmock/geocoder/geocoder_success.json"
     stub_request(:get, /#{@google_maps_api_regex}/).to_return(response)
@@ -45,6 +44,6 @@ module WebmockMacros
   end
   
   def webmock_twilio_successful
-    webmock_twilio(:sms, :success)
+    webmock_twilio("sms", :success)
   end
 end

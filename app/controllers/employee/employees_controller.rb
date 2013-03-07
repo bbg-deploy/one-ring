@@ -28,7 +28,7 @@ class Employee::EmployeesController < Employee::ApplicationController
   def create
     @employee = Employee.new(create_employee_params)
     if @employee.save
-      flash[:notice] = "Successfully created payment profile."  
+      flash[:notice] = "Successfully created employee."  
     end
     respond_with(:employee, @employee)
   end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe TwilioService do
+=begin  
   AUTHORIZE_NET_SUCCESS_CODES =           [:I00001]
   AUTHORIZE_NET_PROCESSING_ERROR_CODES =  [:E00001]
   AUTHORIZE_NET_REQUEST_ERROR_CODES =     [:E00002, :E00003, :E00004, :E00005, :E00006, 
@@ -10,7 +11,7 @@ describe TwilioService do
                                            :E00029, :E00039, :E00040, :E00041, :E00042, 
                                            :E00043]
   AUTHORIZE_NET_TRANSACTION_ERROR_CODES = [:E00027]
-
+=end
   # Service Initializer
   #----------------------------------------------------------------------------
   describe "initialize" do
