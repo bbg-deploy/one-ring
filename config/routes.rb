@@ -29,7 +29,7 @@ Onering::Application.routes.draw do
     get '/customer/scope_conflict' => 'customer/sessions#scope_conflict'
     delete '/customer/resolve_conflict' => 'customer/sessions#resolve_conflict'
   end
-    
+
   namespace :customer do
     root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods"
@@ -39,7 +39,6 @@ Onering::Application.routes.draw do
   # Store Namespace
   #-----------------------------------------------------------------
   devise_for :stores, :path => 'store', :controllers => {
-    :confirmations => 'store/confirmations',
     :passwords => 'store/passwords',
     :registrations => 'store/registrations',
     :sessions => 'store/sessions',
@@ -72,6 +71,7 @@ Onering::Application.routes.draw do
 
   namespace :employee do
     root :to                  => "pages#home", :as => :home
+    resources :employees
   end
 
   # SSO Clients

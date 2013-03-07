@@ -1,0 +1,54 @@
+= provide(:title, 'New Employee')
+
+div.row
+  div.large-8.columns
+    h2 Sign up
+    = nested_form_for(@employee, :url => employee_employees_path, :method => :post, :html => { :class => "" }) do |f|
+      fieldset
+        legend Account Information
+        div.row
+          div.large-8.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+        div.row
+          div.large-8.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+        div.row
+          div.large-8.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+      fieldset
+        legend Personal Information
+        div.row
+          div.large-4.columns 
+            = f.label "First Name"
+            = f.text_field :first_name, :placeholder => "Elvis"
+          div.large-4.columns 
+            = f.label "Middle Name"
+            = f.text_field :middle_name, :placeholder => "The King"
+          div.large-4.columns 
+            = f.label "Last Name"
+            = f.text_field :last_name, :placeholder => "Presley"
+        div.row
+          div.large-6.columns 
+            = f.label "Date of Birth"
+            = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
+      fieldset
+        legend Terms & Conditions
+        div.large-12.columns.terms_agreement
+          = f.check_box :terms_agreement
+          = f.label " ", :for => "employee_terms_agreement", :class => "terms_agreement"
+          p.agreement This employee agrees to Credda's Terms and Conditions
+      = f.submit "Create Employee Account", :class => "radius button"

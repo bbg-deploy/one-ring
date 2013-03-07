@@ -13,8 +13,11 @@ describe AuthorizeNetService do
 
   # Service Initializer
   #----------------------------------------------------------------------------
-  describe "AuthorizeNetService", :failing => true do
-    #TODO: Write tests for setup
+  describe "initialize" do
+    it "should not be nil" do
+      service = AuthorizeNetService.new
+      service.should_not be_nil
+    end
   end
 
   # Customer Profile Methods
@@ -47,7 +50,7 @@ describe AuthorizeNetService do
         a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*#{request}.*/).should have_been_made
       end
       
-      context "with successful response" do
+      context "with successful response", :failing => true do
         AUTHORIZE_NET_SUCCESS_CODES.each do |response|
           describe "on request" do
             before(:each) do

@@ -442,8 +442,8 @@ describe Store::PasswordsController do
   end
 
   describe "#update", :update => true do
-    context "as unconfirmed store" do
-      include_context "with unconfirmed store"
+    context "with unapproved store" do
+      include_context "with unapproved store"
 
       context "without password reset requested" do
         describe "with no password reset token" do
@@ -565,7 +565,7 @@ describe Store::PasswordsController do
 
           # Content
           it { should set_the_flash[:notice].to(/password was changed successfully/) }
-          it { should set_the_flash[:alert].to(/have to confirm your account/) }
+          it { should set_the_flash[:alert].to(/account has not been approved/) }
             
           # Behavior
           it "should change password" do

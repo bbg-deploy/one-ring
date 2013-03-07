@@ -87,10 +87,14 @@ class Employee::RegistrationsController < Devise::RegistrationsController
 
   private
   def create_employee_params
-    params.require(:employee).permit(:username, :password, :password_confirmation, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth, :terms_agreement)
+    params.require(:employee).permit(
+     :username, :password, :password_confirmation, :email, :email_confirmation, 
+     :first_name, :middle_name, :last_name, :date_of_birth, :terms_agreement )
   end
 
   def update_employee_params
-    params.require(:employee).permit(:username, :password, :password_confirmation, :current_password, :email, :email_confirmation, :first_name, :middle_name, :last_name, :date_of_birth)
+    params.require(:employee).permit(
+      :username, :password, :password_confirmation, :current_password, :email, :email_confirmation, 
+      :first_name, :middle_name, :last_name, :date_of_birth )
   end
 end

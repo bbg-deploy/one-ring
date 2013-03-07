@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "new" do
-  context "anonymous", :anonymous => true do
+describe "#new" do
+  context "as anonymous", :anonymous => true do
     include_context "as anonymous"
 
     it "redirects to home" do
@@ -10,8 +10,8 @@ describe "new" do
     end
   end
   
-  context "as customer", :authenticated => true do
-    include_context "as customer"
+  context "as authenticated customer", :authenticated => true do
+    include_context "as authenticated customer"
     before(:each) do
       visit new_customer_payment_profile_path
     end

@@ -10,7 +10,7 @@ FactoryGirl.define do
       phone_number_factory :store_phone_number
     end
 
-    organization {|a| a.association(:organization)}
+    organization {|a| a.association(:organization, number_of_stores: 0)}
     sequence(:username) {|n| "store_#{n}" }
     password "fakepass"
     password_confirmation { password }
@@ -31,6 +31,12 @@ FactoryGirl.define do
     end
   end
   
+  factory :approved_store, parent: :store do
+    after(:create) do |store|
+      store.approve_account!
+    end
+  end
+
   factory :invalid_store, parent: :store do
     password "validpass"
     password_confirmation "invalidpass"

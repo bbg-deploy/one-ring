@@ -3,34 +3,31 @@ require 'spec_helper'
 describe "edit_account" do
   # Feature Shared Methods
   #----------------------------------------------------------------------------
-  def fill_in_customer_information(customer)
-    # Terms & Conditions
-    check 'customer[terms_agreement]'
-  end
 
-  # As Anonymous
+  # As Unauthenticated Customer
   #----------------------------------------------------------------------------
-  context "as anonymous", :anonymous => true do
-    include_context "as anonymous"
+  context "as unauthenticated customer", :unauthenticated => true do
+    include_context "as unauthenticated customer"
     before(:each) do
       visit edit_customer_registration_path
     end
 
-    it "redirects to customer home" do
+    it "redirects to customer login" do
+      flash_set(:alert, :devise, :unauthenticated)
       current_path.should eq(new_customer_session_path)
     end
   end
 
-  # As Customer
+  # As Authenticated Customer
   #----------------------------------------------------------------------------
-  context "as customer", :authenticated => true do
-    include_context "as customer"
+  context "as authenticated customer", :authenticated => true do
+    include_context "as authenticated customer"
     before(:each) do
       visit edit_customer_registration_path
     end
     
     describe "valid name change" do
-      context "with successful Authorize.net response" do
+      describe "successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net_all_successful    
         end
@@ -46,21 +43,23 @@ describe "edit_account" do
               click_button 'Save Account Changes'
             end
             
-            page.should have_css("#flash-messages")
-            message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['updated']
-            page.should have_content(message)
+            # Page
+            flash_set(:notice, :devise, :updated_registration)
             current_path.should eq(customer_home_path)
-    
+
+            # Customer
             customer.reload
             customer.first_name.should eq("Dick")
             customer.last_name.should eq("Tracy")
 
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*updateCustomerProfileRequest.*/).should have_been_made
+            # External Behavior
+            no_email_sent
+            made_authorize_net_request("updateCustomerProfileRequest")
           end
         end
       end
 
-      context "with unsuccessful Authorize.net response" do
+      describe "unsuccessful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("updateCustomerProfileRequest", :E00001)
         end
@@ -76,15 +75,18 @@ describe "edit_account" do
               click_button 'Save Account Changes'
             end
             
-            page.should have_css("#flash-messages")
-            page.should have_content("We had a problem processing your data")
+            # Page
+            flash_set(:alert, :devise, :authorize_net_error)
             current_path.should eq(edit_customer_registration_path)
-    
+
+            # Customer
             customer.reload
             customer.first_name.should_not eq("Dick")
             customer.last_name.should_not eq("Tracy")
 
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*updateCustomerProfileRequest.*/).should have_been_made
+            # External Behavior
+            made_authorize_net_request("updateCustomerProfileRequest")
+            admin_email_alert
           end
         end
       end
@@ -102,17 +104,17 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['update_needs_confirmation']
-        page.should have_content(message)
+        # Page
+        flash_set(:notice, :devise, :updated_registration_needs_confirmation)
         current_path.should eq(customer_home_path)
 
+        # Customer
         customer.reload
         customer.email.should_not eq("newemail@notcredda.com")
         customer.unconfirmed_email.should eq("newemail@notcredda.com")
 
-        last_email.to.should eq([customer.unconfirmed_email])
-        last_email.body.should match(/confirm your account email/)
+        # External Behavior
+        confirmation_email_sent_to(customer.unconfirmed_email, customer.confirmation_token)
       end
     end
 
@@ -128,14 +130,17 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['registrations']['updated']
-        page.should have_content(message)
+        # Page
+        flash_set(:notice, :devise, :updated_registration)
         current_path.should eq(customer_home_path)
 
+        # Customer
         old_password = customer.encrypted_password
         customer.reload
         customer.encrypted_password.should_not eq(old_password)
+
+        # External Behavior
+        no_email_sent      
       end
     end
 
@@ -151,13 +156,18 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        page.should have_content("doesn't match confirmation")
+        # Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :confirmation_mismatch)
         current_path.should eq(customer_registration_path)
 
+        # Customer
         old_password = customer.encrypted_password
         customer.reload
         customer.encrypted_password.should eq(old_password)
+
+        # External Behavior
+        no_email_sent        
       end
     end
 
@@ -171,14 +181,45 @@ describe "edit_account" do
           click_button 'Save Account Changes'
         end
         
-        page.should have_css("#flash-messages")
-        page.should have_content("can't be blank")
+        # Page
+        flash_set(:alert, :devise, :invalid_data)
+        has_error(:custom, :blank)
         current_path.should eq(customer_registration_path)
 
+        # Customer
         old_password = customer.encrypted_password
         customer.reload
         customer.encrypted_password.should eq(old_password)
+
+        # External Behavior
+        no_email_sent        
       end
+    end
+  end
+
+  # As Store
+  #----------------------------------------------------------------------------
+  context "as authenticated store" do
+    include_context "as authenticated store"
+    before(:each) do
+      visit edit_customer_registration_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as authenticated employee" do
+    include_context "as authenticated employee"
+    before(:each) do
+      visit edit_customer_registration_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
     end
   end
 end

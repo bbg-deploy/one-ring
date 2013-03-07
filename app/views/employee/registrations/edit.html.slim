@@ -2,7 +2,7 @@
 
 div.row
   h2 Edit Your Account Information
-  div.large-8.columns
+  div.large-8.columns#edit-registration
     = nested_form_for(@employee, :url => employee_registration_path, :method => :put, :html => { :class => "" }) do |f|
       fieldset
         legend Account Information

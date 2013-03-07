@@ -15,7 +15,7 @@ if (Store.count < 2)
     store = create_store
     unless store.nil?
       puts "-- created Store #{store.username}"
-      store.confirm!
+      store.approve_account!
       puts "-- confirmed #{store.username}"
     end
   end  

@@ -130,7 +130,7 @@ describe Store::RegistrationsController do
         it { should redirect_to(home_path) }
 
         # Content
-        it { should set_the_flash[:notice].to(/message with a confirmation link/) }
+        it { should set_the_flash[:notice].to(/administrator approval/) }
 
         # Behavior
         it "creates a new store" do
@@ -144,10 +144,10 @@ describe Store::RegistrationsController do
           subject.current_store.should be_nil
         end
 
-        it "sends a confirmation email" do
+        it "sends administrator approval notice" do
           last_email.should_not be_nil
           last_email.to.should eq([attributes[:email]])
-          last_email.body.should match(/#{store.confirmation_token}/)
+          last_email.body.should match(/administrator approval/)
         end
       end
       
@@ -170,7 +170,7 @@ describe Store::RegistrationsController do
         it { should render_template(:new) }
 
         # Content
-        it { should set_the_flash[:error].to(/was a problem/) }
+        it { should set_the_flash[:alert].to(/was a problem/) }
 
         # Behavior
         it "does not creates a new store" do
@@ -405,7 +405,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
@@ -450,7 +450,7 @@ describe Store::RegistrationsController do
         it { should respond_with(:success) }
   
         # Content
-        it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
         it { should render_template(:edit) }
       end
 
@@ -474,7 +474,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
@@ -519,7 +519,7 @@ describe Store::RegistrationsController do
           it { should respond_with(:success) }
     
           # Content
-          it { should_not set_the_flash }
+          it { should set_the_flash[:alert].to(/was a problem/) }
           it { should render_template(:edit) }
         end
 
@@ -541,19 +541,11 @@ describe Store::RegistrationsController do
           it { should redirect_to(store_home_path) }
     
           # Content
-          it { should set_the_flash[:notice].to(/updated your account successfully, but we need to verify your new email/) }
+          it { should set_the_flash[:notice].to(/updated your account successfully/) }
 
           # Behavior
-          it "should unconfirm the store" do
-            store.unconfirmed_email.should be_nil
-            store.reload
-            store.unconfirmed_email.should_not be_nil
-          end
-
-          it "sends a confirmation email" do
-            last_email.should_not be_nil
-            last_email.to.should eq([attributes[:email]])
-            last_email.body.should match(/#{store.confirmation_token}/)
+          it "does not send an email" do
+            last_email.should be_nil
           end
         end
       end

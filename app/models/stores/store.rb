@@ -4,7 +4,6 @@ class Store < ActiveRecord::Base
   has_friendly_username
   is_authenticatable
   is_registerable
-  is_confirmable
   is_recoverable
   is_lockable
   is_rememberable
@@ -54,11 +53,22 @@ class Store < ActiveRecord::Base
   #----------------------------------------------------------------------------
   public  
   def active_for_authentication?
-    super && self.cancelled_at.nil?
+    super && self.cancelled_at.nil? && self.approved?
+  end
+
+  def approve_account!
+    self.approved_at = DateTime.now
+    self.save!
+  end
+
+  def approved?
+    return !self.approved_at.nil?
   end
 
   def inactive_message 
-    if cancelled? 
+    if !approved? 
+      :not_approved 
+    elsif cancelled? 
       :cancelled
     else 
       super # Use whatever other message 

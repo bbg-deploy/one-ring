@@ -24,12 +24,13 @@ class Store::RegistrationsController < Devise::RegistrationsController
         sign_in @store
         respond_with @store, :location => store_home_path
       else
+        StoreAuthenticationMailer.approval_notification(@store).deliver unless @store.approved?
         set_flash_message :notice, :"signed_up_but_#{@store.inactive_message}"
         expire_session_data_after_sign_in!
         respond_with @store, :location => home_path
       end
     else
-      flash[:error] = "There was a problem with some of your information"
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @store
       respond_with @store
     end
@@ -53,6 +54,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
       respond_with @store, :location => store_home_path
     else
       # Set passwords to blank before we redirect
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
       clean_up_passwords @store
       respond_with @store
     end

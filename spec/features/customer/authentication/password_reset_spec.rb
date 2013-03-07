@@ -1,69 +1,195 @@
 require 'spec_helper'
 
 describe "password reset" do
-  context "as anonymous" do
-    include_context "as anonymous"
-    let(:customer) { FactoryGirl.create(:customer) }
+  # Feature Shared Methods
+  #----------------------------------------------------------------------------
+
+  # As Unauthenticated Customer
+  #----------------------------------------------------------------------------
+  context "as unauthenticated customer", :unauthenticated => true do
+    include_context "as unauthenticated customer"
     before(:each) do
       visit new_customer_password_path
     end
 
-    describe "with valid attributes" do
+    describe "with valid attributes", :failing => true do
       it "sends password reset email" do
         within("#new-password") do
           fill_in 'customer_email', :with => customer.email
           click_button 'Reset Password'
         end
         
-        last_email.to.should eq([customer.email])
-        last_email.from.should eq(["no-reply@credda.com"])
-        subject = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['mailer']['reset_password_instructions']['subject']
-        last_email.subject.should eq(subject)
+        # Page
+        flash_set(:notice, :devise, :password_reset)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should_not be_nil
+        
+        # External Behavior
+        password_reset_email_sent_to(customer.email, customer.reset_password_token)
       end      
+    end
 
-      it "redirects to sign in page" do
+    describe "with invalid email" do
+      it "does not reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Reset Password'
+        end
+
+        # Page
+        no_flash
+        has_error(:devise, :not_found)
+        current_path.should eq(customer_password_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should be_nil
+        
+        # External Behavior
+        no_email_sent
+      end
+    end
+  end
+
+  # As Unconfirmed Customer
+  #----------------------------------------------------------------------------
+  context "as unconfirmed customer", :unconfirmed => true do
+    include_context "as unconfirmed customer"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    describe "with valid attributes", :failing => true do
+      it "sends password reset email" do
         within("#new-password") do
           fill_in 'customer_email', :with => customer.email
           click_button 'Reset Password'
         end
         
+        # Page
+        flash_set(:notice, :devise, :password_reset)
         current_path.should eq(new_customer_session_path)
-        page.should have_css("#flash-messages")
-        message = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['passwords']['send_instructions']
-        page.should have_content(message)          
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should_not be_nil
+        
+        # External Behavior
+        password_reset_email_sent_to(customer.email, customer.reset_password_token)
       end      
     end
 
     describe "with invalid email" do
-      it "does not send email" do
+      it "does not reset email" do
         within("#new-password") do
           fill_in 'customer_email', :with => "invalid@email.com"
           click_button 'Reset Password'
         end
-        
-        last_email.should be_nil
-      end
 
-      it "reloads password page" do
-        within("#new-password") do
-          fill_in 'customer_email', :with => "invalid@email.com"
-          click_button 'Reset Password'
-        end
-        
+        # Page
+        no_flash
+        has_error(:devise, :not_found)
         current_path.should eq(customer_password_path)
-        page.should have_css("#flash-messages")
-        message = "not found"
-        page.should have_content(message)          
-      end      
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should be_nil
+        
+        # External Behavior
+        no_email_sent
+      end
     end
   end
 
-  context "as customer" do
-    include_context "as customer"
+  # As Locked Customer
+  #----------------------------------------------------------------------------
+  context "as locked customer", :locked => true do
+    include_context "as locked customer"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    describe "with valid attributes", :failing => true do
+      it "sends password reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => customer.email
+          click_button 'Reset Password'
+        end
+        
+        # Page
+        flash_set(:notice, :devise, :password_reset)
+        current_path.should eq(new_customer_session_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should_not be_nil
+        
+        # External Behavior
+        password_reset_email_sent_to(customer.email, customer.reset_password_token)
+      end      
+    end
+
+    describe "with invalid email" do
+      it "does not reset email" do
+        within("#new-password") do
+          fill_in 'customer_email', :with => "invalid@email.com"
+          click_button 'Reset Password'
+        end
+
+        # Page
+        no_flash
+        has_error(:devise, :not_found)
+        current_path.should eq(customer_password_path)
+        
+        # Object
+        customer.reload
+        customer.reset_password_token.should be_nil
+        
+        # External Behavior
+        no_email_sent
+      end
+    end
+  end
+
+  # As Authenticated Customer
+  #----------------------------------------------------------------------------
+  context "as authenticated customer" do
+    include_context "as authenticated customer"
+    before(:each) do
+      visit new_customer_password_path
+    end
 
     it "redirects to customer home" do
-      visit new_customer_password_path
       current_path.should eq(customer_home_path)
+    end
+  end
+
+  # As Store
+  #----------------------------------------------------------------------------
+  context "as authenticated store", :store => true do
+    include_context "as authenticated store"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
+    end
+  end
+
+  # As Employee
+  #----------------------------------------------------------------------------
+  context "as authenticated employee", :employee => true do
+    include_context "as authenticated employee"
+    before(:each) do
+      visit new_customer_password_path
+    end
+
+    it "redirects to customer scope conflict" do
+      current_path.should eq(customer_scope_conflict_path)
     end
   end
 end

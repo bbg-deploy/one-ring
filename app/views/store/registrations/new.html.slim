@@ -1,7 +1,7 @@
 = provide(:title, 'Registration')
 
 div.row
-  div.large-8.columns
+  div.large-8.columns#new-registration
     h2 Sign up
     = nested_form_for(@store, :url => store_registration_path, :method => :post, :html => { :class => "" }) do |f|
       fieldset

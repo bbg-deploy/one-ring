@@ -47,7 +47,7 @@ describe CustomerObserver, :observer => true do
         it "send AdminNotifier email" do
           Customer.observers.enable :customer_observer do
             customer.save
-            last_email.to.should eq(["admin@credda.com"])
+            last_email.to.should eq(["bryce.senz@credda.com"])
             last_email.body.should match(/Error Trace:/)
           end
         end
@@ -124,7 +124,7 @@ describe CustomerObserver, :observer => true do
         it "send AdminNotifier email" do
           Customer.observers.enable :customer_observer do
             customer.update_attributes({:first_name => "Bob"})
-            last_email.to.should eq(["admin@credda.com"])
+            last_email.to.should eq(["bryce.senz@credda.com"])
             last_email.body.should match(/Error Trace:/)
           end
         end
@@ -190,7 +190,7 @@ describe CustomerObserver, :observer => true do
         it "send AdminNotifier email" do
           Customer.observers.enable :customer_observer do
             customer.destroy
-            last_email.to.should eq(["admin@credda.com"])
+            last_email.to.should eq(["bryce.senz@credda.com"])
             last_email.body.should match(/Error Trace:/)
           end
         end
@@ -214,7 +214,7 @@ describe CustomerObserver, :observer => true do
       Customer.observers.enable :customer_observer do
         customer = FactoryGirl.create(:customer)
         notification_email = ActionMailer::Base.deliveries.last
-        notification_email.to.should eq(["admin@credda.com"])
+        notification_email.to.should eq(["bryce.senz@credda.com"])
       end
     end
 

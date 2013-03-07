@@ -13,6 +13,12 @@ FactoryGirl.define do
     date_of_birth { 26.years.ago }
     terms_agreement "1"
   end
+  
+  factory :confirmed_employee, parent: :employee do
+    after(:create) do |employee|
+      employee.confirm!
+    end
+  end
 
   factory :invalid_employee, parent: :employee do
     password "validpass"

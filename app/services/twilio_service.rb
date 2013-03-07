@@ -1,25 +1,29 @@
 class TwilioService
-=begin
-  # Initializer
-  #----------------------------------------------------------------------------
+
   def initialize(params = {})
-    @client = Twilio::REST::Client.new(auth['account_sid'], auth['auth_token'])
-    @account = @client.account
+    initialize_gateway
+  end
+  
+  def get_account
+    return @gateway.account
+  end
+  
+  def send_test_sms(to_number = nil, from_number = nil, body = nil)
+    message = @gateway.account.sms.messages.create(
+      :to => "+14108675309",
+      :from => "+15005550006",
+      :body => "All in the game, yo"
+    )
+    return message
   end
 
-  # Signature Page Methods
-  #----------------------------------------------------------------------------
-  def send_text_message(to_phone, from_phone, message) 
-    @twilio_client.account.sms.messages.create(
-      :to => to_phone,
-      :from => from_phone,
-      :body => "Test message for Credda."
-    )
-  end
 
   private
   def auth
     return YAML.load_file("#{Rails.root}/config/twilio.yml")[Rails.env]
   end
-=end
+  
+  def initialize_gateway
+    @gateway = Twilio::REST::Client.new auth['account_sid'], auth['auth_token']
+  end
 end

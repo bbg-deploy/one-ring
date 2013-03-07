@@ -28,7 +28,7 @@ class Employee::EmployeesController < Employee::ApplicationController
   def create
     @employee = Employee.new(create_employee_params)
     if @employee.save
-      flash[:notice] = "Successfully created payment profile."  
+      flash[:notice] = "Successfully created employee."  
     end
     respond_with(:employee, @employee)
   end
@@ -44,7 +44,7 @@ class Employee::EmployeesController < Employee::ApplicationController
   #-----------------------------------------------------------------
   def update
     @employee = Employee.find(params[:id])
-    
+
     if @employee.update_attributes(update_employee_params)
       flash[:notice] = "Successfully updated employee."
     else
@@ -64,10 +64,19 @@ class Employee::EmployeesController < Employee::ApplicationController
 
   private
   def create_employee_params
-    params.require(:employee).permit()
+    params.require(:employee).permit(
+     :username, :password, :password_confirmation, :email, :email_confirmation, 
+     :first_name, :middle_name, :last_name, :date_of_birth, :terms_agreement )
   end
 
   def update_employee_params
-    params.require(:employee).permit()
+    if (params[:employee][:password].blank?) && (params[:employee][:password_confirmation].blank?)
+       params[:employee].delete :password
+       params[:employee].delete :password_confirmation
+    end
+
+    params.require(:employee).permit(
+      :username, :password, :password_confirmation, :email, :email_confirmation, 
+      :first_name, :middle_name, :last_name, :date_of_birth )
   end
 end

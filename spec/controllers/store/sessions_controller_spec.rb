@@ -281,8 +281,8 @@ describe Store::SessionsController do
       end
     end
           
-    context "as unconfirmed store" do
-      include_context "with unconfirmed store"
+    context "with unapproved store" do
+      include_context "with unapproved store"
 
       describe "valid login" do
         before(:each) do
@@ -300,7 +300,7 @@ describe Store::SessionsController do
         it { should redirect_to(new_store_session_path) }
   
         # Content
-        it { should set_the_flash[:alert].to(/confirm your account before continuing/) }
+        it { should set_the_flash[:alert].to(/account has not been approved/) }
       end
     end
 

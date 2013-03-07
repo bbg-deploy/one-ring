@@ -1,0 +1,49 @@
+= provide(:title, 'Edit Account')
+
+div.row
+  div.large-8.columns
+    = nested_form_for(@employee, :url => employee_employee_path(@employee), :method => :put, :html => { :class => "" }) do |f|
+      fieldset
+        legend Account Information
+        .row
+          div.large-8.columns
+            = f.label "Username"
+            = f.text_field :username, :placeholder => "rockstar"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+        div.row
+          div.large-8.columns 
+            = f.label "Email"
+            = f.email_field :email, :placeholder => "user@email.com"
+            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+      fieldset
+        legend New Password
+        div.row
+          div.large-8.columns 
+            = f.label "Password"
+            = f.password_field :password, :placeholder => "BlueSuedeShoes"
+            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
+          div.large-4.columns
+            p.helper-text
+              = "Must be greater than 6 characters"
+      fieldset
+        legend Personal Information
+        div.row
+          div.large-4.columns 
+            = f.label "First Name"
+            = f.text_field :first_name, :placeholder => "Elvis"
+          div.large-4.columns 
+            = f.label "Middle Name"
+            = f.text_field :middle_name, :placeholder => "The King"
+          div.large-4.columns 
+            = f.label "Last Name"
+            = f.text_field :last_name, :placeholder => "Presley"
+        div.row
+          div.large-6.columns 
+            = f.label "Date of Birth"
+            = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
+      = f.submit "Save Account Changes", :class => "radius button"
