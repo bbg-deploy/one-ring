@@ -78,7 +78,9 @@ gem 'exception_notification', '>= 3.0.0'
 # Payment Gems
 gem 'activemerchant', '~> 1.29.3', :require => 'active_merchant'
 
-# Twilio
+# Third Party Integration
+gem 'sendgrid', '~> 1.0.0'
+gem 'hello_sign', '~> 0.6.0'
 gem 'twilio-ruby', '~> 3.9.0'
 
 # Security Gems

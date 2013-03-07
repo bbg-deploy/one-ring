@@ -1,0 +1,11 @@
+test:
+  email: 'bryce.senz@credda.com'
+  password: 'inshape19'
+
+development:
+  email: 'bryce.senz@credda.com'
+  password: 'inshape19'
+
+production:
+  email: 'bryce.senz@credda.com'
+  password: 'inshape19'
