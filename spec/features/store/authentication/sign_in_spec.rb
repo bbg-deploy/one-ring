@@ -70,8 +70,8 @@ describe "sign in" do
 
   # As Unauthenticated Customer
   #----------------------------------------------------------------------------
-  context "as unconfirmed store", :unconfirmed => true do
-    include_context "as unconfirmed store"
+  context "as unapproved store", :unconfirmed => true do
+    include_context "as unapproved store"
     before(:each) do
       visit new_store_session_path
     end
@@ -85,7 +85,7 @@ describe "sign in" do
         end
 
         # Page
-        flash_set(:alert, :devise, :unconfirmed)
+        flash_set(:alert, :devise, :unapproved)
         current_path.should eq(new_store_session_path)
         
         # Object

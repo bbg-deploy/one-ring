@@ -43,14 +43,15 @@ describe "new registration" do
           end
           
           # Page
-          flash_set(:notice, :devise, :needs_confirmation)
+          flash_set(:notice, :devise, :needs_approval)
           current_path.should eq(home_path)
           
           # Object
           Store.find_by_username(store.username).should_not be_nil
+          Store.find_by_username(store.username).approved?.should be_false
           
           # External Behavior
-          confirmation_email_sent_to(store.email, store.confirmation_token)
+          unapproved_email_sent_to(store.email)
           admin_email_alert
         end
       end

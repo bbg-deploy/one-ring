@@ -56,16 +56,14 @@ module FeatureSharedContexts
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
       store.approve_account!
-      store.confirm!
       reset_email
     end
   end
 
-  shared_context "as unconfirmed store" do
+  shared_context "as unapproved store" do
     let!(:registered_store) { FactoryGirl.create(:store) }
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
-      store.approve_account!
       reset_email
     end
   end
@@ -75,7 +73,6 @@ module FeatureSharedContexts
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
       store.approve_account!
-      store.confirm!
       store.lock_access!
       reset_email
     end
@@ -86,7 +83,6 @@ module FeatureSharedContexts
     let!(:store) { FactoryGirl.create(:store) }
     before(:each) do
       store.approve_account!
-      store.confirm!
       login_as store, scope: :store
       reset_email
     end

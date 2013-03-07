@@ -14,10 +14,12 @@ module FeatureMacros
 
     message = root['en']['devise']['failure']['unauthenticated'] if (message == :unauthenticated)
     message = root['en']['devise']['failure']['unconfirmed'] if (message == :unconfirmed)
+    message = root['en']['devise']['failure']['not_approved'] if (message == :unapproved)
     message = root['en']['devise']['failure']['invalid'] if (message == :invalid)
     message = root['en']['devise']['failure']['invalid_data'] if (message == :invalid_data)
     message = root['en']['devise']['failure']['authorize_net'] if (message == :authorize_net_error)
     message = root['en']['devise']['registrations']['signed_up_but_unconfirmed'] if (message == :needs_confirmation)
+    message = root['en']['devise']['registrations']['signed_up_but_not_approved'] if (message == :needs_approval)
     message = root['en']['devise']['registrations']['updated'] if (message == :updated_registration)
     message = root['en']['devise']['registrations']['update_needs_confirmation'] if (message == :updated_registration_needs_confirmation)
     message = root['en']['devise']['sessions']['signed_in'] if (message == :signed_in)
@@ -59,6 +61,18 @@ module FeatureMacros
   def no_email_sent
     email = last_email 
     email.should be_nil
+  end
+
+  def unapproved_email_sent_to(address)
+    found_email = false
+    ActionMailer::Base.deliveries.each do |email|
+      if (email.to == [address])
+        found_email = true
+        email.to.should eq([address])
+        email.body.should match(/administrator approval/)
+      end
+    end
+    found_email.should be_true
   end
 
   def confirmation_email_sent_to(address, token)

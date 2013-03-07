@@ -56,8 +56,8 @@ describe "password reset" do
 
   # As Unconfirmed Customer
   #----------------------------------------------------------------------------
-  context "as unconfirmed store", :unconfirmed => true do
-    include_context "as unconfirmed store"
+  context "as unapproved store", :unconfirmed => true do
+    include_context "as unapproved store"
     before(:each) do
       visit new_store_password_path
     end

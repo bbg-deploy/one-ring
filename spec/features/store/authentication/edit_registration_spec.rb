@@ -62,16 +62,15 @@ describe "edit_account" do
         end
         
         # Page
-        flash_set(:notice, :devise, :updated_registration_needs_confirmation)
+        flash_set(:notice, :devise, :updated_registration)
         current_path.should eq(store_home_path)
 
         # Customer
         store.reload
-        store.email.should_not eq("newemail@notcredda.com")
-        store.unconfirmed_email.should eq("newemail@notcredda.com")
+        store.email.should eq("newemail@notcredda.com")
 
         # External Behavior
-        confirmation_email_sent_to(store.unconfirmed_email, store.confirmation_token)
+        no_email_sent
       end
     end
 
