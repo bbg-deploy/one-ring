@@ -1,0 +1,15 @@
+= provide(:title, "Store")
+
+div.row
+  div.large-8.columns
+    table
+      thead
+        tr
+          th Account Number
+          th Name
+          th
+      tbody
+        tr
+          td = @store.account_number
+          td = @store.name
+          td = link_to "Edit", edit_employee_store_path(@store), :class => "button radius small"

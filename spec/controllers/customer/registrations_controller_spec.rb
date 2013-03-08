@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+#TODO: Finish testing Authorize.net fails for update and delete
 describe Customer::RegistrationsController do
   describe "routing", :routing => true do
     it { should route(:get, "/customer/sign_up").to(:action => :new) }
@@ -107,87 +108,206 @@ describe Customer::RegistrationsController do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
 
-      describe "with valid attributes" do
-        let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
-        before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          post :create, :customer => attributes, :format => 'html'
+      context "without observers" do
+        describe "with valid attributes" do
+          let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
+            post :create, :customer => attributes, :format => 'html'
+          end
+  
+  #       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+  #       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+  #       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_customer.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(home_path) }
+  
+          # Content
+          it { should set_the_flash[:notice].to(/message with a confirmation link/) }
+  
+          # Behavior
+          it "creates a new customer" do
+            Customer.last.try(:email).should eq(attributes[:email])
+          end
+  
+          it "is not signed in after registration" do
+            subject.current_customer.should be_nil
+          end
+          
+          it "sends confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_true
+          end
         end
 
-#       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
-#       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
-#       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
-
-        # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_customer.should be_nil
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(home_path) }
-
-        # Content
-        it { should set_the_flash[:notice].to(/message with a confirmation link/) }
-
-        # Behavior
-        it "creates a new customer" do
-          expect{
+        describe "with invalid attributes" do
+          let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :username => nil) }
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
+            post :create, :customer => attributes, :format => 'html'
+          end
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_customer.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+          it { should render_template(:new) }
+  
+          # Content
+          it { should set_the_flash[:alert].to(/was a problem/) }
+  
+          # Behavior
+          it "does not creates a new customer" do
+              Customer.last.try(:email).should_not eq(attributes[:email])
+          end
+  
+          it "is not signed in after registration" do
             attributes = FactoryGirl.build(:customer_attributes_hash)
             post :create, :customer => attributes, :format => 'html'
-          }.to change(Customer,:count).by(1)
-        end
-
-        it "is not signed in after registration" do
-          subject.current_customer.should be_nil
-        end
-
-        it "sends a confirmation email" do
-          last_email.should_not be_nil
-          last_email.to.should eq([attributes[:email]])
-          last_email.body.should match(/#{customer.confirmation_token}/)
+            subject.current_customer.should be_nil
+          end
+  
+          it "does not send confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_false
+          end
         end
       end
-      
-      describe "with invalid attributes" do
-        let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :username => nil) }
+
+      context "with observers" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          post :create, :customer => attributes, :format => 'html'
+          Customer.observers.enable :customer_observer
+        end
+        
+        describe "with valid attributes" do
+          context "with successful Authorize.net response" do
+            let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+            before(:each) do
+              webmock_authorize_net_all_successful
+              @request.env["devise.mapping"] = Devise.mappings[:customer]
+              post :create, :customer => attributes, :format => 'html'
+            end
+    
+    #       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+    #       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+    #       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+    
+            # Variables
+            it "should not have current user" do
+              subject.current_user.should be_nil
+              subject.current_customer.should be_nil
+            end
+    
+            # Response
+            it { should assign_to(:customer) }
+            it { should respond_with(:redirect) }
+            it { should redirect_to(home_path) }
+    
+            # Content
+            it { should set_the_flash[:notice].to(/message with a confirmation link/) }
+    
+            # Behavior
+            it "creates a new customer" do
+              Customer.last.try(:email).should eq(attributes[:email])
+            end
+    
+            it "is not signed in after registration" do
+              subject.current_customer.should be_nil
+            end
+            
+            it "sends confirmation email" do
+              confirmation_email_sent_to?(attributes[:email]).should be_true
+            end
+            
+            it "send admin alert" do
+              admin_email_alert?.should be_true
+            end
+          end
+
+          context "with unsuccessful Authorize.net response" do
+            let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+            before(:each) do
+              webmock_authorize_net("createCustomerProfileRequest", :E00001)
+              @request.env["devise.mapping"] = Devise.mappings[:customer]
+              post :create, :customer => attributes, :format => 'html'
+            end
+    
+    #       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+    #       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+    #       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+    
+            # Variables
+            it "should not have current user" do
+              subject.current_user.should be_nil
+              subject.current_customer.should be_nil
+            end
+    
+            # Response
+            it { should assign_to(:customer) }
+            it { should respond_with(:redirect) }
+            it { should redirect_to(new_customer_registration_path) }
+    
+            # Content
+            it { should set_the_flash[:alert].to(/problem processing your data/) }
+    
+            # Behavior
+            it "does not create a new customer" do
+              Customer.last.try(:email).should_not eq(attributes[:email])
+            end
+    
+            it "is not signed in after registration" do
+              subject.current_customer.should be_nil
+            end
+          end
         end
 
-        # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_customer.should be_nil
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:success) }
-        it { should render_template(:new) }
-
-        # Content
-        it { should set_the_flash[:alert].to(/was a problem/) }
-
-        # Behavior
-        it "does not creates a new customer" do
-          expect{
-            attributes = FactoryGirl.build(:customer_attributes_hash, :username => nil)
+        describe "with invalid attributes" do
+          let(:attributes) { FactoryGirl.build(:customer_attributes_hash, :username => nil) }
+          before(:each) do
+            @request.env["devise.mapping"] = Devise.mappings[:customer]
             post :create, :customer => attributes, :format => 'html'
-          }.to_not change(Customer,:count)
-        end
-
-        it "is not signed in after registration" do
-          attributes = FactoryGirl.build(:customer_attributes_hash)
-          post :create, :customer => attributes, :format => 'html'
-          subject.current_customer.should be_nil
-        end
-
-        it "does not send confirmation email" do
-          last_email.should be_nil
+          end
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+            subject.current_customer.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:customer) }
+          it { should respond_with(:success) }
+          it { should render_template(:new) }
+  
+          # Content
+          it { should set_the_flash[:alert].to(/was a problem/) }
+  
+          # Behavior
+          it "does not creates a new customer" do
+              Customer.last.try(:email).should_not eq(attributes[:email])
+          end
+  
+          it "is not signed in after registration" do
+            attributes = FactoryGirl.build(:customer_attributes_hash)
+            post :create, :customer => attributes, :format => 'html'
+            subject.current_customer.should be_nil
+          end
+  
+          it "does not send email" do
+            last_email.should be_nil
+          end
         end
       end
     end    
@@ -362,6 +482,23 @@ describe Customer::RegistrationsController do
   describe "#update", :update => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
+
+      context "without observers" do
+        describe "with valid attributes" do
+        end
+
+        describe "with invalid attributes" do
+        end
+      end
+      
+      context "with observers" do
+        describe "with valid attributes" do
+        end
+
+        describe "with invalid attributes" do
+        end        
+      end
+
 
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:customer]

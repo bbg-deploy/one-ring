@@ -54,8 +54,6 @@ module FeatureMacros
     page.should have_content(message)
   end
 
-
-
   # Emails
   #----------------------------------------------------------------------------
   def no_email_sent

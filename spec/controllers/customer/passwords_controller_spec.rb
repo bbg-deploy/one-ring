@@ -23,7 +23,6 @@ describe Customer::PasswordsController do
     put :update, :customer => attributes, :format => 'html'
   end
 
-
   def do_get_show(token)
     @request.env["devise.mapping"] = Devise.mappings[:customer]
     @request.env['QUERY_STRING'] = "confirmation_token="

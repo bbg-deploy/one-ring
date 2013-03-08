@@ -8,8 +8,10 @@ class Ability
     elsif user.kind_of? Store
       can :manage, :none
     elsif user.kind_of? Employee
+      #TODO: Only Admins should be able to manage these
       can :manage, Client
       can :manage, Employee
+      can :manage, Store
     else
       can :manage, :none
     end

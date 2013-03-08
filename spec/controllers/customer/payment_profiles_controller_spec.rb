@@ -1,6 +1,34 @@
 require 'spec_helper'
 
 describe Customer::PaymentProfilesController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    post :create, :payment_profile => attributes, :format => 'html'
+  end
+
+  def do_get_edit(id)
+    get :edit, :id => id,:format => 'html'
+  end
+  
+  def do_put_update(id, attributes)
+    put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
+  end
+
+  def do_get_show(id)
+    get :show, :id => id, :format => 'html'
+  end
+
+  def do_delete_destroy(id)
+    delete :destroy, :id => id, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/customer/payment_methods").to(:action => :index) }
     it { should route(:get, "/customer/payment_methods/new").to(:action => :new) }
@@ -11,11 +39,13 @@ describe Customer::PaymentProfilesController do
     it { should route(:delete, "/customer/payment_methods/1").to(:action => :destroy, :id => 1) }
   end
 
+  # Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
       before(:each) do
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Response
@@ -30,7 +60,7 @@ describe Customer::PaymentProfilesController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Response
@@ -49,7 +79,7 @@ describe Customer::PaymentProfilesController do
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          post :create, :payment_profile => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Response
@@ -72,7 +102,7 @@ describe Customer::PaymentProfilesController do
       describe "creating credit card profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
         before(:each) do
-          post :create, :payment_profile => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Response
@@ -98,7 +128,7 @@ describe Customer::PaymentProfilesController do
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
-          post :create, :payment_profile => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Response
@@ -121,7 +151,7 @@ describe Customer::PaymentProfilesController do
       describe "creating credit card profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
         before(:each) do
-          post :create, :payment_profile => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Response
@@ -149,7 +179,7 @@ describe Customer::PaymentProfilesController do
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
-        get :show, :id => payment_profile.id, :format => 'html'
+        do_get_show(payment_profile.id)
       end
 
       # Response
@@ -167,7 +197,7 @@ describe Customer::PaymentProfilesController do
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         before(:each) do
-          get :show, :id => payment_profile.id, :format => 'html'
+          do_get_show(payment_profile.id)
         end
 
         # Response
@@ -182,7 +212,7 @@ describe Customer::PaymentProfilesController do
       describe "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         before(:each) do
-          get :show, :id => payment_profile.id, :format => 'html'
+          do_get_show(payment_profile.id)
         end
 
         # Response
@@ -202,7 +232,7 @@ describe Customer::PaymentProfilesController do
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
-        get :edit, :id => payment_profile.id, :format => 'html'
+        do_get_edit(payment_profile.id)
       end
 
       # Response
@@ -220,7 +250,7 @@ describe Customer::PaymentProfilesController do
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         before(:each) do
-          get :edit, :id => payment_profile.id, :format => 'html'
+          do_get_edit(payment_profile.id)
         end
 
         # Response
@@ -235,7 +265,7 @@ describe Customer::PaymentProfilesController do
       describe "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         before(:each) do
-          get :edit, :id => payment_profile.id, :format => 'html'
+          do_get_edit(payment_profile.id)
         end
 
         # Response
@@ -256,7 +286,7 @@ describe Customer::PaymentProfilesController do
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       let(:attributes) { { :first_name => "Billy" } }
       before(:each) do
-        put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
+        do_put_update(payment_profile.id, attributes)
       end
 
       # Response
@@ -282,7 +312,7 @@ describe Customer::PaymentProfilesController do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         let(:attributes) { { :first_name => "Billy" } }
         before(:each) do
-          put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
+          do_put_update(payment_profile.id, attributes)
         end
 
         # Response
@@ -305,7 +335,7 @@ describe Customer::PaymentProfilesController do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         let(:attributes) { { :first_name => "Billy" } }
         before(:each) do
-          put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
+          do_put_update(payment_profile.id, attributes)
         end
 
         # Response
@@ -332,7 +362,7 @@ describe Customer::PaymentProfilesController do
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       before(:each) do
-        delete :destroy, :id => payment_profile.id, :format => 'html'
+        do_delete_destroy(payment_profile.id)
       end
 
       # Response
@@ -349,10 +379,7 @@ describe Customer::PaymentProfilesController do
       end
 
       it "should not delete PaymentProfile" do
-        payment_profile = FactoryGirl.create(:payment_profile)
-        expect {
-          delete :destroy, :id => payment_profile.id, :format => 'html'
-        }.to_not change(PaymentProfile, :count)
+        PaymentProfile.last.should eq(payment_profile)
       end
     end
     
@@ -362,7 +389,7 @@ describe Customer::PaymentProfilesController do
       describe "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         before(:each) do
-          delete :destroy, :id => payment_profile.id, :format => 'html'
+          do_delete_destroy(payment_profile.id)
         end
 
         # Response
@@ -378,18 +405,15 @@ describe Customer::PaymentProfilesController do
           expect { payment_profile.reload }.to raise_error
         end
 
-        it "should not delete PaymentProfile" do
-          payment_profile = FactoryGirl.create(:payment_profile)
-          expect {
-            delete :destroy, :id => payment_profile.id, :format => 'html'
-          }.to change(PaymentProfile, :count).by(-1)
+        it "should delete PaymentProfile" do
+          PaymentProfile.last.should_not eq(payment_profile)
         end
       end
 
       describe "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         before(:each) do
-          delete :destroy, :id => payment_profile.id, :format => 'html'
+          do_delete_destroy(payment_profile.id)
         end
 
         # Response
@@ -406,10 +430,7 @@ describe Customer::PaymentProfilesController do
         end
 
         it "should not delete PaymentProfile" do
-          payment_profile = FactoryGirl.create(:payment_profile)
-          expect {
-            delete :destroy, :id => payment_profile.id, :format => 'html'
-          }.to_not change(PaymentProfile, :count)
+          PaymentProfile.last.should eq(payment_profile)
         end
       end
     end

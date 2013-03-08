@@ -1,6 +1,4 @@
 class Employee::ApplicationController < ::ApplicationController
-  layout 'customer_application'
-
   before_filter :authenticate_employee!
   before_filter :get_employee
 
