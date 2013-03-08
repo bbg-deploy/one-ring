@@ -43,6 +43,7 @@ describe Store, :store => true do
 
     # Recoverable
     it { should have_db_column(:reset_password_token) }
+    it { should have_db_index(:reset_password_token) }
     it { should have_db_column(:reset_password_sent_at) }
 
     # Rememberable
@@ -54,6 +55,13 @@ describe Store, :store => true do
     it { should have_db_column(:last_sign_in_at) }
     it { should have_db_column(:current_sign_in_ip) }
     it { should have_db_column(:last_sign_in_ip) }
+
+    # Confirmable
+    it { should have_db_column(:confirmation_token) }
+    it { should have_db_index(:confirmation_token) }
+    it { should have_db_column(:confirmed_at) }
+    it { should have_db_column(:confirmation_sent_at) }
+    it { should have_db_column(:unconfirmed_email) }
 
     # Lockable
     it { should have_db_column(:failed_attempts) }
@@ -247,7 +255,7 @@ describe Store, :store => true do
     describe "active_for_authentication?" do
       let(:store) { FactoryGirl.create(:store) }
 
-      context "as unconfirmed" do
+      context "as unapproved" do
         it "should be active for authentication" do
           store.active_for_authentication?.should be_false
         end
@@ -256,6 +264,14 @@ describe Store, :store => true do
       context "as approved" do
         it "should not be active for authentication" do
           store.approve_account!
+          store.active_for_authentication?.should be_false
+        end
+      end
+
+      context "as approved and confirmed" do
+        it "should not be active for authentication" do
+          store.approve_account!
+          store.confirm!
           store.active_for_authentication?.should be_true
         end
       end
@@ -263,6 +279,7 @@ describe Store, :store => true do
       context "as locked" do
         it "should not be active for authentication" do
           store.approve_account!
+          store.confirm!
           store.lock_access!
           store.active_for_authentication?.should be_false
         end
@@ -271,6 +288,7 @@ describe Store, :store => true do
       context "as cancelled" do
         it "should not be active for authentication" do
           store.approve_account!
+          store.confirm!
           store.cancel_account!
           store.active_for_authentication?.should be_false
         end
@@ -321,5 +339,13 @@ describe Store, :store => true do
         let(:timeout_in) { 30.minutes }
       end
     end  
+
+    describe "confirmable" do  
+      it_behaves_like "devise confirmable", :customer do
+        # Confirmable Configuration
+        let(:reconfirmable) { true }
+        let(:confirmation_keys) { [:email] }
+      end
+    end
   end
 end

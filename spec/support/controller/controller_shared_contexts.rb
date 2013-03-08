@@ -58,6 +58,7 @@ module ControllerSharedContexts
     let(:store) do
       store = FactoryGirl.create(:store)
       store.approve_account!
+      store.confirm!
       reset_email
       store.reload
     end
@@ -71,10 +72,20 @@ module ControllerSharedContexts
     end
   end
 
+  shared_context "with unconfirmed store" do
+    let(:store) do
+      store = FactoryGirl.create(:store)
+      store.approve_account!
+      reset_email
+      store.reload
+    end
+  end
+
   shared_context "with locked store" do
     let(:store) do
       store = FactoryGirl.create(:store)
       store.approve_account!
+      store.confirm!
       store.failed_attempts = 6
       store.lock_access!
       reset_email
@@ -86,6 +97,7 @@ module ControllerSharedContexts
     let(:store) do
       store = FactoryGirl.create(:store)
       store.approve_account!
+      store.confirm!
       store.cancel_account!
       reset_email
       store.reload
@@ -96,6 +108,7 @@ module ControllerSharedContexts
     let(:store) do
       store = FactoryGirl.create(:store)
       store.approve_account!
+      store.confirm!
       reset_email
       store.reload
     end

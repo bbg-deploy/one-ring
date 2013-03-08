@@ -18,6 +18,7 @@ class Store::RegistrationsController < Devise::RegistrationsController
   def create
     @store = Store.new(create_store_params)
 
+    @store.skip_confirmation! unless @store.approved?
     if @store.save
       if @store.active_for_authentication?
         set_flash_message :notice, :signed_up

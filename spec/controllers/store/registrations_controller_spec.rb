@@ -541,11 +541,19 @@ describe Store::RegistrationsController do
           it { should redirect_to(store_home_path) }
     
           # Content
-          it { should set_the_flash[:notice].to(/updated your account successfully/) }
+          it { should set_the_flash[:notice].to(/updated your account successfully, but we need to verify your new email/) }
 
           # Behavior
-          it "does not send an email" do
-            last_email.should be_nil
+          it "should unconfirm the store" do
+            store.unconfirmed_email.should be_nil
+            store.reload
+            store.unconfirmed_email.should_not be_nil
+          end
+
+          it "sends a confirmation email" do
+            last_email.should_not be_nil
+            last_email.to.should eq([attributes[:email]])
+            last_email.body.should match(/#{store.confirmation_token}/)
           end
         end
       end

@@ -72,6 +72,7 @@ describe Customer do
 
     # Recoverable
     it { should have_db_column(:reset_password_token) }
+    it { should have_db_index(:reset_password_token) }
     it { should have_db_column(:reset_password_sent_at) }
 
     # Rememberable
@@ -86,6 +87,7 @@ describe Customer do
 
     # Confirmable
     it { should have_db_column(:confirmation_token) }
+    it { should have_db_index(:confirmation_token) }
     it { should have_db_column(:confirmed_at) }
     it { should have_db_column(:confirmation_sent_at) }
     it { should have_db_column(:unconfirmed_email) }

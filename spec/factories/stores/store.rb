@@ -34,6 +34,7 @@ FactoryGirl.define do
   factory :approved_store, parent: :store do
     after(:create) do |store|
       store.approve_account!
+      store.confirm!
     end
   end
 

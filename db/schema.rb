@@ -207,6 +207,10 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
     t.integer  "failed_attempts",                :default => 0
     t.string   "unlock_token"
     t.datetime "locked_at"
@@ -219,6 +223,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
 
   add_index "stores", ["account_number"], :name => "index_stores_on_account_number", :unique => true
   add_index "stores", ["authentication_token"], :name => "index_stores_on_authentication_token", :unique => true
+  add_index "stores", ["confirmation_token"], :name => "index_stores_on_confirmation_token", :unique => true
   add_index "stores", ["email"], :name => "index_stores_on_email", :unique => true
   add_index "stores", ["reset_password_token"], :name => "index_stores_on_reset_password_token", :unique => true
   add_index "stores", ["unlock_token"], :name => "index_stores_on_unlock_token", :unique => true

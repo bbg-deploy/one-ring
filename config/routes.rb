@@ -39,6 +39,7 @@ Onering::Application.routes.draw do
   # Store Namespace
   #-----------------------------------------------------------------
   devise_for :stores, :path => 'store', :controllers => {
+    :confirmations => 'store/confirmations',
     :passwords => 'store/passwords',
     :registrations => 'store/registrations',
     :sessions => 'store/sessions',
