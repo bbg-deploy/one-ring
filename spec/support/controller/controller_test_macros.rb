@@ -1,6 +1,9 @@
 module ControllerTestMacros
   # Emails
   #----------------------------------------------------------------------------
+
+  # Emails
+  #----------------------------------------------------------------------------
   def no_email_sent
     email = last_email 
     email.should be_nil
