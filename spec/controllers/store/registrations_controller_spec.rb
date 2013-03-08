@@ -144,6 +144,12 @@ describe Store::RegistrationsController do
           subject.current_store.should be_nil
         end
 
+        it "is not approved or confirmed after registration" do
+          store = Store.last
+          store.approved?.should be_false
+          store.confirmed?.should be_false
+        end
+
         it "sends administrator approval notice" do
           last_email.should_not be_nil
           last_email.to.should eq([attributes[:email]])

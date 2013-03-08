@@ -6,8 +6,6 @@ after "development:employee_roles" do
     employee = create_employee({:username => "superadmin", :password => "demopass", :password_confirmation => "demopass"})
     unless employee.nil?
       puts "-- created Employee #{employee.username}"
-      employee.approve!
-      puts "-- approved Employee #{employee.username}"
       employee.confirm!
       puts "-- confirmed #{employee.username}"
     end  

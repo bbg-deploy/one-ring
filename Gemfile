@@ -61,7 +61,8 @@ gem 'grape', '~> 0.2.6'
 #gem 'doorkeeper', '~> 0.6.7'
 
 # Authentication & SSO
-gem 'devise', '>= 2.2.3'
+gem 'devise', :git => 'git://github.com/plataformatec/devise.git'
+#gem 'devise', '~> 2.2.3'
 gem 'doorkeeper', '~> 0.6.7'
 
 # Authorization & Role Management
