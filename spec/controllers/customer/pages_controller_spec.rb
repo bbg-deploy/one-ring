@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Customer::PagesController do
   # Controller Shared Methods
   #----------------------------------------------------------------------------
-  def get_home
+  def do_get_home
     get :home, :format => 'html'
   end
 
@@ -18,8 +18,14 @@ describe Customer::PagesController do
   describe "#home", :home => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
+
       before(:each) do
-        get_home
+        do_get_home
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
       end
 
       # Response
@@ -32,8 +38,14 @@ describe Customer::PagesController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        get_home
+        do_get_home
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
       end
 
       # Response
@@ -44,13 +56,20 @@ describe Customer::PagesController do
       it { should render_template(:home) }
     end
 
-    context "as authenticated store" do
+    context "as authenticated store", :failing => true do
       include_context "with authenticated store"
+
       before(:each) do
-        get_home
+        do_get_home
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
       end
 
       # Response
+      it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(new_customer_session_path) }
 
@@ -60,11 +79,18 @@ describe Customer::PagesController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        get_home
+        do_get_home
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
       end
 
       # Response
+      it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(new_customer_session_path) }
 

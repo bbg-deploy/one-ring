@@ -20,4 +20,6 @@ class Customer::PagesController < Customer::ApplicationController
       format.html  # this renders home.html.erb
     end 
   end  
+
+  private
 end

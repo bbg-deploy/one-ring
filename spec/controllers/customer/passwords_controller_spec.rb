@@ -13,9 +13,10 @@ describe Customer::PasswordsController do
     post :create, :customer => attributes, :format => 'html'
   end
 
-  def do_get_edit
+  def do_get_edit(token)
     @request.env["devise.mapping"] = Devise.mappings[:customer]
-    get :edit, :format => 'html'
+    @request.env['QUERY_STRING'] = "reset_password_token="
+    get :edit, :reset_password_token => token, :format => 'html'
   end
   
   def do_put_update(attributes)
@@ -43,18 +44,14 @@ describe Customer::PasswordsController do
   describe "#new", :new => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
+
       before(:each) do
         do_get_new
       end
 
-      it "should not have customer" do
-        subject.try(:current_customer).should be_nil
-      end
-      
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -68,13 +65,13 @@ describe Customer::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_get_new
       end
       
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -89,14 +86,13 @@ describe Customer::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_get_new
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -111,14 +107,13 @@ describe Customer::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
         do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -136,9 +131,10 @@ describe Customer::PasswordsController do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
 
-      describe "with mismatched email" do
+      context "with mismatched email" do
+        let(:attributes) { { :email => "mismatch@email.com" } }
+
         before(:each) do
-          attributes = {:email => "mismatch@email.com"}
           do_post_create(attributes)
         end
 
@@ -165,9 +161,10 @@ describe Customer::PasswordsController do
         end
       end
       
-      describe "with matching email" do
+      context "with matching email" do
+        let(:attributes) { { :email => customer.email } }
+
         before(:each) do
-          attributes = {:email => customer.email}
           do_post_create(attributes)
         end
         
@@ -199,8 +196,9 @@ describe Customer::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { { :email => customer.email } }
+
       before(:each) do
-        attributes = {:email => customer.email}
         do_post_create(attributes)
       end
       
@@ -221,16 +219,15 @@ describe Customer::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:customer) { FactoryGirl.create(:customer) }
+      let(:attributes) { { :email => customer.email } }
+
       before(:each) do
-        customer = FactoryGirl.create(:customer)
-        attributes = {:email => customer.email}
         do_post_create(attributes)
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -245,16 +242,15 @@ describe Customer::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:customer) { FactoryGirl.create(:customer) }
+      let(:attributes) { { :email => customer.email } }
+
       before(:each) do
-        customer = FactoryGirl.create(:customer)
-        attributes = {:email => customer.email}
         do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -273,15 +269,15 @@ describe Customer::PasswordsController do
       include_context "with unauthenticated customer"
 
       context "without password reset requested" do
-        describe "no password reset token" do
+        context "without password reset token" do
+
           before(:each) do
-            do_get_edit
+            do_get_edit(nil)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
     
           # Response
@@ -293,17 +289,14 @@ describe Customer::PasswordsController do
           it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "abcdef", :format => 'html'
+            do_get_edit("abcdef")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -317,13 +310,15 @@ describe Customer::PasswordsController do
       end      
 
       context "with password reset requested" do
-        describe "no password reset token" do
+        before(:each) do
+          customer.send_reset_password_instructions
+          reset_email
+          customer.reload
+        end
+
+        context "without password reset token" do
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            get :edit, :format => 'html'
+            do_get_edit(nil)
           end
           
           # Variables
@@ -341,20 +336,14 @@ describe Customer::PasswordsController do
           it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "abcdef", :format => 'html'
+            do_get_edit("abcdef")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -366,20 +355,14 @@ describe Customer::PasswordsController do
           it { should set_the_flash[:alert].to(/reset token is invalid or expired/) }
         end
 
-        describe "valid password reset token" do
+        context "with valid password reset token" do
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "#{customer.reset_password_token}", :format => 'html'
+            do_get_edit("#{customer.reset_password_token}")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -397,12 +380,11 @@ describe Customer::PasswordsController do
       include_context "with authenticated customer"
 
       before(:each) do
-        do_get_edit
+        do_get_edit("abcdef")
       end
       
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -418,45 +400,41 @@ describe Customer::PasswordsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        do_get_edit
+        do_get_edit("abcdef")
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
       # Response
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
+      it { should redirect_to(customer_scope_conflict_path) }
 
       # Content
-      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+      it { should_not set_the_flash }
     end
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        do_get_edit
+        do_get_edit("abcdef")
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
       # Response
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
+      it { should redirect_to(customer_scope_conflict_path) }
 
       # Content
-      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+      it { should_not set_the_flash }
     end
   end
 
@@ -465,9 +443,10 @@ describe Customer::PasswordsController do
       include_context "with unconfirmed customer"
 
       context "without password reset requested" do
-        describe "with no password reset token" do
+        context "without password reset token" do
+          let(:attributes) { {:password => "newpass", :password_confirmation => "newpass"} }
+
           before(:each) do
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
           
@@ -486,16 +465,16 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -509,19 +488,22 @@ describe Customer::PasswordsController do
       end
 
       context "with password reset requested" do
-        describe "with no password reset token" do
+        before(:each) do
+          customer.send_reset_password_instructions
+          reset_email
+          customer.reload
+        end
+        
+        context "without password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -533,19 +515,16 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
        
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -557,19 +536,16 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with valid password reset token" do
+        context "with valid password reset token" do
+          let(:attributes) { { :reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
       
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -595,9 +571,10 @@ describe Customer::PasswordsController do
       include_context "with unauthenticated customer"
 
       context "without password reset requested" do
-        describe "with no password reset token" do
+        context "with no password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
           
@@ -616,9 +593,10 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
     
@@ -639,12 +617,16 @@ describe Customer::PasswordsController do
       end
 
       context "with password reset requested" do
-        describe "with no password reset token" do
+        before(:each) do
+          customer.send_reset_password_instructions
+          reset_email
+          customer.reload
+        end
+
+        context "with no password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
           
@@ -657,15 +639,13 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
        
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
-    
+
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
@@ -675,12 +655,10 @@ describe Customer::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with valid password reset token" do
+        context "with valid password reset token" do
+          let(:attributes) { { :reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            customer.send_reset_password_instructions
-            reset_email
-            customer.reload
-            attributes = {:reset_password_token => "#{customer.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
             do_put_update(attributes)
           end
       
@@ -704,17 +682,14 @@ describe Customer::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        customer.send_reset_password_instructions
-        reset_email
-        customer.reload
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
         do_put_update(attributes)
       end
       
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -729,15 +704,14 @@ describe Customer::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
         do_put_update(attributes)
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -752,15 +726,14 @@ describe Customer::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
         do_put_update(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
