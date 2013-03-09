@@ -13,6 +13,22 @@ describe Customer::SessionsController do
     post :create, :customer => attributes, :format => 'html'
   end
 
+  def do_delete_destroy
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    delete :destroy, :format => 'html'
+  end
+
+  def do_get_scope_conflict
+    @request.env["HTTP_REFERER"] = "/customer/edit"
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :scope_conflict, :format => 'html'
+  end
+
+  def do_delete_resolve_conflict
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    delete :resolve_conflict, :format => 'html'
+  end
+
   # Routing
   #----------------------------------------------------------------------------
   describe "routing", :routing => true do
@@ -195,36 +211,13 @@ describe Customer::SessionsController do
       context "with valid login (username)" do
         let(:attributes) { { :login => customer.username, :password => customer.password } }
 
-        before(:each) do
-          do_post_create(attributes)
-        end
-
-        # Variables
-        it "should have current customer" do
-          subject.current_user.should_not be_nil
-          subject.current_customer.should_not be_nil
-        end
-
-        # Response
-        it { should assign_to(:customer) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(customer_home_path) }
-  
-        # Content
-        it { should set_the_flash[:notice].to(/Signed in successfully/) }
-      end
-
-      describe "redirects to correct path" do
-        context "without referrer" do
+        context "without referrer or pre_conflict_path" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
-            attributes = {:login => customer.username, :password => customer.password}
-            post :create, :customer => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
           it "should have current customer" do
-            subject.current_user.should_not be_nil
             subject.current_customer.should_not be_nil
           end
   
@@ -239,10 +232,8 @@ describe Customer::SessionsController do
         
         context "with referer" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             session[:post_auth_path] = "/customer/edit"
-            attributes = {:login => customer.username, :password => customer.password}
-            post :create, :customer => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
@@ -262,11 +253,9 @@ describe Customer::SessionsController do
         
         context "with referer and pre_conflict_path" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:customer]
             session[:post_auth_path] = "/customer"
             session[:pre_conflict_path] = "/customer/edit"
-            attributes = {:login => customer.username, :password => customer.password}
-            post :create, :customer => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
@@ -437,8 +426,7 @@ describe Customer::SessionsController do
       include_context "with unauthenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       it { should_not assign_to(:customer) }
@@ -453,8 +441,7 @@ describe Customer::SessionsController do
       include_context "with authenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       it { should_not assign_to(:customer) }
@@ -468,8 +455,7 @@ describe Customer::SessionsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
@@ -492,8 +478,7 @@ describe Customer::SessionsController do
       include_context "with authenticated employee"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
@@ -518,9 +503,7 @@ describe Customer::SessionsController do
       include_context "with unauthenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env["HTTP_REFERER"] = "/customer/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
@@ -546,9 +529,7 @@ describe Customer::SessionsController do
       include_context "with authenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env["HTTP_REFERER"] = "/customer/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
@@ -574,9 +555,7 @@ describe Customer::SessionsController do
       include_context "with authenticated store"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env["HTTP_REFERER"] = "/customer/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
@@ -603,9 +582,7 @@ describe Customer::SessionsController do
       include_context "with authenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env["HTTP_REFERER"] = "/customer/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
@@ -634,8 +611,7 @@ describe Customer::SessionsController do
       include_context "with unauthenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
@@ -656,8 +632,7 @@ describe Customer::SessionsController do
       include_context "with authenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
@@ -678,8 +653,7 @@ describe Customer::SessionsController do
       include_context "with authenticated store"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
@@ -701,8 +675,7 @@ describe Customer::SessionsController do
       include_context "with authenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
