@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-#TODO: Finish testing Authorize.net fails for update and delete
 describe Customer::RegistrationsController do
   # Controller Shared Methods
   #----------------------------------------------------------------------------

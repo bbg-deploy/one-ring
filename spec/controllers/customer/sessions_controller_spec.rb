@@ -1,19 +1,34 @@
 require 'spec_helper'
 
 describe Customer::SessionsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    post :create, :customer => attributes, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/customer/sign_in").to(:action => :new) }
     it { should route(:post, "/customer/sign_in").to(:action => :create) }
     it { should route(:delete, "/customer/sign_out").to(:action => :destroy) }
   end
 
+  # Public Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -34,13 +49,11 @@ describe Customer::SessionsController do
       include_context "with authenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -57,14 +70,11 @@ describe Customer::SessionsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -81,14 +91,11 @@ describe Customer::SessionsController do
       include_context "with authenticated employee"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -106,11 +113,11 @@ describe Customer::SessionsController do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
 
-      describe "invalid login" do
+      context "with invalid attributes" do
+        let(:attributes) { { :login => customer.email, :password => "wrongpass" } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => "wrongpass"}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -119,7 +126,6 @@ describe Customer::SessionsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_customer.should be_nil
         end
 
         # Response
@@ -137,19 +143,18 @@ describe Customer::SessionsController do
         end
       end
 
-      describe "locks after multiple invalid logins" do
+      context "with too many failed logins" do
+        let(:attributes) { { :login => customer.email, :password => "wrongpass#{Random.new.rand(100)}" } }
+
         before(:each) do
           customer.failed_attempts = 5
           customer.save
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => "wrongpass#{Random.new.rand(100)}"}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_customer.should be_nil
         end
 
         # Response
@@ -165,11 +170,11 @@ describe Customer::SessionsController do
         end
       end
 
-      describe "valid login (email)" do
+      context "with valid login (email)" do
+        let(:attributes) { { :login => customer.email, :password => customer.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
@@ -187,11 +192,11 @@ describe Customer::SessionsController do
         it { should set_the_flash[:notice].to(/Signed in successfully/) }
       end
 
-      describe "valid login (username)" do
+      context "with valid login (username)" do
+        let(:attributes) { { :login => customer.username, :password => customer.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.username, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
@@ -284,11 +289,11 @@ describe Customer::SessionsController do
     context "as unconfirmed customer" do
       include_context "with unconfirmed customer"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => customer.email, :password => customer.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -307,11 +312,11 @@ describe Customer::SessionsController do
     context "as locked customer" do
       include_context "with locked customer"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => customer.email, :password => customer.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
@@ -337,11 +342,11 @@ describe Customer::SessionsController do
     context "as cancelled customer" do
       include_context "with cancelled customer"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => customer.email, :password => customer.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:login => customer.email, :password => customer.password}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         it "should be cancelled" do
@@ -361,11 +366,15 @@ describe Customer::SessionsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { { :login => customer.email, :password => customer.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        attributes = {:login => customer.username, :password => customer.password}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
       end
 
       it { should_not assign_to(:customer) }
@@ -378,16 +387,15 @@ describe Customer::SessionsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:customer) { FactoryGirl.create(:confirmed_customer) }
+      let(:attributes) { { :login => customer.email, :password => customer.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -402,16 +410,15 @@ describe Customer::SessionsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:customer) { FactoryGirl.create(:confirmed_customer) }
+      let(:attributes) { { :login => customer.email, :password => customer.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
