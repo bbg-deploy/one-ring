@@ -1,19 +1,40 @@
 require 'spec_helper'
 
 describe Customer::UnlocksController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    post :create, :customer => attributes, :format => 'html'
+  end
+
+  def do_get_show(unlock_token)
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    @request.env['QUERY_STRING'] = "unlock_token="
+    get :show, :unlock_token => unlock_token, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/customer/unlock/new").to(:action => :new) }
     it { should route(:post, "/customer/unlock").to(:action => :create) }
     it { should route(:get, "/customer/unlock").to(:action => :show) }
   end
 
+  # Public Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -35,8 +56,7 @@ describe Customer::UnlocksController do
       include_context "with authenticated customer"
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -57,8 +77,7 @@ describe Customer::UnlocksController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -80,8 +99,7 @@ describe Customer::UnlocksController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -104,11 +122,10 @@ describe Customer::UnlocksController do
   describe "#create", :create => true do
     context "as unlocked customer" do
       include_context "with unauthenticated customer"
+      let(:attributes) { { :email => customer.email } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Parameters
@@ -137,11 +154,10 @@ describe Customer::UnlocksController do
     context "as locked customer" do
       include_context "with locked customer"
 
-      describe "invalid email" do
+      context "with invalid email" do
+        let(:attributes) { { :email => "mismatch@email.com" } }
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:email => "invalid@email.com"}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Parameters
@@ -167,11 +183,10 @@ describe Customer::UnlocksController do
         end
       end
 
-      describe "valid email" do
+      context "with valid email" do
+        let(:attributes) { { :email => customer.email } }
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          attributes = {:email => customer.email}
-          post :create, :customer => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Parameters
@@ -201,11 +216,10 @@ describe Customer::UnlocksController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { { :email => customer.email } }
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -225,11 +239,11 @@ describe Customer::UnlocksController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:customer) { FactoryGirl.create(:confirmed_customer) }
+      let(:attributes) { { :email => customer.email } }
+ 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        customer = FactoryGirl.create(:customer)
-        attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -250,11 +264,11 @@ describe Customer::UnlocksController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:customer) { FactoryGirl.create(:confirmed_customer) }
+      let(:attributes) { { :email => customer.email } }
+ 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        customer = FactoryGirl.create(:customer)
-        attributes = {:email => customer.email}
-        post :create, :customer => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
@@ -278,10 +292,9 @@ describe Customer::UnlocksController do
     context "as unlocked customer" do
       include_context "with unauthenticated customer"
       
-      describe "without token" do
+      context "without token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          get :show, :format => 'html'
+          do_get_show(nil)
         end
 
         # Variables
@@ -299,11 +312,9 @@ describe Customer::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with invalid token" do
+      context "with invalid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "1234234234", :format => 'html'
+          do_get_show("1234234234")
         end
 
         # Variables
@@ -325,10 +336,9 @@ describe Customer::UnlocksController do
     context "as locked customer" do
       include_context "with locked customer"
       
-      describe "without token" do
+      context "without token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          get :show, :format => 'html'
+          do_get_show(nil)
         end
 
         # Variables
@@ -346,11 +356,9 @@ describe Customer::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with invalid token" do
+      context "with invalid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "1234234234", :format => 'html'
+          do_get_show("1234234234")
         end
 
         # Variables
@@ -368,11 +376,9 @@ describe Customer::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with valid token" do
+      context "with valid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:customer]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "#{customer.unlock_token}", :format => 'html'
+          do_get_show("#{customer.unlock_token}")
         end        
 
         # Variables
@@ -394,9 +400,7 @@ describe Customer::UnlocksController do
       include_context "with authenticated customer"
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "abcdef", :format => 'html'
+        do_get_show("12341234234")
       end        
 
       # Variables
@@ -417,9 +421,7 @@ describe Customer::UnlocksController do
     context "as authenticated store" do
       include_context "with authenticated store"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "12341234", :format => 'html'
+        do_get_show("1234234234")
       end
 
       # Variables
@@ -441,9 +443,7 @@ describe Customer::UnlocksController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:customer]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "12341234", :format => 'html'
+        do_get_show("1234234234")
       end
 
       # Variables

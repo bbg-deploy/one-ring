@@ -14,10 +14,6 @@ class Customer::SessionsController < Devise::SessionsController
   # POST /customer/sign_in
   def create
     @customer = warden.authenticate!(auth_options)
-#    if @customer.cancelled?
-#      flash[:alert] = "Account cancelled."
-#      redirect_to :action => :new
-#    end
     
     set_flash_message(:notice, :signed_in)
     sign_in(:customer, @customer)
