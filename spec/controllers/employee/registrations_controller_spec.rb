@@ -60,12 +60,12 @@ describe Employee::RegistrationsController do
       end
 
       # Response
-      it { should assign_to(:employee) }
-      it { should respond_with(:success) }
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(home_path) }
 
       # Content
       it { should_not set_the_flash }
-      it { should render_template(:new) }
     end
 
     context "as authenticated employee" do
@@ -82,10 +82,11 @@ describe Employee::RegistrationsController do
 
       # Response
       it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
       it { should redirect_to(employee_home_path) }
 
       # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
+      it { should_not set_the_flash }
     end
 
     context "as authenticated customer" do
@@ -142,31 +143,18 @@ describe Employee::RegistrationsController do
           do_post_create(attributes)
         end
 
-#       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
-#       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
-#       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
-
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
         end
-
+  
         # Response
-        it { should assign_to(:employee) }
+        it { should_not assign_to(:employee) }
         it { should respond_with(:redirect) }
         it { should redirect_to(home_path) }
-
+  
         # Content
-        it { should set_the_flash[:notice].to(/message with a confirmation link/) }
-
-        # Behavior
-        it "creates a new employee" do
-          Employee.last.try(:email).should eq(attributes[:email])
-        end
-
-        it "sends confirmation email" do
-          confirmation_email_sent_to?(attributes[:email]).should be_true
-        end
+        it { should_not set_the_flash }
       end
 
       context "with invalid attributes" do
@@ -180,23 +168,14 @@ describe Employee::RegistrationsController do
         it "should not have current user" do
           subject.current_user.should be_nil
         end
-
-        # Response
-        it { should assign_to(:employee) }
-        it { should respond_with(:success) }
-        it { should render_template(:new) }
-
-        # Content
-        it { should set_the_flash[:alert].to(/was a problem/) }
-
-        # Behavior
-        it "does not creates a new employee" do
-            Employee.last.try(:email).should_not eq(attributes[:email])
-        end
   
-        it "does not send confirmation email" do
-          confirmation_email_sent_to?(attributes[:email]).should be_false
-        end
+        # Response
+        it { should_not assign_to(:employee) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(home_path) }
+  
+        # Content
+        it { should_not set_the_flash }
       end
     end    
 
@@ -215,10 +194,11 @@ describe Employee::RegistrationsController do
 
       # Response
       it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
       it { should redirect_to(employee_home_path) }
 
       # Content
-      it { should set_the_flash[:alert].to(/already signed in/) }
+      it { should_not set_the_flash }
     end
 
     context "as authenticated customer" do

@@ -2,35 +2,20 @@ class Employee::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
 
   # Authentication filters
-  prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
+  prepend_before_filter :require_no_authentication, :only => [ :cancel ]
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
   before_filter :check_scope_conflict
 
   # GET /employee/sign_up
   def new
-    @employee = Employee.new
-    respond_with @employee
+    path = current_employee.nil? ? home_path : employee_home_path
+    redirect_to path    
   end
 
   # POST /employee
   def create
-    @employee = Employee.new(create_employee_params)
-
-    if @employee.save
-      if @employee.active_for_authentication?
-        set_flash_message :notice, :signed_up
-        sign_in @employee
-        respond_with @employee, :location => employee_home_path
-      else
-        set_flash_message :notice, :"signed_up_but_#{@employee.inactive_message}"
-        expire_session_data_after_sign_in!
-        respond_with @employee, :location => home_path
-      end
-    else
-      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
-      clean_up_passwords @employee
-      respond_with @employee
-    end
+    path = current_employee.nil? ? home_path : employee_home_path
+    redirect_to path
   end
 
   # GET /employee/edit

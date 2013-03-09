@@ -25,7 +25,7 @@ describe Employee::PagesController do
 
       # Variables
       it "should not have current user" do
-        subject.current_user.should_not be_nil
+        subject.current_user.should be_nil
       end
 
       # Response
