@@ -90,6 +90,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_get_new
       end
@@ -110,6 +111,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_get_new
       end
@@ -135,6 +137,7 @@ describe Employee::RegistrationsController do
 
       context "with valid attributes" do
         let(:attributes) { FactoryGirl.build(:employee_attributes_hash) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -168,6 +171,7 @@ describe Employee::RegistrationsController do
 
       context "with invalid attributes" do
         let(:attributes) { FactoryGirl.build(:employee_attributes_hash, :username => nil) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -198,8 +202,8 @@ describe Employee::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
-
       let(:attributes) { FactoryGirl.build(:employee_attributes_hash) }
+
       before(:each) do
         do_post_create(attributes)
       end
@@ -265,6 +269,7 @@ describe Employee::RegistrationsController do
   describe "#edit", :edit => true do
     context "as unauthenticated employee" do
       include_context "with unauthenticated employee"
+
       before(:each) do
         do_get_edit
       end
@@ -284,6 +289,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
         do_get_edit
       end
@@ -304,6 +310,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_get_edit
       end
@@ -324,6 +331,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_get_edit
       end
@@ -625,6 +633,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_delete_destroy
       end
@@ -645,6 +654,7 @@ describe Employee::RegistrationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_delete_destroy
       end

@@ -24,10 +24,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   
   def current_user
-    return current_customer unless current_customer.nil?
-    return current_store unless current_store.nil?
-    return current_employee unless current_employee.nil?
-    return nil
+    begin
+      return current_customer unless current_customer.nil?
+      return current_store unless current_store.nil?
+      return current_employee unless current_employee.nil?
+    rescue
+      return nil
+    end
   end
 
   private

@@ -195,7 +195,6 @@ describe Customer::SessionsController do
 
         # Variables
         it "should have current customer" do
-          subject.current_user.should_not be_nil
           subject.current_customer.should_not be_nil
         end
 
@@ -212,6 +211,7 @@ describe Customer::SessionsController do
         let(:attributes) { { :login => customer.username, :password => customer.password } }
 
         context "without referrer or pre_conflict_path" do
+
           before(:each) do
             do_post_create(attributes)
           end
@@ -231,6 +231,7 @@ describe Customer::SessionsController do
         end
         
         context "with referer" do
+
           before(:each) do
             session[:post_auth_path] = "/customer/edit"
             do_post_create(attributes)
@@ -238,7 +239,6 @@ describe Customer::SessionsController do
   
           # Variables
           it "should have current customer" do
-            subject.current_user.should_not be_nil
             subject.current_customer.should_not be_nil
           end
   
@@ -252,6 +252,7 @@ describe Customer::SessionsController do
         end
         
         context "with referer and pre_conflict_path" do
+
           before(:each) do
             session[:post_auth_path] = "/customer"
             session[:pre_conflict_path] = "/customer/edit"
@@ -260,7 +261,6 @@ describe Customer::SessionsController do
   
           # Variables
           it "should have current customer" do
-            subject.current_user.should_not be_nil
             subject.current_customer.should_not be_nil
           end
   
@@ -288,6 +288,11 @@ describe Customer::SessionsController do
         # Parameters
 #       it { should permit(:email).for(:create) }
 
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+        end
+
         # Response
         it { should_not assign_to(:customer) }
         it { should respond_with(:redirect) }
@@ -311,7 +316,6 @@ describe Customer::SessionsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_customer.should be_nil
         end
 
         # Response
@@ -338,9 +342,9 @@ describe Customer::SessionsController do
           do_post_create(attributes)
         end
 
-        it "should be cancelled" do
-          customer.cancelled?.should be_true
-          customer.active_for_authentication?.should be_false
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
         end
 
         # Response
@@ -429,6 +433,12 @@ describe Customer::SessionsController do
         do_delete_destroy
       end
 
+      # Variables
+      it "should not have current_user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(home_path) }
@@ -444,12 +454,19 @@ describe Customer::SessionsController do
         do_delete_destroy
       end
 
+      # Variables
+      it "should not have current_user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
       it { should_not assign_to(:customer) }
       it { should respond_with(:redirect) }
       it { should redirect_to(home_path) }
 
       # Content
-      it { should set_the_flash[:notice].to(/Signed out successfully/) }    end
+      it { should set_the_flash[:notice].to(/Signed out successfully/) }
+    end
 
     context "as authenticated store" do
       include_context "with authenticated store"
@@ -460,8 +477,6 @@ describe Customer::SessionsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -483,8 +498,6 @@ describe Customer::SessionsController do
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -509,7 +522,6 @@ describe Customer::SessionsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -534,7 +546,6 @@ describe Customer::SessionsController do
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -560,8 +571,6 @@ describe Customer::SessionsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -587,8 +596,6 @@ describe Customer::SessionsController do
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -617,7 +624,6 @@ describe Customer::SessionsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -636,8 +642,7 @@ describe Customer::SessionsController do
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
+      it "should have current customer" do
         subject.current_customer.should be_nil
       end
 
@@ -657,9 +662,7 @@ describe Customer::SessionsController do
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
-        subject.current_customer.should be_nil
+      it "should have current store" do
         subject.current_store.should be_nil
       end
 
@@ -679,9 +682,7 @@ describe Customer::SessionsController do
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
-        subject.current_customer.should be_nil
+      it "should have current employee" do
         subject.current_employee.should be_nil
       end
 

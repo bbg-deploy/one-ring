@@ -136,6 +136,7 @@ describe Customer::RegistrationsController do
       context "without observers" do
         context "with valid attributes" do
           let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+
           before(:each) do
             do_post_create(attributes)
           end
@@ -176,7 +177,6 @@ describe Customer::RegistrationsController do
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
   
           # Response
@@ -303,7 +303,6 @@ describe Customer::RegistrationsController do
             # Variables
             it "should not have current user" do
               subject.current_user.should be_nil
-              subject.current_customer.should be_nil
             end
     
             # Response
@@ -323,13 +322,7 @@ describe Customer::RegistrationsController do
             it "does not creates a new customer" do
               Customer.last.try(:email).should_not eq(attributes[:email])
             end
-    
-            it "is not signed in after registration" do
-              attributes = FactoryGirl.build(:customer_attributes_hash)
-              post :create, :customer => attributes, :format => 'html'
-              subject.current_customer.should be_nil
-            end
-    
+
             it "does not send confirmation email" do
               confirmation_email_sent_to?(attributes[:email]).should be_false
             end
@@ -348,7 +341,6 @@ describe Customer::RegistrationsController do
             # Variables
             it "should not have current user" do
               subject.current_user.should be_nil
-              subject.current_customer.should be_nil
             end
     
             # Response
@@ -368,13 +360,7 @@ describe Customer::RegistrationsController do
             it "does not creates a new customer" do
               Customer.last.try(:email).should_not eq(attributes[:email])
             end
-    
-            it "is not signed in after registration" do
-              attributes = FactoryGirl.build(:customer_attributes_hash)
-              post :create, :customer => attributes, :format => 'html'
-              subject.current_customer.should be_nil
-            end
-    
+
             it "does not send confirmation email" do
               confirmation_email_sent_to?(attributes[:email]).should be_false
             end
@@ -389,8 +375,8 @@ describe Customer::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
-
       let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+
       before(:each) do
         do_post_create(attributes)
       end
@@ -411,15 +397,13 @@ describe Customer::RegistrationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
       let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+
       before(:each) do
-        customer = FactoryGirl.create(:customer)
         do_post_create(attributes)
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -434,7 +418,6 @@ describe Customer::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
-      let(:customer) { FactoryGirl.create(:customer) }
       let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
       
       before(:each) do
@@ -443,8 +426,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -461,6 +442,7 @@ describe Customer::RegistrationsController do
   describe "#edit", :edit => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
+
       before(:each) do
         do_get_edit
       end
@@ -468,7 +450,6 @@ describe Customer::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -481,13 +462,13 @@ describe Customer::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_get_edit
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -502,14 +483,13 @@ describe Customer::RegistrationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_get_edit
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -524,14 +504,13 @@ describe Customer::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
         do_get_edit
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -548,8 +527,8 @@ describe Customer::RegistrationsController do
   describe "#update", :update => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
-
       let(:attributes) { FactoryGirl.build(:customer_attributes_hash) }
+
       before(:each) do
         do_put_update(attributes)
       end
@@ -557,7 +536,6 @@ describe Customer::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -667,7 +645,6 @@ describe Customer::RegistrationsController do
           let(:attributes) { { :first_name => "Clark", :last_name => "Kent" } }
 
           before(:each) do
-            webmock_authorize_net_all_successful
             do_put_update(attributes)
           end
           
@@ -699,7 +676,6 @@ describe Customer::RegistrationsController do
           let(:attributes) { { :email => "new@email.com", :email_confirmation => "mismatch@email.com", :current_password => customer.password } }
 
           before(:each) do
-            webmock_authorize_net_all_successful
             do_put_update(attributes)
           end
           
@@ -891,11 +867,6 @@ describe Customer::RegistrationsController do
 
           context "with unsuccessful Authorize.net response" do
             before(:each) do
-              webmock_authorize_net("createCustomerProfileRequest", :E00001)
-              do_put_update(attributes)
-            end
-            
-            before(:each) do
               webmock_authorize_net("updateCustomerProfileRequest", :E00001)
               do_put_update(attributes)
             end
@@ -1072,8 +1043,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -1096,8 +1065,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -1122,7 +1089,6 @@ describe Customer::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -1143,7 +1109,6 @@ describe Customer::RegistrationsController do
       # Variables
       it "should not have current customer (logged out)" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -1178,8 +1143,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -1194,14 +1157,13 @@ describe Customer::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
         do_delete_destroy
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -1226,7 +1188,6 @@ describe Customer::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
@@ -1246,7 +1207,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -1267,8 +1227,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -1290,8 +1248,6 @@ describe Customer::RegistrationsController do
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_employee.should_not be_nil
       end
 

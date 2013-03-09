@@ -1,19 +1,50 @@
 require 'spec_helper'
 
 describe Employee::SessionsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:employee]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:employee]
+    post :create, :employee => attributes, :format => 'html'
+  end
+
+  def do_delete_destroy
+    @request.env["devise.mapping"] = Devise.mappings[:employee]
+    delete :destroy, :format => 'html'
+  end
+
+  def do_get_scope_conflict
+    @request.env["HTTP_REFERER"] = "/employee/edit"
+    @request.env["devise.mapping"] = Devise.mappings[:employee]
+    get :scope_conflict, :format => 'html'
+  end
+
+  def do_delete_resolve_conflict
+    @request.env["devise.mapping"] = Devise.mappings[:employee]
+    delete :resolve_conflict, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/employee/sign_in").to(:action => :new) }
     it { should route(:post, "/employee/sign_in").to(:action => :create) }
     it { should route(:delete, "/employee/sign_out").to(:action => :destroy) }
   end
 
+  # Public Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated employee" do
       include_context "with unauthenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
@@ -34,13 +65,11 @@ describe Employee::SessionsController do
       include_context "with authenticated employee"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -57,14 +86,11 @@ describe Employee::SessionsController do
       include_context "with authenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -81,14 +107,11 @@ describe Employee::SessionsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -106,11 +129,11 @@ describe Employee::SessionsController do
     context "as unauthenticated employee" do
       include_context "with unauthenticated employee"
 
-      describe "invalid login" do
+      context "with invalid attributes" do
+        let(:attributes) { { :login => employee.email, :password => "wrongpass" } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => "wrongpass"}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
@@ -119,7 +142,6 @@ describe Employee::SessionsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_employee.should be_nil
         end
 
         # Response
@@ -137,19 +159,18 @@ describe Employee::SessionsController do
         end
       end
 
-      describe "locks after multiple invalid logins" do
+      context "with too many failed logins" do
+        let(:attributes) { { :login => employee.email, :password => "wrongpass#{Random.new.rand(100)}" } }
+
         before(:each) do
           employee.failed_attempts = 5
           employee.save
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => "wrongpass#{Random.new.rand(100)}"}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_employee.should be_nil
         end
 
         # Response
@@ -165,16 +186,15 @@ describe Employee::SessionsController do
         end
       end
 
-      describe "valid login (email)" do
+      context "with valid login (email)" do
+        let(:attributes) { { :login => employee.email, :password => employee.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => employee.password}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
         it "should have current employee" do
-          subject.current_user.should_not be_nil
           subject.current_employee.should_not be_nil
         end
 
@@ -187,39 +207,17 @@ describe Employee::SessionsController do
         it { should set_the_flash[:notice].to(/Signed in successfully/) }
       end
 
-      describe "valid login (username)" do
-        before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.username, :password => employee.password}
-          post :create, :employee => attributes, :format => 'html'
-        end
+      context "with valid login (username)" do
+        let(:attributes) { { :login => employee.username, :password => employee.password } }
 
-        # Variables
-        it "should have current employee" do
-          subject.current_user.should_not be_nil
-          subject.current_employee.should_not be_nil
-        end
+        context "without referrer or pre_conflict_path" do
 
-        # Response
-        it { should assign_to(:employee) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(employee_home_path) }
-  
-        # Content
-        it { should set_the_flash[:notice].to(/Signed in successfully/) }
-      end
-
-      describe "redirects to correct path" do
-        context "without referrer" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:employee]
-            attributes = {:login => employee.username, :password => employee.password}
-            post :create, :employee => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
           it "should have current employee" do
-            subject.current_user.should_not be_nil
             subject.current_employee.should_not be_nil
           end
   
@@ -233,16 +231,14 @@ describe Employee::SessionsController do
         end
         
         context "with referer" do
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:employee]
             session[:post_auth_path] = "/employee/edit"
-            attributes = {:login => employee.username, :password => employee.password}
-            post :create, :employee => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
           it "should have current employee" do
-            subject.current_user.should_not be_nil
             subject.current_employee.should_not be_nil
           end
   
@@ -256,17 +252,15 @@ describe Employee::SessionsController do
         end
         
         context "with referer and pre_conflict_path" do
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:employee]
             session[:post_auth_path] = "/employee"
             session[:pre_conflict_path] = "/employee/edit"
-            attributes = {:login => employee.username, :password => employee.password}
-            post :create, :employee => attributes, :format => 'html'
+            do_post_create(attributes)
           end
   
           # Variables
           it "should have current employee" do
-            subject.current_user.should_not be_nil
             subject.current_employee.should_not be_nil
           end
   
@@ -284,15 +278,20 @@ describe Employee::SessionsController do
     context "as unconfirmed employee" do
       include_context "with unconfirmed employee"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => employee.email, :password => employee.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => employee.password}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Parameters
 #       it { should permit(:email).for(:create) }
+
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
+        end
 
         # Response
         it { should_not assign_to(:employee) }
@@ -307,17 +306,16 @@ describe Employee::SessionsController do
     context "as locked employee" do
       include_context "with locked employee"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => employee.email, :password => employee.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => employee.password}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_employee.should be_nil
         end
 
         # Response
@@ -337,16 +335,16 @@ describe Employee::SessionsController do
     context "as cancelled employee" do
       include_context "with cancelled employee"
 
-      describe "valid login" do
+      context "with valid login" do
+        let(:attributes) { { :login => employee.email, :password => employee.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:employee]
-          attributes = {:login => employee.email, :password => employee.password}
-          post :create, :employee => attributes, :format => 'html'
+          do_post_create(attributes)
         end
 
-        it "should be cancelled" do
-          employee.cancelled?.should be_true
-          employee.active_for_authentication?.should be_false
+        # Variables
+        it "should not have current user" do
+          subject.current_user.should be_nil
         end
 
         # Response
@@ -361,11 +359,15 @@ describe Employee::SessionsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:attributes) { { :login => employee.email, :password => employee.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        attributes = {:login => employee.username, :password => employee.password}
-        post :create, :employee => attributes, :format => 'html'
+        do_post_create(attributes)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
       end
 
       it { should_not assign_to(:employee) }
@@ -378,16 +380,15 @@ describe Employee::SessionsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:employee) { FactoryGirl.create(:confirmed_employee) }
+      let(:attributes) { { :login => employee.email, :password => employee.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -402,16 +403,15 @@ describe Employee::SessionsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:employee) { FactoryGirl.create(:confirmed_employee) }
+      let(:attributes) { { :login => employee.email, :password => employee.password } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -430,10 +430,15 @@ describe Employee::SessionsController do
       include_context "with unauthenticated employee"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
+      # Variables
+      it "should not have current_user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
       it { should redirect_to(home_path) }
@@ -446,30 +451,32 @@ describe Employee::SessionsController do
       include_context "with authenticated employee"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
+      # Variables
+      it "should not have current_user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
       it { should redirect_to(home_path) }
 
       # Content
-      it { should set_the_flash[:notice].to(/Signed out successfully/) }    
+      it { should set_the_flash[:notice].to(/Signed out successfully/) }
     end
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -486,14 +493,11 @@ describe Employee::SessionsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        get :new, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -512,15 +516,12 @@ describe Employee::SessionsController do
       include_context "with unauthenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        @request.env["HTTP_REFERER"] = "/employee/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_employee.should be_nil
       end
 
       # Response
@@ -540,14 +541,11 @@ describe Employee::SessionsController do
       include_context "with authenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        @request.env["HTTP_REFERER"] = "/employee/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -568,15 +566,11 @@ describe Employee::SessionsController do
       include_context "with authenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        @request.env["HTTP_REFERER"] = "/employee/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -597,15 +591,11 @@ describe Employee::SessionsController do
       include_context "with authenticated store"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        @request.env["HTTP_REFERER"] = "/employee/edit"
-        get :scope_conflict, :format => 'html'
+        do_get_scope_conflict
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_employee.should be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -628,14 +618,12 @@ describe Employee::SessionsController do
       include_context "with unauthenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_employee.should be_nil
       end
 
       # Response
@@ -650,13 +638,11 @@ describe Employee::SessionsController do
       include_context "with authenticated employee"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
+      it "should have current employee" do
         subject.current_employee.should be_nil
       end
 
@@ -672,14 +658,11 @@ describe Employee::SessionsController do
       include_context "with authenticated customer"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
-        subject.current_employee.should be_nil
+      it "should have current customer" do
         subject.current_customer.should be_nil
       end
 
@@ -695,14 +678,11 @@ describe Employee::SessionsController do
       include_context "with authenticated store"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:employee]
-        delete :resolve_conflict, :format => 'html'
+        do_delete_resolve_conflict
       end
 
       # Variables
-      it "should not have current user" do
-        subject.current_user.should be_nil
-        subject.current_employee.should be_nil
+      it "should have current store" do
         subject.current_store.should be_nil
       end
 
