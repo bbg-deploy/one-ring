@@ -567,8 +567,8 @@ describe Employee::RegistrationsController do
   end
 
   describe "#destroy", :destroy => true do
-    context "as unauthenticated customer" do
-      include_context "with unauthenticated customer"
+    context "as unauthenticated employee" do
+      include_context "with unauthenticated employee"
 
       before(:each) do
         do_delete_destroy
@@ -577,32 +577,30 @@ describe Employee::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_session_path) }
+      it { should_not assign_to(:employee) }
+      it { should redirect_to(new_employee_session_path) }
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
     
-    context "as authenticated customer" do
-      include_context "with authenticated customer"
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
       
       before(:each) do
         do_delete_destroy
       end
 
       # Variables
-      it "should not have current customer (logged out)" do
-        subject.current_user.should be_nil
-        subject.current_customer.should be_nil
+      it "should not have current employee (logged out)" do
+        subject.current_employee.should be_nil
       end
 
       # Response
-      it { should assign_to(:customer) }
+      it { should assign_to(:employee) }
       it { should redirect_to(home_path) }
 
       # Content
@@ -615,14 +613,34 @@ describe Employee::RegistrationsController do
 
       # Behavior
       it "should be 'cancelled'" do
-        customer.reload
-        customer.cancelled?.should be_true
+        employee.reload
+        employee.cancelled?.should be_true
       end
 
       it "should still persist in database" do
-        customer.reload
-        customer.should be_valid
+        employee.reload
+        employee.should be_valid
       end
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        do_delete_destroy
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:employee) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
 
     context "as authenticated store" do
@@ -633,37 +651,13 @@ describe Employee::RegistrationsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
+      it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
-
-      # Content
-      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
-    end
-
-    context "as authenticated employee" do
-      include_context "with authenticated employee"
-      before(:each) do
-        do_delete_destroy
-      end
-
-      # Variables
-      it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
-        subject.current_employee.should_not be_nil
-      end
-
-      # Response
-      it { should_not assign_to(:customer) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(new_customer_session_path) }
+      it { should redirect_to(new_employee_session_path) }
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
@@ -671,8 +665,8 @@ describe Employee::RegistrationsController do
   end
 
   describe "#cancel", :cancel => true do
-    context "as unauthenticated customer" do
-      include_context "with unauthenticated customer"
+    context "as unauthenticated employee" do
+      include_context "with unauthenticated employee"
 
       before(:each) do
         do_get_cancel
@@ -681,33 +675,31 @@ describe Employee::RegistrationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_customer.should be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(new_customer_registration_path) }
+      it { should_not assign_to(:employee) }
+      it { should redirect_to(new_employee_registration_path) }
 
       # Content
       it { should_not set_the_flash }
     end
     
-    context "as authenticated customer" do
-      include_context "with authenticated customer"
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
 
       before(:each) do
         do_get_cancel
       end
 
       # Variables
-      it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should_not be_nil
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
-      it { should redirect_to(customer_home_path) }
+      it { should_not assign_to(:employee) }
+      it { should redirect_to(employee_home_path) }
 
       # Content
       it { should set_the_flash[:alert].to(/already signed in/) }
@@ -722,38 +714,34 @@ describe Employee::RegistrationsController do
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
         subject.current_store.should_not be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
+      it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(customer_scope_conflict_path) }
+      it { should redirect_to(employee_scope_conflict_path) }
 
       # Content
       it { should_not set_the_flash }
     end
 
-    context "as authenticated employee" do
-      include_context "with authenticated employee"
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
 
       before(:each) do
         do_get_cancel
       end
 
       # Variables
-      it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_customer.should be_nil
-        subject.current_employee.should_not be_nil
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
       end
 
       # Response
-      it { should_not assign_to(:customer) }
+      it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(customer_scope_conflict_path) }
+      it { should redirect_to(employee_scope_conflict_path) }
 
       # Content
       it { should_not set_the_flash }
