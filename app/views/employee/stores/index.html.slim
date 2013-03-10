@@ -10,6 +10,8 @@ div.row
           tr
             th Account Number
             th Name
+            th Status
+            th
             th
             th
         tbody
@@ -17,8 +19,12 @@ div.row
             tr
               td = store.account_number
               td = store.name
+              td = store.status
               td = link_to "Edit Account", edit_employee_store_path(store), :class => "button radius small"
               td = link_to "Cancel Account", employee_store_path(store), :method => :delete, :class => "button radius small"
+              td 
+                - unless store.approved?
+                  = link_to "Approve Account", approve_employee_store_path(store), :method => :put, :class => "button radius small"
 div.row
   div.large-12.columns
     = link_to "Add Store", new_employee_store_path, :class => "button radius small"

@@ -4,7 +4,7 @@ class CreatePhoneNumbers < ActiveRecord::Migration
       t.references :phonable, :polymorphic => true, :null => false
       t.string :phone_number,   :null => false
       t.boolean :primary,       :null => false, :default => false
-      t.boolean :cell_phone,    :null => false, :default => false
+      t.boolean :smsable,       :null => false, :default => false
 
       t.timestamps
     end

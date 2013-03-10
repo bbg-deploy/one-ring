@@ -20,7 +20,7 @@ describe "new registration" do
     fill_in 'store_addresses_attributes_0_zip_code', :with => store.addresses.first.zip_code
     # Phone Number
     fill_in 'store_phone_numbers_attributes_0_phone_number', :with => store.phone_numbers.first.phone_number
-    choose 'store_phone_numbers_attributes_0_cell_phone_1'
+    choose 'store_phone_numbers_attributes_0_smsable_1'
     # Terms & Conditions
     check 'store[terms_agreement]'
   end

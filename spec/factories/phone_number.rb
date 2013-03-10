@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :phone_number, class: PhoneNumber do
     phonable {|a| a.association(:customer)}
     sequence(:phone_number, 1000) { |n| "703-430-#{n}" }
-    primary true
-    cell_phone true
+    primary "1"
+    smsable "1"
   end
 
   factory :customer_phone_number, parent: :phone_number do
@@ -23,8 +23,8 @@ FactoryGirl.define do
   factory :phone_number_attributes_hash, class: Hash do
     phonable {|a| a.association(:customer)}
     sequence(:phone_number, 1000) { |n| "703-430-#{n}" }
-    primary true
-    cell_phone true
+    primary "1"
+    smsable "1"
 
     initialize_with { attributes }
   end

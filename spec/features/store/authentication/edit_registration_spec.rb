@@ -18,7 +18,7 @@ describe "edit_account" do
     end
   end
 
-  # As Authenticated Customer
+  # As Authenticated Store
   #----------------------------------------------------------------------------
   context "as authenticated store", :authenticated => true do
     include_context "as authenticated store"
@@ -62,15 +62,16 @@ describe "edit_account" do
         end
         
         # Page
-        flash_set(:notice, :devise, :updated_registration)
+        flash_set(:notice, :devise, :updated_registration_needs_confirmation)
         current_path.should eq(store_home_path)
 
         # Customer
         store.reload
-        store.email.should eq("newemail@notcredda.com")
+        store.email.should_not eq("newemail@notcredda.com")
+        store.unconfirmed_email.should eq("newemail@notcredda.com")
 
         # External Behavior
-        no_email_sent
+        confirmation_email_sent_to("newemail@notcredda.com", store.confirmation_token).should be_true
       end
     end
 

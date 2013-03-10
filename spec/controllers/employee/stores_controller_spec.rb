@@ -41,7 +41,7 @@ describe Employee::StoresController do
     it { should route(:get, "/employee/stores/1/edit").to(:action => :edit, :id => 1) }
     it { should route(:put, "/employee/stores/1").to(:action => :update, :id => 1) }
     it { should route(:delete, "/employee/stores/1").to(:action => :destroy, :id => 1) }
-    it { should route(:put, "/employee/stores/1/approve").to(:action => :update, :id => 1) }
+    it { should route(:put, "/employee/stores/1/approve").to(:action => :approve, :id => 1) }
   end
 
   # Methods

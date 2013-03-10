@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
     t.string   "phonable_type",                    :null => false
     t.string   "phone_number",                     :null => false
     t.boolean  "primary",       :default => false, :null => false
-    t.boolean  "cell_phone",    :default => false, :null => false
+    t.boolean  "smsable",       :default => false, :null => false
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
   end

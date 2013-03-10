@@ -34,7 +34,7 @@ describe PhoneNumber do
     it { should have_db_column(:phonable_type) }
     it { should have_db_column(:phone_number) }
     it { should have_db_column(:primary) }
-    it { should have_db_column(:cell_phone) }
+    it { should have_db_column(:smsable) }
   end
 
   # Associations
@@ -65,10 +65,10 @@ describe PhoneNumber do
       it { should_not allow_value(nil, "!").for(:primary) }
     end
 
-    describe "cell_phone" do
-      it { should allow_mass_assignment_of(:cell_phone) }
-      it { should allow_value(true, false).for(:cell_phone) }
-      it { should_not allow_value(nil, "!").for(:cell_phone) }
+    describe "smsable" do
+      it { should allow_mass_assignment_of(:smsable) }
+      it { should allow_value(true, false).for(:smsable) }
+      it { should_not allow_value(nil, "!").for(:smsable) }
     end  
   end
 

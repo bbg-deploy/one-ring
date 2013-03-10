@@ -23,7 +23,7 @@ describe "new registration" do
     fill_in 'customer_mailing_address_attributes_zip_code', :with => customer.mailing_address.zip_code
     # Phone Number
     fill_in 'customer_phone_number_attributes_phone_number', :with => customer.phone_number.phone_number
-    choose 'customer_phone_number_attributes_cell_phone_1'
+    choose 'customer_phone_number_attributes_smsable_1'
     # Terms & Conditions
     check 'customer[terms_agreement]'
   end

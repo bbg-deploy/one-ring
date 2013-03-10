@@ -66,6 +66,13 @@ class Store < ActiveRecord::Base
     return !self.approved_at.nil?
   end
 
+  def status
+    return "unapproved" if !self.approved?
+    return "unconfirmed" if !self.confirmed?
+    return "cancelled" if self.cancelled?
+    return "active"
+  end
+
   def inactive_message 
     if !approved? 
       :not_approved 

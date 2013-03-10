@@ -8,14 +8,14 @@ class PhoneNumber < ActiveRecord::Base
  
   # Attributes
   #----------------------------------------------------------------------------
-  attr_accessible :phonable, :phone_number_type, :phone_number, :primary, :cell_phone
+  attr_accessible :phonable, :phone_number_type, :phone_number, :primary, :smsable
  
   # Validations
   #----------------------------------------------------------------------------
   validates :phonable, :presence => true, :immutable => true
   validates :phone_number, :presence => true, :phone_number_format => true
   validates :primary, :inclusion => {:in => [true, false]}
-  validates :cell_phone, :inclusion => {:in => [true, false]}
+  validates :smsable, :inclusion => {:in => [true, false]}
   
 
   # Public Methods
