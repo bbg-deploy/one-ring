@@ -19,3 +19,6 @@ div.row
               td = employee.name
               td = link_to "Edit Account", edit_employee_employee_path(employee), :class => "button radius small"
               td = link_to "Cancel Account", employee_employee_path(employee), :method => :delete, :class => "button radius small"
+div.row
+  div.large-12.columns
+    = link_to "Add Employee", new_employee_employee_path, :class => "button radius small"

@@ -2,7 +2,6 @@
 
 div.row
   div.large-8.columns
-    h2 Sign up
     = nested_form_for(@employee, :url => employee_employees_path, :method => :post, :html => { :class => "" }) do |f|
       fieldset
         legend Account Information
