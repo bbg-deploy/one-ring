@@ -26,57 +26,63 @@ class Employee::StoresController < Employee::ApplicationController
   # POST /employee/stores
   #-------------------------------------------------------------------
   def create
-    @store = Store.new(create_employee_params)
+    @store = Store.new(create_store_params)
     if @store.save
-      flash[:notice] = "Successfully created store."
+      flash[:notice] = "Successfully created store."  
+    else
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
-    respond_with(:employee, @employee)
+    respond_with(:employee, @store)
   end
 
-  # GET /employee/employees/1/edit
+  # GET /employee/stores/1/edit
   #-------------------------------------------------------------------
   def edit
-    @employee = Employee.find(params[:id])
-    respond_with(:employee, @employee)
+    @store = Store.find(params[:id])
+    respond_with(:employee, @store)
   end
 
-  # PUT /employee/employees/1
+  # PUT /employee/stores/1
   #-----------------------------------------------------------------
   def update
-    @employee = Employee.find(params[:id])
+    @store = Store.find(params[:id])
 
-    if @employee.update_attributes(update_employee_params)
-      flash[:notice] = "Successfully updated employee."
+    if @store.update_attributes(update_store_params)
+      flash[:notice] = "Successfully updated store."
     else
-      flash[:notice] = "Updating employee failed."
+      flash[:notice] = "Updating store failed."
     end
-    respond_with(:employee, @employee)
+    respond_with(:employee, @store)
   end
   
-  # DELETE /employee/employees/1
+  # DELETE /employee/stores/1
   #-------------------------------------------------------------------
   def destroy
-    @employee = Employee.find(params[:id])
-    @employee.destroy
-    flash[:notice] = "Successfully cancelled employee."  
-    respond_with(:employee, @employee)
+    @store = Store.find(params[:id])
+    @store.cancel_account!
+    flash[:notice] = "Successfully cancelled store."  
+    respond_with(:employee, @store)
   end
 
   private
-  def create_employee_params
-    params.require(:employee).permit(
-     :username, :password, :password_confirmation, :email, :email_confirmation, 
-     :first_name, :middle_name, :last_name, :date_of_birth, :terms_agreement )
+  def create_store_params
+    params.require(:store).permit(
+      :username, :password, :password_confirmation, :email, :email_confirmation, 
+      :name, :employer_identification_number, 
+      {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, 
+      {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]}, :terms_agreement )
   end
 
-  def update_employee_params
-    if (params[:employee][:password].blank?) && (params[:employee][:password_confirmation].blank?)
-       params[:employee].delete :password
-       params[:employee].delete :password_confirmation
+  def update_store_params
+    if (params[:store][:password].blank?) && (params[:store][:password_confirmation].blank?)
+       params[:store].delete :password
+       params[:store].delete :password_confirmation
     end
 
-    params.require(:employee).permit(
+    params.require(:store).permit(
       :username, :password, :password_confirmation, :email, :email_confirmation, 
-      :first_name, :middle_name, :last_name, :date_of_birth )
+      :name, :employer_identification_number, 
+      {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, 
+      {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]} )
   end
 end

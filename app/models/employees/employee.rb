@@ -55,6 +55,12 @@ class Employee < ActiveRecord::Base
       super # Use whatever other message 
     end 
   end
+  
+  def status
+    return "unconfirmed" if !self.confirmed?
+    return "cancelled" if self.cancelled?
+    return "active"
+  end
 
   private
   def generate_account_number

@@ -131,6 +131,11 @@ describe Employee::EmployeesController do
         do_post_create(attributes)
       end
 
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
       # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
@@ -155,6 +160,11 @@ describe Employee::EmployeesController do
           do_post_create(attributes)
         end
   
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
+        end
+
         # Response
         it { should assign_to(:employee) }
         it { should respond_with(:success) }
@@ -176,6 +186,11 @@ describe Employee::EmployeesController do
           do_post_create(attributes)
         end
   
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
+        end
+
         # Response
         it { should assign_to(:employee) }
         it { should respond_with(:redirect) }
@@ -245,6 +260,11 @@ describe Employee::EmployeesController do
         do_get_show(other_employee.id)
       end
 
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
       # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
@@ -262,6 +282,11 @@ describe Employee::EmployeesController do
           do_get_show(employee.id)
         end
 
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
+        end
+
         # Response
         it { should assign_to(:employee) }
         it { should respond_with(:success) }
@@ -276,6 +301,11 @@ describe Employee::EmployeesController do
 
         before(:each) do
           do_get_show(other_employee.id)
+        end
+
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
         end
 
         # Response
@@ -342,6 +372,11 @@ describe Employee::EmployeesController do
         do_get_edit(other_employee.id)
       end
 
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
       # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
@@ -359,6 +394,11 @@ describe Employee::EmployeesController do
           do_get_edit(employee.id)
         end
 
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
+        end
+
         # Response
         it { should assign_to(:employee) }
         it { should respond_with(:success) }
@@ -373,6 +413,11 @@ describe Employee::EmployeesController do
 
         before(:each) do
           do_get_edit(other_employee.id)
+        end
+
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
         end
 
         # Response
@@ -440,6 +485,11 @@ describe Employee::EmployeesController do
         do_put_update(other_employee.id, attributes)
       end
 
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
       # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
@@ -466,6 +516,11 @@ describe Employee::EmployeesController do
             do_put_update(employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -488,6 +543,11 @@ describe Employee::EmployeesController do
             do_put_update(employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -510,6 +570,11 @@ describe Employee::EmployeesController do
             do_put_update(employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -539,6 +604,11 @@ describe Employee::EmployeesController do
             do_put_update(other_employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:success) }
@@ -562,6 +632,11 @@ describe Employee::EmployeesController do
             do_put_update(other_employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -585,6 +660,11 @@ describe Employee::EmployeesController do
             do_put_update(other_employee.id, attributes)
           end
   
+          # Variables
+          it "has current employee" do
+            subject.current_employee.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:employee) }
           it { should respond_with(:redirect) }
@@ -662,6 +742,11 @@ describe Employee::EmployeesController do
         do_delete_destroy(other_employee.id)
       end
 
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
       # Response
       it { should_not assign_to(:employee) }
       it { should respond_with(:redirect) }
@@ -688,6 +773,11 @@ describe Employee::EmployeesController do
           do_delete_destroy(employee.id)
         end
 
+        # Variables
+        it "has current_employee" do
+          subject.current_employee.should_not be_nil
+        end
+
         # Response
         it { should assign_to(:employee) }
         it { should respond_with(:redirect) }
@@ -711,6 +801,11 @@ describe Employee::EmployeesController do
         let(:other_employee) { FactoryGirl.create(:employee) }
         before(:each) do
           do_delete_destroy(other_employee.id)
+        end
+
+        # Variables
+        it "has current employee" do
+          subject.current_employee.should_not be_nil
         end
 
         # Response
