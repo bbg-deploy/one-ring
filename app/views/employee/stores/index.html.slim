@@ -18,4 +18,7 @@ div.row
               td = store.account_number
               td = store.name
               td = link_to "Edit Account", edit_employee_store_path(store), :class => "button radius small"
-              td = link_to "Cancel Account", edit_employee_store_path(store), :class => "button radius small"
+              td = link_to "Cancel Account", employee_store_path(store), :method => :delete, :class => "button radius small"
+div.row
+  div.large-12.columns
+    = link_to "Add Store", new_employee_store_path, :class => "button radius small"

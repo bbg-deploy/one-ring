@@ -20,6 +20,8 @@ class Employee::StoresController < Employee::ApplicationController
   #-------------------------------------------------------------------
   def new
     @store = Store.new
+    1.times { @store.addresses.build }
+    1.times { @store.phone_numbers.build }
     respond_with(:employee, @store)
   end
 
@@ -61,7 +63,7 @@ class Employee::StoresController < Employee::ApplicationController
     @store = Store.find(params[:id])
     @store.cancel_account!
     flash[:notice] = "Successfully cancelled store."  
-    respond_with(:employee, @store)
+    respond_with @store, :location => employee_stores_path
   end
 
   private
