@@ -1,5 +1,6 @@
 class Employee::EmployeesController < Employee::ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
+  before_filter :check_scope_conflict
   load_and_authorize_resource
 
   # GET /employee/employees
@@ -29,6 +30,8 @@ class Employee::EmployeesController < Employee::ApplicationController
     @employee = Employee.new(create_employee_params)
     if @employee.save
       flash[:notice] = "Successfully created employee."  
+    else
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
     respond_with(:employee, @employee)
   end
@@ -44,6 +47,7 @@ class Employee::EmployeesController < Employee::ApplicationController
   #-----------------------------------------------------------------
   def update
     @employee = Employee.find(params[:id])
+    # Set current password here to allow changes to go through
 
     if @employee.update_attributes(update_employee_params)
       flash[:notice] = "Successfully updated employee."
@@ -57,9 +61,9 @@ class Employee::EmployeesController < Employee::ApplicationController
   #-------------------------------------------------------------------
   def destroy
     @employee = Employee.find(params[:id])
-    @employee.destroy
-    flash[:notice] = "Successfully cancelled employee."  
-    respond_with(:employee, @employee)
+    @employee.cancel_account!
+    flash[:notice] = "Successfully cancelled"
+    respond_with @employee, :location => employee_employees_path
   end
 
   private
@@ -78,5 +82,9 @@ class Employee::EmployeesController < Employee::ApplicationController
     params.require(:employee).permit(
       :username, :password, :password_confirmation, :email, :email_confirmation, 
       :first_name, :middle_name, :last_name, :date_of_birth )
+  end
+
+  def check_scope_conflict
+    redirect_to employee_scope_conflict_path if (!(current_user.nil?) && (current_employee.nil?))
   end
 end

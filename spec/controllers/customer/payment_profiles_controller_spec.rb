@@ -16,7 +16,7 @@ describe Customer::PaymentProfilesController do
   end
   
   def do_put_update(id, attributes)
-    put :update, :id => payment_profile.id, :payment_profile => attributes, :format => 'html'
+    put :update, :id => id, :payment_profile => attributes, :format => 'html'
   end
 
   def do_get_show(id)
