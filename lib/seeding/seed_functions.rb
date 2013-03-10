@@ -30,7 +30,7 @@ module SeedFunctions
                    :country => "United States" },
                  :phone_number_attributes => { 
                    :phone_number => Faker::PhoneNumber.short_phone_number,
-                   :cell_phone => "0",
+                   :smsable => "1",
                    :primary => "1" },
                  :alerts_list_attributes => {
                    :mail => "1",
@@ -212,7 +212,7 @@ module SeedFunctions
                    :country => "United States" } },
                  :phone_numbers_attributes => { "0" => { 
                    :phone_number => Faker::PhoneNumber.short_phone_number,
-                   :cell_phone => "0",
+                   :smsable => "1",
                    :primary => "1" } },
                  :terms_agreement => "1" }
                    

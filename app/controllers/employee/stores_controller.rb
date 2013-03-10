@@ -71,7 +71,8 @@ class Employee::StoresController < Employee::ApplicationController
   def approve
     @store = Store.find(params[:id])
     @store.approve_account!
-    flash[:notice] = "Successfully approved store."  
+    StoreAuthenticationMailer.confirmation_instructions(@store).deliver
+    flash[:notice] = "Successfully approved store."
     respond_with(:employee, @store)
   end
 

@@ -739,9 +739,10 @@ describe Employee::StoresController do
   describe "#approve", :approve => true do
     context "as unauthenticated employee" do
       include_context "with unauthenticated employee"
-      let(:store) { FactoryGirl.create(:store) }
+      let!(:store) { FactoryGirl.create(:store) }
 
       before(:each) do
+        reset_email
         do_put_approve(store.id)
       end
 
@@ -763,13 +764,18 @@ describe Employee::StoresController do
         store.reload
         store.approved?.should be_false
       end
+
+      it "should not send store confirmation email" do
+        confirmation_email_sent_to?(store.email).should be_false
+      end
     end
     
     context "as authenticated employee" do
       include_context "with authenticated employee"
-      let(:store) { FactoryGirl.create(:store) }
+      let!(:store) { FactoryGirl.create(:store) }
 
       before(:each) do
+        reset_email
         do_put_approve(store.id)
       end
 
@@ -791,13 +797,18 @@ describe Employee::StoresController do
         store.reload
         store.approved?.should be_true
       end
+      
+      it "should send store confirmation email" do
+        confirmation_email_sent_to?(store.email).should be_true
+      end
     end
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
-      let(:store) { FactoryGirl.create(:store) }
+      let!(:store) { FactoryGirl.create(:store) }
 
       before(:each) do
+        reset_email
         do_put_approve(store.id)
       end
 
@@ -819,13 +830,18 @@ describe Employee::StoresController do
         store.reload
         store.approved?.should be_false
       end
+
+      it "should not send store confirmation email" do
+        confirmation_email_sent_to?(store.email).should be_false
+      end
     end
 
     context "as authenticated store" do
       include_context "with authenticated store"
-      let(:other_store) { FactoryGirl.create(:store) }
+      let!(:other_store) { FactoryGirl.create(:store) }
 
       before(:each) do
+        reset_email
         do_put_approve(other_store.id)
       end
 
@@ -846,6 +862,10 @@ describe Employee::StoresController do
       it "should not approve store" do
         other_store.reload
         other_store.approved?.should be_false
+      end
+
+      it "should not send store confirmation email" do
+        confirmation_email_sent_to?(other_store.email).should be_false
       end
     end
   end
