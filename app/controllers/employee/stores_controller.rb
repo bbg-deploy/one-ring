@@ -66,6 +66,15 @@ class Employee::StoresController < Employee::ApplicationController
     respond_with @store, :location => employee_stores_path
   end
 
+  # PUT /employee/stores/1/approve
+  #-------------------------------------------------------------------
+  def approve
+    @store = Store.find(params[:id])
+    @store.approve_account!
+    flash[:notice] = "Successfully approved store."  
+    respond_with(:employee, @store)
+  end
+
   private
   def create_store_params
     params.require(:store).permit(

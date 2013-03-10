@@ -73,7 +73,11 @@ Onering::Application.routes.draw do
   namespace :employee do
     root :to                  => "pages#home", :as => :home
     resources :employees
-    resources :stores
+    resources :stores do
+      member do
+        put 'approve'         => "stores#approve", :as => :approve
+      end
+    end
   end
 
   # SSO Clients

@@ -27,6 +27,10 @@ describe Employee::StoresController do
     delete :destroy, :id => id, :format => 'html'
   end
 
+  def do_put_approve(id)
+    put :approve, :id => id, :format => 'html'
+  end
+
   # Routing
   #----------------------------------------------------------------------------
   describe "routing", :routing => true do
@@ -37,6 +41,7 @@ describe Employee::StoresController do
     it { should route(:get, "/employee/stores/1/edit").to(:action => :edit, :id => 1) }
     it { should route(:put, "/employee/stores/1").to(:action => :update, :id => 1) }
     it { should route(:delete, "/employee/stores/1").to(:action => :destroy, :id => 1) }
+    it { should route(:put, "/employee/stores/1/approve").to(:action => :update, :id => 1) }
   end
 
   # Methods
@@ -612,6 +617,7 @@ describe Employee::StoresController do
 
       # Variables
       it "does not have current user" do
+        store.reload
         subject.current_user.should be_nil
       end
 
@@ -702,7 +708,7 @@ describe Employee::StoresController do
       let(:other_store) { FactoryGirl.create(:store) }
 
       before(:each) do
-        do_delete_destroy(store.id)
+        do_delete_destroy(other_store.id)
       end
 
       # Variables
@@ -726,6 +732,120 @@ describe Employee::StoresController do
       it "should not cancel store" do
         store.reload
         store.cancelled?.should be_false
+      end
+    end
+  end
+
+  describe "#approve", :approve => true do
+    context "as unauthenticated employee" do
+      include_context "with unauthenticated employee"
+      let(:store) { FactoryGirl.create(:store) }
+
+      before(:each) do
+        do_put_approve(store.id)
+      end
+
+      # Variables
+      it "does not have current user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should not approve store" do
+        store.reload
+        store.approved?.should be_false
+      end
+    end
+    
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:store) { FactoryGirl.create(:store) }
+
+      before(:each) do
+        do_put_approve(store.id)
+      end
+
+      # Variables
+      it "has current_employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(employee_store_path(store)) }
+
+      # Content
+      it { should set_the_flash[:notice].to(/Successfully approved/) }
+
+      # Behavior
+      it "should approve store" do
+        store.reload
+        store.approved?.should be_true
+      end
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      let(:store) { FactoryGirl.create(:store) }
+
+      before(:each) do
+        do_put_approve(store.id)
+      end
+
+      # Variables
+      it "has current customer" do
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should not approve store" do
+        store.reload
+        store.approved?.should be_false
+      end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:other_store) { FactoryGirl.create(:store) }
+
+      before(:each) do
+        do_put_approve(other_store.id)
+      end
+
+      # Variables
+      it "has current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_employee_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should not approve store" do
+        other_store.reload
+        other_store.approved?.should be_false
       end
     end
   end
