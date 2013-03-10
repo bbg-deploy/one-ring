@@ -4,16 +4,16 @@ div#authentication-links
       li
         ' Already have an account?
         = link_to "Sign in", new_customer_session_path, :class => ""
-    - if devise_mapping.registerable? && controller_name != 'registrations'
+    - if controller_name != 'registrations'
       li
         ' Don't have an account yet?
         = link_to "Sign up", new_customer_registration_path, :class => ""
-    - if devise_mapping.recoverable? && controller_name != 'passwords'
+    - if controller_name != 'passwords'
       li
         = link_to "Forgot your password?", new_customer_password_path, :class => ""
-    - if devise_mapping.confirmable? && controller_name != 'confirmations'
+    - if controller_name != 'confirmations'
       li
         = link_to "Didn't receive confirmation instructions?", new_customer_confirmation_path, :class => ""
-    - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+    - if controller_name != 'unlocks'
       li
         = link_to "Didn't receive unlock instructions?", new_customer_unlock_path, :class => ""

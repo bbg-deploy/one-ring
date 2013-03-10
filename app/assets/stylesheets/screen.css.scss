@@ -14,8 +14,12 @@ html, body {
   padding: 10px 5px;
 }
 
-body.anon {
+body {
   background: image-url("cork-background.png");
+}
+
+body.anon {
+//  background: image-url("cork-background.png");
 }
 
 body.admin {
