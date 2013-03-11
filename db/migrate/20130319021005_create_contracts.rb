@@ -4,7 +4,6 @@ class CreateContracts < ActiveRecord::Migration
       t.string :customer_account_number,   :null => false
       t.string :application_number,        :null => false
       t.string :contract_number,           :null => false
-      t.string :type,                      :null => false
 
       t.timestamps
     end

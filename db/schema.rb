@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(:version => 20130319021014) do
     t.string   "customer_account_number", :null => false
     t.string   "application_number",      :null => false
     t.string   "contract_number",         :null => false
-    t.string   "type",                    :null => false
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end

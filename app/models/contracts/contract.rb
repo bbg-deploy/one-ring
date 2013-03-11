@@ -3,7 +3,7 @@ class Contract < ActiveRecord::Base
 
   # Associations
   #----------------------------------------------------------------------------
-  has_one :ledger, :inverse_of => :Contract, :dependent => :destroy
+  has_one :ledger, :inverse_of => :contract, :dependent => :destroy
   
   # Attributes
   #----------------------------------------------------------------------------
