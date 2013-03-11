@@ -10,9 +10,10 @@ class Application < ActiveRecord::Base
 
   # Accessible Methods
   #----------------------------------------------------------------------------
-  attr_accessible :application_number, :customer_account_number, :store_account_number#,
-#                  :products, :time_at_address, :rent_or_own, :rent_payment,
-#                  :initial_lease_choice, :id_verified
+  attr_accessible :application_number, :customer_account_number, :store_account_number,
+#                  :products, 
+                  :time_at_address, :rent_or_own, :rent_payment,
+                  :initial_lease_choice, :id_verified
 
   # Validations
   #----------------------------------------------------------------------------
@@ -52,23 +53,23 @@ class Application < ActiveRecord::Base
     # State Validations & Functions
     #--------------------------------------------------------------------------
     state all do
-#      validates :store, :presence => true, :immutable => true
+      validates :store_account_number, :presence => true, :immutable => true
       validates :matching_email, :presence => true
     end
 
     state all - [:unclaimed] do
-#      validates :customer, :presence => true, :immutable => true
+      validates :customer_account_number, :presence => true, :immutable => true
     end
 
     state all - [:unclaimed, :claimed] do
-#      validates :time_at_address, :presence => true
-#      validates :rent_or_own, :presence => true
-#      validates :rent_payment, :presence => true
+      validates :time_at_address, :presence => true
+      validates :rent_or_own, :presence => true
+      validates :rent_payment, :presence => true
 #      validate :customer_has_income_sources
     end
 
     state all - [:unclaimed, :claimed, :submitted] do
-      validates :credit_decision, :presence => true
+#      validates :credit_decision, :presence => true
     end
     
     state all - [:unclaimed, :claimed, :submitted, :approved, :denied] do

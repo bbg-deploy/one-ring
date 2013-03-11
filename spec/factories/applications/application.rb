@@ -39,9 +39,9 @@ FactoryGirl.define do
     rent_payment BigDecimal.new("350.00")
     
     after(:build) do |application, evaluator|
-      evaluator.number_of_income_sources.times do
-        application.customer.income_sources << FactoryGirl.create(evaluator.income_source_factory, :customer => application.customer)      
-      end
+#      evaluator.number_of_income_sources.times do
+#        application.customer.income_sources << FactoryGirl.create(evaluator.income_source_factory, :customer => application.customer)      
+#      end
     end
 
     after(:create) do |application|
@@ -51,13 +51,13 @@ FactoryGirl.define do
 
   factory :denied_application, parent: :submitted_application do
     ignore do
-      with_credit_decision true
+#      with_credit_decision true
     end
     
     after(:build) do |application, evaluator|
-      if (evaluator.with_credit_decision)
-        application.credit_decision = FactoryGirl.create(:denied_credit_decision, :application => application)
-      end
+#      if (evaluator.with_credit_decision)
+#        application.credit_decision = FactoryGirl.create(:denied_credit_decision, :application => application)
+#      end
     end
     
     after(:create) do |application|
@@ -66,14 +66,14 @@ FactoryGirl.define do
   end
 
   factory :approved_application, parent: :submitted_application do
-    ignore do
-      with_credit_decision true
-    end
+#    ignore do
+#      with_credit_decision true
+#    end
 
     after(:build) do |application, evaluator|
-      if (evaluator.with_credit_decision)
-        application.credit_decision = FactoryGirl.create(:approved_credit_decision, :application => application)
-      end
+#      if (evaluator.with_credit_decision)
+#        application.credit_decision = FactoryGirl.create(:approved_credit_decision, :application => application)
+#      end
     end
 
     after(:create) do |application|
@@ -95,9 +95,9 @@ FactoryGirl.define do
     end
 
     after(:create) do |application, evaluator|
-      if (evaluator.with_lease)
-        application.lease = FactoryGirl.create(:lease, :application => application)      
-      end
+#      if (evaluator.with_lease)
+#        application.lease = FactoryGirl.create(:lease, :application => application)      
+#      end
       application.complete
     end
   end

@@ -20,14 +20,13 @@ describe Application do
       end
     end
 
-=begin
     describe "claimed_application factory" do
       let(:application) {FactoryGirl.create(:claimed_application)}
 
       it_behaves_like "valid record", :claimed_application
 
-      it "has a customer" do
-        application.customer.should_not be_nil
+      it "has a customer_account_number" do
+        application.customer_account_number.should_not be_nil
       end
 
       it "is claimed" do
@@ -40,8 +39,8 @@ describe Application do
 
       it_behaves_like "valid record", :submitted_application
 
-      it "has a customer" do
-        application.customer.should_not be_nil
+      it "has a customer_account_number" do
+        application.customer_account_number.should_not be_nil
       end
 
       it "is submitted" do
@@ -100,15 +99,10 @@ describe Application do
 
       it_behaves_like "valid record", :completed_application
 
-      it "has an lease" do
-        application.lease.should_not be_nil
-      end
-
       it "is completed" do
         application.completed?.should be_true
       end
     end
-=end
   end
 
   # Associations

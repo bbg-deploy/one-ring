@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320021012) do
+ActiveRecord::Schema.define(:version => 20130320080914) do
 
   create_table "access_grants", :force => true do |t|
     t.integer  "accessible_id",           :null => false
@@ -252,6 +252,17 @@ ActiveRecord::Schema.define(:version => 20130320021012) do
     t.boolean  "smsable",       :default => false, :null => false
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+  end
+
+  create_table "products", :force => true do |t|
+    t.integer  "application_id",                  :null => false
+    t.string   "type",                            :null => false
+    t.string   "id_number"
+    t.string   "name",           :default => "",  :null => false
+    t.decimal  "price",          :default => 0.0, :null => false
+    t.text     "description",    :default => "",  :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "stores", :force => true do |t|
