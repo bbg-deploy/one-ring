@@ -75,6 +75,9 @@ gem 'activerecord-tableless', '~> 1.2.0'
 # Exception Handling
 gem 'exception_notification', '>= 3.0.0'
 
+# State Machine Gems
+gem 'state_machine', '~> 1.1.2'
+
 # Payment Gems
 gem 'activemerchant', '~> 1.29.3', :require => 'active_merchant'
 

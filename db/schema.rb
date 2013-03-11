@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319021014) do
+ActiveRecord::Schema.define(:version => 20130320021012) do
 
   create_table "access_grants", :force => true do |t|
     t.integer  "accessible_id",           :null => false
@@ -49,6 +49,21 @@ ActiveRecord::Schema.define(:version => 20130319021014) do
     t.boolean  "phone",       :default => false
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+  end
+
+  create_table "applications", :force => true do |t|
+    t.string   "application_number",                         :null => false
+    t.string   "customer_account_number"
+    t.string   "store_account_number",                       :null => false
+    t.string   "matching_email",                             :null => false
+    t.string   "state",                                      :null => false
+    t.datetime "time_at_address"
+    t.string   "rent_or_own"
+    t.decimal  "rent_payment"
+    t.string   "initial_lease_choice"
+    t.boolean  "id_verified",             :default => false, :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "clients", :force => true do |t|
