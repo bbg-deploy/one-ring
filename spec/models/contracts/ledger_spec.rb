@@ -22,8 +22,8 @@ describe Ledger do
   # Database
   #----------------------------------------------------------------------------
   describe "database", :database => true do
-    it { should have_db_column(:account_id) }
-    it { should have_db_index(:account_id) }
+    it { should have_db_column(:contract_id) }
+    it { should have_db_index(:contract_id) }
     it { should have_db_column(:type) }
   end
 
@@ -47,10 +47,10 @@ describe Ledger do
   #----------------------------------------------------------------------------
   describe "attributes", :attributes => true do
     describe "contract_id" do
-      it { should allow_mass_assignment_of(:account) }
-      it { should validate_presence_of(:account) }
-      it { should allow_value(FactoryGirl.create(:account)).for(:account) }
-      it { should_not allow_value(nil,).for(:account) }
+      it { should allow_mass_assignment_of(:contract) }
+      it { should validate_presence_of(:contract) }
+      it { should allow_value(FactoryGirl.create(:contract)).for(:contract) }
+      it { should_not allow_value(nil,).for(:contract) }
     end
 
     describe "type" do
