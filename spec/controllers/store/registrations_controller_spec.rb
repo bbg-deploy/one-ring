@@ -1,6 +1,40 @@
 require 'spec_helper'
 
 describe Store::RegistrationsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    post :create, :store => attributes, :format => 'html'
+  end
+
+  def do_get_edit
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    get :edit, :format => 'html'
+  end
+
+  def do_put_update(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    put :update, :store => attributes, :format => 'html'
+  end
+
+  def do_delete_destroy
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    delete :destroy, :format => 'html'
+  end
+
+  def do_get_cancel
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    get :cancel, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/store/sign_up").to(:action => :new) }
     it { should route(:post, "/store").to(:action => :create) }
@@ -10,19 +44,19 @@ describe Store::RegistrationsController do
     it { should route(:get, "/store/cancel").to(:action => :cancel) }
   end
 
+  # Public Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
       
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -38,13 +72,11 @@ describe Store::RegistrationsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -59,14 +91,11 @@ describe Store::RegistrationsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -82,14 +111,11 @@ describe Store::RegistrationsController do
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -107,110 +133,169 @@ describe Store::RegistrationsController do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
 
-      describe "with valid attributes" do
-        let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
-        before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          post :create, :store => attributes, :format => 'html'
+      context "without observers" do
+        context "with valid attributes" do
+          let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+
+          before(:each) do
+            do_post_create(attributes)
+          end
+  
+  #       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+  #       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+  #       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(home_path) }
+  
+          # Content
+          it { should set_the_flash[:notice].to(/need administrator approval/) }
+  
+          # Behavior
+          it "creates a new store" do
+            Store.last.try(:email).should eq(attributes[:email])
+          end
+  
+          it "does not send confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_false
+          end
+
+          it "sends pending approval email" do
+            pending_admin_approval_email_sent_to?(attributes[:email]).should be_true
+          end
         end
 
-#       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
-#       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
-#       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
-
-        # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_store.should be_nil
-        end
-
-        # Response
-        it { should assign_to(:store) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(home_path) }
-
-        # Content
-        it { should set_the_flash[:notice].to(/administrator approval/) }
-
-        # Behavior
-        it "creates a new store" do
-          expect{
-            attributes = FactoryGirl.build(:store_attributes_hash)
-            post :create, :store => attributes, :format => 'html'
-          }.to change(Store,:count).by(1)
-        end
-
-        it "is not signed in after registration" do
-          subject.current_store.should be_nil
-        end
-
-        it "is not approved or confirmed after registration" do
-          store = Store.last
-          store.approved?.should be_false
-          store.confirmed?.should be_false
-        end
-
-        it "sends administrator approval notice" do
-          last_email.should_not be_nil
-          last_email.to.should eq([attributes[:email]])
-          last_email.body.should match(/administrator approval/)
+        context "with invalid attributes" do
+          let(:attributes) { FactoryGirl.build(:store_attributes_hash, :username => nil) }
+          before(:each) do
+            do_post_create(attributes)
+          end
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:success) }
+          it { should render_template(:new) }
+  
+          # Content
+          it { should set_the_flash[:alert].to(/was a problem/) }
+  
+          # Behavior
+          it "does not creates a new store" do
+            Store.last.try(:email).should_not eq(attributes[:email])
+          end
+    
+          it "does not send confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_false
+          end
         end
       end
-      
-      describe "with invalid attributes" do
-        let(:attributes) { FactoryGirl.build(:store_attributes_hash, :username => nil) }
+
+      context "with observers" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          post :create, :store => attributes, :format => 'html'
+          Store.observers.enable :store_observer
+        end
+        
+        context "with valid attributes" do
+          let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+
+          before(:each) do
+            do_post_create(attributes)
+          end
+  
+  #       it { should permit(:username, :email, :email_confirmation, :password, :password_confirmation).for(:create) }
+  #       it { should permit(:first_name, :middle_name, :last_name, :date_of_birth, :social_security_number).for(:create) }
+  #       it { should permit(:mailing_address_attributes, :phone_number_attributes).for(:create) }
+  
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(home_path) }
+  
+          # Content
+          it { should set_the_flash[:notice].to(/need administrator approval/) }
+  
+          # Behavior
+          it "creates a new store" do
+            Store.last.try(:email).should eq(attributes[:email])
+          end
+
+          it "does not send confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_false
+          end
+
+          it "sends pending approval email" do
+            pending_admin_approval_email_sent_to?(attributes[:email]).should be_true
+          end
+          
+          it "send admin alert" do
+            admin_email_alert?.should be_true
+          end
         end
 
-        # Variables
-        it "should not have current user" do
-          subject.current_user.should be_nil
-          subject.current_store.should be_nil
-        end
+        context "with invalid attributes" do
+          let(:attributes) { FactoryGirl.build(:store_attributes_hash, :username => nil) }
 
-        # Response
-        it { should assign_to(:store) }
-        it { should respond_with(:success) }
-        it { should render_template(:new) }
+          before(:each) do
+            do_post_create(attributes)
+          end
+          
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+  
+          # Response
+          it { should assign_to(:store) }
+          it { should respond_with(:success) }
+          it { should render_template(:new) }
+  
+          # Content
+          it { should set_the_flash[:alert].to(/was a problem/) }
+  
+          # Behavior
+          it "does not creates a new store" do
+            Customer.last.try(:email).should_not eq(attributes[:email])
+          end
 
-        # Content
-        it { should set_the_flash[:alert].to(/was a problem/) }
+          it "does not send confirmation email" do
+            confirmation_email_sent_to?(attributes[:email]).should be_false
+          end
 
-        # Behavior
-        it "does not creates a new store" do
-          expect{
-            attributes = FactoryGirl.build(:store_attributes_hash, :username => nil)
-            post :create, :store => attributes, :format => 'html'
-          }.to_not change(Store,:count)
-        end
-
-        it "is not signed in after registration" do
-          attributes = FactoryGirl.build(:store_attributes_hash)
-          post :create, :store => attributes, :format => 'html'
-          subject.current_store.should be_nil
-        end
-
-        it "does not send confirmation email" do
-          last_email.should be_nil
+          it "does not send admin alert" do
+            admin_email_alert?.should be_false
+          end
         end
       end
     end    
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current user" do
         subject.current_user.should_not be_nil
-        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -223,17 +308,14 @@ describe Store::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -248,17 +330,14 @@ describe Store::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+      
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -277,14 +356,12 @@ describe Store::RegistrationsController do
       include_context "with unauthenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -299,13 +376,11 @@ describe Store::RegistrationsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -320,15 +395,13 @@ describe Store::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -343,15 +416,13 @@ describe Store::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -368,17 +439,15 @@ describe Store::RegistrationsController do
   describe "#update", :update => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -392,191 +461,168 @@ describe Store::RegistrationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
 
-      describe "with new password" do
-        describe "without password confirmation" do
-          let(:attributes) { {:password => "newpass", :current_password => store.current_password} }
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            put :update, :store => attributes, :format => 'html'
-          end
-              
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
+      context "with valid attributes (name)" do
+        let(:attributes) { { :name => "Gorilla Industries", :current_password => store.password } }
 
-          # Response
-          it { should assign_to(:store) }
-          it { should respond_with(:success) }
-    
-          # Content
-          it { should set_the_flash[:alert].to(/was a problem/) }
-          it { should render_template(:edit) }
+        before(:each) do
+          do_put_update(attributes)
+        end
+        
+        it "should have current store" do
+          subject.current_store.should_not be_nil
         end
 
-        describe "with password confirmation" do
-          let(:attributes) { {:password => "newpass", :password_confirmation => "newpass", :current_password => store.password} }
+        # Response
+        it { should assign_to(:store) }
+        it { should redirect_to(store_home_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/updated your account successfully/) }
 
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            put :update, :store => attributes, :format => 'html'
-          end
-          
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
+        # Behavior
+        it "should change name" do
+          store.reload
+          store.name.should eq("Gorilla Industries")
+        end
 
-          # Response
-          it { should assign_to(:store) }
-          it { should redirect_to(store_home_path) }
-    
-          # Content
-          it { should set_the_flash[:notice].to(/updated your account successfully/) }
+        it "should not send confirmation email" do
+          confirmation_email_sent_to?(store.email).should be_false
         end
       end
 
-      describe "with invalid attributes" do
-        let(:attributes) { FactoryGirl.build(:store_attributes_hash, :username => nil) }
+      context "with valid attributes (password)" do
+        let(:attributes) { { :password => "newpass", :password_confirmation => "newpass", :current_password => store.password } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          put :update, :store => attributes, :format => 'html'
+          do_put_update(attributes)
         end
         
-        # Variables
         it "should have current store" do
-          subject.current_user.should_not be_nil
+          subject.current_store.should_not be_nil
+        end
+
+        # Response
+        it { should assign_to(:store) }
+        it { should redirect_to(store_home_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/updated your account successfully/) }
+
+        # Behavior
+        it "should change password" do
+          old_password = store.encrypted_password
+          store.reload
+          store.encrypted_password.should_not eq(old_password)
+        end
+
+        it "should not send confirmation email" do
+          confirmation_email_sent_to?(store.email).should be_false
+        end
+      end
+
+      context "with valid attributes (new email address)" do
+        let(:attributes) { { :email => "new@email.com", :email_confirmation => "new@email.com", :current_password => store.password } }
+
+        before(:each) do
+          webmock_authorize_net_all_successful
+          do_put_update(attributes)
+        end
+
+        it "should have current store" do
+          subject.current_store.should_not be_nil
+        end
+
+        # Response
+        it { should assign_to(:store) }
+        it { should redirect_to(store_home_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/updated your account successfully/) }
+
+        # Behavior
+        it "should change email" do
+          store.reload
+          store.unconfirmed_email.should eq(attributes[:email])
+        end
+
+        it "should send confirmation email to new address" do
+          confirmation_email_sent_to?(store.email).should be_false
+          confirmation_email_sent_to?(attributes[:email]).should be_true
+        end            
+      end
+
+      context "with invalid attributes (no current password)" do
+        let(:attributes) { { :name => "Gorilla Industries" } }
+
+        before(:each) do
+          do_put_update(attributes)
+        end
+        
+        it "should have current store" do
           subject.current_store.should_not be_nil
         end
 
         # Response
         it { should assign_to(:store) }
         it { should respond_with(:success) }
+        it { should render_template(:edit) }
   
         # Content
-          it { should set_the_flash[:alert].to(/was a problem/) }
+        it { should set_the_flash[:alert].to(/problem with some of your information/) }
+
+        # Behavior
+        it "should not change name" do
+          store.reload
+          store.name.should_not eq("Gorilla Industries")
+        end
+
+        it "should not send confirmation email" do
+          confirmation_email_sent_to?(store.email).should be_false
+        end
+      end
+
+      context "with invalid attributes (email confirmation mismatch)" do
+        let(:attributes) { { :email => "new@email.com", :email_confirmation => "mismatch@email.com", :current_password => store.password } }
+
+        before(:each) do
+          do_put_update(attributes)
+        end
+        
+        it "should have current store" do
+          subject.current_store.should_not be_nil
+        end
+
+        # Response
+        it { should assign_to(:store) }
+        it { should respond_with(:success) }
         it { should render_template(:edit) }
-      end
-
-      describe "with valid attributes (same email)" do
-        let(:attributes) { FactoryGirl.build(:store_attributes_hash, :email => store.email).except(:email_confirmation) }
-
-        describe "without current_password" do
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            put :update, :store => attributes, :format => 'html'
-          end
-          
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
   
-          # Response
-          it { should assign_to(:store) }
-          it { should respond_with(:success) }
-    
-          # Content
-          it { should set_the_flash[:alert].to(/was a problem/) }
-          it { should render_template(:edit) }
+        # Content
+        it { should set_the_flash[:alert].to(/problem with some of your information/) }
+
+        # Behavior
+        it "should not change email" do
+          store.reload
+          store.email.should_not eq("new@email.com")
+          store.unconfirmed_email.should_not eq("new@email.com")
         end
 
-        describe "with current_password" do
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes.merge!(:current_password => store.password)
-            put :update, :store => attributes, :format => 'html'
-          end
-          
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
-  
-          # Response
-          it { should assign_to(:store) }
-          it { should redirect_to(store_home_path) }
-    
-          # Content
-          it { should set_the_flash[:notice].to(/updated your account successfully/) }
-        end
-      end
-
-      describe "with valid attributes (new email)" do
-        let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
-        context "without current_password" do
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            put :update, :store => attributes, :format => 'html'
-          end
-          
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
-
-          # Response
-          it { should assign_to(:store) }
-          it { should respond_with(:success) }
-    
-          # Content
-          it { should set_the_flash[:alert].to(/was a problem/) }
-          it { should render_template(:edit) }
-        end
-
-        describe "with current_password" do
-          before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes.merge!(:current_password => store.password)
-            put :update, :store => attributes, :format => 'html'
-          end
-          
-          # Variables
-          it "should have current store" do
-            subject.current_user.should_not be_nil
-            subject.current_store.should_not be_nil
-          end
-
-          # Response
-          it { should assign_to(:store) }
-          it { should redirect_to(store_home_path) }
-    
-          # Content
-          it { should set_the_flash[:notice].to(/updated your account successfully, but we need to verify your new email/) }
-
-          # Behavior
-          it "should unconfirm the store" do
-            store.unconfirmed_email.should be_nil
-            store.reload
-            store.unconfirmed_email.should_not be_nil
-          end
-
-          it "sends a confirmation email" do
-            last_email.should_not be_nil
-            last_email.to.should eq([attributes[:email]])
-            last_email.body.should match(/#{store.confirmation_token}/)
-          end
+        it "should not send confirmation email" do
+          confirmation_email_sent_to?(store.email).should be_false
         end
       end
     end
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -591,16 +637,14 @@ describe Store::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:attributes) { FactoryGirl.build(:store_attributes_hash) }
+      
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = FactoryGirl.build(:store_attributes_hash)
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -619,14 +663,12 @@ describe Store::RegistrationsController do
       include_context "with unauthenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -639,16 +681,14 @@ describe Store::RegistrationsController do
     
     context "as authenticated store" do
       include_context "with authenticated store"
-
+      
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should not have current store (logged out)" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -673,14 +713,11 @@ describe Store::RegistrationsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -695,15 +732,13 @@ describe Store::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        delete :destroy, :format => 'html'
+        do_delete_destroy
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -722,14 +757,12 @@ describe Store::RegistrationsController do
       include_context "with unauthenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :cancel, :format => 'html'
+        do_get_cancel
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -744,13 +777,11 @@ describe Store::RegistrationsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :cancel, :format => 'html'
+        do_get_cancel
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -764,15 +795,13 @@ describe Store::RegistrationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :cancel, :format => 'html'
+        do_get_cancel
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -787,15 +816,13 @@ describe Store::RegistrationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :cancel, :format => 'html'
+        do_get_cancel
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 

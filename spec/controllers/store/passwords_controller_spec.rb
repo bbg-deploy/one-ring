@@ -1,6 +1,37 @@
 require 'spec_helper'
 
 describe Store::PasswordsController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    post :create, :store => attributes, :format => 'html'
+  end
+
+  def do_get_edit(token)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    @request.env['QUERY_STRING'] = "reset_password_token="
+    get :edit, :reset_password_token => token, :format => 'html'
+  end
+  
+  def do_put_update(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    put :update, :store => attributes, :format => 'html'
+  end
+
+  def do_get_show(token)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    @request.env['QUERY_STRING'] = "confirmation_token="
+    get :show, :confirmation_token => token, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/store/password/new").to(:action => :new) }
     it { should route(:post, "/store/password").to(:action => :create) }
@@ -8,22 +39,19 @@ describe Store::PasswordsController do
     it { should route(:put, "/store/password").to(:action => :update) }
   end
 
+  # Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
-      it "should not have store" do
-        subject.try(:current_store).should be_nil
-      end
-      
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -37,14 +65,13 @@ describe Store::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
       
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -59,15 +86,13 @@ describe Store::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -82,15 +107,13 @@ describe Store::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -108,12 +131,12 @@ describe Store::PasswordsController do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
 
-      describe "with mismatched email" do
+      context "with mismatched email" do
+        let(:attributes) { { :email => "mismatch@email.com" } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          attributes = {:email => "fake@fakemail.com"}
-          post :create, :store => attributes, :format => 'html'
-        end        
+          do_post_create(attributes)
+        end
 
         # Parameters
 #       it { should permit(:email).for(:create) }
@@ -121,7 +144,6 @@ describe Store::PasswordsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -138,11 +160,11 @@ describe Store::PasswordsController do
         end
       end
       
-      describe "with matching email" do
+      context "with matching email" do
+        let(:attributes) { { :email => store.email } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          attributes = {:email => store.email}
-          post :create, :store => attributes, :format => 'html'
+          do_post_create(attributes)
         end
         
         # Parameters
@@ -151,7 +173,6 @@ describe Store::PasswordsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -173,15 +194,14 @@ describe Store::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:attributes) { { :email => store.email } }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
       
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -196,17 +216,15 @@ describe Store::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:store) { FactoryGirl.create(:store) }
+      let(:attributes) { { :email => store.email } }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -221,17 +239,15 @@ describe Store::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:store) { FactoryGirl.create(:store) }
+      let(:attributes) { { :email => store.email } }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -250,16 +266,15 @@ describe Store::PasswordsController do
       include_context "with unauthenticated store"
 
       context "without password reset requested" do
-        describe "no password reset token" do
+        context "without password reset token" do
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            get :edit, :format => 'html'
+            do_get_edit(nil)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
     
           # Response
@@ -271,17 +286,14 @@ describe Store::PasswordsController do
           it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "abcdef", :format => 'html'
+            do_get_edit("abcdef")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -295,19 +307,20 @@ describe Store::PasswordsController do
       end      
 
       context "with password reset requested" do
-        describe "no password reset token" do
+        before(:each) do
+          store.send_reset_password_instructions
+          reset_email
+          store.reload
+        end
+
+        context "without password reset token" do
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            get :edit, :format => 'html'
+            do_get_edit(nil)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -319,20 +332,14 @@ describe Store::PasswordsController do
           it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "abcdef", :format => 'html'
+            do_get_edit("abcdef")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -344,20 +351,14 @@ describe Store::PasswordsController do
           it { should set_the_flash[:alert].to(/reset token is invalid or expired/) }
         end
 
-        describe "valid password reset token" do
+        context "with valid password reset token" do
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            @request.env['QUERY_STRING'] = "reset_password_token="
-            get :edit, :reset_password_token => "#{store.reset_password_token}", :format => 'html'
+            do_get_edit("#{store.reset_password_token}")
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -375,13 +376,11 @@ describe Store::PasswordsController do
       include_context "with authenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit("abcdef")
       end
       
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -397,66 +396,59 @@ describe Store::PasswordsController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit("abcdef")
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
       # Response
       it { should_not assign_to(:store) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(new_store_session_path) }
+      it { should redirect_to(store_scope_conflict_path) }
 
       # Content
-      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+      it { should_not set_the_flash }
     end
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :edit, :format => 'html'
+        do_get_edit("abcdef")
       end
 
       # Variables
-      it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
+      it "should have current employee" do
         subject.current_employee.should_not be_nil
       end
 
       # Response
       it { should_not assign_to(:store) }
       it { should respond_with(:redirect) }
-      it { should redirect_to(new_store_session_path) }
+      it { should redirect_to(store_scope_conflict_path) }
 
       # Content
-      it { should set_the_flash[:error].to(/can't access this page without coming from a password reset email/) }
+      it { should_not set_the_flash }
     end
   end
 
   describe "#update", :update => true do
-    context "with unapproved store" do
-      include_context "with unapproved store"
+    context "as unconfirmed store" do
+      include_context "with unconfirmed store"
 
       context "without password reset requested" do
-        describe "with no password reset token" do
+        context "without password reset token" do
+          let(:attributes) { {:password => "newpass", :password_confirmation => "newpass"} }
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
     
           # Response
@@ -468,17 +460,16 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -492,20 +483,22 @@ describe Store::PasswordsController do
       end
 
       context "with password reset requested" do
-        describe "with no password reset token" do
+        before(:each) do
+          store.send_reset_password_instructions
+          reset_email
+          store.reload
+        end
+        
+        context "without password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -517,20 +510,16 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
        
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -542,20 +531,16 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with valid password reset token" do
+        context "with valid password reset token" do
+          let(:attributes) { { :reset_password_token => "#{store.reset_password_token}", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#{store.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
       
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -565,7 +550,7 @@ describe Store::PasswordsController do
 
           # Content
           it { should set_the_flash[:notice].to(/password was changed successfully/) }
-          it { should set_the_flash[:alert].to(/account has not been approved/) }
+          it { should set_the_flash[:alert].to(/have to confirm your account/) }
             
           # Behavior
           it "should change password" do
@@ -581,17 +566,16 @@ describe Store::PasswordsController do
       include_context "with unauthenticated store"
 
       context "without password reset requested" do
-        describe "with no password reset token" do
+        context "with no password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -603,17 +587,16 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
     
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_store.should be_nil
           end
 
           # Response
@@ -627,16 +610,24 @@ describe Store::PasswordsController do
       end
 
       context "with password reset requested" do
-        describe "with no password reset token" do
+        before(:each) do
+          store.send_reset_password_instructions
+          reset_email
+          store.reload
+        end
+
+        context "with no password reset token" do
+          let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+    
           # Response
           it { should assign_to(:store) }
           it { should respond_with(:success) }
@@ -646,14 +637,16 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
        
-        describe "with invalid password reset token" do
+        context "with invalid password reset token" do
+          let(:attributes) { { :reset_password_token => "abcdef", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#abcdef", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
+          end
+
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
           end
     
           # Response
@@ -665,16 +658,18 @@ describe Store::PasswordsController do
           it { should render_template(:edit) }
         end
 
-        describe "with valid password reset token" do
+        context "with valid password reset token" do
+          let(:attributes) { { :reset_password_token => "#{store.reset_password_token}", :password => "newpass", :password_confirmation => "newpass" } }
+
           before(:each) do
-            store.send_reset_password_instructions
-            reset_email
-            store.reload
-            @request.env["devise.mapping"] = Devise.mappings[:store]
-            attributes = {:reset_password_token => "#{store.reset_password_token}", :password => "newpass", :password_confirmation => "newpass"}
-            put :update, :store => attributes, :format => 'html'
+            do_put_update(attributes)
           end
       
+          # Variables
+          it "should have current store (logged in)" do
+            subject.current_store.should_not be_nil
+          end
+    
           # Response
           it { should assign_to(:store) }
           it { should respond_with(:redirect) }
@@ -695,18 +690,14 @@ describe Store::PasswordsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        store.send_reset_password_instructions
-        reset_email
-        store.reload
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
       
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -721,16 +712,14 @@ describe Store::PasswordsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -745,16 +734,14 @@ describe Store::PasswordsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:attributes) { { :password => "newpass", :password_confirmation => "newpass" } }
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:password => "newpass", :password_confirmation => "newpass"}
-        put :update, :store => attributes, :format => 'html'
+        do_put_update(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 

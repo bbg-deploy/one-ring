@@ -499,8 +499,8 @@ describe Employee::RegistrationsController do
         # Behavior
         it "should not change name" do
           employee.reload
-          employee.first_name.should_not eq("Clark")
-          employee.last_name.should_not eq("Kent")
+          employee.email.should_not eq("new@email.com")
+          employee.unconfirmed_email.should_not eq("new@email.com")
         end
 
         it "should not send confirmation email" do

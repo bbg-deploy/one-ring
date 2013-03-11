@@ -83965,3 +83965,12 @@ Served asset /logo-color.png - 304 Not Modified (1ms)
 
 Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-11 00:49:23 +0900
 Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+  [1m[36m (3.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mCustomer Load (10.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36m (2.0ms)[0m  [1mSELECT COUNT(*) FROM "customers" [0m
+  [1m[35mEmployeeRole Load (9.0ms)[0m  SELECT "employee_roles".* FROM "employee_roles" WHERE "employee_roles"."name" = 'Administrator' LIMIT 1
+  [1m[36mEmployeeRole Load (1.0ms)[0m  [1mSELECT "employee_roles".* FROM "employee_roles" WHERE "employee_roles"."name" = 'Administrator' LIMIT 1[0m
+  [1m[35mEmployee Load (11.0ms)[0m  SELECT "employees".* FROM "employees" WHERE "employees"."username" = 'superadmin' LIMIT 1
+  [1m[36mStore Load (24.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "stores" 

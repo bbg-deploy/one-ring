@@ -143,7 +143,6 @@ describe Customer::PasswordsController do
 
         # Variables
         it "should not have current user" do
-          subject.current_user.should be_nil
           subject.current_customer.should be_nil
         end
 
@@ -174,7 +173,6 @@ describe Customer::PasswordsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_customer.should be_nil
         end
 
         # Response
@@ -204,7 +202,6 @@ describe Customer::PasswordsController do
       
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -324,7 +321,6 @@ describe Customer::PasswordsController do
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -453,7 +449,6 @@ describe Customer::PasswordsController do
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
     
           # Response
@@ -581,7 +576,6 @@ describe Customer::PasswordsController do
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -603,7 +597,6 @@ describe Customer::PasswordsController do
           # Variables
           it "should not have current user" do
             subject.current_user.should be_nil
-            subject.current_customer.should be_nil
           end
 
           # Response
@@ -630,6 +623,11 @@ describe Customer::PasswordsController do
             do_put_update(attributes)
           end
           
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
+          end
+
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
@@ -644,6 +642,11 @@ describe Customer::PasswordsController do
 
           before(:each) do
             do_put_update(attributes)
+          end
+
+          # Variables
+          it "should not have current user" do
+            subject.current_user.should be_nil
           end
 
           # Response
@@ -662,6 +665,11 @@ describe Customer::PasswordsController do
             do_put_update(attributes)
           end
       
+          # Variables
+          it "should have current customer (logged in)" do
+            subject.current_customer.should_not be_nil
+          end
+
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:redirect) }

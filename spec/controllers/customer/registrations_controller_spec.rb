@@ -694,8 +694,8 @@ describe Customer::RegistrationsController do
           # Behavior
           it "should not change name" do
             customer.reload
-            customer.first_name.should_not eq("Clark")
-            customer.last_name.should_not eq("Kent")
+            customer.email.should_not eq("new@email.com")
+            customer.unconfirmed_email.should_not eq("new@email.com")
           end
 
           it "should not send confirmation email" do
@@ -987,8 +987,8 @@ describe Customer::RegistrationsController do
             # Behavior
             it "should not change name" do
               customer.reload
-              customer.first_name.should_not eq("Clark")
-              customer.last_name.should_not eq("Kent")
+              customer.email.should_not eq("new@email.com")
+              customer.email_confirmation.should_not eq("new@email.com")
             end
 
             it "should not send confirmation email" do

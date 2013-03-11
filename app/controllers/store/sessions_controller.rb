@@ -1,8 +1,8 @@
 class Store::SessionsController < Devise::SessionsController
-  prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
+  prepend_before_filter :require_no_authentication, :only => [:new, :create]
   prepend_before_filter :allow_params_authentication!, :only => :create
   prepend_before_filter { request.env["devise.skip_timeout"] = true }
-  before_filter :check_scope_conflict, :only => [:new, :create]
+  before_filter :check_scope_conflict, :only => [:new, :create, :destroy]
 
   # GET /store/sign_in
   def new
@@ -50,6 +50,8 @@ class Store::SessionsController < Devise::SessionsController
   protected
   def check_scope_conflict
     redirect_to store_scope_conflict_path if (!(current_user.nil?) && (current_store.nil?))
+    redirect_to store_scope_conflict_path if (!(current_customer.nil?) && (action_name == "create"))
+    redirect_to store_scope_conflict_path if (!(current_employee.nil?) && (action_name == "create"))
   end
 
   def serialize_options(resource)

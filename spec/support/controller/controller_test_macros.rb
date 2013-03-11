@@ -12,10 +12,10 @@ module ControllerTestMacros
   def unapproved_email_sent_to(address)
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
-      if (email.to == [address])
+      if (email.to == [address]) && (email.body =~ /administrator approval/)
         found_email = true
-        email.to.should eq([address])
-        email.body.should match(/administrator approval/)
+#        email.to.should eq([address])
+#        email.body.should match(/administrator approval/)
       end
     end
     found_email.should be_true
@@ -24,10 +24,22 @@ module ControllerTestMacros
   def confirmation_email_sent_to?(address)
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
-      if (email.to == [address])
+      if (email.to == [address]) && (email.body =~ /Confirm my account/)
         found_email = true
-        email.to.should eq([address])        
-        email.body.should match(/Confirm my account/)
+#        email.to.should eq([address])        
+#        email.body.should match(/Confirm my account/)
+      end
+    end
+    return found_email
+  end
+
+  def pending_admin_approval_email_sent_to?(address)
+    found_email = false
+    ActionMailer::Base.deliveries.each do |email|
+      if (email.to == [address]) && (email.body =~ /still requires administrator approval/)
+        found_email = true
+#        email.to.should eq([address])        
+#        email.body.should match(/still requires administrator approval/)
       end
     end
     return found_email
@@ -36,10 +48,10 @@ module ControllerTestMacros
   def password_reset_email_sent_to(address, token)
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
-      if (email.to == [address])
+      if (email.to == [address]) && (email.body =~ /#{token}/)
         found_email = true
-        email.to.should eq([address])
-        email.body.should match(/#{token}/)
+#        email.to.should eq([address])
+#        email.body.should match(/#{token}/)
       end
     end
     found_email.should be_true
@@ -48,13 +60,13 @@ module ControllerTestMacros
   def unlock_email_sent_to(address, token)
     found_email = false
     ActionMailer::Base.deliveries.each do |email|
-      if (email.to == [address])
+      if (email.to == [address]) && (email.body =~ /#{token}/)
         found_email = true
-        email.to.should eq([address])
-        email.from.should eq(["no-reply@credda.com"])
-        subject = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['mailer']['unlock_instructions']['subject']
-        email.subject.should eq(subject)
-        email.body.should match(/#{token}/)
+#        email.to.should eq([address])
+#        email.from.should eq(["no-reply@credda.com"])
+#        subject = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['mailer']['unlock_instructions']['subject']
+#        email.subject.should eq(subject)
+#        email.body.should match(/#{token}/)
       end
     end
     found_email.should be_true

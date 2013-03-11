@@ -148,6 +148,10 @@ describe Employee::EmployeesController do
       it "should not create new Employee" do
         Employee.count.should eq(0)
       end
+
+      it "does not send confirmation email" do
+        confirmation_email_sent_to?(attributes[:email]).should be_false
+      end
     end
 
     context "as authenticated employee" do
@@ -177,6 +181,10 @@ describe Employee::EmployeesController do
         it "should not create new Employee" do
           Employee.count.should eq(1)
         end
+
+        it "does not send confirmation email" do
+          confirmation_email_sent_to?(attributes[:email]).should be_false
+        end
       end
 
       context "with valid attributes" do
@@ -203,6 +211,10 @@ describe Employee::EmployeesController do
         it "should create new Employee" do
           Employee.count.should eq(2)
         end
+        
+        it "sends confirmation email" do
+          confirmation_email_sent_to?(attributes[:email]).should be_true
+        end
       end
     end
 
@@ -226,6 +238,15 @@ describe Employee::EmployeesController do
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should create new Employee" do
+        Employee.count.should eq(0)
+      end
+
+      it "does not send confirmation email" do
+        confirmation_email_sent_to?(attributes[:email]).should be_false
+      end
     end
 
     context "as authenticated store" do
@@ -248,6 +269,15 @@ describe Employee::EmployeesController do
 
       # Content
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+
+      # Behavior
+      it "should create new Employee" do
+        Employee.count.should eq(0)
+      end
+
+      it "does not send confirmation email" do
+        confirmation_email_sent_to?(attributes[:email]).should be_false
+      end
     end
   end
 

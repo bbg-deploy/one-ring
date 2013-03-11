@@ -53,6 +53,7 @@ describe Store::ConfirmationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_get_new
       end
@@ -60,7 +61,6 @@ describe Store::ConfirmationsController do
       # Variables
       it "should not have current user" do
         subject.current_user.should_not be_nil
-        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -74,14 +74,13 @@ describe Store::ConfirmationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
         do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -96,14 +95,13 @@ describe Store::ConfirmationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
         do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -121,9 +119,10 @@ describe Store::ConfirmationsController do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
 
-      describe "with invalid email" do
+      context "with invalid email" do
+        let(:attributes) { { :email => "fake@email.com" } }
+
         before(:each) do
-          attributes = {:email => "fake@email.com"}
           do_post_create(attributes)
         end
 
@@ -133,7 +132,6 @@ describe Store::ConfirmationsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
   
         # Response
@@ -150,9 +148,10 @@ describe Store::ConfirmationsController do
         end
       end
 
-      describe "with valid email" do
+      context "with valid email" do
+        let(:attributes) { { :email => store.email } }
+
         before(:each) do
-          attributes = {:email => store.email}
           do_post_create(attributes)
         end
 
@@ -162,7 +161,6 @@ describe Store::ConfirmationsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
   
         # Response
@@ -182,9 +180,10 @@ describe Store::ConfirmationsController do
     context "with unconfirmed store" do
       include_context "with unconfirmed store"
 
-      describe "with invalid email" do
+      context "with invalid email" do
+        let(:attributes) { { :email => "fake@email.com" } }
+
         before(:each) do
-          attributes = {:email => "fake@email.com"}
           do_post_create(attributes)
         end
 
@@ -194,7 +193,6 @@ describe Store::ConfirmationsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -211,9 +209,10 @@ describe Store::ConfirmationsController do
         end
       end
 
-      describe "with valid email" do
+      context "with valid email" do
+        let(:attributes) { { :email => store.email } }
+
         before(:each) do
-          attributes = {:email => store.email}
           do_post_create(attributes)
         end
 
@@ -223,7 +222,6 @@ describe Store::ConfirmationsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -246,9 +244,39 @@ describe Store::ConfirmationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
 
-      describe "with valid email" do
+      context "with invalid email" do
+        let(:attributes) { { :email => "fake@email.com" } }
+
         before(:each) do
-          attributes = {:email => store.email}
+          do_post_create(attributes)
+        end
+
+        # Parameters
+#       it { should permit(:email).for(:create) }
+
+        # Variables
+        it "should have current store" do
+          subject.current_store.should_not be_nil
+        end
+
+        # Response
+        it { should_not assign_to(:store) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(store_home_path) }
+
+        # Content
+        it { should set_the_flash[:alert].to(/already signed in/) }
+
+        # Behavior
+        it "should not send confirmation email" do
+          last_email.should be_nil
+        end
+      end
+
+      context "with valid email" do
+        let(:attributes) { { :email => store.email } }
+
+        before(:each) do
           do_post_create(attributes)
         end
   
@@ -257,7 +285,6 @@ describe Store::ConfirmationsController do
   
         # Variables
         it "should have current store" do
-          subject.current_user.should_not be_nil
           subject.current_store.should_not be_nil
         end
 
@@ -273,16 +300,15 @@ describe Store::ConfirmationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:store) { FactoryGirl.create(:store) }
+      let(:attributes) { { :email => store.email } }
+
       before(:each) do
-        store = FactoryGirl.create(:store)
-        attributes = {:email => customer.email}
         do_post_create(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -297,16 +323,15 @@ describe Store::ConfirmationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:store) { FactoryGirl.create(:store) }
+      let(:attributes) { { :email => store.email } }
+
       before(:each) do
-        store = FactoryGirl.create(:store)
-        attributes = {:email => store.email}
         do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -324,7 +349,7 @@ describe Store::ConfirmationsController do
     context "as unconfirmed store" do
       include_context "with unconfirmed store"
       
-      describe "with invalid token" do
+      context "with invalid token" do
         before(:each) do
           do_get_show("12341234123")
         end
@@ -332,7 +357,6 @@ describe Store::ConfirmationsController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -344,14 +368,13 @@ describe Store::ConfirmationsController do
         it { should render_template(:new) }
       end
 
-      describe "with valid token" do
+      context "with valid token" do
         before(:each) do
           do_get_show(store.confirmation_token)
         end        
 
         # Variables
         it "should have current store" do
-          subject.current_user.should_not be_nil
           subject.current_store.should_not be_nil
         end
 
@@ -367,14 +390,13 @@ describe Store::ConfirmationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
 
-      describe "with valid token" do
+      context "with valid token" do
         before(:each) do
           do_get_show(store.confirmation_token)
         end        
 
         # Variables
         it "should have current store" do
-          subject.current_user.should_not be_nil
           subject.current_store.should_not be_nil
         end
 
@@ -389,15 +411,14 @@ describe Store::ConfirmationsController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:store) { FactoryGirl.create(:store) }
+
       before(:each) do
-        store = FactoryGirl.create(:store)
         do_get_show(store.confirmation_token)
       end
 
       # Variables
-      it "should have current store" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
+      it "should have current customer" do
         subject.current_customer.should_not be_nil
       end
 
@@ -412,15 +433,14 @@ describe Store::ConfirmationsController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:store) { FactoryGirl.create(:store) }
+
       before(:each) do
-        store = FactoryGirl.create(:store)
         do_get_show(store.confirmation_token)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 

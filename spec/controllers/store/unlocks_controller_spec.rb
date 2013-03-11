@@ -1,25 +1,45 @@
 require 'spec_helper'
 
 describe Store::UnlocksController do
+  # Controller Shared Methods
+  #----------------------------------------------------------------------------
+  def do_get_new
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    get :new, :format => 'html'
+  end
+
+  def do_post_create(attributes)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    post :create, :store => attributes, :format => 'html'
+  end
+
+  def do_get_show(unlock_token)
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    @request.env['QUERY_STRING'] = "unlock_token="
+    get :show, :unlock_token => unlock_token, :format => 'html'
+  end
+
+  # Routing
+  #----------------------------------------------------------------------------
   describe "routing", :routing => true do
     it { should route(:get, "/store/unlock/new").to(:action => :new) }
     it { should route(:post, "/store/unlock").to(:action => :create) }
     it { should route(:get, "/store/unlock").to(:action => :show) }
   end
 
+  # Public Methods
+  #----------------------------------------------------------------------------
   describe "#new", :new => true do
     context "as unauthenticated store" do
       include_context "with unauthenticated store"
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -35,13 +55,11 @@ describe Store::UnlocksController do
       include_context "with authenticated store"
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -56,15 +74,13 @@ describe Store::UnlocksController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -79,15 +95,13 @@ describe Store::UnlocksController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        get :new, :format => 'html'
+        do_get_new
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -104,11 +118,10 @@ describe Store::UnlocksController do
   describe "#create", :create => true do
     context "as unlocked store" do
       include_context "with unauthenticated store"
+      let(:attributes) { { :email => store.email } }
 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Parameters
@@ -117,7 +130,6 @@ describe Store::UnlocksController do
       # Variables
       it "should not have current user" do
         subject.current_user.should be_nil
-        subject.current_store.should be_nil
       end
 
       # Response
@@ -137,11 +149,11 @@ describe Store::UnlocksController do
     context "as locked store" do
       include_context "with locked store"
 
-      describe "invalid email" do
+      context "with invalid email" do
+        let(:attributes) { { :email => "mismatch@email.com" } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          attributes = {:email => "invalid@email.com"}
-          post :create, :store => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Parameters
@@ -150,7 +162,6 @@ describe Store::UnlocksController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -167,11 +178,11 @@ describe Store::UnlocksController do
         end
       end
 
-      describe "valid email" do
+      context "with valid email" do
+        let(:attributes) { { :email => store.email } }
+
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          attributes = {:email => store.email}
-          post :create, :store => attributes, :format => 'html'
+          do_post_create(attributes)
         end
   
         # Parameters
@@ -180,7 +191,6 @@ describe Store::UnlocksController do
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -201,17 +211,15 @@ describe Store::UnlocksController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
+      let(:attributes) { { :email => store.email } }
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current store" do
         subject.current_user.should_not be_nil
-        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -225,17 +233,15 @@ describe Store::UnlocksController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+      let(:store) { FactoryGirl.create(:confirmed_store) }
+      let(:attributes) { { :email => store.email } }
+ 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -250,17 +256,15 @@ describe Store::UnlocksController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+      let(:store) { FactoryGirl.create(:confirmed_store) }
+      let(:attributes) { { :email => store.email } }
+ 
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        store = FactoryGirl.create(:store)
-        attributes = {:email => store.email}
-        post :create, :store => attributes, :format => 'html'
+        do_post_create(attributes)
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
@@ -278,16 +282,14 @@ describe Store::UnlocksController do
     context "as unlocked store" do
       include_context "with unauthenticated store"
       
-      describe "without token" do
+      context "without token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          get :show, :format => 'html'
+          do_get_show(nil)
         end
 
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
   
         # Response
@@ -299,17 +301,14 @@ describe Store::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with invalid token" do
+      context "with invalid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "1234234234", :format => 'html'
+          do_get_show("1234234234")
         end
 
         # Variables
-        it "should have current user" do
+        it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -325,16 +324,14 @@ describe Store::UnlocksController do
     context "as locked store" do
       include_context "with locked store"
       
-      describe "without token" do
+      context "without token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          get :show, :format => 'html'
+          do_get_show(nil)
         end
 
         # Variables
         it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
   
         # Response
@@ -346,17 +343,14 @@ describe Store::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with invalid token" do
+      context "with invalid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "1234234234", :format => 'html'
+          do_get_show("1234234234")
         end
 
         # Variables
-        it "should have current user" do
+        it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -368,17 +362,14 @@ describe Store::UnlocksController do
         it { should render_template(:new) }
       end
 
-      describe "with valid token" do
+      context "with valid token" do
         before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:store]
-          @request.env['QUERY_STRING'] = "unlock_token="
-          get :show, :unlock_token => "#{store.unlock_token}", :format => 'html'
+          do_get_show("#{store.unlock_token}")
         end        
 
         # Variables
-        it "should have current user" do
+        it "should not have current user" do
           subject.current_user.should be_nil
-          subject.current_store.should be_nil
         end
 
         # Response
@@ -394,14 +385,11 @@ describe Store::UnlocksController do
       include_context "with authenticated store"
  
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "abcdef", :format => 'html'
+        do_get_show("12341234234")
       end        
 
       # Variables
       it "should have current store" do
-        subject.current_user.should_not be_nil
         subject.current_store.should_not be_nil
       end
 
@@ -416,16 +404,13 @@ describe Store::UnlocksController do
 
     context "as authenticated customer" do
       include_context "with authenticated customer"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "12341234", :format => 'html'
+        do_get_show("1234234234")
       end
 
       # Variables
       it "should have current customer" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_customer.should_not be_nil
       end
 
@@ -440,16 +425,13 @@ describe Store::UnlocksController do
 
     context "as authenticated employee" do
       include_context "with authenticated employee"
+
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:store]
-        @request.env['QUERY_STRING'] = "unlock_token="
-        get :show, :unlock_token => "12341234", :format => 'html'
+        do_get_show("1234234234")
       end
 
       # Variables
       it "should have current employee" do
-        subject.current_user.should_not be_nil
-        subject.current_store.should be_nil
         subject.current_employee.should_not be_nil
       end
 
