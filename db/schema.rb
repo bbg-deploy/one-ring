@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205053546) do
+ActiveRecord::Schema.define(:version => 20130319021014) do
 
   create_table "access_grants", :force => true do |t|
     t.integer  "accessible_id",           :null => false
@@ -64,6 +64,27 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "clients", ["app_id"], :name => "index_clients_on_app_id", :unique => true
   add_index "clients", ["redirect_uri"], :name => "index_clients_on_redirect_uri", :unique => true
 
+  create_table "contracts", :force => true do |t|
+    t.string   "customer_account_number", :null => false
+    t.string   "application_number",      :null => false
+    t.string   "contract_number",         :null => false
+    t.string   "type",                    :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "contracts", ["application_number"], :name => "index_contracts_on_application_number", :unique => true
+
+  create_table "credits", :force => true do |t|
+    t.integer  "ledger_id",          :null => false
+    t.string   "type",               :null => false
+    t.datetime "date",               :null => false
+    t.string   "payment_profile_id"
+    t.decimal  "amount",             :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "customers", :force => true do |t|
     t.string   "account_number",                          :null => false
     t.string   "username",                :default => "", :null => false
@@ -104,6 +125,16 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "customers", ["reset_password_token"], :name => "index_customers_on_reset_password_token", :unique => true
   add_index "customers", ["unlock_token"], :name => "index_customers_on_unlock_token", :unique => true
   add_index "customers", ["username"], :name => "index_customers_on_username", :unique => true
+
+  create_table "debits", :force => true do |t|
+    t.integer  "ledger_id",  :null => false
+    t.string   "type",       :null => false
+    t.datetime "date",       :null => false
+    t.datetime "due_date",   :null => false
+    t.decimal  "amount",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "employee_assignments", :id => false, :force => true do |t|
     t.integer "employee_id"
@@ -157,6 +188,24 @@ ActiveRecord::Schema.define(:version => 20130205053546) do
   add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
   add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
   add_index "employees", ["username"], :name => "index_employees_on_username", :unique => true
+
+  create_table "entries", :force => true do |t|
+    t.integer  "ledger_id",                   :null => false
+    t.integer  "debit_id",                    :null => false
+    t.integer  "credit_id",                   :null => false
+    t.decimal  "amount",     :default => 0.0, :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
+
+  create_table "ledgers", :force => true do |t|
+    t.integer  "contract_id", :null => false
+    t.string   "type",        :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "ledgers", ["contract_id"], :name => "index_ledgers_on_contract_id", :unique => true
 
   create_table "organizations", :force => true do |t|
     t.string   "name",       :default => "", :null => false
