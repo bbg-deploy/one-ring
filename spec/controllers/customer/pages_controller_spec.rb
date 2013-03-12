@@ -32,7 +32,7 @@ describe Customer::PagesController do
       it { should respond_with(:redirect) }
       it { should redirect_to(new_customer_session_path) }
 
-      # Content
+      # Content      
       it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
 
@@ -54,6 +54,7 @@ describe Customer::PagesController do
       # Content
       it { should_not set_the_flash }
       it { should render_template(:home) }
+      it { should render_template("layouts/customer_layout") }
     end
 
     context "as authenticated store" do

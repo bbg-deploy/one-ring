@@ -49,6 +49,7 @@ describe Customer::ConfirmationsController do
       # Content
       it { should_not set_the_flash }
       it { should render_template(:new) }
+      it { should render_template("layouts/application") }
     end
 
     context "as authenticated customer" do
@@ -141,6 +142,7 @@ describe Customer::ConfirmationsController do
         # Content
         it { should_not set_the_flash }
         it { should render_template(:new) }
+        it { should render_template("layouts/application") }
 
         # Behavior
         it "should not send confirmation email" do
@@ -166,6 +168,7 @@ describe Customer::ConfirmationsController do
         # Response
         it { should assign_to(:customer) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/application") }
 
         # Content
         it { should render_template(:new) }
@@ -198,6 +201,7 @@ describe Customer::ConfirmationsController do
         # Response
         it { should assign_to(:customer) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/application") }
 
         # Content
         it { should_not set_the_flash }
@@ -366,6 +370,7 @@ describe Customer::ConfirmationsController do
         # Content
         it { should_not set_the_flash }
         it { should render_template(:new) }
+        it { should render_template("layouts/application") }
       end
 
       context "with valid token" do

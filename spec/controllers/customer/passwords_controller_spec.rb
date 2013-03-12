@@ -57,6 +57,7 @@ describe Customer::PasswordsController do
       # Response
       it { should assign_to(:customer) }
       it { should respond_with(:success) }
+      it { should render_template("layouts/application") }
 
       # Content
       it { should_not set_the_flash }
@@ -149,10 +150,12 @@ describe Customer::PasswordsController do
         # Response
         it { should assign_to(:customer) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/application") }
 
         # Content
         it { should_not set_the_flash }
         it { should render_template(:new) }
+        it { should render_template("layouts/application") }
 
         # Behavior
         it "did not send confirmation email" do
@@ -364,6 +367,7 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
+          it { should render_template("layouts/application") }
     
           # Content
           it { should_not set_the_flash }
@@ -454,7 +458,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -475,7 +480,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -504,7 +510,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -525,7 +532,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -581,7 +589,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -602,7 +611,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -631,7 +641,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }
@@ -652,7 +663,8 @@ describe Customer::PasswordsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-    
+          it { should render_template("layouts/application") }
+
           # Content
           it { should_not set_the_flash }
           it { should render_template(:edit) }

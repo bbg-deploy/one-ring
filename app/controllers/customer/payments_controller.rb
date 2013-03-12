@@ -1,6 +1,4 @@
 class Customer::PaymentsController < Customer::BaseController
-  before_filter :authenticate_customer!
-  before_filter :get_customer
   skip_authorization_check
 #  load_and_authorize_resource
 

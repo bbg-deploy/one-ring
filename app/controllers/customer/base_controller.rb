@@ -1,7 +1,5 @@
 class Customer::BaseController < ::ApplicationController
-  layout 'customer_application'
-  before_filter :check_scope_conflict
-
+  layout 'customer_layout'
   before_filter :authenticate_customer!
   before_filter :get_customer
 
@@ -14,7 +12,4 @@ class Customer::BaseController < ::ApplicationController
   end
 
   private
-  def check_scope_conflict
-    redirect_to home_path if (!(current_user.nil?) && (current_customer.nil?))
-  end
 end

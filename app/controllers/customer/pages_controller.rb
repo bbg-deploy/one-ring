@@ -1,5 +1,5 @@
 class Customer::PagesController < Customer::BaseController
-  before_filter :authenticate_customer!
+#  before_filter :authenticate_customer!
   skip_authorization_check
 
   def home

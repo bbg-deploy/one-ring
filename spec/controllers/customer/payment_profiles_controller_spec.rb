@@ -66,16 +66,60 @@ describe Customer::PaymentProfilesController do
       # Response
       it { should assign_to(:payment_profile) }
       it { should respond_with(:success) }
+      it { should render_template("layouts/customer_layout") }
 
       # Content
       it { should_not set_the_flash }
       it { should render_template(:new) }
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+
+      before(:each) do
+        do_get_new
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+
+      before(:each) do
+        do_get_new
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
   end
 
   describe "#create", :create => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
+
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
         before(:each) do
@@ -101,6 +145,7 @@ describe Customer::PaymentProfilesController do
 
       describe "creating credit card profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -127,6 +172,7 @@ describe Customer::PaymentProfilesController do
       include_context "with authenticated customer"
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -150,6 +196,7 @@ describe Customer::PaymentProfilesController do
 
       describe "creating credit card profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -171,6 +218,50 @@ describe Customer::PaymentProfilesController do
         end
       end
     end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
+
+      before(:each) do
+        do_post_create(attributes)
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:attributes) { FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer) }
+
+      before(:each) do
+        do_post_create(attributes)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
   end
 
   describe "#show", :show => true do
@@ -178,6 +269,7 @@ describe Customer::PaymentProfilesController do
       include_context "with unauthenticated customer"
       
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
       before(:each) do
         do_get_show(payment_profile.id)
       end
@@ -194,8 +286,9 @@ describe Customer::PaymentProfilesController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
 
-      describe "with customer's payment_profile" do
+      context "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
+
         before(:each) do
           do_get_show(payment_profile.id)
         end
@@ -203,14 +296,16 @@ describe Customer::PaymentProfilesController do
         # Response
         it { should assign_to(:payment_profile) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/customer_layout") }
   
         # Content
         it { should_not set_the_flash }
         it { should render_template(:show) }
       end
 
-      describe "with other customer's payment_profile" do
+      context "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
         before(:each) do
           do_get_show(payment_profile.id)
         end
@@ -223,6 +318,50 @@ describe Customer::PaymentProfilesController do
         # Content
         it { should set_the_flash[:alert].to(/Access denied/) }
       end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_get_show(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_get_show(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
   end
 
@@ -256,7 +395,8 @@ describe Customer::PaymentProfilesController do
         # Response
         it { should assign_to(:payment_profile) }
         it { should respond_with(:success) }
-  
+        it { should render_template("layouts/customer_layout") }
+
         # Content
         it { should_not set_the_flash }
         it { should render_template(:edit) }
@@ -277,14 +417,58 @@ describe Customer::PaymentProfilesController do
         it { should set_the_flash[:alert].to(/Access denied/) }
       end
     end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_get_edit(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_get_edit(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
   end
 
   describe "#update", :update => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
-      
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
       let(:attributes) { { :first_name => "Billy" } }
+
       before(:each) do
         do_put_update(payment_profile.id, attributes)
       end
@@ -308,9 +492,10 @@ describe Customer::PaymentProfilesController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
 
-      describe "with customer's payment_profile" do
+      context "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
         let(:attributes) { { :first_name => "Billy" } }
+
         before(:each) do
           do_put_update(payment_profile.id, attributes)
         end
@@ -331,9 +516,10 @@ describe Customer::PaymentProfilesController do
         end
       end
 
-      describe "with other customer's payment_profile" do
+      context "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
         let(:attributes) { { :first_name => "Billy" } }
+
         before(:each) do
           do_put_update(payment_profile.id, attributes)
         end
@@ -354,13 +540,59 @@ describe Customer::PaymentProfilesController do
         end
       end
     end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      let(:attributes) { { :first_name => "Billy" } }
+
+      before(:each) do
+        do_put_update(payment_profile.id, attributes)
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+      let(:attributes) { { :first_name => "Billy" } }
+
+      before(:each) do
+        do_put_update(payment_profile.id, attributes)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
   end
 
   describe "#destroy", :destroy => true do
     context "as unauthenticated customer" do
       include_context "with unauthenticated customer"
-      
       let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
       before(:each) do
         do_delete_destroy(payment_profile.id)
       end
@@ -386,8 +618,9 @@ describe Customer::PaymentProfilesController do
     context "as authenticated customer" do
       include_context "with authenticated customer"
 
-      describe "with customer's payment_profile" do
+      context "with customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile, :customer => customer) }
+
         before(:each) do
           do_delete_destroy(payment_profile.id)
         end
@@ -410,8 +643,9 @@ describe Customer::PaymentProfilesController do
         end
       end
 
-      describe "with other customer's payment_profile" do
+      context "with other customer's payment_profile" do
         let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
         before(:each) do
           do_delete_destroy(payment_profile.id)
         end
@@ -433,6 +667,50 @@ describe Customer::PaymentProfilesController do
           PaymentProfile.last.should eq(payment_profile)
         end
       end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_delete_destroy(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+      let(:payment_profile) { FactoryGirl.create(:payment_profile) }
+
+      before(:each) do
+        do_delete_destroy(payment_profile.id)
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:payment_profile) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
   end
 end
