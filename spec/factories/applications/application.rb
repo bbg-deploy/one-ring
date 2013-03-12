@@ -86,6 +86,7 @@ FactoryGirl.define do
   factory :application_attributes_hash, class: Hash do
     store_account_number { 'UST' + SecureRandom.hex(5).upcase }
     matching_email "matching@notcredda.com"
+    products_attributes { { "0" => FactoryGirl.build(:product_attributes_hash, :application => nil).except(:application) } }
 
     initialize_with { attributes }
   end

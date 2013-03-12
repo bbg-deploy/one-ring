@@ -1,4 +1,4 @@
-class Employee::EmployeesController < Employee::ApplicationController
+class Employee::EmployeesController < Employee::BaseController
   include ActiveModel::ForbiddenAttributesProtection
   before_filter :check_scope_conflict
   load_and_authorize_resource

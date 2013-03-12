@@ -13,4 +13,4 @@ div.row
           td = @store.account_number
           td = @store.name
           td = link_to "Edit Account", edit_employee_store_path(@store), :class => "button radius small"
-          td = link_to "Cancel Account", employee_store_path(@store), :method => :delete, :class => "button radius small"
+          td = link_to "Cancel Account", employee_store_path(@store), :method => :delete, :confirm => "Are you sure?", :class => "button radius small"

@@ -78,10 +78,14 @@ class Store::ApplicationsController < Store::ApplicationController
 
   private
   def create_application_params
-    params.require(:application).permit( :matching_email )
+    params.require(:application).permit( 
+      :matching_email,
+      {:products_attributes  => [:type, :name, :price, :id_number, :description]} )
   end
 
   def update_application_params
-    params.require(:application).permit( :matching_email )
+    params.require(:application).permit( 
+      :matching_email,
+      {:products_attributes  => [:type, :name, :price, :id_number, :description]} )
   end
 end

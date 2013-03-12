@@ -1,4 +1,4 @@
-class Employee::ApplicationController < ::ApplicationController
+class Employee::BaseController < ::ApplicationController
   before_filter :authenticate_employee!
   before_filter :get_employee
 

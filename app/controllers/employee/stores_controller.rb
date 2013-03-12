@@ -1,4 +1,4 @@
-class Employee::StoresController < Employee::ApplicationController
+class Employee::StoresController < Employee::BaseController
   include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 

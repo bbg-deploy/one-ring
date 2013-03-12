@@ -11,7 +11,7 @@ class Application < ActiveRecord::Base
   # Accessible Methods
   #----------------------------------------------------------------------------
   attr_accessible :customer_account_number, :store_account_number, :matching_email,
-                  :products, :time_at_address, :rent_or_own, :rent_payment,
+                  :products, :products_attributes, :time_at_address, :rent_or_own, :rent_payment,
                   :initial_lease_choice, :id_verified
 
   # Validations

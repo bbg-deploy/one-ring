@@ -7,6 +7,7 @@ FactoryGirl.define do
     name "Firestone FR710"
     price BigDecimal.new("278.10")
     id_number "TI21343#{Random.new.rand(1000)}"
+    description "This is a test description."
   end
 
   factory :tire, parent: :product do
@@ -19,6 +20,7 @@ FactoryGirl.define do
     name "Firestone FR710"
     price BigDecimal.new("278.10")
     id_number "TI21343#{Random.new.rand(1000)}"
+    description "This is a test description."
 
     initialize_with { attributes }    
   end

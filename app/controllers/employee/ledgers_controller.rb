@@ -1,4 +1,4 @@
-class Employee::LedgersController < Employee::ApplicationController
+class Employee::LedgersController < Employee::BaseController
   include ActiveModel::ForbiddenAttributesProtection
 
   # GET /ledgers

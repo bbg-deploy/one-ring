@@ -1,4 +1,4 @@
-class Employee::PagesController < Employee::ApplicationController
+class Employee::PagesController < Employee::BaseController
   before_filter :authenticate_employee!
   skip_authorization_check
 

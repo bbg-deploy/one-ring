@@ -1,4 +1,4 @@
-class Employee::ContractsController < Employee::ApplicationController
+class Employee::ContractsController < Employee::BaseController
   include ActiveModel::ForbiddenAttributesProtection
 
   # GET /contracts
