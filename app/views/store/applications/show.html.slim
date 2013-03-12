@@ -1,4 +1,4 @@
-= provide(:title, "Store")
+= provide(:title, "Application")
 
 div.row
   div.large-8.columns
@@ -6,11 +6,12 @@ div.row
       thead
         tr
           th Account Number
-          th Name
-          th
+          th Customer Email
+          th State
       tbody
         tr
-          td = @store.account_number
-          td = @store.name
-          td = link_to "Edit Account", edit_employee_store_path(@store), :class => "button radius small"
-          td = link_to "Cancel Account", employee_store_path(@store), :method => :delete, :class => "button radius small"
+          td = @application.application_number
+          td = @application.matching_email
+          td = @application.state
+          td = link_to "Edit Application", edit_store_application_path(@application), :class => "button radius small"
+          td = link_to "Cancel Application", store_application_path(@application), :method => :delete, :class => "button radius small"

@@ -9,15 +9,14 @@ FactoryGirl.define do
       product_price BigDecimal.new("299.55")
     end
 
-    application_number { 'APP' + SecureRandom.hex(5).upcase }
-    store_account_number { 'STO' + SecureRandom.hex(5).upcase }
+    store_account_number { 'UST' + SecureRandom.hex(5).upcase }
     matching_email "matching@notcredda.com"
 
-#    after(:build) do |application, evaluator|
-#      evaluator.number_of_products.times do
-#        application.products << FactoryGirl.build(evaluator.product_factory, :application => application, :name => evaluator.product_name, :price => evaluator.product_price)
-#      end
-#    end
+    after(:build) do |application, evaluator|
+      evaluator.number_of_products.times do
+        application.products << FactoryGirl.build(evaluator.product_factory, :application => application, :name => evaluator.product_name, :price => evaluator.product_price)
+      end
+    end
   end
 
   factory :claimed_application, parent: :unclaimed_application do
@@ -51,13 +50,13 @@ FactoryGirl.define do
 
   factory :denied_application, parent: :submitted_application do
     ignore do
-#      with_credit_decision true
+      with_credit_decision true
     end
     
     after(:build) do |application, evaluator|
-#      if (evaluator.with_credit_decision)
+      if (evaluator.with_credit_decision)
 #        application.credit_decision = FactoryGirl.create(:denied_credit_decision, :application => application)
-#      end
+      end
     end
     
     after(:create) do |application|
@@ -66,14 +65,14 @@ FactoryGirl.define do
   end
 
   factory :approved_application, parent: :submitted_application do
-#    ignore do
-#      with_credit_decision true
-#    end
+    ignore do
+      with_credit_decision true
+    end
 
     after(:build) do |application, evaluator|
-#      if (evaluator.with_credit_decision)
+      if (evaluator.with_credit_decision)
 #        application.credit_decision = FactoryGirl.create(:approved_credit_decision, :application => application)
-#      end
+      end
     end
 
     after(:create) do |application|
@@ -100,5 +99,12 @@ FactoryGirl.define do
 #      end
       application.complete
     end
+  end
+
+  factory :application_attributes_hash, class: Hash do
+    store_account_number { 'UST' + SecureRandom.hex(5).upcase }
+    matching_email "matching@notcredda.com"
+
+    initialize_with { attributes }
   end
 end

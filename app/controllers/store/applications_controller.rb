@@ -1,11 +1,11 @@
-class Store::ApplicationsController < Employee::ApplicationController
+class Store::ApplicationsController < Store::ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 
   # GET /store/applications
   #-----------------------------------------------------------------------
   def index
-    @applications = Applications.all
+    @applications = Application.all
     respond_with(:store, @applications)
   end
 
@@ -27,6 +27,8 @@ class Store::ApplicationsController < Employee::ApplicationController
   #-------------------------------------------------------------------
   def create
     @application = Application.new(create_application_params)
+    @application.store_account_number = current_store.account_number
+    
     if @application.save
       flash[:notice] = "Successfully started application."
     else
@@ -47,7 +49,7 @@ class Store::ApplicationsController < Employee::ApplicationController
   def update
     @application = Application.find(params[:id])
 
-    if @application.update_attributes(update_store_params)
+    if @application.update_attributes(update_application_params)
       flash[:notice] = "Successfully updated application."
     else
       flash[:notice] = "Updating application failed."
@@ -59,7 +61,7 @@ class Store::ApplicationsController < Employee::ApplicationController
   #-------------------------------------------------------------------
   def destroy
     @application = Application.find(params[:id])
-    @application.destroy!
+    @application.destroy
     flash[:notice] = "Successfully destroyed application."
     respond_with(:store, @application)
   end
@@ -76,18 +78,10 @@ class Store::ApplicationsController < Employee::ApplicationController
 
   private
   def create_application_params
-    params.require(:application).permit(
-      :username, :password, :password_confirmation, :email, :email_confirmation, 
-      :name, :employer_identification_number, 
-      {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, 
-      {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]}, :terms_agreement )
+    params.require(:application).permit( :matching_email )
   end
 
   def update_application_params
-    params.require(:application).permit(
-      :username, :password, :password_confirmation, :email, :email_confirmation, 
-      :name, :employer_identification_number, 
-      {:addresses_attributes  => [:street, :city, :state, :zip_code, :country]}, 
-      {:phone_numbers_attributes => [:phone_number_type, :phone_number, :cell_phone]} )
+    params.require(:application).permit( :matching_email )
   end
 end

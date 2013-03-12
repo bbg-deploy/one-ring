@@ -53,6 +53,7 @@ Onering::Application.routes.draw do
 
   namespace :store do
     root :to                  => "pages#home", :as => :home
+    resources :applications
   end
 
   # Employee Namespace

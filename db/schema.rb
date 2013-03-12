@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320080914) do
+ActiveRecord::Schema.define(:version => 20130320080934) do
 
   create_table "access_grants", :force => true do |t|
     t.integer  "accessible_id",           :null => false
@@ -88,6 +88,13 @@ ActiveRecord::Schema.define(:version => 20130320080914) do
   end
 
   add_index "contracts", ["application_number"], :name => "index_contracts_on_application_number", :unique => true
+
+  create_table "credit_decisions", :force => true do |t|
+    t.integer  "application_id", :null => false
+    t.string   "status",         :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "credits", :force => true do |t|
     t.integer  "ledger_id",          :null => false

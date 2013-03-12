@@ -4,22 +4,23 @@ class Application < ActiveRecord::Base
   
   # Associations
   #----------------------------------------------------------------------------
-#  has_many :products, :inverse_of => :lease_application
-#  accepts_nested_attributes_for :products
+  has_many :products, :inverse_of => :application
+  accepts_nested_attributes_for :products
 #  has_one :credit_decision, :inverse_of => :lease_application
 
   # Accessible Methods
   #----------------------------------------------------------------------------
-  attr_accessible :application_number, :customer_account_number, :store_account_number,
-#                  :products, 
-                  :time_at_address, :rent_or_own, :rent_payment,
+  attr_accessible :customer_account_number, :store_account_number, :matching_email,
+                  :products, :time_at_address, :rent_or_own, :rent_payment,
                   :initial_lease_choice, :id_verified
 
   # Validations
   #----------------------------------------------------------------------------
 #  enumerize :initial_lease_choice, :in => [:low_cost, :low_payments]
-#  validates :products, :presence => true
-#  validates_associated :products
+  validates :products, :presence => true
+  validates_associated :products
+  before_validation :generate_application_number, :on => :create
+  validates :application_number, :presence => true, :uniqueness => true
 
   # State Machine
   #----------------------------------------------------------------------------
@@ -94,9 +95,13 @@ class Application < ActiveRecord::Base
 
   # Private Methods
   #----------------------------------------------------------------------------
-=begin
+  def store_name
+    store = Store.where(:account_number => self.store_account_number).first
+    store.name
+  end
+
   def name
-    return "#{self.store.name}: #{self.products_list}"
+    return "#{self.store_name}: #{self.products_list}"
   end
 
   def products_list
@@ -113,6 +118,7 @@ class Application < ActiveRecord::Base
 
 
   private
+=begin
   def customer_has_income_sources
     if self.customer.nil?
       errors.add(:customer, "is required.")
@@ -121,4 +127,13 @@ class Application < ActiveRecord::Base
     end
   end
 =end
+  private
+  def generate_application_number
+    if self.application_number.nil?
+      begin
+        token = 'LTOAPP' + SecureRandom.hex(5).upcase
+      end if Application.where({:application_number => token}).empty?
+      self.application_number = token
+    end
+  end
 end

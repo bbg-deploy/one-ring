@@ -30,17 +30,17 @@ class Product < ActiveRecord::Base
   
   # Attributes
   #----------------------------------------------------------------------------
-  attr_accessible :application, :type, :price, :id_number, :description
+  attr_accessible :application, :type, :name, :price, :id_number, :description
 
   # Validations
   #----------------------------------------------------------------------------
   before_validation :round_amount
   validates :application, :presence => true, :immutable => true
   validates :type, :presence => true
+  validates :name, :presence => true
   validates :price, :presence => true,
                     :numericality => { :greater_than => 0, :allow_nil => false },
                     :big_decimal_type => true
-  validates :id_number, :presence => true
   validate :subclass_validations
 
   # Public Instance Methods
