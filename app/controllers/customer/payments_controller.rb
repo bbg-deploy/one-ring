@@ -4,23 +4,10 @@ class Customer::PaymentsController < Customer::BaseController
   skip_authorization_check
 #  load_and_authorize_resource
 
-  # GET /customer/payments
-  #-----------------------------------------------------------------------
-  def index
-#    payments = Array.new()
-#    @current_customer.payment_profiles.each do |payment_profile|
-#      payments << payment_profile.payments
-#    end
-    @payments = nil
-    respond_with(:customer, @payments)
-  end
-
   # GET /customer/payments/new
   #-------------------------------------------------------------------
   def new
-#    @current_customer = current_customer
-#    @payment = Payment.new
-    @payment = nil
+    @payment = Payment.new
     respond_with(:customer, @payment)
   end
 

@@ -56,7 +56,7 @@ describe Customer::PagesController do
       it { should render_template(:home) }
     end
 
-    context "as authenticated store", :failing => true do
+    context "as authenticated store" do
       include_context "with authenticated store"
 
       before(:each) do

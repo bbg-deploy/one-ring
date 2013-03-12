@@ -12,7 +12,7 @@ describe Customer::PaymentProfilesController do
   end
 
   def do_get_edit(id)
-    get :edit, :id => id,:format => 'html'
+    get :edit, :id => id, :format => 'html'
   end
   
   def do_put_update(id, attributes)

@@ -4,5 +4,5 @@ class CreditCardPayment < Credit
 
   # Validations
   #----------------------------------------------------------------------------
-  validates :payment_profile_id, :presence => true
+  validates :cim_payment_profile_id, :presence => true
 end
