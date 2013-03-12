@@ -1,4 +1,4 @@
-class Store::ApplicationController < ::ApplicationController
+class Store::BaseController < ::ApplicationController
   layout 'customer_application'
 
   before_filter :authenticate_store!

@@ -1,4 +1,4 @@
-class Customer::PagesController < Customer::ApplicationController
+class Customer::PagesController < Customer::BaseController
   before_filter :authenticate_customer!
   skip_authorization_check
 

@@ -1,4 +1,4 @@
-class Store::PagesController < Store::ApplicationController
+class Store::PagesController < Store::BaseController
   before_filter :authenticate_store!
   skip_authorization_check
 

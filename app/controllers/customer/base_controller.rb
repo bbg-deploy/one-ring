@@ -1,4 +1,4 @@
-class Customer::ApplicationController < ::ApplicationController
+class Customer::BaseController < ::ApplicationController
   layout 'customer_application'
   before_filter :check_scope_conflict
 

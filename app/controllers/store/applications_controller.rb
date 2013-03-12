@@ -1,4 +1,4 @@
-class Store::ApplicationsController < Store::ApplicationController
+class Store::ApplicationsController < Store::BaseController
   include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 

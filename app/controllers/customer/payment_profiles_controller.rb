@@ -1,4 +1,4 @@
-class Customer::PaymentProfilesController < Customer::ApplicationController
+class Customer::PaymentProfilesController < Customer::BaseController
   include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 
