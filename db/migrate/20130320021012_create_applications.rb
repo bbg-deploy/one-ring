@@ -9,7 +9,6 @@ class CreateApplications < ActiveRecord::Migration
       t.datetime :time_at_address
       t.string :rent_or_own
       t.decimal :rent_payment
-      t.string :initial_lease_choice
       t.boolean :id_verified,             :null => false, :default => false
 
       t.timestamps

@@ -53,9 +53,9 @@ describe Application do
 
       it_behaves_like "valid record", :denied_application  
 
-#      it "has a credit_decision" do
-#        application.credit_decision.should_not be_nil
-#      end
+      it "has a credit_decision" do
+        application.credit_decision.should_not be_nil
+      end
 
       it "is denied" do
         application.denied?.should be_true
@@ -67,9 +67,9 @@ describe Application do
 
       it_behaves_like "valid record", :approved_application
 
-#      it "has a credit_decision" do
-#        application.credit_decision.should_not be_nil
-#      end
+      it "has a credit_decision" do
+        application.credit_decision.should_not be_nil
+      end
 
       it "is approved" do
         application.approved?.should be_true
@@ -109,7 +109,7 @@ describe Application do
   #----------------------------------------------------------------------------
   describe "associations", :associations => true do  
     describe "products" do
-      it { has_many(:products) }
+      it { should have_many(:products) }
     end    
   end
 
@@ -560,31 +560,18 @@ describe Application do
         context "as 'approved'" do
           let(:application) { FactoryGirl.create(:approved_application) }
 
-
-          context "without initial_lease_choice" do
-            it "remains 'approved'" do
-              application.approved?.should be_true
-              application.initial_lease_choice = nil
-              application.id_verified = true
-              application.finalize
-              application.approved?.should be_true
-            end
-          end
-
           context "without id_verified" do
             it "remains 'approved'" do
               application.approved?.should be_true
-              application.initial_lease_choice = 'low_cost'
               application.id_verified = false
               application.finalize
               application.approved?.should be_true
             end
           end
 
-          context "with initial_application and id_verified" do
+          context "with id_verified" do
             it "transitions to 'finalized'" do
               application.approved?.should be_true
-              application.initial_lease_choice = 'low_cost'
               application.id_verified = true
               application.finalize
               application.finalized?.should be_true
@@ -617,8 +604,8 @@ describe Application do
     describe "states", :states => true do
       describe "unclaimed" do
         context "with invalid attributes" do
-          it "does not save without store" do
-            expect{ application = FactoryGirl.create(:unclaimed_application, :store => nil) }.to raise_error
+          it "does not save without store_account_number" do
+            expect{ application = FactoryGirl.create(:unclaimed_application, :store_account_number => nil) }.to raise_error
           end
   
           it "does not save without matching_email" do
@@ -638,23 +625,13 @@ describe Application do
       end      
 
       describe "claimed" do
-        let(:application) { FactoryGirl.create(:claimed_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
+          let(:application) { FactoryGirl.create(:claimed_application) }
 
-          it "does not save without customer" do
-            application.customer = nil
+          it "does not save without customer_account_number" do
+            application.customer_account_number = nil
             expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
+          end
         end
 
         context "with valid attributes" do
@@ -663,29 +640,15 @@ describe Application do
           end
           
           it "is claimed?" do
+            application = FactoryGirl.create(:claimed_application)
             application.claimed?.should be_true
           end
         end
       end
 
       describe "submitted" do
-        let(:application) { FactoryGirl.create(:submitted_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without customer" do
-            application.customer = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
+          let(:application) { FactoryGirl.create(:submitted_application) }
 
           it "does not save without time_at_address" do
             application.time_at_address = nil
@@ -709,104 +672,44 @@ describe Application do
           end
           
           it "is submitted?" do
+            application = FactoryGirl.create(:submitted_application)
             application.submitted?.should be_true
           end
         end
       end
 
       describe "denied" do
-        let(:application) { FactoryGirl.create(:denied_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without customer" do
-            application.customer = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without time_at_address" do
-            application.time_at_address = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_or_own" do
-            application.rent_or_own = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_payment" do
-            application.rent_payment = nil
-            expect{ application.save! }.to raise_error
-          end
+          let(:application) { FactoryGirl.create(:denied_application) }
 
           it "does not save without credit_decision" do
             application.credit_decision.destroy
             application.reload
-            application.credit_decision.should be_nil
             expect{ application.save! }.to raise_error
-          end  
+          end
         end
         
         context "with valid attributes" do
           it "saves successfully" do
             expect{ application = FactoryGirl.create(:denied_application) }.to_not raise_error
           end
-          
+
           it "is denied?" do
+            application = FactoryGirl.create(:denied_application)
             application.denied?.should be_true
           end
         end
       end
 
       describe "approved" do
-        let(:application) { FactoryGirl.create(:approved_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without customer" do
-            application.customer = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without time_at_address" do
-            application.time_at_address = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_or_own" do
-            application.rent_or_own = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_payment" do
-            application.rent_payment = nil
-            expect{ application.save! }.to raise_error
-          end
+          let(:application) { FactoryGirl.create(:approved_application) }
 
           it "does not save without credit_decision" do
             application.credit_decision.destroy
             application.reload
-            application.credit_decision.should be_nil
             expect{ application.save! }.to raise_error
-          end  
+          end
         end
         
         context "with valid attributes" do
@@ -815,71 +718,15 @@ describe Application do
           end
           
           it "is approved?" do
+            application = FactoryGirl.create(:approved_application)
             application.approved?.should be_true
           end
         end
       end
 
       describe "finalized" do
-        let(:application) { FactoryGirl.create(:finalized_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without customer" do
-            application.customer = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without time_at_address" do
-            application.time_at_address = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_or_own" do
-            application.rent_or_own = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_payment" do
-            application.rent_payment = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without credit_decision" do
-            application.credit_decision.destroy
-            application.reload
-            application.credit_decision.should be_nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without id_verified" do
-            application.id_verified = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save with id_verified = false" do
-            application.id_verified = false
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without initial_lease_choice" do
-            application.initial_lease_choice = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save with invalid initial_lease_choice" do
-            application.initial_lease_choice = 'other'
-            expect{ application.save! }.to raise_error
-          end  
+          let(:application) { FactoryGirl.create(:finalized_application) }
         end
         
         context "with valid attributes" do
@@ -888,78 +735,16 @@ describe Application do
           end
           
           it "is finalized?" do
+            application = FactoryGirl.create(:finalized_application)
             application.finalized?.should be_true
           end
         end
       end
 
       describe "completed" do
-        let(:application) { FactoryGirl.create(:completed_application) }
-
         context "with invalid attributes" do
-          it "does not save without store" do
-            application.store = nil
-            expect{ application.save! }.to raise_error
-          end  
+          let(:application) { FactoryGirl.create(:completed_application) }
 
-          it "does not save without customer" do
-            application.customer = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without matching_email" do
-            application.matching_email = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without time_at_address" do
-            application.time_at_address = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_or_own" do
-            application.rent_or_own = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without rent_payment" do
-            application.rent_payment = nil
-            expect{ application.save! }.to raise_error
-          end
-
-          it "does not save without credit_decision" do
-            application.credit_decision.destroy
-            application.reload
-            application.credit_decision.should be_nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without id_verified" do
-            application.id_verified = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save with id_verified = false" do
-            application.id_verified = false
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without initial_lease_choice" do
-            application.initial_lease_choice = nil
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save with invalid initial_lease_choice" do
-            application.initial_lease_choice = 'other'
-            expect{ application.save! }.to raise_error
-          end  
-
-          it "does not save without a lease" do
-            application.lease.destroy
-            application.reload
-            application.lease.should be_nil
-            expect{ application.save! }.to raise_error
-          end  
         end
         
         context "with valid attributes" do
@@ -968,6 +753,7 @@ describe Application do
           end
           
           it "is finalized?" do
+            application = FactoryGirl.create(:completed_application)
             application.completed?.should be_true
           end
         end

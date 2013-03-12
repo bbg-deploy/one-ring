@@ -49,33 +49,15 @@ FactoryGirl.define do
   end
 
   factory :denied_application, parent: :submitted_application do
-    ignore do
-      with_credit_decision true
-    end
-    
-    after(:build) do |application, evaluator|
-      if (evaluator.with_credit_decision)
-#        application.credit_decision = FactoryGirl.create(:denied_credit_decision, :application => application)
-      end
-    end
-    
     after(:create) do |application|
+      FactoryGirl.create(:denied_credit_decision, :application => application)
       application.deny
     end
   end
 
   factory :approved_application, parent: :submitted_application do
-    ignore do
-      with_credit_decision true
-    end
-
-    after(:build) do |application, evaluator|
-      if (evaluator.with_credit_decision)
-#        application.credit_decision = FactoryGirl.create(:approved_credit_decision, :application => application)
-      end
-    end
-
     after(:create) do |application|
+      FactoryGirl.create(:approved_credit_decision, :application => application)
       application.approve
     end
   end

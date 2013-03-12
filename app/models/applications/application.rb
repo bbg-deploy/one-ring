@@ -6,7 +6,7 @@ class Application < ActiveRecord::Base
   #----------------------------------------------------------------------------
   has_many :products, :inverse_of => :application
   accepts_nested_attributes_for :products
-#  has_one :credit_decision, :inverse_of => :lease_application
+  has_one :credit_decision, :inverse_of => :application
 
   # Accessible Methods
   #----------------------------------------------------------------------------
@@ -16,7 +16,6 @@ class Application < ActiveRecord::Base
 
   # Validations
   #----------------------------------------------------------------------------
-#  enumerize :initial_lease_choice, :in => [:low_cost, :low_payments]
   validates :products, :presence => true
   validates_associated :products
   before_validation :generate_application_number, :on => :create
@@ -70,16 +69,14 @@ class Application < ActiveRecord::Base
     end
 
     state all - [:unclaimed, :claimed, :submitted] do
-#      validates :credit_decision, :presence => true
+      validates :credit_decision, :presence => true
     end
     
     state all - [:unclaimed, :claimed, :submitted, :approved, :denied] do
-#      validates :initial_lease_choice, :presence => true, :inclusion => { :in => ['low_cost', 'low_payments'] }
-#      validates :id_verified, :presence => true, :inclusion => { :in => [true] }
+      validates :id_verified, :presence => true, :inclusion => { :in => [true] }
     end
 
     state :completed do
-#      validates :lease, :presence => true
     end
   end
 
