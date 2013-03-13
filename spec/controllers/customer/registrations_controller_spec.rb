@@ -65,6 +65,7 @@ describe Customer::RegistrationsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
       it { should render_template(:new) }
     end
 
@@ -182,10 +183,11 @@ describe Customer::RegistrationsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-          it { should render_template(:new) }
   
           # Content
           it { should set_the_flash[:alert].to(/was a problem/) }
+          it { should render_template("layouts/application") }
+          it { should render_template(:new) }
   
           # Behavior
           it "does not creates a new customer" do
@@ -308,10 +310,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:new) }
     
             # Content
             it { should set_the_flash[:alert].to(/was a problem/) }
+            it { should render_template("layouts/application") }
+            it { should render_template(:new) }
     
             # External Requests
             it "does not request Authorize.net" do
@@ -346,10 +349,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:new) }
     
             # Content
             it { should set_the_flash[:alert].to(/was a problem/) }
+            it { should render_template("layouts/application") }
+            it { should render_template(:new) }
     
             # External Requests
             it "does not request Authorize.net" do
@@ -478,6 +482,7 @@ describe Customer::RegistrationsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/customer_layout") }
       it { should render_template(:edit) }
     end    
 
@@ -655,10 +660,11 @@ describe Customer::RegistrationsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-          it { should render_template(:edit) }
     
           # Content
           it { should set_the_flash[:alert].to(/problem with some of your information/) }
+          it { should render_template("layouts/customer_layout") }
+          it { should render_template(:edit) }
 
           # Behavior
           it "should not change name" do
@@ -686,10 +692,11 @@ describe Customer::RegistrationsController do
           # Response
           it { should assign_to(:customer) }
           it { should respond_with(:success) }
-          it { should render_template(:edit) }
     
           # Content
           it { should set_the_flash[:alert].to(/problem with some of your information/) }
+          it { should render_template("layouts/customer_layout") }
+          it { should render_template(:edit) }
 
           # Behavior
           it "should not change name" do
@@ -911,10 +918,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:edit) }
       
             # Content
             it { should set_the_flash[:alert].to(/problem with some of your information/) }
+            it { should render_template("layouts/customer_layout") }
+            it { should render_template(:edit) }
 
             # Behavior
             it "should not change name" do
@@ -941,10 +949,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:edit) }
       
             # Content
             it { should set_the_flash[:alert].to(/problem with some of your information/) }
+            it { should render_template("layouts/customer_layout") }
+            it { should render_template(:edit) }
 
             # Behavior
             it "should not change name" do
@@ -979,10 +988,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:edit) }
       
             # Content
             it { should set_the_flash[:alert].to(/problem with some of your information/) }
+            it { should render_template("layouts/customer_layout") }
+            it { should render_template(:edit) }
 
             # Behavior
             it "should not change name" do
@@ -1009,10 +1019,11 @@ describe Customer::RegistrationsController do
             # Response
             it { should assign_to(:customer) }
             it { should respond_with(:success) }
-            it { should render_template(:edit) }
       
             # Content
             it { should set_the_flash[:alert].to(/problem with some of your information/) }
+            it { should render_template("layouts/customer_layout") }
+            it { should render_template(:edit) }
 
             # Behavior
             it "should not change name" do

@@ -66,6 +66,7 @@ describe Customer::PaymentsController do
       # Response
       it { should assign_to(:payment_profile) }
       it { should respond_with(:success) }
+      it { should render_template("layouts/customer_layout") }
 
       # Content
       it { should_not set_the_flash }
@@ -92,10 +93,7 @@ describe Customer::PaymentsController do
 
         # Behavior
         it "should not create new PaymentProfile" do
-          expect {
-            attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer)
-            post :create, :payment_profile => attributes, :format => 'html'
-          }.to_not change(PaymentProfile, :count)
+          PaymentProfile.count.should eq(0)
         end
       end
 
@@ -115,10 +113,7 @@ describe Customer::PaymentsController do
 
         # Behavior
         it "should not create new PaymentProfile" do
-          expect {
-            attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer)
-            post :create, :payment_profile => attributes, :format => 'html'
-          }.to_not change(PaymentProfile, :count)
+          PaymentProfile.count.should eq(0)
         end
       end
     end
@@ -127,6 +122,7 @@ describe Customer::PaymentsController do
       include_context "with authenticated customer"
       describe "creating bank account profile" do
         let(:attributes) { FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer) }
+
         before(:each) do
           do_post_create(attributes)
         end
@@ -141,10 +137,7 @@ describe Customer::PaymentsController do
 
         # Behavior
         it "should create new PaymentProfile" do
-          expect {
-            attributes = FactoryGirl.build(:payment_profile_bank_account_attributes_hash).except(:customer)
-            post :create, :payment_profile => attributes, :format => 'html'
-          }.to change(PaymentProfile, :count).by(1)
+          PaymentProfile.count.should eq(1)
         end
       end
 
@@ -164,10 +157,7 @@ describe Customer::PaymentsController do
 
         # Behavior
         it "should create new PaymentProfile" do
-          expect {
-            attributes = FactoryGirl.build(:payment_profile_credit_card_attributes_hash).except(:customer)
-            post :create, :payment_profile => attributes, :format => 'html'
-          }.to change(PaymentProfile, :count).by(1)
+          PaymentProfile.count.should eq(1)
         end
       end
     end
@@ -203,6 +193,7 @@ describe Customer::PaymentsController do
         # Response
         it { should assign_to(:payment_profile) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/customer_layout") }
   
         # Content
         it { should_not set_the_flash }
@@ -256,6 +247,7 @@ describe Customer::PaymentsController do
         # Response
         it { should assign_to(:payment_profile) }
         it { should respond_with(:success) }
+        it { should render_template("layouts/customer_layout") }
   
         # Content
         it { should_not set_the_flash }

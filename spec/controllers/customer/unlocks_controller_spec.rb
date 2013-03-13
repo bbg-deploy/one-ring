@@ -48,6 +48,7 @@ describe Customer::UnlocksController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
       it { should render_template(:new) }
     end
 
@@ -138,6 +139,7 @@ describe Customer::UnlocksController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
       it { should render_template(:new) }
 
       # Behavior
@@ -170,6 +172,7 @@ describe Customer::UnlocksController do
   
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
 
         # Behavior
@@ -298,6 +301,7 @@ describe Customer::UnlocksController do
 
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
       end
 
@@ -317,6 +321,7 @@ describe Customer::UnlocksController do
 
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
       end
     end
@@ -340,6 +345,7 @@ describe Customer::UnlocksController do
 
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
       end
 
@@ -359,6 +365,7 @@ describe Customer::UnlocksController do
 
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
       end
 

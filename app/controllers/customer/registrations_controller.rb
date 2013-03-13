@@ -1,5 +1,6 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
+  layout 'customer_layout', :only => [:edit, :update, :destroy]
 
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]

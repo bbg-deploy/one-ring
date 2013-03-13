@@ -14,13 +14,22 @@ html
       = render 'layouts/header/master'
     div#main-wrapper
       div.row
-        h1 = content_for?(:title) ? yield(:title) : "Credda"
-        div.large-3.columns
-          ul.side-nav
+        h1.hide-for-small = content_for?(:title) ? yield(:title) : "Credda"
+        div.large-3.columns.side-nav-container
+          ul.side-nav.hide-for-small
             = nav_link image_tag("icons/bank.png"), home_path
             = nav_link "Billpay", home_path
             = nav_link "Payment Methods", home_path
             = nav_link "Something", home_path
+          div.row.show-for-small
+            div.large-3.columns
+              = nav_link image_tag("icons/bank.png"), home_path
+            div.large-3.columns
+              = nav_link "Billpay", home_path
+            div.large-3.columns
+              = nav_link "Payment Methods", home_path
+            div.large-3.columns
+              = nav_link "Something", home_path
         div.large-9.columns
           div[id = page_id]
             = render 'layouts/messages/messages'

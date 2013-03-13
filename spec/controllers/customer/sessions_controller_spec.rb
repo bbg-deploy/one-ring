@@ -58,6 +58,7 @@ describe Customer::SessionsController do
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
       it { should render_template(:new) }
     end
     
@@ -150,6 +151,7 @@ describe Customer::SessionsController do
   
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
 
         # Behavior
@@ -179,6 +181,7 @@ describe Customer::SessionsController do
   
         # Content
         it { should_not set_the_flash }
+        it { should render_template("layouts/application") }
         it { should render_template(:new) }
         it "has locked message in alert" do
           flash = response.request.env["rack.session"]["flash"]
@@ -324,6 +327,7 @@ describe Customer::SessionsController do
   
         # Content
         it { should_not set_the_flash } # This controller technically doesn't set the flash
+        it { should render_template("layouts/application") }
         it { should render_template :new}
         it "has locked message in alert" do
           flash = response.request.env["rack.session"]["flash"]
@@ -576,10 +580,11 @@ describe Customer::SessionsController do
 
       # Response
       it { should respond_with(:success) }
-      it { should render_template(:scope_conflict) }
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
+      it { should render_template(:scope_conflict) }
 
       # Behavior
       it "should set 'pre_conflict_path'" do
@@ -601,10 +606,11 @@ describe Customer::SessionsController do
 
       # Response
       it { should respond_with(:success) }
-      it { should render_template(:scope_conflict) }
 
       # Content
       it { should_not set_the_flash }
+      it { should render_template("layouts/application") }
+      it { should render_template(:scope_conflict) }
 
       # Behavior
       it "should set 'pre_conflict_path'" do
