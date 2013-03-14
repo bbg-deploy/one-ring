@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(:version => 20130320080934) do
     t.datetime "time_at_address"
     t.string   "rent_or_own"
     t.decimal  "rent_payment"
-    t.string   "initial_lease_choice"
     t.boolean  "id_verified",             :default => false, :null => false
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
@@ -97,13 +96,13 @@ ActiveRecord::Schema.define(:version => 20130320080934) do
   end
 
   create_table "credits", :force => true do |t|
-    t.integer  "ledger_id",          :null => false
-    t.string   "type",               :null => false
-    t.datetime "date",               :null => false
-    t.string   "payment_profile_id"
-    t.decimal  "amount",             :null => false
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.integer  "ledger_id",              :null => false
+    t.string   "cim_payment_profile_id"
+    t.string   "type",                   :null => false
+    t.datetime "date",                   :null => false
+    t.decimal  "amount",                 :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   create_table "customers", :force => true do |t|
@@ -250,6 +249,15 @@ ActiveRecord::Schema.define(:version => 20130320080934) do
   end
 
   add_index "payment_profiles", ["cim_customer_payment_profile_id"], :name => "index_payment_profiles_on_cim_customer_payment_profile_id", :unique => true
+
+  create_table "payments", :force => true do |t|
+    t.integer  "customer_id",                     :null => false
+    t.integer  "payment_profile_id",              :null => false
+    t.string   "cim_customer_payment_profile_id", :null => false
+    t.decimal  "amount",                          :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
 
   create_table "phone_numbers", :force => true do |t|
     t.integer  "phonable_id",                      :null => false

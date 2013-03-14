@@ -1,4 +1,5 @@
 module ControllerSharedExamples
+=begin
   # ERROR HANDLING
   #----------------------------------------------------------------------------
   shared_examples_for "handles not found error" do
@@ -356,4 +357,5 @@ module ControllerSharedExamples
       end
     end
   end
+=end
 end

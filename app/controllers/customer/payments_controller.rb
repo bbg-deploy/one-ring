@@ -2,6 +2,13 @@ class Customer::PaymentsController < Customer::BaseController
   skip_authorization_check
 #  load_and_authorize_resource
 
+  # GET /customer/payments
+  #-------------------------------------------------------------------
+  def index
+    @payment = Payment.all
+    respond_with(:customer, @payment)
+  end
+
   # GET /customer/payments/new
   #-------------------------------------------------------------------
   def new
@@ -12,14 +19,10 @@ class Customer::PaymentsController < Customer::BaseController
   # POST /customer/payments
   #-------------------------------------------------------------------
   def create
-   # @current_customer = current_customer
-  #  params[:payment][:date] = DateTime.now
- #   @payment = Payment.new(params[:payment])
-#    if @payment.save
-#      cookies[:last_payment_id] = @payment.id
-#      flash[:notice] = "Successfully created payment."
-#    end
-    @payment = nil
+    @payment = Payment.new(params[:payment])
+    if @payment.save
+      flash[:notice] = "Successfully created payment."
+    end
     respond_with(:customer, @payment)
   end
 end

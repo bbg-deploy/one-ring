@@ -2,6 +2,26 @@
 
 ul.side-nav {
   @include background(image-url("alum-dark-background.png"));
+  li { 
+//    height: 80px;
+    border: 1px black solid;
+    padding: 5px;
+    a {
+      height: 60px;
+      span {
+        padding: auto;
+        display: block;
+      }
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    img {
+      float: left;
+      margin-right: 10px;
+      height: 50px;
+    }
+  }
 }
 
 @media (max-width: 768px) { 
