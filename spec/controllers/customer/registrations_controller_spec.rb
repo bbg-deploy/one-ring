@@ -167,6 +167,8 @@ describe Customer::RegistrationsController do
           it "sends confirmation email" do
             confirmation_email_sent_to?(attributes[:email]).should be_true
           end
+
+          it { should render_template("customer_authentication_mailer/confirmation_instructions")}
         end
 
         context "with invalid attributes" do
@@ -244,6 +246,7 @@ describe Customer::RegistrationsController do
             it "sends confirmation email" do
               confirmation_email_sent_to?(attributes[:email]).should be_true
             end
+            it { should render_template("customer_authentication_mailer/confirmation_instructions")}
             
             it "send admin alert" do
               admin_email_alert?.should be_true
@@ -644,6 +647,7 @@ describe Customer::RegistrationsController do
             confirmation_email_sent_to?(customer.email).should be_false
             confirmation_email_sent_to?(attributes[:email]).should be_true
           end            
+          it { should render_template("customer_authentication_mailer/confirmation_instructions")}
         end
 
         context "with invalid attributes (no current password)" do
@@ -870,6 +874,7 @@ describe Customer::RegistrationsController do
               confirmation_email_sent_to?(customer.email).should be_false
               confirmation_email_sent_to?(attributes[:email]).should be_true
             end            
+            it { should render_template("customer_authentication_mailer/confirmation_instructions")}
           end
 
           context "with unsuccessful Authorize.net response" do

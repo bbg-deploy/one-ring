@@ -4,7 +4,7 @@ ul.side-nav {
   @include background(image-url("alum-dark-background.png"));
   li { 
 //    height: 80px;
-    border: 1px black solid;
+//    border: 1px black solid;
     padding: 5px;
     a {
       height: 60px;
@@ -12,9 +12,10 @@ ul.side-nav {
         padding: auto;
         display: block;
       }
-      color: white;
       font-size: 18px;
       font-weight: bold;
+      color: #520F48;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
     }
     img {
       float: left;
@@ -26,12 +27,14 @@ ul.side-nav {
 
 @media (max-width: 768px) { 
   .side-nav-container {
-//    margin: 0px !important;
-//    padding: 0px !important;
-    background: red;
+    @include background(image-url("alum-dark-background.png"));
   }
   ul.side-nav {
     background: none;
-  //  @include background(image-url("alum-dark-background.png"));
+    li {
+      float: left;
+      width: 100px;
+      height: 120px;
+    }
   }
 }

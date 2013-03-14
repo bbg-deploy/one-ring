@@ -32,8 +32,9 @@ class Customer::PaymentProfilesController < Customer::BaseController
     @payment_profile = PaymentProfile.new(create_payment_profile_params)
     @payment_profile.customer = current_customer
     if @payment_profile.save
-      cookies[:last_payment_profile_id] = @payment_profile.id
       flash[:notice] = "Successfully created payment profile."  
+    else
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
     respond_with(:customer, @payment_profile)
   end

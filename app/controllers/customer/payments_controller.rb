@@ -5,8 +5,8 @@ class Customer::PaymentsController < Customer::BaseController
   # GET /customer/payments
   #-------------------------------------------------------------------
   def index
-    @payment = Payment.all
-    respond_with(:customer, @payment)
+    @payments = Payment.where(:customer_id => current_customer.id)
+    respond_with(:customer, @payments)
   end
 
   # GET /customer/payments/new
@@ -20,9 +20,12 @@ class Customer::PaymentsController < Customer::BaseController
   #-------------------------------------------------------------------
   def create
     @payment = Payment.new(params[:payment])
+    @payment.customer = current_customer
     if @payment.save
       flash[:notice] = "Successfully created payment."
+    else
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
-    respond_with(:customer, @payment)
+    respond_with @payment, :location => customer_payments_path
   end
 end

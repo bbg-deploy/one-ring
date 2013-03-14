@@ -6,7 +6,9 @@ module MailerMacros
   def reset_email
     ActionMailer::Base.deliveries = []  
   end
-  
+
+  #TODO: Write some shared examples for testing confirmation emails, etc.
+=begin  
   shared_examples_for "confirmation email to" do |user|
     let(:confirmation_email) do
       
@@ -24,4 +26,5 @@ module MailerMacros
       response.should redirect_to :controller => 'sessions', :action => :new
     end
   end  
+=end
 end

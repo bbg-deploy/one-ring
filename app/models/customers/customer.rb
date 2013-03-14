@@ -29,10 +29,11 @@ class Customer < ActiveRecord::Base
   has_one :phone_number, :as => :phonable, :class_name => 'PhoneNumber', :dependent => :destroy, :inverse_of => :phonable
   accepts_nested_attributes_for :phone_number
 
-  # Associations - Payment Profiles
+  # Associations - Payment Profiles & Payments
   #----------------------------------------------------------------------------
   has_many :payment_profiles, :dependent => :destroy, :inverse_of => :customer
   accepts_nested_attributes_for :payment_profiles
+  has_many :payments, :dependent => :destroy, :inverse_of => :customer
 
   # Associations - Alerts List
   #----------------------------------------------------------------------------

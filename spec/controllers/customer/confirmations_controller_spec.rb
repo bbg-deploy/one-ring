@@ -242,6 +242,7 @@ describe Customer::ConfirmationsController do
           last_email.to.should eq([customer.email])
           last_email.body.should match(/#{customer.confirmation_token}/)
         end
+        it { should render_template("customer_authentication_mailer/confirmation_instructions")}
       end
     end
 

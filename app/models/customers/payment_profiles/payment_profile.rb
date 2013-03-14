@@ -5,7 +5,7 @@ class PaymentProfile < ActiveRecord::Base
   # Associations
   #----------------------------------------------------------------------------
   belongs_to :customer
-  has_many :payments
+  has_many :payments, :inverse_of => :payment_profile
 
   has_one :billing_address, :as => :addressable, :class_name => 'Address',
                             :conditions => {:address_type => :billing}, :dependent => :destroy, :inverse_of => :addressable

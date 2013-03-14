@@ -3,7 +3,7 @@ class Payment < ActiveRecord::Base
 
   belongs_to :customer
   belongs_to :payment_profile
-  attr_accessible :customer, :payment_profile, :amount
+  attr_accessible :customer, :payment_profile, :payment_profile_id, :amount
 
   before_validation :set_cim_customer_payment_profile_id
   validates :customer, :presence => true, :immutable => true
