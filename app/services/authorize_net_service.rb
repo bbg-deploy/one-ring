@@ -261,18 +261,6 @@ class AuthorizeNetService
   
   def handle_response_errors(response)
     response_code = response.params['messages']['message']['code']
-    error_codes = YAML.load_file("#{Rails.root}/config/authorize_net.yml")['error_codes']
-    
-    if error_codes['processing'].include?(response_code)
-      raise StandardError, response.message
-    elsif error_codes['request'].include?(response_code)
-      raise StandardError, response.message
-    elsif error_codes['data'].include?(response_code)
-      raise StandardError, response.message
-    elsif error_codes['transaction'].include?(response_code)
-      raise StandardError, response.message
-    else
-      raise StandardError, response.message
-    end
+    raise StandardError, response.message
   end
 end
