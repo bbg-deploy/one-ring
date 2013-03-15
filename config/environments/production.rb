@@ -74,7 +74,7 @@ Onering::Application.configure do
     :domain               => "credda.com",
     :authentication       => :plain,
     :user_name            => "credda",
-    :password             => "inshape19"
+    :password             => "bxbminib"
   }
 
   # Enable threaded mode
