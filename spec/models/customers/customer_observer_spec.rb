@@ -26,7 +26,7 @@ describe CustomerObserver, :observer => true do
         end
       end
 
-      context "with unsuccessful Authorize.net response", :failing => true do
+      context "with unsuccessful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("createCustomerProfileRequest", :E00001)
         end
@@ -48,7 +48,7 @@ describe CustomerObserver, :observer => true do
           Customer.observers.enable :customer_observer do
             customer.save
             last_email.to.should eq(["bryce.senz@credda.com"])
-            last_email.body.should match(/Error Trace:/)
+            last_email.subject.should eq("Authorize.net Error")
           end
         end
       end
@@ -125,7 +125,7 @@ describe CustomerObserver, :observer => true do
           Customer.observers.enable :customer_observer do
             customer.update_attributes({:first_name => "Bob"})
             last_email.to.should eq(["bryce.senz@credda.com"])
-            last_email.body.should match(/Error Trace:/)
+            last_email.subject.should eq("Authorize.net Error")
           end
         end
       end
@@ -150,7 +150,7 @@ describe CustomerObserver, :observer => true do
     context "with cim_customer_profile_id" do
       let(:customer) { FactoryGirl.create(:customer) }
 
-      context "with successful Authorize.net response", :failing => true do
+      context "with successful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("createCustomerProfileRequest", :I00001)
         end
@@ -169,7 +169,7 @@ describe CustomerObserver, :observer => true do
         end
       end
 
-      context "with unsuccessful Authorize.net response", :failing => true do
+      context "with unsuccessful Authorize.net response" do
         before(:each) do
           webmock_authorize_net("deleteCustomerProfileRequest", :E00001)
         end
@@ -191,14 +191,14 @@ describe CustomerObserver, :observer => true do
           Customer.observers.enable :customer_observer do
             customer.destroy
             last_email.to.should eq(["bryce.senz@credda.com"])
-            last_email.body.should match(/Error Trace:/)
+            last_email.subject.should eq("Authorize.net Error")
           end
         end
       end
     end
   end
 
-  # After Commit
+  # After Create
   #----------------------------------------------------------------------------
   describe "after_create", :after_create => true do
     it "should email Administrator" do
@@ -218,11 +218,11 @@ describe CustomerObserver, :observer => true do
       end
     end
 
-    it "should have sent email with user's username" do
+    it "should have sent email with correct subject" do
       Customer.observers.enable :customer_observer do
         customer = FactoryGirl.create(:customer)
         notification_email = ActionMailer::Base.deliveries.last
-        notification_email.body.should match(/#{customer.username}/)
+        notification_email.subject.should eq("You have a new user!")
       end
     end
   end

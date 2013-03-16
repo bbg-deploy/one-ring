@@ -43,7 +43,7 @@ class CustomerObserver < ActiveRecord::Observer
     end
   end
 
-  # After Commit
+  # After Create
   #----------------------------------------------------------------------------
   def after_create(customer)
     AdminNotificationMailer.new_user(customer).deliver

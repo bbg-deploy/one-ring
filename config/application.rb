@@ -76,6 +76,6 @@ module Onering
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # Active observers
-    config.active_record.observers = :customer_observer, :payment_profile_observer, :store_observer
+    config.active_record.observers = :customer_observer, :payment_profile_observer, :store_observer, :employee_observer
   end
 end

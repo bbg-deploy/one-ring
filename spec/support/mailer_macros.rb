@@ -7,6 +7,10 @@ module MailerMacros
     ActionMailer::Base.deliveries = []  
   end
 
+  def get_message_part (mail, content_type)
+    mail.body.parts.find { |p| p.content_type.match content_type }.body.raw_source
+  end
+
   #TODO: Write some shared examples for testing confirmation emails, etc.
 =begin  
   shared_examples_for "confirmation email to" do |user|
