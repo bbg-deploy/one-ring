@@ -64,7 +64,9 @@ FactoryGirl.define do
 
   factory :finalized_application, parent: :approved_application do
     after(:create) do |application|
-      application.initial_lease_choice = 'low_cost'
+      FactoryGirl.create(:terms_option, :application => application)
+      FactoryGirl.create(:terms_option, :application => application)
+      FactoryGirl.create(:terms_option, :application => application)
       application.id_verified = true
       application.finalize
     end

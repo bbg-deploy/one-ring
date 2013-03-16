@@ -85,8 +85,8 @@ describe Application do
         application.id_verified.should be_true
       end
 
-      it "has an initial_lease_choice" do
-        application.initial_lease_choice.should_not be_nil
+      it "has terms_options" do
+        application.terms_options.should_not be_empty
       end
 
       it "is finalized" do
@@ -563,15 +563,26 @@ describe Application do
           context "without id_verified" do
             it "remains 'approved'" do
               application.approved?.should be_true
+              application.terms_options << FactoryGirl.create(:terms_option, :application => application)
               application.id_verified = false
               application.finalize
               application.approved?.should be_true
             end
           end
 
-          context "with id_verified" do
+          context "without terms_options" do
+            it "remains 'approved'" do
+              application.approved?.should be_true
+              application.id_verified = true
+              application.finalize
+              application.approved?.should be_true
+            end
+          end
+
+          context "with id_verified & terms_options" do
             it "transitions to 'finalized'" do
               application.approved?.should be_true
+              application.terms_options << FactoryGirl.create(:terms_option, :application => application)
               application.id_verified = true
               application.finalize
               application.finalized?.should be_true

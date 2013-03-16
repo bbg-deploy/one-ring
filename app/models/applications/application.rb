@@ -5,15 +5,16 @@ class Application < ActiveRecord::Base
   # Associations
   #----------------------------------------------------------------------------
   has_many :products, :inverse_of => :application
-  has_many :terms_options, :inverse_of => :application
   accepts_nested_attributes_for :products
+  has_many :terms_options, :inverse_of => :application
+  accepts_nested_attributes_for :terms_options
   has_one :credit_decision, :inverse_of => :application
 
   # Accessible Methods
   #----------------------------------------------------------------------------
   attr_accessible :customer_account_number, :store_account_number, :matching_email,
                   :products, :products_attributes, :time_at_address, :rent_or_own, :rent_payment,
-                  :initial_lease_choice, :id_verified
+                  :terms_options, :id_verified
 
   # Validations
   #----------------------------------------------------------------------------
@@ -74,10 +75,12 @@ class Application < ActiveRecord::Base
     end
     
     state all - [:unclaimed, :claimed, :submitted, :approved, :denied] do
+      validates :terms_options, :presence => true
       validates :id_verified, :presence => true, :inclusion => { :in => [true] }
     end
 
     state :completed do
+#      validates :contract_number, :presence => true
     end
   end
 
