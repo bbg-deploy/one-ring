@@ -21,11 +21,11 @@ describe StoreObserver, :observer => true do
       end
     end
 
-    it "should have sent email with user's username" do
+    it "should have sent email with New user subject" do
       Store.observers.enable :store_observer do
         store = FactoryGirl.create(:store)
         notification_email = ActionMailer::Base.deliveries.last
-        notification_email.body.should match(/#{store.username}/)
+        notification_email.subject.should eq("You have a new user!")
       end
     end
   end

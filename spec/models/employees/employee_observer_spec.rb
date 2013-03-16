@@ -21,11 +21,11 @@ describe EmployeeObserver, :observer => true do
       end
     end
 
-    it "should have sent email with user's username" do
+    it "should have sent email with New user subject" do
       Employee.observers.enable :employee_observer do
         employee = FactoryGirl.create(:employee)
         notification_email = ActionMailer::Base.deliveries.last
-        notification_email.body.should match(email.username)
+        notification_email.subject.should eq("You have a new user!")
       end
     end
   end

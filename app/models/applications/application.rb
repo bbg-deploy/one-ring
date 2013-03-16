@@ -5,6 +5,7 @@ class Application < ActiveRecord::Base
   # Associations
   #----------------------------------------------------------------------------
   has_many :products, :inverse_of => :application
+  has_many :terms_options, :inverse_of => :application
   accepts_nested_attributes_for :products
   has_one :credit_decision, :inverse_of => :application
 

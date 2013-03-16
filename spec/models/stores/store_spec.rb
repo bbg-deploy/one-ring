@@ -300,7 +300,7 @@ describe Store, :store => true do
   #----------------------------------------------------------------------------
   describe "devise", :devise => true do
     describe "database authenticatable" do
-      it_behaves_like "devise authenticatable", :approved_store do
+      it_behaves_like "devise authenticatable", :confirmed_store do
         # Authentication Configuration
         let(:case_insensitive_keys) { [:email] }
         let(:strip_whitespace_keys) { [:email] }
@@ -309,7 +309,7 @@ describe Store, :store => true do
     end
       
     describe "recoverable" do
-      it_behaves_like "devise recoverable", :approved_store do
+      it_behaves_like "devise recoverable", :confirmed_store do
         # Recoverable Configuration
         let(:reset_password_keys) { [:email] }
         let(:reset_password_within) { 6.hours }
@@ -317,7 +317,7 @@ describe Store, :store => true do
     end
   
     describe "lockable" do
-      it_behaves_like "devise lockable", :approved_store do
+      it_behaves_like "devise lockable", :confirmed_store do
         # Lockable Configuration
         let(:unlock_keys) { [:email] }
         let(:unlock_strategy) { :both }
@@ -327,21 +327,21 @@ describe Store, :store => true do
     end
   
     describe "rememberable" do
-      it_behaves_like "devise rememberable", :approved_store do
+      it_behaves_like "devise rememberable", :confirmed_store do
         # Rememberable Configuration
         let(:remember_for) { 2.weeks }
       end
     end
   
     describe "timeoutable" do
-      it_behaves_like "devise timeoutable", :approved_store do
+      it_behaves_like "devise timeoutable", :confirmed_store do
         # Timeoutable Configuration
         let(:timeout_in) { 30.minutes }
       end
     end  
 
     describe "confirmable" do  
-      it_behaves_like "devise confirmable", :customer do
+      it_behaves_like "devise confirmable", :approved_store do
         # Confirmable Configuration
         let(:reconfirmable) { true }
         let(:confirmation_keys) { [:email] }

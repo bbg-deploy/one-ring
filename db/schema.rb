@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320080934) do
+ActiveRecord::Schema.define(:version => 20130320080935) do
 
   create_table "access_grants", :force => true do |t|
     t.integer  "accessible_id",           :null => false
@@ -317,5 +317,15 @@ ActiveRecord::Schema.define(:version => 20130320080934) do
   add_index "stores", ["reset_password_token"], :name => "index_stores_on_reset_password_token", :unique => true
   add_index "stores", ["unlock_token"], :name => "index_stores_on_unlock_token", :unique => true
   add_index "stores", ["username"], :name => "index_stores_on_username", :unique => true
+
+  create_table "terms_options", :force => true do |t|
+    t.integer  "application_id",     :null => false
+    t.string   "payment_frequency",  :null => false
+    t.decimal  "markup",             :null => false
+    t.integer  "number_of_payments", :null => false
+    t.decimal  "payment_amount",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
 
 end
