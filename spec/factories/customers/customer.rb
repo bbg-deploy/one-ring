@@ -47,6 +47,13 @@ FactoryGirl.define do
     end
   end  
 
+  factory :cancelled_customer, parent: :customer do
+    after(:create) do |customer|
+      customer.confirm!
+      customer.cancel_account!
+    end
+  end  
+
   factory :invalid_customer, parent: :customer do
     password "validpass"
     password_confirmation "invalidpass"

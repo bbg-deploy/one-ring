@@ -83,7 +83,7 @@ class Customer < ActiveRecord::Base
   def ssn_last_four
 #    ssn = SymmetricEncryption.decrypt(self.encrypted_ssn)
     ssn = self.social_security_number
-    return "XXX-XX-#{ssn.last(4)}"
+    return ssn.last(4)
   end
 
   def active_for_authentication?
@@ -105,7 +105,7 @@ class Customer < ActiveRecord::Base
       matches << record if (leven_similar > 0.9)
     end
     
-    return matches
+    return matches.sort! { |a,b| a.created_at <=> b.created_at }
   end
 
   private

@@ -287,6 +287,79 @@ describe Customer do
   # Public Methods
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "name" do
+      it "returns first and last name" do
+        customer = FactoryGirl.create(:customer, :first_name => "Tom", :last_name => "Jones")
+        customer.name.should eq("Tom Jones")
+      end
+    end
+    
+    describe "ssn_last_four" do
+      it "returns the last four SSN digits" do
+        customer = FactoryGirl.create(:customer, :social_security_number => "365-12-1984")
+        customer.ssn_last_four.should eq("1984")
+      end
+    end
+    
+    describe "inactive_message" do
+      context "as unconfirmed" do
+        it "returns unconfirmed" do
+          customer = FactoryGirl.create(:customer)
+          customer.inactive_message.should eq(:unconfirmed)
+        end
+      end
+
+      context "as cancelled" do
+        it "returns correct message" do
+          customer = FactoryGirl.create(:cancelled_customer)
+          customer.inactive_message.should eq(:cancelled)
+        end
+      end
+    end
+    
+    describe "possible_unclaimed_applications" do
+      context "with no matching emails" do
+        it "returns empty array" do
+          customer = FactoryGirl.create(:customer)
+          customer.possible_unclaimed_applications.should eq([])
+        end
+      end
+
+      context "with one exact match" do
+        it "returns array with match" do
+          customer = FactoryGirl.create(:customer)
+          application = FactoryGirl.create(:unclaimed_application, :matching_email => customer.email)
+          customer.possible_unclaimed_applications.should eq([application])
+        end
+      end
+
+      context "with one fuzzy match" do
+        it "returns array with match" do
+          customer = FactoryGirl.create(:customer, :email => "newuser@email.com")
+          application = FactoryGirl.create(:unclaimed_application, :matching_email => "newser@email.com")
+          customer.possible_unclaimed_applications.should eq([application])
+        end
+      end
+
+      context "with multiple exact matches" do
+        it "returns array of both matches" do
+          customer = FactoryGirl.create(:customer)
+          application_1 = FactoryGirl.create(:unclaimed_application, :matching_email => customer.email)
+          application_2 = FactoryGirl.create(:unclaimed_application, :matching_email => customer.email)
+          customer.possible_unclaimed_applications.should eq([application_1, application_2])
+        end
+      end
+
+      context "with one fuzzy match" do
+        it "returns array of both matches" do
+          customer = FactoryGirl.create(:customer, :email => "newuser@email.com")
+          application_1 = FactoryGirl.create(:unclaimed_application, :matching_email => "newser@email.com")
+          application_2 = FactoryGirl.create(:unclaimed_application, :matching_email => "nwuser@email.com")
+          customer.possible_unclaimed_applications.should eq([application_1, application_2])
+        end
+      end
+    end
+    
     describe "cancel_account!" do
       let(:customer) { FactoryGirl.create(:customer) }
       
