@@ -1,0 +1,25 @@
+= provide(:title, 'Edit Application')
+
+div.row
+  div.large-8.columns
+    = nested_form_for(@application, :url => store_application_path(@application), :method => :put, :html => { :class => "" }) do |f|
+      fieldset
+        legend Store Details
+        div.row
+          div.large-4.columns
+            = f.label "Account Number"
+            = f.text_field :store_account_number, :value => "#{current_store.account_number}", :disabled => true
+          div.large-8.columns
+            = f.label "Name"
+            = f.text_field :store_name, :value => "#{current_store.name}", :disabled => true
+      fieldset
+        legend Customer Details
+        div.row
+          div.large-6.columns
+            = f.label "Matching Email"
+            = f.text_field :matching_email, :placeholder => "customer@email.com"
+      fieldset
+        legend Products
+        = f.fields_for :products
+      = f.submit "Save Changes", :class => "radius button"
+      = link_to "Cancel", store_application_path(@application), :class => "button radius secondary"

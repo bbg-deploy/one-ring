@@ -73,7 +73,7 @@ class Customer < ActiveRecord::Base
   validates_associated :alerts_list
 #  after_save :remove_ssn
 
-  # Methods
+  # Public Methods
   #----------------------------------------------------------------------------
   public
   def name
@@ -96,6 +96,16 @@ class Customer < ActiveRecord::Base
     else 
       super # Use whatever other message 
     end 
+  end
+
+  def possible_unclaimed_applications
+    fz = FuzzyMatch.new(Application.unclaimed, :read => :matching_email)
+    matches = Array.new
+    fz.find_all_with_score(self.email).each do |record, dice_similar, leven_similar|
+      matches << record if (leven_similar > 0.9)
+    end
+    
+    return matches
   end
 
   private

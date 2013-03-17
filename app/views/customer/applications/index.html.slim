@@ -1,0 +1,25 @@
+= provide(:title, "Applications")
+
+div.row
+  div.large-12.columns
+    - if (@applications.nil?) || (@applications.empty?)
+      p There are currently no stores.
+    - else
+      table
+        thead
+          tr
+            th Account Number
+            th Name
+            th Status
+            th
+            th
+            th
+        tbody
+          - @applications.each do |application|
+            tr
+              td = application.application_number
+              td = application.customer_account_number
+              td = application.store_account_number
+div.row
+  div.large-12.columns
+    = link_to "New Application", new_store_application_path, :class => "button radius small"

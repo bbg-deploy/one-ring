@@ -1,4 +1,4 @@
-class Store::ApplicationsController < Store::BaseController
+class Customer::ApplicationsController < Customer::BaseController
   include ActiveModel::ForbiddenAttributesProtection
   load_and_authorize_resource
 
@@ -6,26 +6,28 @@ class Store::ApplicationsController < Store::BaseController
   #-----------------------------------------------------------------------
   def index
     @applications = Application.all
-    respond_with(:store, @applications)
+    respond_with(:customer, @applications)
   end
 
   # GET /store/applications/1
   #-------------------------------------------------------------------
   def show
     @application = Application.find(params[:id])
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
   
-  # GET /store/applications/new
+  # PUT /store/applications/1/claim
   #-------------------------------------------------------------------
-  def new
-#    @product_types = Product.descendants.map{|klass| klass.name}
-    @product_types = ["Tire"]
-    @application = Application.new
-    1.times do
-      @application.products.build
+  def claim
+    @application = Application.find(params[:id])
+    @application.customer_account_number = current_customer.account_number
+
+    if @application.claim
+      flash[:notice] = "Successfully claimed application."
+    else
+      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
 
   # POST /store/applications
@@ -39,7 +41,7 @@ class Store::ApplicationsController < Store::BaseController
     else
       flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
 
   # GET /store/applications/1/edit
@@ -48,7 +50,7 @@ class Store::ApplicationsController < Store::BaseController
 #    @product_types = Product.descendants.map{|klass| klass.name}
     @product_types = ["Tire"]
     @application = Application.find(params[:id])
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
 
   # PUT /employee/applications/1
@@ -61,7 +63,7 @@ class Store::ApplicationsController < Store::BaseController
     else
       flash[:notice] = "Updating application failed."
     end
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
   
   # DELETE /store/applications/1
@@ -70,18 +72,8 @@ class Store::ApplicationsController < Store::BaseController
     @application = Application.find(params[:id])
     @application.destroy
     flash[:notice] = "Successfully destroyed application."
-    respond_with(:store, @application)
+    respond_with(:customer, @application)
   end
-
-  # PUT /employee/stores/1/approve
-  #-------------------------------------------------------------------
-#  def approve
-#    @store = Store.find(params[:id])
-#    @store.approve_account!
-#    StoreAuthenticationMailer.confirmation_instructions(@store).deliver
-#    flash[:notice] = "Successfully approved store."
-#    respond_with(:employee, @store)
-#  end
 
   private
   def create_application_params

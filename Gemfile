@@ -101,7 +101,9 @@ gem 'friendly_id', '~> 4.0.8'
 # Gems for formatting & relationships
 gem 'numbers_and_words', '~> 0.4.0'
 #TODO: Faze out fuzzy_match in favor of fuzzy_string_match
-gem 'fuzzy_match', '~> 1.4.0'
+#gem 'fuzzy_match', '~> 1.4.0'
+gem 'fuzzy_match', github: 'seamusabshere/fuzzy_match', branch: 'find_all_with_score'
+
 gem 'fuzzy-string-match_pure', '>= 0.9.4'
 gem 'acts_as_list', '~> 0.1.8'
 gem 'awesome_nested_set', '>= 2.1.4'

@@ -34,6 +34,11 @@ Onering::Application.routes.draw do
     root :to                  => "pages#home", :as => :home
     resources :payment_profiles, :path => "payment_methods"
     resources :payments, :only => [:index, :new, :create]
+    resources :applications, :only => [:index, :show, :edit, :update, :destroy] do
+      member do
+        put 'claim'         => "applications#claim", :as => :claim
+      end
+    end
   end
 
   # Store Namespace

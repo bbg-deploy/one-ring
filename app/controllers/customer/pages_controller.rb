@@ -3,6 +3,7 @@ class Customer::PagesController < Customer::BaseController
   skip_authorization_check
 
   def home
+    @matching_applications = current_customer.possible_unclaimed_applications
     @contract_details = [
       { :name => "Contract 1",
         :description => "Contract for some Tires",

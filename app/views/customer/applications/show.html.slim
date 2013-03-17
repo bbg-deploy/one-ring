@@ -1,0 +1,17 @@
+= provide(:title, "Application")
+
+div.row
+  div.large-8.columns
+    table
+      thead
+        tr
+          th Account Number
+          th Customer Email
+          th State
+      tbody
+        tr
+          td = @application.application_number
+          td = @application.matching_email
+          td = @application.state
+          td = link_to "Edit Application", edit_store_application_path(@application), :class => "button radius small"
+          td = link_to "Cancel Application", store_application_path(@application), :method => :delete, :class => "button radius small"

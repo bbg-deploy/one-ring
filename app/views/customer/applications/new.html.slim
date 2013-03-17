@@ -1,0 +1,25 @@
+= provide(:title, 'New Employee')
+
+div.row
+  div.large-8.columns
+    = nested_form_for(@application, :url => store_applications_path, :method => :post, :html => { :class => "" }) do |f|
+      fieldset
+        legend Store Details
+        div.row
+          div.large-4.columns
+            = f.label "Account Number"
+            = f.text_field :store_account_number, :value => "#{current_store.account_number}", :disabled => true
+          div.large-8.columns
+            = f.label "Name"
+            = f.text_field :store_name, :value => "#{current_store.name}", :disabled => true
+      fieldset
+        legend Customer Details
+        div.row
+          div.large-6.columns
+            = f.label "Matching Email"
+            = f.text_field :matching_email, :placeholder => "customer@email.com"
+      fieldset
+        legend Products
+        = f.fields_for :products
+        = f.link_to_add "Add a product", :products, :class => "button radius small"
+      = f.submit "Start Application", :class => "radius button"
