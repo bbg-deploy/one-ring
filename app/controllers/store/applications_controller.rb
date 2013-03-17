@@ -5,7 +5,7 @@ class Store::ApplicationsController < Store::BaseController
   # GET /store/applications
   #-----------------------------------------------------------------------
   def index
-    @applications = Application.all
+    @applications = Application.where(:store_account_number => current_store.account_number)
     respond_with(:store, @applications)
   end
 

@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Store::ApplicationsController do
+  # Controller Specific Shared Contexts
+  #----------------------------------------------------------------------------
+  shared_context "with current_store applications" do
+    let!(:application_1) { FactoryGirl.create(:unclaimed_application, :store_account_number => store.account_number) }
+    let!(:application_2) { FactoryGirl.create(:unclaimed_application, :store_account_number => store.account_number) }
+    let!(:application_3) { FactoryGirl.create(:unclaimed_application) }
+    let!(:application_4) { FactoryGirl.create(:unclaimed_application) }
+  end
+
+  shared_context "with random applications" do
+    let!(:application_1) { FactoryGirl.create(:unclaimed_application) }
+    let!(:application_2) { FactoryGirl.create(:unclaimed_application) }
+    let!(:application_3) { FactoryGirl.create(:unclaimed_application) }
+    let!(:application_4) { FactoryGirl.create(:unclaimed_application) }
+  end
+
   # Controller Shared Methods
   #----------------------------------------------------------------------------
   def do_get_index
@@ -68,22 +84,48 @@ describe Store::ApplicationsController do
 
     context "as authenticated store" do
       include_context "with authenticated store"
-      before(:each) do
-        do_get_index
+      
+      context "with no applications" do
+        include_context "with random applications"
+        
+        before(:each) do
+          do_get_index
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:applications).with([]) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:index) }
       end
 
-      # Variables
-      it "has current store" do
-        subject.current_store.should_not be_nil
+      context "with applications" do
+        include_context "with current_store applications"
+      
+        before(:each) do
+          do_get_index
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:applications).with([application_1, application_2]) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:index) }
       end
-
-      # Response
-      it { should assign_to(:applications) }
-      it { should respond_with(:success) }
-
-      # Content
-      it { should_not set_the_flash }
-      it { should render_template(:index) }
     end
 
     context "as authenticated customer" do
@@ -160,7 +202,7 @@ describe Store::ApplicationsController do
       end
 
       # Response
-      it { should assign_to(:application) }
+      it { should assign_to(:application).with_kind_of(Application) }
       it { should respond_with(:success) }
 
       # Content
@@ -253,7 +295,7 @@ describe Store::ApplicationsController do
         end
 
         # Response
-        it { should assign_to(:application) }
+        it { should assign_to(:application).with_kind_of(Application) }
         it { should respond_with(:success) }
   
         # Content
@@ -279,7 +321,7 @@ describe Store::ApplicationsController do
         end
 
         # Response
-        it { should assign_to(:application) }
+        it { should assign_to(:application).with_kind_of(Application) }
         it { should respond_with(:redirect) }
         it { should redirect_to(store_application_path(Application.last)) }
   
@@ -373,24 +415,48 @@ describe Store::ApplicationsController do
     
     context "as authenticated store" do
       include_context "with authenticated store"
-      let(:application) { FactoryGirl.create(:unclaimed_application) }
 
-      before(:each) do
-        do_get_show(application.id)
+      context "with another store's application" do
+        include_context "with random applications"
+
+        before(:each) do
+          do_get_show(application_1.id)
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(store_home_path)}
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
       end
 
-      # Variables
-      it "has current store" do
-        subject.current_store.should_not be_nil
+      context "with store's application" do
+        include_context "with current_store applications"
+
+        before(:each) do
+          do_get_show(application_1.id)
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:show) }
       end
-
-      # Response
-      it { should assign_to(:application) }
-      it { should respond_with(:success) }
-
-      # Content
-      it { should_not set_the_flash }
-      it { should render_template(:show) }
     end
 
     context "as authenticated customer" do
@@ -463,24 +529,47 @@ describe Store::ApplicationsController do
     
     context "as authenticated store" do
       include_context "with authenticated store"
-      let(:application) { FactoryGirl.create(:unclaimed_application) }
 
-      before(:each) do
-        do_get_edit(application.id)
+      context "with another store's application" do
+        include_context "with random applications"
+
+        before(:each) do
+          do_get_edit(application_1.id)
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:redirect) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
       end
 
-      # Variables
-      it "has current store" do
-        subject.current_store.should_not be_nil
+      context "with store's application" do
+        include_context "with current_store applications"
+
+        before(:each) do
+          do_get_edit(application_1.id)
+        end
+  
+        # Variables
+        it "has current store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:success) }
+  
+        # Content
+        it { should_not set_the_flash }
+        it { should render_template(:edit) }
       end
-
-      # Response
-      it { should assign_to(:application) }
-      it { should respond_with(:success) }
-
-      # Content
-      it { should_not set_the_flash }
-      it { should render_template(:edit) }
     end
 
     context "as authenticated customer" do
@@ -561,59 +650,119 @@ describe Store::ApplicationsController do
     context "as authenticated store" do
       include_context "with authenticated store"
 
-      context "with invalid attributes" do
-        let(:application) { FactoryGirl.create(:unclaimed_application) }
-        let(:attributes) { { :matching_email => nil } }
+      context "with another store's application" do
+        include_context "with random applications"  
 
-        before(:each) do
-          do_put_update(application.id, attributes)
-        end
-
-        # Variables
-        it "has current store" do
-          subject.current_store.should_not be_nil
-        end
-
-        # Response
-        it { should assign_to(:application) }
-        it { should respond_with(:success) }
+        context "with invalid attributes" do
+          let(:attributes) { { :matching_email => nil } }
   
-        # Content
-        it { should set_the_flash[:notice].to(/failed/) }
-        it { should render_template(:edit) }
-
-        #Behavior
-        it "should not update application" do
-          application.reload
-          application.matching_email.should_not eq("new@email.com")
+          before(:each) do
+            do_put_update(application_1.id, attributes)
+          end
+  
+          # Variables
+          it "has current store" do
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:application).with_kind_of(Application) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(store_home_path) }
+    
+          # Content
+          it { should set_the_flash[:alert].to(/Access denied/) }
+  
+          #Behavior
+          it "should not update application" do
+            application_1.reload
+            application_1.matching_email.should_not eq("new@email.com")
+          end
+        end
+  
+        context "with valid attributes" do
+          let(:attributes) { { :matching_email => "new@email.com" } }
+  
+          before(:each) do
+            do_put_update(application_1.id, attributes)
+          end
+  
+          # Variables
+          it "has current store" do
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:application).with_kind_of(Application) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(store_home_path) }
+    
+          # Content
+          it { should set_the_flash[:alert].to(/Access denied/) }
+          
+          #Behavior
+          it "should not update application" do
+            application_1.reload
+            application_1.matching_email.should_not eq("new@email.com")
+          end
         end
       end
+      
+      context "with store's application" do
+        include_context "with current_store applications"  
 
-      context "with valid attributes" do
-        let(:application) { FactoryGirl.create(:unclaimed_application) }
-        let(:attributes) { { :matching_email => "new@email.com" } }
-
-        before(:each) do
-          do_put_update(application.id, attributes)
-        end
-
-        # Variables
-        it "has current store" do
-          subject.current_store.should_not be_nil
-        end
-
-        # Response
-        it { should assign_to(:application) }
-        it { should respond_with(:redirect) }
-        it { should redirect_to(store_application_path(application)) }
+        context "with invalid attributes" do
+          let(:attributes) { { :matching_email => nil } }
   
-        # Content
-        it { should set_the_flash[:notice].to(/Successfully updated/) }
-        
-        #Behavior
-        it "should update application" do
-          application.reload
-          application.matching_email.should eq("new@email.com")
+          before(:each) do
+            do_put_update(application_1.id, attributes)
+          end
+  
+          # Variables
+          it "has current store" do
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:application).with_kind_of(Application) }
+          it { should respond_with(:success) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/failed/) }
+          it { should render_template(:edit) }
+  
+          #Behavior
+          it "should not update application" do
+            application_1.reload
+            application_1.matching_email.should_not eq("new@email.com")
+          end
+        end
+  
+        context "with valid attributes" do
+          let(:attributes) { { :matching_email => "new@email.com" } }
+  
+          before(:each) do
+            do_put_update(application_1.id, attributes)
+          end
+  
+          # Variables
+          it "has current store" do
+            subject.current_store.should_not be_nil
+          end
+  
+          # Response
+          it { should assign_to(:application).with_kind_of(Application) }
+          it { should respond_with(:redirect) }
+          it { should redirect_to(store_application_path(application_1)) }
+    
+          # Content
+          it { should set_the_flash[:notice].to(/Successfully updated/) }
+          
+          #Behavior
+          it "should update application" do
+            application_1.reload
+            application_1.matching_email.should eq("new@email.com")
+          end
         end
       end
     end
@@ -695,28 +844,57 @@ describe Store::ApplicationsController do
     
     context "as authenticated store" do
       include_context "with authenticated store"
-      let(:application) { FactoryGirl.create(:unclaimed_application) }
 
-      before(:each) do
-        do_delete_destroy(application.id)
+      context "with another store's application" do
+        include_context "with random applications"  
+
+        before(:each) do
+          do_delete_destroy(application_1.id)
+        end
+  
+        # Variables
+        it "has current_store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(store_home_path) }
+  
+        # Content
+        it { should set_the_flash[:alert].to(/Access denied/) }
+  
+        # Behavior
+        it "should persist Application" do
+          expect { application_1.reload }.to_not raise_error
+        end
       end
 
-      # Variables
-      it "has current_store" do
-        subject.current_store.should_not be_nil
-      end
+      context "with store's application" do
+        include_context "with current_store applications"  
 
-      # Response
-      it { should assign_to(:application) }
-      it { should respond_with(:redirect) }
-      it { should redirect_to(store_applications_path) }
-
-      # Content
-      it { should set_the_flash[:notice].to(/Successfully destroyed/) }
-
-      # Behavior
-      it "should not persist Application" do
-        expect { application.reload }.to raise_error
+        before(:each) do
+          do_delete_destroy(application_1.id)
+        end
+  
+        # Variables
+        it "has current_store" do
+          subject.current_store.should_not be_nil
+        end
+  
+        # Response
+        it { should assign_to(:application).with(application_1) }
+        it { should respond_with(:redirect) }
+        it { should redirect_to(store_applications_path) }
+  
+        # Content
+        it { should set_the_flash[:notice].to(/Successfully destroyed/) }
+  
+        # Behavior
+        it "should not persist Application" do
+          expect { application_1.reload }.to raise_error
+        end
       end
     end
 

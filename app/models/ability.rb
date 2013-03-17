@@ -5,10 +5,11 @@ class Ability
    if user.kind_of? Customer
       can :manage, PaymentProfile, :customer => user
       can :create, PaymentProfile
-      can :manage, Application
+      can :manage, Application, :customer_account_number => user.account_number
+      can :claim, Application
     elsif user.kind_of? Store
-      can :manage, :none
-      can :manage, Application
+      can :manage, Application, :store_account_number => user.account_number
+      can :create, Application
     elsif user.kind_of? Employee
       #TODO: Only Admins should be able to manage these
       can :manage, Client
