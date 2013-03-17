@@ -8,10 +8,10 @@ div.row
         div.row
           div.large-4.columns
             = f.label "Account Number"
-            = f.text_field :store_account_number, :value => "#{current_store.account_number}", :disabled => true
+            = f.text_field :store_account_number, :disabled => true
           div.large-8.columns
             = f.label "Name"
-            = f.text_field :store_name, :value => "#{current_store.name}", :disabled => true
+            = f.text_field :store_name, :disabled => true
       fieldset
         legend Customer Details
         div.row

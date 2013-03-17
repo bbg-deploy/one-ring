@@ -49,7 +49,7 @@ group :test do
   gem 'email_spec', '>= 1.3.0'
   gem 'database_cleaner'
   gem 'webmock', '>= 1.9.0'
-  gem 'shoulda-matchers', '>= 1.4.2'
+  gem 'shoulda-matchers', '= 1.4.2'
 #  gem 'shoulda-matchers', :git => 'git://github.com/thoughtbot/shoulda-matchers.git'
 end
 

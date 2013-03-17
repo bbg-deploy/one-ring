@@ -2,24 +2,32 @@
 
 div.row
   div.large-8.columns
-    = nested_form_for(@application, :url => store_application_path(@application), :method => :put, :html => { :class => "" }) do |f|
+    = nested_form_for(@application, :url => customer_application_path(@application), :method => :put, :html => { :class => "" }) do |f|
       fieldset
         legend Store Details
         div.row
           div.large-4.columns
             = f.label "Account Number"
-            = f.text_field :store_account_number, :value => "#{current_store.account_number}", :disabled => true
+            = f.text_field :store_account_number, :disabled => true
           div.large-8.columns
             = f.label "Name"
-            = f.text_field :store_name, :value => "#{current_store.name}", :disabled => true
-      fieldset
-        legend Customer Details
-        div.row
-          div.large-6.columns
-            = f.label "Matching Email"
-            = f.text_field :matching_email, :placeholder => "customer@email.com"
+            = f.text_field :store_name, :disabled => true
       fieldset
         legend Products
         = f.fields_for :products
+      fieldset
+        legend Customer Details
+        div.row
+          div.large-12.columns
+            = f.label "When did you move into this address?"
+            = f.date_select :time_at_address, :discard_day => true
+        div.row
+          div.large-12.columns
+            = f.label "Do you rent or own this property"
+            = f.select :rent_or_own, ["Rent", "Own"], {}
+        div.row
+          div.large-12.columns
+            = f.label "What is your monthly rent/mortgage payment"
+            = f.text_field :rent_payment, :placeholder => "200"
       = f.submit "Save Changes", :class => "radius button"
-      = link_to "Cancel", store_application_path(@application), :class => "button radius secondary"
+      = link_to "Cancel", customer_application_path(@application), :class => "button radius secondary"

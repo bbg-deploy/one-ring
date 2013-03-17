@@ -30,20 +30,6 @@ class Customer::ApplicationsController < Customer::BaseController
     respond_with(:customer, @application)
   end
 
-  # POST /store/applications
-  #-------------------------------------------------------------------
-  def create
-    @application = Application.new(create_application_params)
-    @application.store_account_number = current_store.account_number
-    
-    if @application.save
-      flash[:notice] = "Successfully started application."
-    else
-      flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
-    end
-    respond_with(:customer, @application)
-  end
-
   # GET /store/applications/1/edit
   #-------------------------------------------------------------------
   def edit
@@ -76,15 +62,8 @@ class Customer::ApplicationsController < Customer::BaseController
   end
 
   private
-  def create_application_params
-    params.require(:application).permit( 
-      :matching_email,
-      {:products_attributes  => [:type, :name, :price, :id_number, :description]} )
-  end
-
   def update_application_params
     params.require(:application).permit( 
-      :matching_email,
-      {:products_attributes  => [:type, :name, :price, :id_number, :description]} )
+      :time_at_address, :rent_or_own, :rent_payment )
   end
 end
