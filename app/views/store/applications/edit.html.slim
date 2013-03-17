@@ -1,49 +1,25 @@
-= provide(:title, 'Edit Store Account')
+= provide(:title, 'Edit Application')
 
 div.row
   div.large-8.columns
-    = nested_form_for(@store, :url => employee_store_path(@store), :method => :put, :html => { :class => "" }) do |f|
+    = nested_form_for(@application, :url => store_application_path(@application), :method => :put, :html => { :class => "" }) do |f|
       fieldset
-        legend Account Information
-        .row
+        legend Store Details
+        div.row
+          div.large-4.columns
+            = f.label "Account Number"
+            = f.text_field :store_account_number, :value => "#{current_store.account_number}", :disabled => true
           div.large-8.columns
-            = f.label "Username"
-            = f.text_field :username, :placeholder => "rockstar"
-          div.large-4.columns
-            p.helper-text
-              = "Must be greater than 6 characters"
-        div.row
-          div.large-8.columns 
-            = f.label "Email"
-            = f.email_field :email, :placeholder => "user@email.com"
-            = f.email_field :email_confirmation, :placeholder => "Enter Email Again"
-          div.large-4.columns
-            p.helper-text
-              = "Must be greater than 6 characters"
+            = f.label "Name"
+            = f.text_field :store_name, :value => "#{current_store.name}", :disabled => true
       fieldset
-        legend New Password
+        legend Customer Details
         div.row
-          div.large-8.columns 
-            = f.label "Password"
-            = f.password_field :password, :placeholder => "BlueSuedeShoes"
-            = f.password_field :password_confirmation, :placeholder => "Enter Password Again"
-          div.large-4.columns
-            p.helper-text
-              = "Must be greater than 6 characters"
+          div.large-6.columns
+            = f.label "Matching Email"
+            = f.text_field :matching_email, :placeholder => "customer@email.com"
       fieldset
-        legend Personal Information
-        div.row
-          div.large-4.columns 
-            = f.label "First Name"
-            = f.text_field :first_name, :placeholder => "Elvis"
-          div.large-4.columns 
-            = f.label "Middle Name"
-            = f.text_field :middle_name, :placeholder => "The King"
-          div.large-4.columns 
-            = f.label "Last Name"
-            = f.text_field :last_name, :placeholder => "Presley"
-        div.row
-          div.large-6.columns 
-            = f.label "Date of Birth"
-            = f.datepicker :date_of_birth, :maxDate => "-18Y", :changeMonth => true, :changeYear => true, :yearRange => "1900:#{Time.now.year - 18}"
-      = f.submit "Save Account Changes", :class => "radius button"
+        legend Products
+        = f.fields_for :products
+      = f.submit "Save Changes", :class => "radius button"
+      = link_to "Cancel", store_application_path(@application), :class => "button radius secondary"

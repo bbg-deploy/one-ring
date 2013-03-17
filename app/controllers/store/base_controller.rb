@@ -1,5 +1,5 @@
 class Store::BaseController < ::ApplicationController
-  layout 'customer_application'
+  layout 'store_layout'
 
   before_filter :authenticate_store!
   before_filter :get_store

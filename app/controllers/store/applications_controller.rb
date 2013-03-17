@@ -19,7 +19,11 @@ class Store::ApplicationsController < Store::BaseController
   # GET /store/applications/new
   #-------------------------------------------------------------------
   def new
+    @product_types = Product.descendants.map{|klass| klass.name}
     @application = Application.new
+    1.times do
+      @application.products.build
+    end
     respond_with(:store, @application)
   end
 
@@ -40,6 +44,7 @@ class Store::ApplicationsController < Store::BaseController
   # GET /store/applications/1/edit
   #-------------------------------------------------------------------
   def edit
+    @product_types = Product.descendants.map{|klass| klass.name}
     @application = Application.find(params[:id])
     respond_with(:store, @application)
   end

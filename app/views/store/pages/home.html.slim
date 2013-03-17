@@ -1,5 +1,6 @@
-= provide(:title, 'Home')
+= provide(:title, 'Store Home')
 
 div.row
-  div.large-12.columns
-    h1 Store Home
+  div.large-3.columns
+    = link_to "Start New Application", new_store_application_path, :class => "button radius"
+  div.large-9.columns

@@ -18,4 +18,8 @@ div.row
           div.large-6.columns
             = f.label "Matching Email"
             = f.text_field :matching_email, :placeholder => "customer@email.com"
-      = f.submit "Create Store", :class => "radius button"
+      fieldset
+        legend Products
+        = f.fields_for :products
+        = f.link_to_add "Add a product", :products, :class => "button radius small"
+      = f.submit "Start Application", :class => "radius button"

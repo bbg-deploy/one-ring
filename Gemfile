@@ -117,7 +117,7 @@ gem 'geocoder', '~> 1.1.2'
 
 # Simple Form for easier form creation
 gem 'simple_form', '~> 2.0.2'
-gem 'nested_form', '~> 0.3.0'
+gem 'nested_form', '~> 0.3.1'
 gem 'wicked', '~> 0.3.2'
 #TODO: Look into using this instead of nested_form
 gem 'cocoon', '~> 1.0.22'

@@ -1,0 +1,21 @@
+div.row
+  div.large-4.columns
+    = f.label "Product Type"
+    = f.select :type, @product_types, {}
+  div.large-8.columns
+    = f.label "Name"
+    = f.text_field :name, :placeholder => "Firestone FR710"
+div.row
+  div.large-4.columns
+    = f.label "Price"
+    = f.text_field :price, :placeholder => "199.99"
+  div.large-8.columns
+    = f.label "ID Number"
+    = f.text_field :id_number, :placeholder => "12-7683786"
+div.row
+  div.large-12.columns
+    = f.label "Description"
+    = f.text_area :description
+div.row
+  div.large-12.columns
+    = f.link_to_remove "Remove Product", :class => "button radius small"
