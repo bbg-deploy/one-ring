@@ -28,6 +28,11 @@ describe Customer::RegistrationsController do
     delete :destroy, :format => 'html'
   end
 
+  def do_delete_cancel_account
+    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    delete :cancel_account, :format => 'html'
+  end
+
   def do_get_cancel
     @request.env["devise.mapping"] = Devise.mappings[:customer]
     get :cancel, :format => 'html'
@@ -41,6 +46,7 @@ describe Customer::RegistrationsController do
     it { should route(:get, "/customer/edit").to(:action => :edit) }
     it { should route(:put, "/customer").to(:action => :update) }
     it { should route(:delete, "/customer").to(:action => :destroy) }
+    it { should route(:delete, "/customer/cancel_account").to(:action => :cancel_account) }
     it { should route(:get, "/customer/cancel").to(:action => :cancel) }
   end
 
@@ -1123,8 +1129,8 @@ describe Customer::RegistrationsController do
       end
 
       # Variables
-      it "should not have current customer (logged out)" do
-        subject.current_user.should be_nil
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
       end
 
       # Response
@@ -1132,27 +1138,22 @@ describe Customer::RegistrationsController do
       it { should redirect_to(home_path) }
 
       # Content
-      it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
+      it { should set_the_flash[:alert].to(/cannot be deleted/) }
 
       # External Requests
       it "does not request Authorize.net" do
-        a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*createCustomerProfileRequest.*/).should_not have_been_made
+        a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should_not have_been_made
       end
 
       # Behavior
-      it "should be 'cancelled'" do
-        customer.reload
-        customer.cancelled?.should be_true
-      end
-
-      it "should still persist in database" do
-        customer.reload
-        customer.should be_valid
+      it "should persist in database" do
+        expect { customer.reload }.to_not raise_error
       end
     end
 
     context "as authenticated store" do
       include_context "with authenticated store"
+
       before(:each) do
         do_delete_destroy
       end
@@ -1274,6 +1275,106 @@ describe Customer::RegistrationsController do
 
       # Content
       it { should_not set_the_flash }
+    end
+  end
+
+  describe "#cancel_account", :cancel_account => true do
+    context "as unauthenticated customer" do
+      include_context "with unauthenticated customer"
+
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should not have current customer (logged out)" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
+      it { should assign_to(:customer) }
+      it { should redirect_to(home_path) }
+
+      # Content
+      it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
+
+      # External Requests
+      it "does not request Authorize.net" do
+        a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*createCustomerProfileRequest.*/).should_not have_been_made
+      end
+
+      # Behavior
+      it "should be 'cancelled'" do
+        customer.reload
+        customer.cancelled?.should be_true
+      end
+
+      it "should still persist in database" do
+        customer.reload
+        customer.should be_valid
+      end
+    end
+
+    context "as authenticated store" do
+      include_context "with authenticated store"
+
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should have current store" do
+        subject.current_store.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:customer) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_customer_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
     end
   end
 end

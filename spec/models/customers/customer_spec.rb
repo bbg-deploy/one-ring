@@ -316,6 +316,25 @@ describe Customer do
         end
       end
     end
+
+    describe "applications" do
+      context "with no applications" do
+        it "returns empty array" do
+          customer = FactoryGirl.create(:confirmed_customer)
+          customer.applications.should eq([])
+        end
+      end
+
+      context "with applications" do
+        it "returns array of customer's applications" do
+          customer = FactoryGirl.create(:confirmed_customer)
+          application_1 = FactoryGirl.create(:claimed_application, :customer_account_number => customer.account_number)
+          application_2 = FactoryGirl.create(:claimed_application, :customer_account_number => customer.account_number)
+          application_3 = FactoryGirl.create(:claimed_application)
+          customer.applications.should eq([application_1, application_2])
+        end
+      end
+    end
     
     describe "possible_unclaimed_applications" do
       context "with no matching emails" do
@@ -360,6 +379,13 @@ describe Customer do
       end
     end
     
+    describe "cancelable?" do
+      it "should be true" do
+        customer = FactoryGirl.create(:customer)
+        customer.cancellable?.should be_true
+      end
+    end
+    
     describe "cancel_account!" do
       let(:customer) { FactoryGirl.create(:customer) }
       
@@ -384,6 +410,20 @@ describe Customer do
           customer.cancel_account!
           customer.cancelled?.should be_true
         end
+      end
+    end
+
+    describe "deletable?" do
+      it "should be false" do
+        customer = FactoryGirl.create(:customer)
+        customer.deletable?.should be_false
+      end
+    end
+
+    describe "destroy" do
+      it "should return false" do
+        customer = FactoryGirl.create(:customer)
+        customer.destroy.should be_false
       end
     end
 

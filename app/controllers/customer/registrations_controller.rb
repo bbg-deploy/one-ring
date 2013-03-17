@@ -1,10 +1,10 @@
 class Customer::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
-  layout 'customer_layout', :only => [:edit, :update, :destroy]
+  layout 'customer_layout', :only => [:edit, :update, :destroy, :cancel_account]
 
   # Authentication filters
   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :cancel_account]
   before_filter :check_scope_conflict
 
   # GET /customer/sign_up
@@ -73,11 +73,25 @@ class Customer::RegistrationsController < Devise::RegistrationsController
 
   # DELETE /customer
   def destroy
-    # Don't actually destroy the customer object, just set it to 'cancelled'
     @customer = current_customer
-    @customer.cancel_account!
-    Devise.sign_out_all_scopes ? sign_out : sign_out(:customer)
-    set_flash_message :notice, :destroyed
+    if @customer.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:customer)
+      set_flash_message :notice, :destroyed
+    else
+      set_flash_message :alert, :cannot_be_destroyed
+    end
+    respond_with @customer, :location => home_path
+  end
+
+  # DELETE /customer/cancel_account
+  def cancel_account
+    @customer = current_customer
+    if @customer.cancel_account
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:customer)
+      set_flash_message :notice, :cancelled
+    else
+      set_flash_message :alert, :cannot_be_cancelled
+    end    
     respond_with @customer, :location => home_path
   end
 

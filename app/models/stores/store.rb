@@ -73,6 +73,23 @@ class Store < ActiveRecord::Base
     return "active"
   end
 
+  def deletable?
+    return false
+  end
+  
+  def destroy
+    self.deletable? ? super : false
+  end
+
+  def cancellable?
+    return true
+  end
+  
+  def applications
+    applications = Application.where(:store_account_number => self.account_number)
+    return applications.sort! { |a,b| a.created_at <=> b.created_at }
+  end
+
   def inactive_message 
     if !approved? 
       :not_approved 

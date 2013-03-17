@@ -28,6 +28,7 @@ Onering::Application.routes.draw do
   devise_scope :customer do
     get '/customer/scope_conflict' => 'customer/sessions#scope_conflict'
     delete '/customer/resolve_conflict' => 'customer/sessions#resolve_conflict'
+    delete '/customer/cancel_account' => 'customer/registrations#cancel_account'
   end
 
   namespace :customer do
@@ -54,6 +55,7 @@ Onering::Application.routes.draw do
   devise_scope :store do
     get '/store/scope_conflict' => 'store/sessions#scope_conflict'
     delete '/store/resolve_conflict' => 'store/sessions#resolve_conflict'
+    delete '/store/cancel_account' => 'store/registrations#cancel_account'
   end
 
   namespace :store do

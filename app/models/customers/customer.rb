@@ -98,6 +98,23 @@ class Customer < ActiveRecord::Base
     end 
   end
 
+  def deletable?
+    return false
+  end
+  
+  def destroy
+    self.deletable? ? super : false
+  end
+
+  def cancellable?
+    return true
+  end
+  
+  def applications
+    applications = Application.where(:customer_account_number => self.account_number)
+    return applications.sort! { |a,b| a.created_at <=> b.created_at }
+  end
+
   def possible_unclaimed_applications
     fz = FuzzyMatch.new(Application.unclaimed, :read => :matching_email)
     matches = Array.new

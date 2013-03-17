@@ -28,6 +28,11 @@ describe Store::RegistrationsController do
     delete :destroy, :format => 'html'
   end
 
+  def do_delete_cancel_account
+    @request.env["devise.mapping"] = Devise.mappings[:store]
+    delete :cancel_account, :format => 'html'
+  end
+
   def do_get_cancel
     @request.env["devise.mapping"] = Devise.mappings[:store]
     get :cancel, :format => 'html'
@@ -41,6 +46,7 @@ describe Store::RegistrationsController do
     it { should route(:get, "/store/edit").to(:action => :edit) }
     it { should route(:put, "/store").to(:action => :update) }
     it { should route(:delete, "/store").to(:action => :destroy) }
+    it { should route(:delete, "/store/cancel_account").to(:action => :cancel_account) }
     it { should route(:get, "/store/cancel").to(:action => :cancel) }
   end
 
@@ -687,8 +693,8 @@ describe Store::RegistrationsController do
       end
 
       # Variables
-      it "should not have current store (logged out)" do
-        subject.current_user.should be_nil
+      it "should have current store" do
+        subject.current_store.should_not be_nil
       end
 
       # Response
@@ -696,17 +702,11 @@ describe Store::RegistrationsController do
       it { should redirect_to(home_path) }
 
       # Content
-      it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
+      it { should set_the_flash[:alert].to(/cannot be deleted/) }
 
       # Behavior
-      it "should be 'cancelled'" do
-        store.reload
-        store.cancelled?.should be_true
-      end
-
       it "should still persist in database" do
-        store.reload
-        store.should be_valid
+        expect { store.reload }.to_not raise_error
       end
     end
 
@@ -735,6 +735,100 @@ describe Store::RegistrationsController do
 
       before(:each) do
         do_delete_destroy
+      end
+
+      # Variables
+      it "should have current employee" do
+        subject.current_employee.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+  end
+
+  describe "#cancel_account", :cancel_account => true do
+    context "as unauthenticated store" do
+      include_context "with unauthenticated store"
+
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should not have current user" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+    
+    context "as authenticated store" do
+      include_context "with authenticated store"
+      
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should not have current store (logged out)" do
+        subject.current_user.should be_nil
+      end
+
+      # Response
+      it { should assign_to(:store) }
+      it { should redirect_to(home_path) }
+
+      # Content
+      it { should set_the_flash[:notice].to(/account was successfully cancelled/) }
+
+      # Behavior
+      it "should be 'cancelled'" do
+        store.reload
+        store.cancelled?.should be_true
+      end
+
+      it "should still persist in database" do
+        store.reload
+        store.should be_valid
+      end
+    end
+
+    context "as authenticated customer" do
+      include_context "with authenticated customer"
+      before(:each) do
+        do_delete_cancel_account
+      end
+
+      # Variables
+      it "should have current customer" do
+        subject.current_customer.should_not be_nil
+      end
+
+      # Response
+      it { should_not assign_to(:store) }
+      it { should respond_with(:redirect) }
+      it { should redirect_to(new_store_session_path) }
+
+      # Content
+      it { should set_the_flash[:alert].to(/need to sign in or sign up/) }
+    end
+
+    context "as authenticated employee" do
+      include_context "with authenticated employee"
+
+      before(:each) do
+        do_delete_cancel_account
       end
 
       # Variables

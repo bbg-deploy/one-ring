@@ -102,9 +102,30 @@ module Authentication
     username
   end
     
+  def deletable?
+    return true
+  end  
+
+  def cancellable?
+    return true
+  end  
+  
+  def cancel_account
+    if self.cancellable?
+      self.cancelled_at = DateTime.now
+      return self.save
+    else
+      return false
+    end
+  end
+
   def cancel_account!
-    self.cancelled_at = DateTime.now
-    self.save!
+    if self.cancellable?
+      self.cancelled_at = DateTime.now
+      return self.save!
+    else
+      raise StandardError, "account cannot be cancelled."
+    end
   end
 
   def cancelled?

@@ -1,9 +1,10 @@
 class Store::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
+  layout 'store_layout', :only => [:edit, :update, :destroy, :cancel_account]
 
   # Authentication filters
-  prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  prepend_before_filter :require_no_authentication, :only => [:new, :create, :cancel]
+  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :cancel_account]
   before_filter :check_scope_conflict
 
   # GET /store/sign_up
@@ -63,11 +64,25 @@ class Store::RegistrationsController < Devise::RegistrationsController
 
   # DELETE /store
   def destroy
-    # Don't actually destroy the store object, just set it to 'cancelled'
     @store = current_store
-    @store.cancel_account!
-    Devise.sign_out_all_scopes ? sign_out : sign_out(:store)
-    set_flash_message :notice, :destroyed
+    if @store.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:store)
+      set_flash_message :notice, :destroyed
+    else
+      set_flash_message :alert, :cannot_be_destroyed
+    end
+    respond_with @store, :location => home_path
+  end
+
+  # DELETE /store/cancel_account
+  def cancel_account
+    @store = current_store
+    if @store.cancel_account
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:store)
+      set_flash_message :notice, :cancelled
+    else
+      set_flash_message :alert, :cannot_be_cancelled
+    end    
     respond_with @store, :location => home_path
   end
 

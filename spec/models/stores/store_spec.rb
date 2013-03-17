@@ -225,6 +225,62 @@ describe Store, :store => true do
   # Public Methods
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "name" do
+      it "returns store name" do
+        store = FactoryGirl.create(:store, :name => "Widget Company")
+        store.name.should eq("Widget Company")
+      end
+    end
+    
+    describe "inactive_message" do
+      context "as unapproved" do
+        it "returns unconfirmed" do
+          store = FactoryGirl.create(:store)
+          store.inactive_message.should eq(:not_approved)
+        end
+      end
+
+      context "as unconfirmed" do
+        it "returns unconfirmed" do
+          store = FactoryGirl.create(:approved_store)
+          store.inactive_message.should eq(:unconfirmed)
+        end
+      end
+
+      context "as cancelled" do
+        it "returns correct message" do
+          store = FactoryGirl.create(:cancelled_store)
+          store.inactive_message.should eq(:cancelled)
+        end
+      end
+    end
+
+    describe "applications" do
+      context "with no applications" do
+        it "returns empty array" do
+          store = FactoryGirl.create(:confirmed_store)
+          store.applications.should eq([])
+        end
+      end
+
+      context "with applications" do
+        it "returns array of customer's applications" do
+          store = FactoryGirl.create(:confirmed_store)
+          application_1 = FactoryGirl.create(:unclaimed_application, :store_account_number => store.account_number)
+          application_2 = FactoryGirl.create(:unclaimed_application, :store_account_number => store.account_number)
+          application_3 = FactoryGirl.create(:unclaimed_application)
+          store.applications.should eq([application_1, application_2])
+        end
+      end
+    end
+
+    describe "cancelable?" do
+      it "should be true" do
+        store = FactoryGirl.create(:store)
+        store.cancellable?.should be_true
+      end
+    end
+    
     describe "cancel_account!" do
       let(:store) { FactoryGirl.create(:store) }
       
@@ -249,6 +305,20 @@ describe Store, :store => true do
           store.cancel_account!
           store.cancelled?.should be_true
         end
+      end
+    end
+
+    describe "deletable?" do
+      it "should be false" do
+        store = FactoryGirl.create(:store)
+        store.deletable?.should be_false
+      end
+    end
+
+    describe "destroy" do
+      it "should return false" do
+        store = FactoryGirl.create(:store)
+        store.destroy.should be_false
       end
     end
 
