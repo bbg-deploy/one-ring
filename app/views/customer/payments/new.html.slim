@@ -2,12 +2,16 @@
 
 div.row
   div.large-8.columns
-    h2 New Payment Method
-    dl.tabs.pill
-      dd.active = link_to "Bank Account", "#bankAccount", :id => 'bankAccount'
-      dd = link_to "Credit Card", "#creditCard", :id => 'creditCard'
-    ul.tabs-content
-      li#bankAccountTab.active
-        = render "bank_account_form"
-      li#creditCardTab
-        = render "credit_card_form"
+    h2 New Payment
+    = nested_form_for( @payment, :url => customer_payments_path, :method => :post, :html => { :class => '' } ) do |f|
+      fieldset
+        legend Payment Account
+        div.row
+          div.large-6.columns 
+            = f.label "Account"
+            = f.collection_select :payment_profile_id, @payment_profiles, :id, :name
+        div.row
+          div.large-6.columns
+            = f.label "Brand"
+            = f.text_field :amount, :placeholder => "100"
+      = f.button :submit, :label => 'Save', :value => 'Save', :class => 'button radius'

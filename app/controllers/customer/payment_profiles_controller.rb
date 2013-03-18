@@ -23,7 +23,7 @@ class Customer::PaymentProfilesController < Customer::BaseController
     @payment_profile.build_credit_card
     @payment_profile.build_bank_account
     @payment_profile.build_billing_address
-    respond_with(:customer, @payment_profile, :anchor => "card")
+    respond_with(:customer, @payment_profile)
   end
 
   # POST /customer/payment_profiles

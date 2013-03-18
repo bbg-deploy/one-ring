@@ -12,7 +12,9 @@ class Customer::PaymentsController < Customer::BaseController
   # GET /customer/payments/new
   #-------------------------------------------------------------------
   def new
+    @payment_profiles = current_customer.payment_profiles
     @payment = Payment.new
+    @payment.customer = current_customer
     respond_with(:customer, @payment)
   end
 
