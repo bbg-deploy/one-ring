@@ -66,6 +66,7 @@ module AssociationSharedExamples
     it "destroys dependent #{attribute}" do
       model = FactoryGirl.create(factory)
       dependent = model.send(attribute)
+
       if dependent.kind_of?(Array)
         dependent.should_not be_empty
         model.destroy

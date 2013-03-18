@@ -1,9 +1,10 @@
 class Employee::RegistrationsController < Devise::RegistrationsController
   include ActiveModel::ForbiddenAttributesProtection
+  layout 'employee_layout', :only => [:edit, :update, :destroy, :cancel_account]
 
   # Authentication filters
-  prepend_before_filter :require_no_authentication, :only => [ :cancel ]
-  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
+  prepend_before_filter :require_no_authentication, :only => [:cancel]
+  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :cancel_account]
   before_filter :check_scope_conflict
 
   # GET /employee/sign_up
@@ -49,6 +50,30 @@ class Employee::RegistrationsController < Devise::RegistrationsController
     @employee.cancel_account!
     Devise.sign_out_all_scopes ? sign_out : sign_out(:employee)
     set_flash_message :notice, :destroyed
+    respond_with @employee, :location => home_path
+  end
+
+  # DELETE /employee
+  def destroy
+    @employee = current_employee
+    if @employee.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:employee)
+      set_flash_message :notice, :destroyed
+    else
+      set_flash_message :alert, :cannot_be_destroyed
+    end
+    respond_with @employee, :location => home_path
+  end
+
+  # DELETE /employee/cancel_account
+  def cancel_account
+    @employee = current_employee
+    if @employee.cancel_account
+      Devise.sign_out_all_scopes ? sign_out : sign_out(:employee)
+      set_flash_message :notice, :cancelled
+    else
+      set_flash_message :alert, :cannot_be_cancelled
+    end    
     respond_with @employee, :location => home_path
   end
 

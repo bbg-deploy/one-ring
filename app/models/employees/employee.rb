@@ -62,6 +62,18 @@ class Employee < ActiveRecord::Base
     return "active"
   end
 
+  def deletable?
+    return false
+  end
+  
+  def destroy
+    self.deletable? ? super : false
+  end
+
+  def cancellable?
+    return true
+  end
+
   private
   def generate_account_number
     if self.account_number.nil?

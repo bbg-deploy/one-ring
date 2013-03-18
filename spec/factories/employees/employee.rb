@@ -20,6 +20,13 @@ FactoryGirl.define do
     end
   end
 
+  factory :cancelled_employee, parent: :employee do
+    after(:create) do |employee|
+      employee.confirm!
+      employee.cancel_account!
+    end
+  end
+
   factory :invalid_employee, parent: :employee do
     password "validpass"
     password_confirmation "invalidpass"

@@ -76,6 +76,7 @@ Onering::Application.routes.draw do
   devise_scope :employee do
     get '/employee/scope_conflict' => 'employee/sessions#scope_conflict'
     delete '/employee/resolve_conflict' => 'employee/sessions#resolve_conflict'
+    delete '/employee/cancel_account' => 'employee/registrations#cancel_account'
   end
 
   namespace :employee do

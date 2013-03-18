@@ -88,7 +88,7 @@ describe Store, :store => true do
       end
 
       describe "dependent destroy", :dependent_destroy => true do
-        let(:store) { FactoryGirl.create(:store) }
+        before(:each) { Store.any_instance.stub(:deletable?).and_return(true) }
         it_behaves_like "dependent destroy", :store, :addresses
       end
     end
@@ -106,7 +106,7 @@ describe Store, :store => true do
       end
   
       describe "dependent destroy", :dependent_destroy => true do
-        let(:store) { FactoryGirl.create(:store) }
+        before(:each) { Store.any_instance.stub(:deletable?).and_return(true) }
         it_behaves_like "dependent destroy", :store, :phone_numbers
       end
     end
@@ -320,6 +320,13 @@ describe Store, :store => true do
         store = FactoryGirl.create(:store)
         store.destroy.should be_false
       end
+
+      it "should persist the Employee" do
+        store = FactoryGirl.create(:store)
+        store.destroy
+        store.reload
+        store.should be_valid
+      end      
     end
 
     describe "active_for_authentication?" do

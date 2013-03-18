@@ -96,13 +96,13 @@ ActiveRecord::Schema.define(:version => 20130320080935) do
   end
 
   create_table "credits", :force => true do |t|
-    t.integer  "ledger_id",              :null => false
+    t.integer  "ledger_id",                                             :null => false
     t.string   "cim_payment_profile_id"
-    t.string   "type",                   :null => false
-    t.datetime "date",                   :null => false
-    t.decimal  "amount",                 :null => false
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.string   "type",                                                  :null => false
+    t.datetime "date",                                                  :null => false
+    t.decimal  "amount",                 :precision => 15, :scale => 2, :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
   end
 
   create_table "customers", :force => true do |t|
@@ -147,13 +147,13 @@ ActiveRecord::Schema.define(:version => 20130320080935) do
   add_index "customers", ["username"], :name => "index_customers_on_username", :unique => true
 
   create_table "debits", :force => true do |t|
-    t.integer  "ledger_id",  :null => false
-    t.string   "type",       :null => false
-    t.datetime "date",       :null => false
-    t.datetime "due_date",   :null => false
-    t.decimal  "amount",     :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "ledger_id",                                 :null => false
+    t.string   "type",                                      :null => false
+    t.datetime "date",                                      :null => false
+    t.datetime "due_date",                                  :null => false
+    t.decimal  "amount",     :precision => 15, :scale => 2, :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "employee_assignments", :id => false, :force => true do |t|
@@ -210,12 +210,12 @@ ActiveRecord::Schema.define(:version => 20130320080935) do
   add_index "employees", ["username"], :name => "index_employees_on_username", :unique => true
 
   create_table "entries", :force => true do |t|
-    t.integer  "ledger_id",                   :null => false
-    t.integer  "debit_id",                    :null => false
-    t.integer  "credit_id",                   :null => false
-    t.decimal  "amount",     :default => 0.0, :null => false
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.integer  "ledger_id",                                                  :null => false
+    t.integer  "debit_id",                                                   :null => false
+    t.integer  "credit_id",                                                  :null => false
+    t.decimal  "amount",     :precision => 15, :scale => 2, :default => 0.0, :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
   end
 
   create_table "ledgers", :force => true do |t|
@@ -251,12 +251,12 @@ ActiveRecord::Schema.define(:version => 20130320080935) do
   add_index "payment_profiles", ["cim_customer_payment_profile_id"], :name => "index_payment_profiles_on_cim_customer_payment_profile_id", :unique => true
 
   create_table "payments", :force => true do |t|
-    t.integer  "customer_id",                     :null => false
-    t.integer  "payment_profile_id",              :null => false
-    t.string   "cim_customer_payment_profile_id", :null => false
-    t.decimal  "amount",                          :null => false
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.integer  "customer_id",                                                    :null => false
+    t.integer  "payment_profile_id",                                             :null => false
+    t.string   "cim_customer_payment_profile_id",                                :null => false
+    t.decimal  "amount",                          :precision => 15, :scale => 2, :null => false
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
   end
 
   create_table "phone_numbers", :force => true do |t|
@@ -270,14 +270,14 @@ ActiveRecord::Schema.define(:version => 20130320080935) do
   end
 
   create_table "products", :force => true do |t|
-    t.integer  "application_id",                  :null => false
-    t.string   "type",                            :null => false
+    t.integer  "application_id",                                                 :null => false
+    t.string   "type",                                                           :null => false
     t.string   "id_number"
-    t.string   "name",           :default => "",  :null => false
-    t.decimal  "price",          :default => 0.0, :null => false
-    t.text     "description",    :default => "",  :null => false
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.string   "name",                                          :default => "",  :null => false
+    t.decimal  "price",          :precision => 15, :scale => 2, :default => 0.0, :null => false
+    t.text     "description",                                   :default => "",  :null => false
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
   end
 
   create_table "stores", :force => true do |t|

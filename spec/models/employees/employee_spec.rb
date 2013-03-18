@@ -201,6 +201,36 @@ describe Employee do
   # Behavior
   #----------------------------------------------------------------------------
   describe "public methods", :public_methods => true do
+    describe "name" do
+      it "returns first and last name" do
+        employee = FactoryGirl.create(:employee, :first_name => "Tom", :last_name => "Jones")
+        employee.name.should eq("Tom Jones")
+      end
+    end
+        
+    describe "inactive_message" do
+      context "as unconfirmed" do
+        it "returns unconfirmed" do
+          employee = FactoryGirl.create(:employee)
+          employee.inactive_message.should eq(:unconfirmed)
+        end
+      end
+
+      context "as cancelled" do
+        it "returns correct message" do
+          employee = FactoryGirl.create(:cancelled_employee)
+          employee.inactive_message.should eq(:cancelled)
+        end
+      end
+    end
+
+    describe "cancelable?" do
+      it "should be true" do
+        employee = FactoryGirl.create(:employee)
+        employee.cancellable?.should be_true
+      end
+    end
+
     describe "cancel_account!" do
       let(:employee) { FactoryGirl.create(:employee) }
       
@@ -226,6 +256,27 @@ describe Employee do
           employee.cancelled?.should be_true
         end
       end
+    end
+
+    describe "deletable?" do
+      it "should be false" do
+        employee = FactoryGirl.create(:employee)
+        employee.deletable?.should be_false
+      end
+    end
+
+    describe "destroy" do
+      it "should be false" do
+        employee = FactoryGirl.create(:employee)
+        employee.destroy.should be_false
+      end
+      
+      it "should persist the Employee" do
+        employee = FactoryGirl.create(:employee)
+        employee.destroy
+        employee.reload
+        employee.should be_valid
+      end      
     end
 
     describe "active_for_authentication?" do

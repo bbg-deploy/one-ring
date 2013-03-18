@@ -4,7 +4,7 @@ class CreatePayments < ActiveRecord::Migration
       t.references :customer,                        :null => false
       t.references :payment_profile,                 :null => false
       t.string :cim_customer_payment_profile_id,     :null => false
-      t.decimal :amount,                             :null => false
+      t.decimal :amount,                             :null => false, :precision => 15, :scale => 2
 
       t.timestamps
     end

@@ -43,7 +43,7 @@ describe Customer::ConfirmationsController do
       end
 
       # Response
-      it { should assign_to(:customer) }
+      it { should assign_to(:customer).with_kind_of(Customer) }
       it { should respond_with(:success) }
 
       # Content
@@ -136,7 +136,7 @@ describe Customer::ConfirmationsController do
         end
   
         # Response
-        it { should assign_to(:customer) }
+        it { should assign_to(:customer).with_kind_of(Customer) }
         it { should respond_with(:success) }
 
         # Content
@@ -166,12 +166,12 @@ describe Customer::ConfirmationsController do
         end
   
         # Response
-        it { should assign_to(:customer) }
+        it { should assign_to(:customer).with_kind_of(Customer) }
         it { should respond_with(:success) }
-        it { should render_template("layouts/application") }
 
         # Content
         it { should render_template(:new) }
+        it { should render_template("layouts/application") }
 
         # Behavior
         it "should not send email" do
@@ -199,13 +199,13 @@ describe Customer::ConfirmationsController do
         end
 
         # Response
-        it { should assign_to(:customer) }
+        it { should assign_to(:customer).with_kind_of(Customer) }
         it { should respond_with(:success) }
-        it { should render_template("layouts/application") }
 
         # Content
         it { should_not set_the_flash }
         it { should render_template(:new) }
+        it { should render_template("layouts/application") }
 
         # Behavior
         it "should not send confirmation email" do
@@ -229,9 +229,8 @@ describe Customer::ConfirmationsController do
         end
 
         # Response
-        it { should assign_to(:customer) }
+        it { should assign_to(:customer).with_kind_of(Customer) }
         it { should respond_with(:redirect) }
-        it { should redirect_to(home_path) }
 
         # Content
         it { should set_the_flash[:notice].to(/email with instructions about how to confirm/) }
@@ -242,6 +241,7 @@ describe Customer::ConfirmationsController do
           last_email.to.should eq([customer.email])
           last_email.body.should match(/#{customer.confirmation_token}/)
         end
+
         it { should render_template("customer_authentication_mailer/confirmation_instructions")}
       end
     end

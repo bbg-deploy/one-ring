@@ -121,7 +121,7 @@ describe Customer do
       end
   
       describe "dependent destroy", :dependent_destroy => true do
-        let(:customer) { FactoryGirl.create(:customer) }
+        before(:each) { Customer.any_instance.stub(:deletable?).and_return(true) }
         it_behaves_like "dependent destroy", :customer, :mailing_address
       end
     end
@@ -139,7 +139,7 @@ describe Customer do
       end
   
       describe "dependent destroy", :dependent_destroy => true do
-        let(:customer) { FactoryGirl.create(:customer) }
+        before(:each) { Customer.any_instance.stub(:deletable?).and_return(true) }
         it_behaves_like "dependent destroy", :customer, :phone_number
       end
     end
@@ -148,7 +148,7 @@ describe Customer do
       it { should have_many(:payment_profiles) }
 
       describe "dependent destroy", :dependent_destroy => true do
-        let(:customer) { FactoryGirl.create(:customer) }
+        before(:each) { Customer.any_instance.stub(:deletable?).and_return(true) }
         it_behaves_like "dependent destroy", :customer_with_payment_profiles, :payment_profiles
       end
     end
@@ -425,6 +425,13 @@ describe Customer do
         customer = FactoryGirl.create(:customer)
         customer.destroy.should be_false
       end
+
+      it "should persist the Employee" do
+        customer = FactoryGirl.create(:customer)
+        customer.destroy
+        customer.reload
+        customer.should be_valid
+      end      
     end
 
     describe "active_for_authentication?" do

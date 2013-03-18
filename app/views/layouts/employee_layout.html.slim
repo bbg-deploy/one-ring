@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    meta name="author" content="Credda Financial Corporation"
+    meta name="description" content=full_description
+    meta name="keywords" content="lease-to-own"
+    title = full_title
+    = stylesheet_link_tag :application, :media => "all"
+    = javascript_include_tag "vendor/custom.modernizr"
+    = javascript_include_tag :application, :media => "all"
+    = csrf_meta_tags
+    = yield(:head)
+  body[class = body_classes]
+    header
+      = render 'layouts/header/master'
+    div#main-wrapper
+      div.row
+        h1.hide-for-small = content_for?(:title) ? yield(:title) : "Credda"
+        div.large-3.columns.side-nav-container
+          ul.side-nav
+            = nav_link image_tag("icons/sidebar-home.png", :mouseover => "icons/sidebar-home-hover.png") + "<span>Home</span>".html_safe, home_path
+            = nav_link image_tag("icons/sidebar-linked-banks.png", :mouseover => "icons/sidebar-linked-banks-hover.png") + "<span>Linked Banks</span>".html_safe, home_path
+            = nav_link image_tag("icons/sidebar-linked-cards.png", :mouseover => "icons/sidebar-linked-cards-hover.png") + "<span>Linked Cards</span>".html_safe, home_path
+            = nav_link image_tag("icons/sidebar-make-payment.png", :mouseover => "icons/sidebar-make-payment-hover.png") + "<span>Make Payment</span>".html_safe, home_path
+        div.large-9.columns
+          h1.show-for-small = content_for?(:title) ? yield(:title) : "Credda"
+          div[id = page_id]
+            = render 'layouts/messages/messages'
+            = content_for?(:content) ? yield(:content) : yield
+    footer
+      = render 'layouts/footer/anonymous_footer'    
+    javascript:
+      $(document).foundation();

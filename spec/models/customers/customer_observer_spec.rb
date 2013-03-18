@@ -136,13 +136,44 @@ describe CustomerObserver, :observer => true do
   #----------------------------------------------------------------------------
   describe "before_destroy", :before_destroy => true do
     context "without cim_customer_profile_id" do
-      let(:customer) { FactoryGirl.build(:customer_no_id) }
+      let(:customer) { FactoryGirl.create(:customer_no_id) }
 
-      it "does not send deleteCustomerProfileRequest" do
-        Customer.observers.enable :customer_observer do
-          customer.cim_customer_profile_id.should be_nil
-          customer.destroy
-          a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should_not have_been_made
+      context "with deletable object" do
+        before(:each) { customer.stub(:deletable?).and_return(true) }
+        
+        it "does not send deleteCustomerProfileRequest" do
+          Customer.observers.enable :customer_observer do
+            customer.cim_customer_profile_id.should be_nil
+            customer.destroy
+            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should_not have_been_made
+          end
+        end
+        
+        it "does not persist the object" do
+          Customer.observers.enable :customer_observer do
+            customer.destroy
+            expect { customer.reload }.to raise_error
+          end
+        end
+      end
+      
+      context "with non-deletable object" do
+        before(:each) { customer.stub(:deletable?).and_return(false) }
+        
+        it "does not send deleteCustomerProfileRequest" do
+          Customer.observers.enable :customer_observer do
+            customer.cim_customer_profile_id.should be_nil
+            customer.destroy
+            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should_not have_been_made
+          end
+        end
+
+        it "persists the object" do
+          Customer.observers.enable :customer_observer do
+            customer.deletable?.should be_false
+            customer.destroy
+            expect { customer.reload }.to_not raise_error
+          end
         end
       end
     end
@@ -150,48 +181,66 @@ describe CustomerObserver, :observer => true do
     context "with cim_customer_profile_id" do
       let(:customer) { FactoryGirl.create(:customer) }
 
-      context "with successful Authorize.net response" do
-        before(:each) do
-          webmock_authorize_net("createCustomerProfileRequest", :I00001)
-        end
+      context "with deletable object" do
+        before(:each) { customer.stub(:deletable?).and_return(true) }
 
-        it "sends deleteCustomerProfileRequest" do
-          Customer.observers.enable :customer_observer do
-            customer.destroy
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should have_been_made
+        context "with successful Authorize.net response" do
+          before(:each) do
+            webmock_authorize_net("createCustomerProfileRequest", :I00001)
+          end
+  
+          it "sends deleteCustomerProfileRequest" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy
+              a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should have_been_made
+            end
+          end
+  
+          it "destroys customer successfully" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy.should be_true
+            end
+          end
+
+          it "does not persist object in the database" do
+            Customer.observers.enable :customer_observer do              
+              customer.destroy
+              expect { customer.reload }.to raise_error
+            end
           end
         end
 
-        it "destroys customer successfully" do
-          Customer.observers.enable :customer_observer do
-            customer.destroy.should be_true
+        context "with unsuccessful Authorize.net response" do
+          before(:each) do
+            webmock_authorize_net("deleteCustomerProfileRequest", :E00001)
           end
-        end
-      end
-
-      context "with unsuccessful Authorize.net response" do
-        before(:each) do
-          webmock_authorize_net("deleteCustomerProfileRequest", :E00001)
-        end
-
-        it "sends deleteCustomerProfileRequest" do
-          Customer.observers.enable :customer_observer do
-            customer.destroy
-            a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should have_been_made
+  
+          it "sends deleteCustomerProfileRequest" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy
+              a_request(:post, /https:\/\/apitest.authorize.net\/xml\/v1\/request.api.*/).with(:body => /.*deleteCustomerProfileRequest.*/).should have_been_made
+            end
           end
-        end
-
-        it "does not destroy customer" do
-          Customer.observers.enable :customer_observer do
-            customer.destroy.should be_false
+  
+          it "does not destroy customer" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy.should be_false
+            end
           end
-        end
+  
+          it "persists object in database" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy
+              expect { customer.reload }.to_not raise_error
+            end
+          end
 
-        it "send AdminNotifier email" do
-          Customer.observers.enable :customer_observer do
-            customer.destroy
-            last_email.to.should eq(["bryce.senz@credda.com"])
-            last_email.subject.should eq("Authorize.net Error")
+          it "send AdminNotifier email" do
+            Customer.observers.enable :customer_observer do
+              customer.destroy
+              last_email.to.should eq(["bryce.senz@credda.com"])
+              last_email.subject.should eq("Authorize.net Error")
+            end
           end
         end
       end
