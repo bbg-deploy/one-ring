@@ -9,7 +9,10 @@ class AuthController < ApplicationController
   def authorize
     AccessGrant.prune!
     access_grant = current_customer.access_grants.create({:client => application, :state => params[:state]}, :without_protection => true)
-    redirect_to access_grant.redirect_uri_for(params[:client_id])
+#    redirect_to params[:redirect_uri]
+    redirect_to params[:redirect_uri]
+    # TODO: Phase this out I guess...
+#    redirect_to access_grant.redirect_uri_for(params[:client_id])
   end
 
   # GET /access_token

@@ -228,4 +228,37 @@ module SeedFunctions
       return store
     end
   end
+
+  def create_application(options = {})
+    dummy_store_account_number = "UST#{SecureRandom.hex(5).upcase}"
+    dummy_customer_account_number = nil
+    dummy_matching_email = "#{Faker::Name.first_name}_#{Random.new.rand(1..100)}@notcredda.com"
+
+    defaults = { :store_account_number => dummy_store_account_number,
+                 :customer_account_number => dummy_customer_account_number,
+                 :matching_email => dummy_matching_email,
+                 :products_attributes => { "0" => {
+                    :type => "Tire",
+                    :name => "Firestone FR710",
+                    :price => BigDecimal.new("278.10"),
+                    :id_number => "TI21343#{Random.new.rand(1000)}",
+                    :description => "This is a test description." }, "1" => {
+                    :type => "Tire",
+                    :name => "Firestone FR710",
+                    :price => BigDecimal.new("278.10"),
+                    :id_number => "TI21343#{Random.new.rand(1000)}",
+                    :description => "This is a test description." } } }
+                   
+    options = defaults.merge(options)
+    application = Application.create(options)
+
+    begin
+      application.save!
+    rescue StandardError => e
+      puts "Application from store #{options[:store_account_number]} not saved"
+      puts e.message
+    else
+      return application
+    end
+  end
 end

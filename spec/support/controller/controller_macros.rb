@@ -13,6 +13,11 @@ module ControllerMacros
     scope_sym = scope.to_sym
     user_symbol = class_to_symbol(user)
     unless user_symbol.nil?
+<<<<<<< HEAD
+=======
+#      @request.env["devise.mapping"] = Devise.mappings[user_symbol]
+#      sign_in user
+>>>>>>> Starting devise test refactor
       sign_in scope_sym, user
     end
   end
