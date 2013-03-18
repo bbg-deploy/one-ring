@@ -5,9 +5,9 @@ div.row
     - @matching_applications.each do |application|
       div.panel
         div.row
-          div.large-8.columns
+          div.large-6.columns
             = application.name
-          div.large-4.colums
+          div.large-6.columns
             = link_to "Claim Application", claim_customer_application_path(application), :method => :put, :class => "button radius small"
     div.panel
       - @contract_details.each do |contract|

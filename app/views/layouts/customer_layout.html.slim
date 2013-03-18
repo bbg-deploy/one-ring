@@ -13,7 +13,7 @@ html
     = yield(:head)
   body[class = body_classes]
     header
-      = render 'layouts/header/master'
+      = render 'layouts/header/customer'
     div#main-wrapper
       div.row
         h1.hide-for-small = content_for?(:title) ? yield(:title) : "Credda"

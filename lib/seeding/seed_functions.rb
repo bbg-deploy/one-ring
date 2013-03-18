@@ -237,17 +237,19 @@ module SeedFunctions
     defaults = { :store_account_number => dummy_store_account_number,
                  :customer_account_number => dummy_customer_account_number,
                  :matching_email => dummy_matching_email,
-                 :products_attributes => { "0" => {
-                    :type => "Tire",
-                    :name => "Firestone FR710",
-                    :price => BigDecimal.new("278.10"),
-                    :id_number => "TI21343#{Random.new.rand(1000)}",
-                    :description => "This is a test description." }, "1" => {
-                    :type => "Tire",
-                    :name => "Firestone FR710",
-                    :price => BigDecimal.new("278.10"),
-                    :id_number => "TI21343#{Random.new.rand(1000)}",
-                    :description => "This is a test description." } } }
+                 :products_attributes => { 
+                   "0" => {
+                     :type => "Tire",
+                     :name => Faker::Lorem.words(2),
+                     :price => BigDecimal.new("278.10"),
+                     :id_number => "TI21343#{Random.new.rand(1000)}",
+                     :description => Faker::Lorem.paragraph(3) }, 
+                   "1" => {
+                     :type => "Tire",
+                     :name => Faker::Lorem.words(2),
+                     :price => BigDecimal.new("278.10"),
+                     :id_number => "TI21343#{Random.new.rand(1000)}",
+                     :description => Faker::Lorem.paragraph(3) } } }
                    
     options = defaults.merge(options)
     application = Application.create(options)
