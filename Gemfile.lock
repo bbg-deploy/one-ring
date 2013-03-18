@@ -161,11 +161,6 @@ GEM
       rack-mount
       virtus
     haml (3.1.8)
-    haml-rails (0.4)
-      actionpack (>= 3.1, < 4.1)
-      activesupport (>= 3.1, < 4.1)
-      haml (>= 3.1, < 4.1)
-      railties (>= 3.1, < 4.1)
     hashery (2.1.0)
     hashie (1.2.0)
     hello_sign (0.6.0)
@@ -377,7 +372,6 @@ DEPENDENCIES
   geocoder (~> 1.1.2)
   going_postal (~> 0.1.1)
   grape (~> 0.2.6)
-  haml-rails (>= 0.3.5)
   hello_sign (~> 0.6.0)
   heroku_san (~> 4.2.3)
   jquery-rails (~> 2.1)

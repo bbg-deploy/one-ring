@@ -23,7 +23,6 @@ group :assets do
 end
 
 gem 'slim', '~> 2.0.0.pre.6'
-gem 'haml-rails', '>= 0.3.5'
 gem 'jquery-rails', '~> 2.1'
 gem 'jquery-ui-rails', '~> 2.0.0'
 gem 'jquery_datepicker'
