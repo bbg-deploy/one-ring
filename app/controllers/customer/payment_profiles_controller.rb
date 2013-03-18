@@ -23,7 +23,7 @@ class Customer::PaymentProfilesController < Customer::BaseController
     @payment_profile.build_credit_card
     @payment_profile.build_bank_account
     @payment_profile.build_billing_address
-    respond_with(:customer, @payment_profile)
+    respond_with(:customer, @payment_profile, :anchor => "card")
   end
 
   # POST /customer/payment_profiles
@@ -31,9 +31,16 @@ class Customer::PaymentProfilesController < Customer::BaseController
   def create
     @payment_profile = PaymentProfile.new(create_payment_profile_params)
     @payment_profile.customer = current_customer
+    
     if @payment_profile.save
       flash[:notice] = "Successfully created payment profile."  
     else
+      if @payment_profile.credit_card.nil?
+        @payment_profile.build_credit_card
+      elsif @payment_profile.bank_account.nil?
+        @payment_profile.build_bank_account
+      end
+
       flash[:alert] = YAML.load_file("#{Rails.root}/config/locales/devise.en.yml")['en']['devise']['failure']['invalid_data']
     end
     respond_with(:customer, @payment_profile)

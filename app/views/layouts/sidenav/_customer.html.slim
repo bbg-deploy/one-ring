@@ -1,0 +1,5 @@
+ul.side-nav
+  = nav_link image_tag("icons/sidebar-home.png", :mouseover => "icons/sidebar-home-hover.png") + "<span>Home</span>".html_safe, home_path
+  = nav_link image_tag("icons/sidebar-linked-banks.png", :mouseover => "icons/sidebar-linked-banks-hover.png") + "<span>Payment Methods</span>".html_safe, new_customer_payment_profile_path
+  = nav_link image_tag("icons/sidebar-linked-cards.png", :mouseover => "icons/sidebar-linked-cards-hover.png") + "<span>Linked Cards</span>".html_safe, home_path
+  = nav_link image_tag("icons/sidebar-make-payment.png", :mouseover => "icons/sidebar-make-payment-hover.png") + "<span>Make Payment</span>".html_safe, home_path

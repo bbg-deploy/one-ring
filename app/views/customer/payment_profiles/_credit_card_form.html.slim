@@ -1,4 +1,4 @@
-= nested_form_for( @payment_profile, :url => customer_payment_profiles_path, :method => :post, :html => { :class => '' } ) do |f|
+= nested_form_for( @payment_profile, :url => customer_payment_profiles_path(:anchor => "card"), :method => :post, :html => { :class => '' } ) do |f|
   fieldset
     legend Account Information
     div.row

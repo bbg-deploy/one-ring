@@ -3,11 +3,14 @@
 div.row
   div.large-8.columns
     h2 New Payment Method
-    dl.tabs.pill
-      dd.active = link_to "Bank Account", "#bankAccount", :id => 'bankAccount'
-      dd = link_to "Credit Card", "#creditCard", :id => 'creditCard'
-    ul.tabs-content
-      li#bankAccountTab.active
-        = render "bank_account_form"
-      li#creditCardTab
-        = render "credit_card_form"
+    div.section-container.tabs[data-section data-options="deep_linking: true"]
+      section.section
+        p.title
+          = link_to "Credit Card", "#card", :id => 'creditCard'
+        div.content[data-slug="card"]
+          = render "credit_card_form"
+      section.section
+        p.title
+          = link_to "Bank Account", "#bank", :id => 'creditCard'
+        div.content[data-slug="bank"]
+          = render "bank_account_form"
