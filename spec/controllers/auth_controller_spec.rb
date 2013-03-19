@@ -84,7 +84,7 @@ describe AuthController do
         end
       end
 
-      context "with valid id, secret, and code", :failing => true do
+      context "with valid id, secret, and code" do
         let(:client) { FactoryGirl.create(:client) }
         let(:access_grant) { FactoryGirl.create(:access_grant, :client => client)}
         let(:code) { SecureRandom.hex }

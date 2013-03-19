@@ -277,7 +277,7 @@ describe Store::RegistrationsController do
   
           # Behavior
           it "does not creates a new store" do
-            Customer.last.try(:email).should_not eq(attributes[:email])
+            Store.last.try(:email).should_not eq(attributes[:email])
           end
 
           it "does not send confirmation email" do
@@ -530,7 +530,6 @@ describe Store::RegistrationsController do
         let(:attributes) { { :email => "new@email.com", :email_confirmation => "new@email.com", :current_password => store.password } }
 
         before(:each) do
-          webmock_authorize_net_all_successful
           do_put_update(attributes)
         end
 

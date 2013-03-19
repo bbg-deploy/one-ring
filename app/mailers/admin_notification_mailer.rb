@@ -14,12 +14,29 @@ class AdminNotificationMailer < ActionMailer::Base
     mail(:subject => "You have a new user!")
   end
 
-  def authorize_net_error(user, error)
+  def authorize_net_error(object, error)
     sendgrid_category "Third Party Error"
-    @name = user.name
-    @username = user.username
-    @email = user.email
-    @phone_number = user.phone_number.phone_number
+#    @name = user.name
+#    @username = user.username
+#    @email = user.email
+#    @phone_number = user.phone_number.phone_number
+    if object.is_a?(Customer)
+      @object_details = {
+        :name => object.try(:name),
+        :username => object.try(:username),
+        :email => object.try(:email),
+        :phone_number => object.try(:phone_number)
+      }
+    elsif object.is_a?(PaymentProfile)
+      @object_details = {
+        :name => object.try(:name),
+        :username => object.try(:username),
+        :email => object.try(:email),
+        :phone_number => object.try(:phone_number)
+      }
+    elsif object.is_a?(Payment)
+      
+    end
     @message = error.message
     @trace = error.backtrace
     mail(:subject => "Authorize.net Error")
