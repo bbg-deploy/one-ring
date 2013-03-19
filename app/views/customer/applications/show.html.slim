@@ -1,25 +1,19 @@
 = provide(:title, "Application")
 
 div.row
-  div.large-8.columns
-    table
-      thead
-        tr
-          th Application Number
-          th Description
-          th State
-      tbody
-        tr
-          td = @application.application_number
-          td = @application.name
-          td = @application.state
-          td = link_to "Edit Application", edit_customer_application_path(@application), :class => "button radius small"
-          td = link_to "Cancel Application", customer_application_path(@application), :method => :delete, :class => "button radius small"
+  div.large-12.columns
+    h2 = "#{@application.store_name} (No: #{@application.store_account_number})"
+    h3 = "Status: <span class='round label'>#{@application.state}</span>".html_safe
+    h3 Products
+    - @application.products.each do |product|
+      div.panel
+        div.row
+          div.large-8.columns
+            = product.name
+          div.large-4.columns
+            = product.price
 div.row
-  div.large-8.colums
-    h5 Time at Address
-    p = @application.time_at_address
-    h5 Rent Or Own
-    p = @application.rent_or_own
-    h5 Monthly Payment
-    p = @application.rent_payment
+  div.large-3.columns
+    = link_to "Continue Application", edit_customer_application_path(@application), :class => "button radius small"
+  div.large-3.columns
+    = link_to "Cancel Application", customer_application_path(@application), :method => :delete, :class => "button secondary radius small"
