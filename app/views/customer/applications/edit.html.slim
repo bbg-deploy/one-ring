@@ -1,7 +1,7 @@
 = provide(:title, 'Edit Application')
 
 div.row
-  div.large-8.columns
+  div.large-12.columns
     = nested_form_for(@application, :url => customer_application_path(@application), :method => :put, :html => { :class => "" }) do |f|
       fieldset
         legend Store Details
@@ -29,5 +29,5 @@ div.row
           div.large-12.columns
             = f.label "What is your monthly rent/mortgage payment"
             = f.text_field :rent_payment, :placeholder => "200"
-      = f.submit "Save Changes", :class => "radius button"
+      = f.submit "Submit Application", :class => "radius button"
       = link_to "Cancel", customer_application_path(@application), :class => "button radius secondary"

@@ -21310,3 +21310,2419 @@ Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (1ms)
 
 Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:23:02 +0900
 Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/customer/applications/1/edit" for 127.0.0.1 at 2013-03-19 21:24:15 +0900
+Processing by Customer::ApplicationsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mCustomer Load (2.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mStore Load (2.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1
+  [1m[36mProduct Load (1.0ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."application_id" = 1[0m
+  Rendered customer/applications/_product_fields.html.slim (7.0ms)
+  Rendered customer/applications/_product_fields.html.slim (7.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (66.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 187ms (Views: 157.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:16 +0900
+Served asset /application.css - 304 Not Modified (17ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:16 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (10ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:16 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:16 +0900
+Served asset /screen.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:17 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:17 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:17 +0900
+Served asset /forms.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:24:17 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:18 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:18 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:18 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:18 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:19 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:19 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:19 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:19 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:20 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:20 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:20 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:20 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:21 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:21 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:21 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:22 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:22 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:22 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:22 +0900
+Served asset /foundation/index.js - 304 Not Modified (4ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:23 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:24:23 +0900
+Served asset /application.js - 304 Not Modified (7ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:24:23 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:24:24 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:24:24 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:24:25 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:24:25 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:24:25 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started GET "/customer/applications/1/edit" for 127.0.0.1 at 2013-03-19 21:25:30 +0900
+Processing by Customer::ApplicationsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (0.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 1
+  Rendered customer/applications/_product_fields.html.slim (9.0ms)
+  Rendered customer/applications/_product_fields.html.slim (8.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (61.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (3.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 178ms (Views: 150.0ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:31 +0900
+Served asset /application.css - 304 Not Modified (13ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:31 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (9ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:32 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:32 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:32 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:32 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:33 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:25:33 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:33 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:33 +0900
+Served asset /jquery.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:34 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:34 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:34 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:35 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:35 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:35 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:36 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:36 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:36 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:37 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:37 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:37 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:37 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:38 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:38 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:38 +0900
+Served asset /foundation/index.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:39 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:39 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:25:39 +0900
+Served asset /application.js - 304 Not Modified (14ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:25:40 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:25:40 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:25:40 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:25:41 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:25:41 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:25:42 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (1ms)
+
+
+Started GET "/customer/applications/1/edit" for 127.0.0.1 at 2013-03-19 21:28:25 +0900
+Processing by Customer::ApplicationsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mCustomer Load (11.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (7.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mStore Load (10.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1
+  [1m[36mProduct Load (3.0ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."application_id" = 1[0m
+  Rendered customer/applications/_product_fields.html.slim (8.0ms)
+  Rendered customer/applications/_product_fields.html.slim (6.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (305.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (1.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 574ms (Views: 362.0ms | ActiveRecord: 44.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:27 +0900
+Served asset /application.css - 304 Not Modified (13ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:27 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:27 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:28 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (7ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:28 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:28 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:28 +0900
+Served asset /forms.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:28 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:29 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:29 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:29 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:29 +0900
+Served asset /jquery-ui.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:29 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:30 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:30 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:30 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:30 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:30 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:31 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:31 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:31 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:31 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:31 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:32 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:32 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:32 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:32 +0900
+Served asset /foundation/index.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:32 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:33 +0900
+Served asset /application.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:28:33 +0900
+Served asset /cream-background.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:28:33 +0900
+Served asset /logo-color.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:28:33 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:28:34 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:28:34 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:28:34 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started PUT "/customer/applications/1" for 127.0.0.1 at 2013-03-19 21:28:42 +0900
+Processing by Customer::ApplicationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "application"=>{"products_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"2"}}, "time_at_address(1i)"=>"2013", "time_at_address(2i)"=>"3", "time_at_address(3i)"=>"1", "rent_or_own"=>"Rent", "rent_payment"=>"400"}, "commit"=>"Submit Application", "id"=>"1"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+Unpermitted parameters: products_attributes
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 1
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3DA6B10868' AND "applications"."id" != 1) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "rent_or_own" = 'Rent', "rent_payment" = 400.0, "time_at_address" = '2013-03-01 00:00:00.000000', "updated_at" = '2013-03-19 12:28:42.393394' WHERE "applications"."id" = 1
+  [1m[36m (12.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3DA6B10868' AND "applications"."id" != 1) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "state" = 'submitted', "updated_at" = '2013-03-19 12:28:42.430397' WHERE "applications"."id" = 1
+  [1m[36m (24.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/customer/applications/1
+Completed 302 Found in 151ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/customer/applications/1" for 127.0.0.1 at 2013-03-19 21:28:42 +0900
+Processing by Customer::ApplicationsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 1
+  Rendered customer/applications/show.html.slim within layouts/customer_layout (11.0ms)
+  Rendered layouts/header/_customer.html.slim (3.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 140ms (Views: 107.0ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:43 +0900
+Served asset /application.css - 304 Not Modified (11ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:43 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (8ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:43 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:43 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:44 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:44 +0900
+Served asset /pages.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:44 +0900
+Served asset /forms.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:28:44 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:45 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:45 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:45 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:45 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:46 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:46 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:46 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:46 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:46 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:47 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:47 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:47 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:47 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:47 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:48 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:48 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:48 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:48 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:48 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:49 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:28:49 +0900
+Served asset /application.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:28:49 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:28:49 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:28:49 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:28:50 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:28:50 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:28:50 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started GET "/customer/applications/1/edit" for 127.0.0.1 at 2013-03-19 21:32:49 +0900
+Processing by Customer::ApplicationsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mCustomer Load (2.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1
+  [1m[36mProduct Load (1.0ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."application_id" = 1[0m
+  Rendered customer/applications/_product_fields.html.slim (7.0ms)
+  Rendered customer/applications/_product_fields.html.slim (5.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (297.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 544ms (Views: 366.0ms | ActiveRecord: 14.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:51 +0900
+Served asset /application.css - 304 Not Modified (10ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:51 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (8ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:52 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:52 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:52 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:52 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:52 +0900
+Served asset /forms.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:32:53 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:53 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:53 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:53 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:54 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:54 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:54 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:54 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:54 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:55 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:55 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:55 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:55 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:55 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:56 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:56 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:56 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:56 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:56 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:57 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:57 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:32:57 +0900
+Served asset /application.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:32:57 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:32:57 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:32:58 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:32:58 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:32:58 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:32:58 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started PUT "/customer/applications/1" for 127.0.0.1 at 2013-03-19 21:33:01 +0900
+Processing by Customer::ApplicationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "application"=>{"products_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"2"}}, "time_at_address(1i)"=>"2013", "time_at_address(2i)"=>"3", "time_at_address(3i)"=>"1", "rent_or_own"=>"Rent", "rent_payment"=>"400.0"}, "commit"=>"Submit Application", "id"=>"1"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+Unpermitted parameters: products_attributes
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 1
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3DA6B10868' AND "applications"."id" != 1) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  Rendered customer/applications/_product_fields.html.slim (6.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (22.0ms)
+Completed 500 Internal Server Error in 129ms
+
+ActionView::Template::Error (undefined method `empty?' for nil:NilClass):
+    1: div.row
+    2:   div.large-4.columns
+    3:     = f.label "Product Type"
+    4:     = f.select :type, @product_types, {}, :disabled => true
+    5:   div.large-8.columns
+    6:     = f.label "Name"
+    7:     = f.text_field :name, :disabled => true
+  app/views/customer/applications/_product_fields.html.slim:4:in `_app_views_customer_applications__product_fields_html_slim__532546940_61465464'
+  app/views/customer/applications/edit.html.slim:17:in `block in _app_views_customer_applications_edit_html_slim___991615200_53233536'
+  app/views/customer/applications/edit.html.slim:5:in `_app_views_customer_applications_edit_html_slim___991615200_53233536'
+  app/controllers/customer/applications_controller.rb:59:in `update'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (50.0ms)
+
+
+Started PUT "/customer/applications/1" for 127.0.0.1 at 2013-03-19 21:33:56 +0900
+Processing by Customer::ApplicationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "application"=>{"products_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"2"}}, "time_at_address(1i)"=>"2013", "time_at_address(2i)"=>"3", "time_at_address(3i)"=>"1", "rent_or_own"=>"Rent", "rent_payment"=>"400.0"}, "commit"=>"Submit Application", "id"=>"1"}
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "1"]]
+Unpermitted parameters: products_attributes
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 1
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3DA6B10868' AND "applications"."id" != 1) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  Rendered customer/applications/_product_fields.html.slim (7.0ms)
+  Rendered customer/applications/_product_fields.html.slim (6.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (99.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (1.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 598ms (Views: 174.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:58 +0900
+Served asset /application.css - 304 Not Modified (9ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:58 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (8ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:58 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:58 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:59 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:59 +0900
+Served asset /navigation.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:59 +0900
+Served asset /forms.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:33:59 +0900
+Served asset /footer.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:33:59 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:00 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:00 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:00 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:00 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:00 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:01 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:01 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:01 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:01 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:02 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:02 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:02 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:02 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:03 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:03 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:03 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:03 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:04 +0900
+Served asset /foundation/index.js - 304 Not Modified (4ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:04 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:34:04 +0900
+Served asset /application.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:34:04 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:34:05 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:34:05 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:34:05 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:34:05 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:34:05 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (1ms)
+
+
+Started GET "/customer" for 127.0.0.1 at 2013-03-19 21:35:28 +0900
+Processing by Customer::PagesController#home as HTML
+  [1m[35mCustomer Load (3.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (2.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."state" = 'unclaimed' ORDER BY created_at ASC[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1
+  [1m[36mProduct Load (1.0ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."application_id" = 2[0m
+  Rendered customer/pages/home.html.slim within layouts/customer_layout (12.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (2.0ms)
+Completed 200 OK in 263ms (Views: 246.0ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:29 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:29 +0900
+Served asset /application.css - 304 Not Modified (10ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:29 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:29 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:30 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:30 +0900
+Served asset /pages.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:30 +0900
+Served asset /forms.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:35:30 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:31 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:31 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:31 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:31 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:31 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:32 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:32 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:32 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:32 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:33 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:33 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:33 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:33 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:33 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:34 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:34 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:34 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:34 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:34 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:35 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:35:35 +0900
+Served asset /application.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:35:35 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:35:35 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:35:36 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:35:36 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:35:36 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:35:36 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started PUT "/customer/applications/2/claim" for 127.0.0.1 at 2013-03-19 21:37:41 +0900
+Processing by Customer::ApplicationsController#claim as HTML
+  Parameters: {"authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "id"=>"2"}
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "2"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "2"]]
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 2
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPPC2B1278778' AND "applications"."id" != 2) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "customer_account_number" = 'UCUEE8F0B001B', "state" = 'claimed', "updated_at" = '2013-03-19 12:37:41.558233' WHERE "applications"."id" = 2
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/customer/applications/2
+Completed 302 Found in 75ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/customer/applications/2" for 127.0.0.1 at 2013-03-19 21:37:41 +0900
+Processing by Customer::ApplicationsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "2"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "2"]]
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 2
+  Rendered customer/applications/show.html.slim within layouts/customer_layout (9.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 143ms (Views: 110.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:42 +0900
+Served asset /application.css - 304 Not Modified (24ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:42 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (10ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:42 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:43 +0900
+Served asset /screen.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:43 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:43 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:43 +0900
+Served asset /forms.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:37:44 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:44 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:44 +0900
+Served asset /jquery.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:44 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:45 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:45 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:45 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:46 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:46 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:46 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:46 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:46 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:47 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:47 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:47 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:47 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:47 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:48 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:48 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:48 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:48 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:37:49 +0900
+Served asset /application.js - 304 Not Modified (6ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:37:49 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:37:49 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:37:49 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:37:50 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:37:50 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:37:50 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started GET "/customer/applications/2/edit" for 127.0.0.1 at 2013-03-19 21:38:16 +0900
+Processing by Customer::ApplicationsController#edit as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mCustomer Load (3.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "2"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "2"]]
+  [1m[35mStore Load (2.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1
+  [1m[36mProduct Load (1.0ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."application_id" = 2[0m
+  Rendered customer/applications/_product_fields.html.slim (8.0ms)
+  Rendered customer/applications/_product_fields.html.slim (7.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (47.0ms)
+  Rendered layouts/header/_customer.html.slim (3.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (2.0ms)
+Completed 200 OK in 163ms (Views: 136.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:16 +0900
+Served asset /application.css - 304 Not Modified (11ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:17 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:17 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:17 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:17 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:17 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (10ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:18 +0900
+Served asset /forms.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:38:18 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:18 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:18 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:19 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:19 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:19 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:19 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:19 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:20 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:20 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:20 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:20 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:21 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:21 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:21 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:21 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:22 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:22 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:22 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:23 +0900
+Served asset /foundation/index.js - 304 Not Modified (5ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:23 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:38:23 +0900
+Served asset /application.js - 304 Not Modified (7ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:38:23 +0900
+Served asset /cream-background.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:38:24 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:38:24 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:38:24 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:38:25 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:38:25 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)
+
+
+Started PUT "/customer/applications/2" for 127.0.0.1 at 2013-03-19 21:38:33 +0900
+Processing by Customer::ApplicationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "application"=>{"products_attributes"=>{"0"=>{"id"=>"3"}, "1"=>{"id"=>"4"}}, "time_at_address(1i)"=>"2013", "time_at_address(2i)"=>"3", "time_at_address(3i)"=>"1", "rent_or_own"=>"Rent", "rent_payment"=>"340"}, "commit"=>"Submit Application", "id"=>"2"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "2"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "2"]]
+Unpermitted parameters: products_attributes
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 2
+  [1m[36mApplication Exists (2.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPPC2B1278778' AND "applications"."id" != 2) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "rent_or_own" = 'Rent', "rent_payment" = 340.0, "time_at_address" = '2013-03-01 00:00:00.000000', "updated_at" = '2013-03-19 12:38:33.535206' WHERE "applications"."id" = 2
+  [1m[36m (11.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPPC2B1278778' AND "applications"."id" != 2) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "state" = 'submitted', "updated_at" = '2013-03-19 12:38:33.566208' WHERE "applications"."id" = 2
+  [1m[36m (32.0ms)[0m  [1mCOMMIT[0m
+Completed 500 Internal Server Error in 172ms
+
+ActiveModel::MassAssignmentSecurity::Error (Can't mass-assign protected attributes: status):
+  app/controllers/customer/applications_controller.rb:50:in `new'
+  app/controllers/customer/applications_controller.rb:50:in `update'
+
+
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_trace.erb (3.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.0ms)
+  Rendered C:/Ruby193/lib/ruby/gems/1.9.1/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (45.0ms)
+
+
+Started PUT "/customer/applications/2" for 127.0.0.1 at 2013-03-19 21:38:58 +0900
+Processing by Customer::ApplicationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WZEiEsH/5j+cDn5MR7wY4BGDssVud6CjgrNNjVfMwJE=", "application"=>{"products_attributes"=>{"0"=>{"id"=>"3"}, "1"=>{"id"=>"4"}}, "time_at_address(1i)"=>"2013", "time_at_address(2i)"=>"3", "time_at_address(3i)"=>"1", "rent_or_own"=>"Rent", "rent_payment"=>"340"}, "commit"=>"Submit Application", "id"=>"2"}
+  [1m[35mCustomer Load (2.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1[0m  [["id", "2"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = $1 LIMIT 1  [["id", "2"]]
+Unpermitted parameters: products_attributes
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mProduct Load (1.0ms)[0m  SELECT "products".* FROM "products" WHERE "products"."application_id" = 2
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPPC2B1278778' AND "applications"."id" != 2) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'UST1D59032FCF' LIMIT 1[0m
+  Rendered customer/applications/_product_fields.html.slim (11.0ms)
+  Rendered customer/applications/_product_fields.html.slim (6.0ms)
+  Rendered customer/applications/edit.html.slim within layouts/customer_layout (120.0ms)
+  Rendered layouts/header/_customer.html.slim (2.0ms)
+  Rendered layouts/sidenav/_customer.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 702ms (Views: 210.0ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:00 +0900
+Served asset /application.css - 304 Not Modified (12ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:01 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (9ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:01 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:01 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:01 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:02 +0900
+Served asset /pages.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:02 +0900
+Served asset /forms.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:39:02 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:03 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:03 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:03 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:04 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:04 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:04 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:05 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:05 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:05 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:06 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:06 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:06 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:06 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:07 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:07 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:07 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:07 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:08 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:08 +0900
+Served asset /foundation/index.js - 304 Not Modified (4ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:08 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:39:09 +0900
+Served asset /application.js - 304 Not Modified (7ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:39:09 +0900
+Served asset /cream-background.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:39:09 +0900
+Served asset /logo-color.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-home.png" for 127.0.0.1 at 2013-03-19 21:39:09 +0900
+Served asset /icons/sidebar-home.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/icons/sidebar-linked-banks.png" for 127.0.0.1 at 2013-03-19 21:39:10 +0900
+Served asset /icons/sidebar-linked-banks.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:39:10 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (7ms)
+
+
+Started GET "/assets/icons/sidebar-make-payment.png" for 127.0.0.1 at 2013-03-19 21:39:10 +0900
+Served asset /icons/sidebar-make-payment.png - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+  [1m[36m (5052.3ms)[0m  [1mDROP DATABASE IF EXISTS "credda_onering_development"[0m
+PG::Error: ERROR:  database "credda_onering_development" is being accessed by other users
+DETAIL:  There are 2 other sessions using the database.
+: DROP DATABASE IF EXISTS "credda_onering_development"
+  [1m[35m (557.0ms)[0m  DROP DATABASE IF EXISTS "credda_onering_test"
+  [1m[36m (2117.1ms)[0m  [1mCREATE DATABASE "credda_onering_test" ENCODING = 'unicode'[0m
+  [1m[35m (628.0ms)[0m  DROP TABLE "access_grants"
+  [1m[36m (224.0ms)[0m  [1mCREATE TABLE "access_grants" ("id" serial primary key, "accessible_id" integer NOT NULL, "accessible_type" character varying(255) NOT NULL, "client_id" integer NOT NULL, "code" character varying(255), "access_token" character varying(255), "refresh_token" character varying(255), "state" character varying(255), "access_token_expires_at" timestamp, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (72.0ms)[0m  DROP TABLE "addresses"
+  [1m[36m (47.0ms)[0m  [1mCREATE TABLE "addresses" ("id" serial primary key, "addressable_id" integer NOT NULL, "addressable_type" character varying(255) NOT NULL, "address_type" character varying(255) DEFAULT '' NOT NULL, "street" character varying(255) DEFAULT '' NOT NULL, "city" character varying(255) DEFAULT '' NOT NULL, "state" character varying(255) DEFAULT '' NOT NULL, "zip_code" character varying(255) DEFAULT '' NOT NULL, "country" character varying(255) DEFAULT '' NOT NULL, "latitude" float, "longitude" float, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (31.0ms)[0m  DROP TABLE "alerts_lists"
+  [1m[36m (17.0ms)[0m  [1mCREATE TABLE "alerts_lists" ("id" serial primary key, "customer_id" integer NOT NULL, "mail" boolean DEFAULT 'f', "email" boolean DEFAULT 'f', "sms" boolean DEFAULT 'f', "phone" boolean DEFAULT 'f', "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (34.0ms)[0m  DROP TABLE "applications"
+  [1m[36m (67.0ms)[0m  [1mCREATE TABLE "applications" ("id" serial primary key, "application_number" character varying(255) NOT NULL, "customer_account_number" character varying(255), "store_account_number" character varying(255) NOT NULL, "matching_email" character varying(255) NOT NULL, "state" character varying(255) NOT NULL, "time_at_address" timestamp, "rent_or_own" character varying(255), "rent_payment" decimal, "id_verified" boolean DEFAULT 'f' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (96.0ms)[0m  DROP TABLE "clients"
+  [1m[36m (22.0ms)[0m  [1mCREATE TABLE "clients" ("id" serial primary key, "name" character varying(255) NOT NULL, "app_id" character varying(255) NOT NULL, "app_access_token" character varying(255) NOT NULL, "redirect_uri" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_clients_on_app_access_token" ON "clients" ("app_access_token")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_clients_on_app_id" ON "clients" ("app_id")[0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_clients_on_redirect_uri" ON "clients" ("redirect_uri")
+  [1m[36m (109.0ms)[0m  [1mDROP TABLE "contracts"[0m
+  [1m[35m (24.0ms)[0m  CREATE TABLE "contracts" ("id" serial primary key, "customer_account_number" character varying(255) NOT NULL, "application_number" character varying(255) NOT NULL, "contract_number" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_contracts_on_application_number" ON "contracts" ("application_number")[0m
+  [1m[35m (51.0ms)[0m  DROP TABLE "credit_decisions"
+  [1m[36m (18.0ms)[0m  [1mCREATE TABLE "credit_decisions" ("id" serial primary key, "application_id" integer NOT NULL, "status" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (61.0ms)[0m  DROP TABLE "credits"
+  [1m[36m (22.0ms)[0m  [1mCREATE TABLE "credits" ("id" serial primary key, "ledger_id" integer NOT NULL, "cim_payment_profile_id" character varying(255), "type" character varying(255) NOT NULL, "date" timestamp NOT NULL, "amount" decimal(15,2) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (121.0ms)[0m  DROP TABLE "customers"
+  [1m[36m (26.0ms)[0m  [1mCREATE TABLE "customers" ("id" serial primary key, "account_number" character varying(255) NOT NULL, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "first_name" character varying(255) NOT NULL, "middle_name" character varying(255), "last_name" character varying(255) NOT NULL, "date_of_birth" date NOT NULL, "social_security_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "cim_customer_profile_id" character varying(255), "cancelled_at" timestamp, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_account_number" ON "customers" ("account_number")
+  [1m[36m (9.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_authentication_token" ON "customers" ("authentication_token")[0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_cim_customer_profile_id" ON "customers" ("cim_customer_profile_id")
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_confirmation_token" ON "customers" ("confirmation_token")[0m
+  [1m[35m (250.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_email" ON "customers" ("email")
+  [1m[36m (121.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_reset_password_token" ON "customers" ("reset_password_token")[0m
+  [1m[35m (195.0ms)[0m  CREATE UNIQUE INDEX "index_customers_on_unlock_token" ON "customers" ("unlock_token")
+  [1m[36m (49.0ms)[0m  [1mCREATE UNIQUE INDEX "index_customers_on_username" ON "customers" ("username")[0m
+  [1m[35m (197.0ms)[0m  DROP TABLE "debits"
+  [1m[36m (54.0ms)[0m  [1mCREATE TABLE "debits" ("id" serial primary key, "ledger_id" integer NOT NULL, "type" character varying(255) NOT NULL, "date" timestamp NOT NULL, "due_date" timestamp NOT NULL, "amount" decimal(15,2) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (24.0ms)[0m  DROP TABLE "employee_assignments"
+  [1m[36m (4.0ms)[0m  [1mCREATE TABLE "employee_assignments" ("employee_id" integer, "employee_role_id" integer) [0m
+  [1m[35m (8.0ms)[0m  CREATE INDEX "index_employee_assignments_on_employee_id_and_employee_role_id" ON "employee_assignments" ("employee_id", "employee_role_id")
+  [1m[36m (95.0ms)[0m  [1mDROP TABLE "employee_roles"[0m
+  [1m[35m (12.0ms)[0m  CREATE TABLE "employee_roles" ("id" serial primary key, "name" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (7.0ms)[0m  [1mCREATE INDEX "index_employee_roles_on_name" ON "employee_roles" ("name")[0m
+  [1m[35m (192.0ms)[0m  DROP TABLE "employees"
+  [1m[36m (26.0ms)[0m  [1mCREATE TABLE "employees" ("id" serial primary key, "account_number" character varying(255) NOT NULL, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "first_name" character varying(255) NOT NULL, "middle_name" character varying(255), "last_name" character varying(255) NOT NULL, "date_of_birth" date NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "cancelled_at" timestamp, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_employees_on_account_number" ON "employees" ("account_number")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_employees_on_authentication_token" ON "employees" ("authentication_token")[0m
+  [1m[35m (10.0ms)[0m  CREATE UNIQUE INDEX "index_employees_on_confirmation_token" ON "employees" ("confirmation_token")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_employees_on_email" ON "employees" ("email")[0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_employees_on_reset_password_token" ON "employees" ("reset_password_token")
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_employees_on_unlock_token" ON "employees" ("unlock_token")[0m
+  [1m[35m (12.0ms)[0m  CREATE UNIQUE INDEX "index_employees_on_username" ON "employees" ("username")
+  [1m[36m (49.0ms)[0m  [1mDROP TABLE "entries"[0m
+  [1m[35m (30.0ms)[0m  CREATE TABLE "entries" ("id" serial primary key, "ledger_id" integer NOT NULL, "debit_id" integer NOT NULL, "credit_id" integer NOT NULL, "amount" decimal(15,2) DEFAULT 0.0 NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (46.0ms)[0m  [1mDROP TABLE "ledgers"[0m
+  [1m[35m (84.0ms)[0m  CREATE TABLE "ledgers" ("id" serial primary key, "contract_id" integer NOT NULL, "type" character varying(255) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (9.0ms)[0m  [1mCREATE UNIQUE INDEX "index_ledgers_on_contract_id" ON "ledgers" ("contract_id")[0m
+  [1m[35m (111.0ms)[0m  DROP TABLE "organizations"
+  [1m[36m (21.0ms)[0m  [1mCREATE TABLE "organizations" ("id" serial primary key, "name" character varying(255) DEFAULT '' NOT NULL, "website" character varying(255) DEFAULT '' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_organizations_on_name" ON "organizations" ("name")
+  [1m[36m (9.0ms)[0m  [1mCREATE UNIQUE INDEX "index_organizations_on_website" ON "organizations" ("website")[0m
+  [1m[35m (52.0ms)[0m  DROP TABLE "payment_profiles"
+  [1m[36m (37.0ms)[0m  [1mCREATE TABLE "payment_profiles" ("id" serial primary key, "customer_id" integer NOT NULL, "payment_type" character varying(255) NOT NULL, "first_name" character varying(255) NOT NULL, "last_name" character varying(255) NOT NULL, "last_four_digits" character varying(255) NOT NULL, "cim_customer_payment_profile_id" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (9.0ms)[0m  CREATE UNIQUE INDEX "index_payment_profiles_on_cim_customer_payment_profile_id" ON "payment_profiles" ("cim_customer_payment_profile_id")
+  [1m[36m (64.0ms)[0m  [1mDROP TABLE "payments"[0m
+  [1m[35m (14.0ms)[0m  CREATE TABLE "payments" ("id" serial primary key, "customer_id" integer NOT NULL, "payment_profile_id" integer NOT NULL, "cim_customer_payment_profile_id" character varying(255) NOT NULL, "amount" decimal(15,2) NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (628.0ms)[0m  [1mDROP TABLE "phone_numbers"[0m
+  [1m[35m (23.0ms)[0m  CREATE TABLE "phone_numbers" ("id" serial primary key, "phonable_id" integer NOT NULL, "phonable_type" character varying(255) NOT NULL, "phone_number" character varying(255) NOT NULL, "primary" boolean DEFAULT 'f' NOT NULL, "smsable" boolean DEFAULT 'f' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (32.0ms)[0m  [1mDROP TABLE "products"[0m
+  [1m[35m (23.0ms)[0m  CREATE TABLE "products" ("id" serial primary key, "application_id" integer NOT NULL, "type" character varying(255) NOT NULL, "id_number" character varying(255), "name" character varying(255) DEFAULT '' NOT NULL, "price" decimal(15,2) DEFAULT 0.0 NOT NULL, "description" text DEFAULT '' NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (79.0ms)[0m  [1mDROP TABLE "stores"[0m
+  [1m[35m (24.0ms)[0m  CREATE TABLE "stores" ("id" serial primary key, "organization_id" integer, "account_number" character varying(255) NOT NULL, "username" character varying(255) DEFAULT '' NOT NULL, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "name" character varying(255) NOT NULL, "employer_identification_number" character varying(255) NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255), "failed_attempts" integer DEFAULT 0, "unlock_token" character varying(255), "locked_at" timestamp, "authentication_token" character varying(255), "cancelled_at" timestamp, "approved_at" timestamp, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_account_number" ON "stores" ("account_number")[0m
+  [1m[35m (8.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_authentication_token" ON "stores" ("authentication_token")
+  [1m[36m (8.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_confirmation_token" ON "stores" ("confirmation_token")[0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_email" ON "stores" ("email")
+  [1m[36m (81.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_reset_password_token" ON "stores" ("reset_password_token")[0m
+  [1m[35m (7.0ms)[0m  CREATE UNIQUE INDEX "index_stores_on_unlock_token" ON "stores" ("unlock_token")
+  [1m[36m (7.0ms)[0m  [1mCREATE UNIQUE INDEX "index_stores_on_username" ON "stores" ("username")[0m
+  [1m[35m (142.0ms)[0m  DROP TABLE "terms_options"
+  [1m[36m (25.0ms)[0m  [1mCREATE TABLE "terms_options" ("id" serial primary key, "application_id" integer NOT NULL, "payment_frequency" character varying(255) NOT NULL, "markup" decimal NOT NULL, "number_of_payments" integer NOT NULL, "payment_amount" decimal NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (73.0ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (0.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mStore Load (25.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "stores" WHERE "stores"."account_number" IS NULL
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."email" = 'kyleigh_3@notcredda.com' LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."account_number" = 'USTFE9FDEE90D' LIMIT 1[0m
+  [1m[35mStore Exists (0.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."employer_identification_number" = '34-5896087' LIMIT 1
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."confirmation_token" = 'xyRb2UKUJ61LLCQDq1hg' LIMIT 1[0m
+  [1m[35mSQL (10.0ms)[0m  INSERT INTO "stores" ("account_number", "approved_at", "authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "email", "employer_identification_number", "encrypted_password", "failed_attempts", "last_sign_in_at", "last_sign_in_ip", "locked_at", "name", "organization_id", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING "id"  [["account_number", "USTFE9FDEE90D"], ["approved_at", nil], ["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Tue, 19 Mar 2013 12:41:16 UTC +00:00], ["confirmation_token", "xyRb2UKUJ61LLCQDq1hg"], ["confirmed_at", nil], ["created_at", Tue, 19 Mar 2013 12:41:16 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "kyleigh_3@notcredda.com"], ["employer_identification_number", "34-5896087"], ["encrypted_password", "$2a$10$Nd/mqjGqPbxcVaGaj6n2Re5adcT7KTcyabRGlB7cJV/mvwxwbQFry"], ["failed_attempts", 0], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["name", "Mohr Group"], ["organization_id", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Tue, 19 Mar 2013 12:41:16 UTC +00:00], ["username", "store"]]
+  Rendered store_authentication_mailer/confirmation_instructions.html.slim (162.0ms)
+
+Sent mail to kyleigh_3@notcredda.com (2407ms)
+Date: Tue, 19 Mar 2013 21:41:20 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: kyleigh_3@notcredda.com
+Message-ID: <51485cf0b16f1_25e030357c665fc@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "Confirmation instructions", "filters": {"ganalytics":
+ {"settings": {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+<p>Welcome kyleigh_3@notcredda.com!</p><p>Your account application has been approved. You can confirm your account email through the link below:</p><p><a href="http://localhost/store/confirmation?confirmation_token=xyRb2UKUJ61LLCQDq1hg">Confirm my account</a></p>
+  [1m[36mSQL (13.0ms)[0m  [1mINSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["address_type", "store"], ["addressable_id", 1], ["addressable_type", "Store"], ["city", "Lake Maida"], ["country", "United States"], ["created_at", Tue, 19 Mar 2013 12:41:22 UTC +00:00], ["latitude", 43.7844397], ["longitude", -88.7878678], ["state", "Wisconsin"], ["street", "71822 Block Viaduct"], ["updated_at", Tue, 19 Mar 2013 12:41:22 UTC +00:00], ["zip_code", "86963"]]
+  [1m[35mSQL (11.0ms)[0m  INSERT INTO "phone_numbers" ("created_at", "phonable_id", "phonable_type", "phone_number", "primary", "smsable", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["created_at", Tue, 19 Mar 2013 12:41:22 UTC +00:00], ["phonable_id", 1], ["phonable_type", "Store"], ["phone_number", "885-836-4180"], ["primary", true], ["smsable", true], ["updated_at", Tue, 19 Mar 2013 12:41:22 UTC +00:00]]
+  Rendered admin_notification_mailer/new_user.html.slim (8.0ms)
+  Rendered admin_notification_mailer/new_user.text.slim (11.0ms)
+
+Sent mail to bryce.senz@credda.com (2148ms)
+Date: Tue, 19 Mar 2013 21:41:23 +0900
+From: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <51485cf325d1c_25e030357c6699@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_51485cf315760_25e030357c6663b";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "New User", "filters": {"ganalytics": {"settings":
+ {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+
+
+----==_mimepart_51485cf315760_25e030357c6663b
+Date: Tue, 19 Mar 2013 21:41:23 +0900
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cf322a53_25e030357c66723@Bryce-PC.mail>
+
+<You>have a new user!</You>=============================================== <Name><div>Mohr Group</div></Name><Type><div>Store</div></Type><Username><div>store</div></Username><Thanks>for joining and have a great day!</Thanks>
+
+----==_mimepart_51485cf315760_25e030357c6663b
+Date: Tue, 19 Mar 2013 21:41:23 +0900
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cf3245ab_25e030357c668ab@Bryce-PC.mail>
+
+<h2>Details</h2><p>Name : Mohr Group</p><p>Type : Store</p><p>Username: store</p>
+
+----==_mimepart_51485cf315760_25e030357c6663b--
+
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mStore Exists (24.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'store' AND "stores"."id" != 1) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'kyleigh_3@notcredda.com' AND "stores"."id" != 1) LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'USTFE9FDEE90D' AND "stores"."id" != 1) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5896087' AND "stores"."id" != 1) LIMIT 1
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."id" = 1 LIMIT 1[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."id" = 1 LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'store' AND "stores"."id" != 1) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'kyleigh_3@notcredda.com' AND "stores"."id" != 1) LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'USTFE9FDEE90D' AND "stores"."id" != 1) LIMIT 1[0m
+  [1m[35mStore Exists (0.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5896087' AND "stores"."id" != 1) LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mUPDATE "stores" SET "approved_at" = '2013-03-19 12:41:25.000000', "updated_at" = '2013-03-19 12:41:25.829060' WHERE "stores"."id" = 1[0m
+  [1m[35m (12.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (2.0ms)[0m  UPDATE "stores" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-19 12:41:25.847061', "updated_at" = '2013-03-19 12:41:25.848062' WHERE "stores"."id" = 1
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "stores" 
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "stores" WHERE "stores"."account_number" IS NULL
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."username" = 'gerard_94' LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."email" = 'gerard_94@notcredda.com' LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."account_number" = 'USTFC18BBC548' LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."employer_identification_number" = '34-5893645' LIMIT 1
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."confirmation_token" = '8ueTRjsYX76HoHPVzWyZ' LIMIT 1[0m
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "stores" ("account_number", "approved_at", "authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "email", "employer_identification_number", "encrypted_password", "failed_attempts", "last_sign_in_at", "last_sign_in_ip", "locked_at", "name", "organization_id", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING "id"  [["account_number", "USTFC18BBC548"], ["approved_at", nil], ["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Tue, 19 Mar 2013 12:41:26 UTC +00:00], ["confirmation_token", "8ueTRjsYX76HoHPVzWyZ"], ["confirmed_at", nil], ["created_at", Tue, 19 Mar 2013 12:41:26 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "gerard_94@notcredda.com"], ["employer_identification_number", "34-5893645"], ["encrypted_password", "$2a$10$IU3432m7Hl3BPMI8DECzEO5BM4f/cz34xbIrS3nvwWVA6jPdmsj3e"], ["failed_attempts", 0], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["name", "Schuppe, Hickle and Schowalter"], ["organization_id", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Tue, 19 Mar 2013 12:41:26 UTC +00:00], ["username", "gerard_94"]]
+  Rendered store_authentication_mailer/confirmation_instructions.html.slim (1.0ms)
+
+Sent mail to gerard_94@notcredda.com (2022ms)
+Date: Tue, 19 Mar 2013 21:41:26 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: gerard_94@notcredda.com
+Message-ID: <51485cf6b1460_25e030357c670ef@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "Confirmation instructions", "filters": {"ganalytics":
+ {"settings": {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+<p>Welcome gerard_94@notcredda.com!</p><p>Your account application has been approved. You can confirm your account email through the link below:</p><p><a href="http://localhost/store/confirmation?confirmation_token=8ueTRjsYX76HoHPVzWyZ">Confirm my account</a></p>
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["address_type", "store"], ["addressable_id", 2], ["addressable_type", "Store"], ["city", "North Murl"], ["country", "United States"], ["created_at", Tue, 19 Mar 2013 12:41:28 UTC +00:00], ["latitude", 33.836081], ["longitude", -81.1637245], ["state", "South Carolina"], ["street", "837 Jammie Trail"], ["updated_at", Tue, 19 Mar 2013 12:41:28 UTC +00:00], ["zip_code", "96234"]]
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "phone_numbers" ("created_at", "phonable_id", "phonable_type", "phone_number", "primary", "smsable", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["created_at", Tue, 19 Mar 2013 12:41:28 UTC +00:00], ["phonable_id", 2], ["phonable_type", "Store"], ["phone_number", "498-380-6000"], ["primary", true], ["smsable", true], ["updated_at", Tue, 19 Mar 2013 12:41:28 UTC +00:00]]
+  Rendered admin_notification_mailer/new_user.html.slim (0.0ms)
+  Rendered admin_notification_mailer/new_user.text.slim (1.0ms)
+
+Sent mail to bryce.senz@credda.com (2044ms)
+Date: Tue, 19 Mar 2013 21:41:28 +0900
+From: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <51485cf8c9f60_25e030357c67460@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_51485cf8c31fe_25e030357c671f0";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "New User", "filters": {"ganalytics": {"settings":
+ {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+
+
+----==_mimepart_51485cf8c31fe_25e030357c671f0
+Date: Tue, 19 Mar 2013 21:41:28 +0900
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cf8c7c37_25e030357c67283@Bryce-PC.mail>
+
+<You>have a new user!</You>=============================================== <Name><div>Schuppe, Hickle and Schowalter</div></Name><Type><div>Store</div></Type><Username><div>gerard_94</div></Username><Thanks>for joining and have a great day!</Thanks>
+
+----==_mimepart_51485cf8c31fe_25e030357c671f0
+Date: Tue, 19 Mar 2013 21:41:28 +0900
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cf8c8fc0_25e030357c673e5@Bryce-PC.mail>
+
+<h2>Details</h2><p>Name : Schuppe, Hickle and Schowalter</p><p>Type : Store</p><p>Username: gerard_94</p>
+
+----==_mimepart_51485cf8c31fe_25e030357c671f0--
+
+  [1m[36m (11.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'gerard_94' AND "stores"."id" != 2) LIMIT 1[0m
+  [1m[35mStore Exists (0.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'gerard_94@notcredda.com' AND "stores"."id" != 2) LIMIT 1
+  [1m[36mStore Exists (0.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'USTFC18BBC548' AND "stores"."id" != 2) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5893645' AND "stores"."id" != 2) LIMIT 1
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."id" = 2 LIMIT 1[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."id" = 2 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'gerard_94' AND "stores"."id" != 2) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'gerard_94@notcredda.com' AND "stores"."id" != 2) LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'USTFC18BBC548' AND "stores"."id" != 2) LIMIT 1[0m
+  [1m[35mStore Exists (0.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5893645' AND "stores"."id" != 2) LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mUPDATE "stores" SET "approved_at" = '2013-03-19 12:41:31.000000', "updated_at" = '2013-03-19 12:41:31.529386' WHERE "stores"."id" = 2[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "stores" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-19 12:41:31.535387', "updated_at" = '2013-03-19 12:41:31.536387' WHERE "stores"."id" = 2
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM "stores" WHERE "stores"."account_number" IS NULL[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."username" = 'wilfredo_68' LIMIT 1
+  [1m[36mStore Exists (0.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."email" = 'wilfredo_68@notcredda.com' LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE "stores"."account_number" = 'UST5B8EBA6121' LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE "stores"."employer_identification_number" = '34-5894161' LIMIT 1[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."confirmation_token" = 'sTQr7jdFGx56wuKjqt1y' LIMIT 1
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "stores" ("account_number", "approved_at", "authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "email", "employer_identification_number", "encrypted_password", "failed_attempts", "last_sign_in_at", "last_sign_in_ip", "locked_at", "name", "organization_id", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING "id"[0m  [["account_number", "UST5B8EBA6121"], ["approved_at", nil], ["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Tue, 19 Mar 2013 12:41:32 UTC +00:00], ["confirmation_token", "sTQr7jdFGx56wuKjqt1y"], ["confirmed_at", nil], ["created_at", Tue, 19 Mar 2013 12:41:32 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "wilfredo_68@notcredda.com"], ["employer_identification_number", "34-5894161"], ["encrypted_password", "$2a$10$1qlwD6/B1eeflKVZDs/2j.xzFub3xgjbp0L/7JFYqEmxhG3wT6SmS"], ["failed_attempts", 0], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["name", "Brown, Watsica and Upton"], ["organization_id", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Tue, 19 Mar 2013 12:41:32 UTC +00:00], ["username", "wilfredo_68"]]
+  Rendered store_authentication_mailer/confirmation_instructions.html.slim (1.0ms)
+
+Sent mail to wilfredo_68@notcredda.com (2020ms)
+Date: Tue, 19 Mar 2013 21:41:32 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: wilfredo_68@notcredda.com
+Message-ID: <51485cfc69166_25e030357c6753@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "Confirmation instructions", "filters": {"ganalytics":
+ {"settings": {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+<p>Welcome wilfredo_68@notcredda.com!</p><p>Your account application has been approved. You can confirm your account email through the link below:</p><p><a href="http://localhost/store/confirmation?confirmation_token=sTQr7jdFGx56wuKjqt1y">Confirm my account</a></p>
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"  [["address_type", "store"], ["addressable_id", 3], ["addressable_type", "Store"], ["city", "Kuhlmanchester"], ["country", "United States"], ["created_at", Tue, 19 Mar 2013 12:41:34 UTC +00:00], ["latitude", 35.5174913], ["longitude", -86.5804473], ["state", "Tennessee"], ["street", "67357 Bins Prairie"], ["updated_at", Tue, 19 Mar 2013 12:41:34 UTC +00:00], ["zip_code", "95073"]]
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "phone_numbers" ("created_at", "phonable_id", "phonable_type", "phone_number", "primary", "smsable", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["created_at", Tue, 19 Mar 2013 12:41:34 UTC +00:00], ["phonable_id", 3], ["phonable_type", "Store"], ["phone_number", "844-498-3065"], ["primary", true], ["smsable", true], ["updated_at", Tue, 19 Mar 2013 12:41:34 UTC +00:00]]
+  Rendered admin_notification_mailer/new_user.html.slim (0.0ms)
+  Rendered admin_notification_mailer/new_user.text.slim (0.0ms)
+
+Sent mail to bryce.senz@credda.com (2197ms)
+Date: Tue, 19 Mar 2013 21:41:34 +0900
+From: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <51485cfe8204e_25e030357c679ef@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_51485cfe7b2ed_25e030357c67662";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "New User", "filters": {"ganalytics": {"settings":
+ {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+
+
+----==_mimepart_51485cfe7b2ed_25e030357c67662
+Date: Tue, 19 Mar 2013 21:41:34 +0900
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cfe7f93e_25e030357c677d9@Bryce-PC.mail>
+
+<You>have a new user!</You>=============================================== <Name><div>Brown, Watsica and Upton</div></Name><Type><div>Store</div></Type><Username><div>wilfredo_68</div></Username><Thanks>for joining and have a great day!</Thanks>
+
+----==_mimepart_51485cfe7b2ed_25e030357c67662
+Date: Tue, 19 Mar 2013 21:41:34 +0900
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485cfe810ae_25e030357c6786e@Bryce-PC.mail>
+
+<h2>Details</h2><p>Name : Brown, Watsica and Upton</p><p>Type : Store</p><p>Username: wilfredo_68</p>
+
+----==_mimepart_51485cfe7b2ed_25e030357c67662--
+
+  [1m[35m (2.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'wilfredo_68' AND "stores"."id" != 3) LIMIT 1
+  [1m[36mStore Exists (2.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'wilfredo_68@notcredda.com' AND "stores"."id" != 3) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'UST5B8EBA6121' AND "stores"."id" != 3) LIMIT 1
+  [1m[36mStore Exists (0.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5894161' AND "stores"."id" != 3) LIMIT 1[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."id" = 3 LIMIT 1
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."id" = 3 LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."username" = 'wilfredo_68' AND "stores"."id" != 3) LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."email" = 'wilfredo_68@notcredda.com' AND "stores"."id" != 3) LIMIT 1[0m
+  [1m[35mStore Exists (1.0ms)[0m  SELECT 1 AS one FROM "stores" WHERE ("stores"."account_number" = 'UST5B8EBA6121' AND "stores"."id" != 3) LIMIT 1
+  [1m[36mStore Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "stores" WHERE ("stores"."employer_identification_number" = '34-5894161' AND "stores"."id" != 3) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "stores" SET "approved_at" = '2013-03-19 12:41:39.000000', "updated_at" = '2013-03-19 12:41:40.235884' WHERE "stores"."id" = 3
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "stores" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-19 12:41:40.241885', "updated_at" = '2013-03-19 12:41:40.242885' WHERE "stores"."id" = 3[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mCustomer Load (32.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM "customers" WHERE "customers"."account_number" IS NULL[0m
+  [1m[35mCustomer Exists (1.0ms)[0m  SELECT 1 AS one FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36mCustomer Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = 'darian_89@notcredda.com' LIMIT 1[0m
+  [1m[35mCustomer Exists (1.0ms)[0m  SELECT 1 AS one FROM "customers" WHERE "customers"."account_number" = 'UCU6CFFCF9B04' LIMIT 1
+  [1m[36mCustomer Load (1.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."confirmation_token" = 'GfGKirXqzDzfSxPKZqdB' LIMIT 1[0m
+  [1m[35mSQL (12.0ms)[0m  INSERT INTO "customers" ("account_number", "authentication_token", "cancelled_at", "cim_customer_profile_id", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "social_security_number", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29) RETURNING "id"  [["account_number", "UCU6CFFCF9B04"], ["authentication_token", nil], ["cancelled_at", nil], ["cim_customer_profile_id", "13072780"], ["confirmation_sent_at", Tue, 19 Mar 2013 12:41:41 UTC +00:00], ["confirmation_token", "GfGKirXqzDzfSxPKZqdB"], ["confirmed_at", nil], ["created_at", Tue, 19 Mar 2013 12:41:44 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Tue, 19 Mar 1985 12:41:40 UTC +00:00], ["email", "darian_89@notcredda.com"], ["encrypted_password", "$2a$10$F/Ytab6Av0yrNuOLy5HxnemdCilMUlUqYKxR/2frqTmiQ/e1SLaPq"], ["failed_attempts", 0], ["first_name", "Darian"], ["last_name", "Mayert"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "Madisyn"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["social_security_number", "345-89-6280"], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Tue, 19 Mar 2013 12:41:44 UTC +00:00], ["username", "customer"]]
+  Rendered customer_authentication_mailer/confirmation_instructions.html.slim (10.0ms)
+
+Sent mail to darian_89@notcredda.com (2026ms)
+Date: Tue, 19 Mar 2013 21:41:44 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: darian_89@notcredda.com
+Message-ID: <51485d0834460_25e030357c680d2@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "Confirmation instructions", "filters": {"ganalytics":
+ {"settings": {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+<p>Welcome darian_89@notcredda.com!</p><p>You can confirm your account email through the link below:</p><p><a href="http://localhost/customer/confirmation?confirmation_token=GfGKirXqzDzfSxPKZqdB">Confirm my account</a></p>
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["address_type", "mailing"], ["addressable_id", 1], ["addressable_type", "Customer"], ["city", "Port Virgie"], ["country", "United States"], ["created_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00], ["latitude", 37.9642529], ["longitude", -91.8318334], ["state", "Missouri"], ["street", "6407 Schowalter Crest"], ["updated_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00], ["zip_code", "52563"]]
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "phone_numbers" ("created_at", "phonable_id", "phonable_type", "phone_number", "primary", "smsable", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["created_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00], ["phonable_id", 1], ["phonable_type", "Customer"], ["phone_number", "643-222-1043"], ["primary", true], ["smsable", true], ["updated_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00]]
+  [1m[36mSQL (9.0ms)[0m  [1mINSERT INTO "alerts_lists" ("created_at", "customer_id", "email", "mail", "phone", "sms", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["created_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00], ["customer_id", 1], ["email", true], ["mail", true], ["phone", false], ["sms", true], ["updated_at", Tue, 19 Mar 2013 12:41:46 UTC +00:00]]
+  Rendered admin_notification_mailer/new_user.html.slim (1.0ms)
+  Rendered admin_notification_mailer/new_user.text.slim (0.0ms)
+
+Sent mail to bryce.senz@credda.com (2048ms)
+Date: Tue, 19 Mar 2013 21:41:46 +0900
+From: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <51485d0a515b1_25e030357c68449@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_51485d0a4a468_25e030357c6816a";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "New User", "filters": {"ganalytics": {"settings":
+ {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+
+
+----==_mimepart_51485d0a4a468_25e030357c6816a
+Date: Tue, 19 Mar 2013 21:41:46 +0900
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485d0a4eea1_25e030357c6821a@Bryce-PC.mail>
+
+<You>have a new user!</You>=============================================== <Name><div>Darian Mayert</div></Name><Type><div>Customer</div></Type><Username><div>customer</div></Username><Thanks>for joining and have a great day!</Thanks>
+
+----==_mimepart_51485d0a4a468_25e030357c6816a
+Date: Tue, 19 Mar 2013 21:41:46 +0900
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485d0a50611_25e030357c68351@Bryce-PC.mail>
+
+<h2>Details</h2><p>Name : Darian Mayert</p><p>Type : Customer</p><p>Username: customer</p>
+
+----==_mimepart_51485d0a4a468_25e030357c6816a--
+
+  [1m[35m (12.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (23.0ms)[0m  UPDATE "customers" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-19 12:41:48.383350', "updated_at" = '2013-03-19 12:41:51.440525' WHERE "customers"."id" = 1
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "customers" 
+  [1m[36mCustomer Load (1.0ms)[0m  [1mSELECT "customers".* FROM "customers" LIMIT 1 OFFSET 0[0m
+  [1m[35mAddress Load (4.0ms)[0m  SELECT "addresses".* FROM "addresses" WHERE "addresses"."addressable_id" = 1 AND "addresses"."addressable_type" = 'Customer' AND "addresses"."address_type" = 'mailing' LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (11.0ms)[0m  INSERT INTO "payment_profiles" ("cim_customer_payment_profile_id", "created_at", "customer_id", "first_name", "last_four_digits", "last_name", "payment_type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["cim_customer_payment_profile_id", "12055275"], ["created_at", Tue, 19 Mar 2013 12:41:53 UTC +00:00], ["customer_id", 1], ["first_name", "Darian"], ["last_four_digits", "1111"], ["last_name", "Mayert"], ["payment_type", "credit_card"], ["updated_at", Tue, 19 Mar 2013 12:41:53 UTC +00:00]]
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "addresses" ("address_type", "addressable_id", "addressable_type", "city", "country", "created_at", "latitude", "longitude", "state", "street", "updated_at", "zip_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["address_type", "billing"], ["addressable_id", 1], ["addressable_type", "PaymentProfile"], ["city", "Port Virgie"], ["country", "United States"], ["created_at", Tue, 19 Mar 2013 12:41:53 UTC +00:00], ["latitude", 37.9642529], ["longitude", -91.8318334], ["state", "Missouri"], ["street", "6407 Schowalter Crest"], ["updated_at", Tue, 19 Mar 2013 12:41:53 UTC +00:00], ["zip_code", "52563"]]
+  [1m[35mPaymentProfile Load (18.0ms)[0m  SELECT "payment_profiles".* FROM "payment_profiles" WHERE "payment_profiles"."id" = 1 LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "customers" 
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36mStore Load (0.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (4.0ms)[0m  SELECT COUNT(*) FROM "applications" WHERE "applications"."application_number" IS NULL
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE "applications"."application_number" = 'LTOAPP6CFAE57DD3' LIMIT 1[0m
+  [1m[35mSQL (4.0ms)[0m  INSERT INTO "applications" ("application_number", "created_at", "customer_account_number", "id_verified", "matching_email", "rent_or_own", "rent_payment", "state", "store_account_number", "time_at_address", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"  [["application_number", "LTOAPP6CFAE57DD3"], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["customer_account_number", nil], ["id_verified", false], ["matching_email", "darian_89@notcredda.com"], ["rent_or_own", nil], ["rent_payment", nil], ["state", "unclaimed"], ["store_account_number", "USTFE9FDEE90D"], ["time_at_address", nil], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[36mSQL (8.0ms)[0m  [1mINSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["application_id", 1], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Perferendis sit autem quam libero voluptas. Est nulla nihil quia. Similique eaque ea temporibus aut sequi sunt. Et incidunt dolorum officiis veritatis consequuntur provident dolorem velit."], ["id_number", "TI21343124"], ["name", ["hic", "quaerat"]], ["price", #<BigDecimal:80c2050,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["application_id", 1], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Ab fugiat voluptatem culpa aut omnis. Ratione nam sint aut quisquam. Qui eos nisi ut provident qui qui atque quia."], ["id_number", "TI21343656"], ["name", ["nostrum", "voluptatem"]], ["price", #<BigDecimal:80fef38,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[36m (38.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mApplication Load (44.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 1 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 1 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 1 LIMIT 1
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP6CFAE57DD3' AND "applications"."id" != 1) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'USTFE9FDEE90D' LIMIT 1[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1
+  [1m[36mCustomer Load (1.0ms)[0m  [1mSELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM "applications" WHERE "applications"."application_number" IS NULL[0m
+  [1m[35mApplication Exists (0.0ms)[0m  SELECT 1 AS one FROM "applications" WHERE "applications"."application_number" = 'LTOAPP5A68AAA350' LIMIT 1
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "applications" ("application_number", "created_at", "customer_account_number", "id_verified", "matching_email", "rent_or_own", "rent_payment", "state", "store_account_number", "time_at_address", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["application_number", "LTOAPP5A68AAA350"], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["customer_account_number", nil], ["id_verified", false], ["matching_email", "darian_89@notcredda.com"], ["rent_or_own", nil], ["rent_payment", nil], ["state", "unclaimed"], ["store_account_number", "USTFE9FDEE90D"], ["time_at_address", nil], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["application_id", 2], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Quis officiis odio nostrum inventore hic minima. Occaecati et incidunt illo et. Iusto sit velit qui autem ducimus repellat molestiae. Harum numquam et id fugiat repellat magnam."], ["id_number", "TI21343847"], ["name", ["reprehenderit", "nostrum"]], ["price", #<BigDecimal:74bad00,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["application_id", 2], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Ut deleniti aut quod blanditiis est. Aliquam accusantium illum porro tempora dignissimos. Et aliquid quia sed."], ["id_number", "TI21343835"], ["name", ["at", "sequi"]], ["price", #<BigDecimal:74e2168,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 2 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 2 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 2 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 2 LIMIT 1[0m
+  [1m[35mApplication Exists (0.0ms)[0m  SELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP5A68AAA350' AND "applications"."id" != 2) LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mStore Load (1.0ms)[0m  SELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'USTFE9FDEE90D' LIMIT 1
+  [1m[36mStore Load (2.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35mCustomer Load (1.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."username" = 'store' LIMIT 1[0m
+  [1m[35mCustomer Load (0.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."username" = 'customer' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "applications" WHERE "applications"."application_number" IS NULL
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE "applications"."application_number" = 'LTOAPP3D469D93FF' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "applications" ("application_number", "created_at", "customer_account_number", "id_verified", "matching_email", "rent_or_own", "rent_payment", "state", "store_account_number", "time_at_address", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"  [["application_number", "LTOAPP3D469D93FF"], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["customer_account_number", "UCU6CFFCF9B04"], ["id_verified", false], ["matching_email", "Shanelle_22@notcredda.com"], ["rent_or_own", nil], ["rent_payment", nil], ["state", "unclaimed"], ["store_account_number", "USTFE9FDEE90D"], ["time_at_address", nil], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["application_id", 3], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Autem eos sit eos est voluptatem quisquam fugiat. Nam facere omnis veniam molestiae nihil voluptate et est. Enim totam magnam molestiae voluptatem debitis."], ["id_number", "TI21343208"], ["name", ["rerum", "consectetur"]], ["price", #<BigDecimal:7fd5d70,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "products" ("application_id", "created_at", "description", "id_number", "name", "price", "type", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["application_id", 3], ["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["description", "Rerum dignissimos occaecati qui fugiat deleniti ducimus. Ad officiis rerum sunt. Perferendis recusandae consectetur eum dolore ad. Est exercitationem fugit saepe praesentium."], ["id_number", "TI21343201"], ["name", ["placeat", "nesciunt"]], ["price", #<BigDecimal:80232d8,'0.2781E3',18(36)>], ["type", "Tire"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1
+  [1m[36mApplication Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3D469D93FF' AND "applications"."id" != 3) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mStore Load (1.0ms)[0m  [1mSELECT "stores".* FROM "stores" WHERE "stores"."account_number" = 'USTFE9FDEE90D' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mApplication Load (1.0ms)[0m  [1mSELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1[0m
+  [1m[35mApplication Load (1.0ms)[0m  SELECT "applications".* FROM "applications" WHERE "applications"."id" = 3 LIMIT 1
+  [1m[36mApplication Exists (0.0ms)[0m  [1mSELECT 1 AS one FROM "applications" WHERE ("applications"."application_number" = 'LTOAPP3D469D93FF' AND "applications"."id" != 3) LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  UPDATE "applications" SET "state" = 'claimed', "updated_at" = '2013-03-19 12:41:54.430696' WHERE "applications"."id" = 3
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mEmployeeRole Load (7.0ms)[0m  SELECT "employee_roles".* FROM "employee_roles" WHERE "employee_roles"."name" = 'Administrator' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mEmployeeRole Exists (1.0ms)[0m  SELECT 1 AS one FROM "employee_roles" WHERE "employee_roles"."name" = 'Administrator' LIMIT 1
+  [1m[36mSQL (5.0ms)[0m  [1mINSERT INTO "employee_roles" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00], ["name", "Administrator"], ["updated_at", Tue, 19 Mar 2013 12:41:54 UTC +00:00]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mEmployeeRole Exists (8.0ms)[0m  SELECT 1 AS one FROM "employee_roles" WHERE ("employee_roles"."name" = 'Administrator' AND "employee_roles"."id" != 1) LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mEmployeeRole Load (1.0ms)[0m  SELECT "employee_roles".* FROM "employee_roles" WHERE "employee_roles"."name" = 'Administrator' LIMIT 1
+  [1m[36mEmployee Load (26.0ms)[0m  [1mSELECT "employees".* FROM "employees" WHERE "employees"."username" = 'superadmin' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM "employees" WHERE "employees"."account_number" IS NULL[0m
+  [1m[35mEmployee Exists (0.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."username" = 'superadmin' LIMIT 1
+  [1m[36mEmployee Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'darrion@credda.com' LIMIT 1[0m
+  [1m[35mEmployee Exists (1.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE "employees"."account_number" = 'UEM5F90A2F6D2' LIMIT 1
+  [1m[36mEmployee Load (1.0ms)[0m  [1mSELECT "employees".* FROM "employees" WHERE "employees"."confirmation_token" = 'JHZAuGAC1zunBH8P6hLT' LIMIT 1[0m
+  [1m[35mSQL (10.0ms)[0m  INSERT INTO "employees" ("account_number", "authentication_token", "cancelled_at", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "date_of_birth", "email", "encrypted_password", "failed_attempts", "first_name", "last_name", "last_sign_in_at", "last_sign_in_ip", "locked_at", "middle_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "unconfirmed_email", "unlock_token", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING "id"  [["account_number", "UEM5F90A2F6D2"], ["authentication_token", nil], ["cancelled_at", nil], ["confirmation_sent_at", Tue, 19 Mar 2013 12:41:55 UTC +00:00], ["confirmation_token", "JHZAuGAC1zunBH8P6hLT"], ["confirmed_at", nil], ["created_at", Tue, 19 Mar 2013 12:41:55 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["date_of_birth", Tue, 19 Mar 1985 12:41:54 UTC +00:00], ["email", "darrion@credda.com"], ["encrypted_password", "$2a$10$55A6G.zLPnRgzrUXxRwBUOL..WLVEyYciSqQxe3SqBODKntrMKR4K"], ["failed_attempts", 0], ["first_name", "Alba"], ["last_name", "Greenholt"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["locked_at", nil], ["middle_name", "Kyle"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["unconfirmed_email", nil], ["unlock_token", nil], ["updated_at", Tue, 19 Mar 2013 12:41:55 UTC +00:00], ["username", "superadmin"]]
+  Rendered employee_authentication_mailer/confirmation_instructions.html.slim (6.0ms)
+
+Sent mail to darrion@credda.com (2075ms)
+Date: Tue, 19 Mar 2013 21:41:55 +0900
+From: no-reply@credda.com
+Reply-To: no-reply@credda.com
+To: darrion@credda.com
+Message-ID: <51485d131b08f_25e030357c6851b@Bryce-PC.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "Confirmation instructions", "filters": {"ganalytics":
+ {"settings": {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+<p>Welcome darrion@credda.com!</p><p>You can confirm your account email through the link below:</p><p><a href="http://localhost/employee/confirmation?confirmation_token=JHZAuGAC1zunBH8P6hLT">Confirm my account</a></p>
+  Rendered admin_notification_mailer/new_user.html.slim (0.0ms)
+  Rendered admin_notification_mailer/new_user.text.slim (0.0ms)
+
+Sent mail to bryce.senz@credda.com (2037ms)
+Date: Tue, 19 Mar 2013 21:41:57 +0900
+From: no-reply@credda.com
+To: bryce.senz@credda.com
+Message-ID: <51485d153eb5a_25e030357c68911@Bryce-PC.mail>
+Subject: You have a new user!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_51485d1537df8_25e030357c686a8";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SMTPAPI: {"category": "New User", "filters": {"ganalytics": {"settings":
+ {"enable":1}}, "opentrack": {"settings": {"enable":1}}}}
+
+
+
+----==_mimepart_51485d1537df8_25e030357c686a8
+Date: Tue, 19 Mar 2013 21:41:57 +0900
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485d153c832_25e030357c687e3@Bryce-PC.mail>
+
+<You>have a new user!</You>=============================================== <Name><div>Alba Greenholt</div></Name><Type><div>Employee</div></Type><Username><div>superadmin</div></Username><Thanks>for joining and have a great day!</Thanks>
+
+----==_mimepart_51485d1537df8_25e030357c686a8
+Date: Tue, 19 Mar 2013 21:41:57 +0900
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <51485d153dfa2_25e030357c68879@Bryce-PC.mail>
+
+<h2>Details</h2><p>Name : Alba Greenholt</p><p>Type : Employee</p><p>Username: superadmin</p>
+
+----==_mimepart_51485d1537df8_25e030357c686a8--
+
+  [1m[36m (46.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mEmployee Exists (33.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE ("employees"."username" = 'superadmin' AND "employees"."id" != 1) LIMIT 1[0m
+  [1m[35mEmployee Exists (1.0ms)[0m  SELECT 1 AS one FROM "employees" WHERE ("employees"."email" = 'darrion@credda.com' AND "employees"."id" != 1) LIMIT 1
+  [1m[36mEmployee Exists (1.0ms)[0m  [1mSELECT 1 AS one FROM "employees" WHERE ("employees"."account_number" = 'UEM5F90A2F6D2' AND "employees"."id" != 1) LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "employees" SET "confirmation_token" = NULL, "confirmed_at" = '2013-03-19 12:41:59.378979', "updated_at" = '2013-03-19 12:41:59.380980' WHERE "employees"."id" = 1
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-19 21:42:08 +0900
+Processing by PagesController#home as HTML
+  [1m[35mCustomer Load (12.0ms)[0m  SELECT "customers".* FROM "customers" WHERE "customers"."id" = 1 LIMIT 1
+  [1m[36mCustomer Load (2.0ms)[0m  [1mSELECT "customers".* FROM "customers" [0m
+  Rendered pages/home.html.slim within layouts/application (2.0ms)
+  Rendered layouts/header/_anonymous.html.slim (2.0ms)
+  Rendered layouts/messages/_messages.html.slim (0.0ms)
+  Rendered layouts/footer/_anonymous_footer.html.slim (1.0ms)
+Completed 200 OK in 181ms (Views: 82.0ms | ActiveRecord: 14.0ms)
+
+
+Started GET "/assets/foundation_and_overrides.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:11 +0900
+Served asset /foundation_and_overrides.css - 304 Not Modified (9ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:11 +0900
+Served asset /application.css - 304 Not Modified (12ms)
+
+
+Started GET "/assets/navigation.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:12 +0900
+Served asset /navigation.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/font-face-definitions.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:12 +0900
+Served asset /font-face-definitions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/screen.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:12 +0900
+Served asset /screen.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:12 +0900
+Served asset /pages.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/forms.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:13 +0900
+Served asset /forms.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/footer.css?body=1" for 127.0.0.1 at 2013-03-19 21:42:13 +0900
+Served asset /footer.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/vendor/custom.modernizr.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:13 +0900
+Served asset /vendor/custom.modernizr.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:14 +0900
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:14 +0900
+Served asset /jquery_ujs.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:14 +0900
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:14 +0900
+Served asset /foundation/foundation.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.alerts.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:15 +0900
+Served asset /foundation/foundation.alerts.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.clearing.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:15 +0900
+Served asset /foundation/foundation.clearing.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.cookie.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:15 +0900
+Served asset /foundation/foundation.cookie.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.dropdown.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:15 +0900
+Served asset /foundation/foundation.dropdown.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.forms.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:15 +0900
+Served asset /foundation/foundation.forms.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.joyride.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:16 +0900
+Served asset /foundation/foundation.joyride.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.magellan.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:16 +0900
+Served asset /foundation/foundation.magellan.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.orbit.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:16 +0900
+Served asset /foundation/foundation.orbit.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.placeholder.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:16 +0900
+Served asset /foundation/foundation.placeholder.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.reveal.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:17 +0900
+Served asset /foundation/foundation.reveal.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.section.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:17 +0900
+Served asset /foundation/foundation.section.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/foundation/foundation.tooltips.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:17 +0900
+Served asset /foundation/foundation.tooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/foundation.topbar.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:17 +0900
+Served asset /foundation/foundation.topbar.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/foundation/index.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:17 +0900
+Served asset /foundation/index.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/jquery_nested_form.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:18 +0900
+Served asset /jquery_nested_form.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-03-19 21:42:18 +0900
+Served asset /application.js - 304 Not Modified (6ms)
+
+
+Started GET "/assets/iphone-credda.png" for 127.0.0.1 at 2013-03-19 21:42:18 +0900
+Served asset /iphone-credda.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/cream-background.png" for 127.0.0.1 at 2013-03-19 21:42:18 +0900
+Served asset /cream-background.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo-color.png" for 127.0.0.1 at 2013-03-19 21:42:19 +0900
+Served asset /logo-color.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/father_son_wide.jpg" for 127.0.0.1 at 2013-03-19 21:42:19 +0900
+Served asset /father_son_wide.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/assets/classic_car_wide.jpg" for 127.0.0.1 at 2013-03-19 21:42:19 +0900
+Served asset /classic_car_wide.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/assets/paperwork_wide.jpg" for 127.0.0.1 at 2013-03-19 21:42:19 +0900
+Served asset /paperwork_wide.jpg - 304 Not Modified (1ms)
+
+
+Started GET "/assets/grey-texture-background-small.png" for 127.0.0.1 at 2013-03-19 21:42:19 +0900
+Served asset /grey-texture-background-small.png - 304 Not Modified (0ms)

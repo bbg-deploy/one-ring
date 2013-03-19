@@ -33,7 +33,6 @@ class Customer::ApplicationsController < Customer::BaseController
   # GET /store/applications/1/edit
   #-------------------------------------------------------------------
   def edit
-#    @product_types = Product.descendants.map{|klass| klass.name}
     @product_types = ["Tire"]
     @application = Application.find(params[:id])
     respond_with(:customer, @application)
@@ -42,10 +41,20 @@ class Customer::ApplicationsController < Customer::BaseController
   # PUT /employee/applications/1
   #-----------------------------------------------------------------
   def update
+    @product_types = ["Tire"]
     @application = Application.find(params[:id])
 
     if @application.update_attributes(update_application_params)
       flash[:notice] = "Successfully updated application."
+      if @application.submit
+        credit_decision = CreditDecision.new(:application => @application)
+        if credit_decision.save
+          @application.approve
+          flash[:alert] = "Application approved."
+        end
+      else
+        flash[:alert] = "Submission Unsuccessful."
+      end
     else
       flash[:notice] = "Updating application failed."
     end
