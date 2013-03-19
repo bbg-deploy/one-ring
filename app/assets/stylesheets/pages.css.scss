@@ -1,19 +1,53 @@
 @import "compass/css3/images";
+@import "compass/css3/background-size";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
 
-.featured {
-  margin-top: -2px;
-  padding: 10px 0px;
-  @include background-image(linear-gradient(#085A94, #21BDE7));
-}
-
+// HOMEPAGE
+// Featured Slider
 .orbit-container {
-  @include box-shadow(#010101 0px 0px 25px);
+  .orbit-slide-number {
+    display: none;
+  }
+  .orbit-timer {
+    display: none;
+  }
   ul {
     li {
-      img {
-        height: 335px;
+      .slide1 {
+        // source (http://www.flickr.com/photos/bongosphotographie/6757518033)
+        @include background(image-url("classic_car_wide.jpg") no-repeat);
+        @include background-size(100%, 100%);
+      }
+      .slide2 {
+        h2 {
+          color: #FFFFFF;
+          @include text-shadow(rgba(0, 0, 0, 0.5) 0 1px 0);
+        }
+        p {
+          color: #FFFFFF;
+          @include text-shadow(rgba(255, 255, 255, 0.1) 0 1px 0);
+        }
+        // source (www.flickr.com/photos/nerdcoregirl/4335907588)
+        @include background(image-url("paperwork_wide.jpg") no-repeat);
+        @include background-size(100%, 100%);
+      }
+      .slide3 {
+        h2 {
+          color: #FFFFFF;
+          @include text-shadow(rgba(0, 0, 0, 0.5) 0 1px 0);
+        }
+        p {
+          color: #FFFFFF;
+          @include text-shadow(rgba(255, 255, 255, 0.1) 0 1px 0);
+        }
+        // source (http://www.flickr.com/photos/sudhanshugoyal/4766514975/)
+        @include background(image-url("father_son_wide.jpg") no-repeat);
+        @include background-size(100%, 100%);
+      }
+      .slide {
+        padding: 20px 80px 50px 80px;
       }
     }
   }
@@ -23,11 +57,19 @@ ol.orbit-bullets {
   display: none;
 }
 
-.overview-row {
-  padding-top: 20px;
+// Overview row
+.overview-container {
+//  @include background-image(linear-gradient(#085A94, #21BDE7));
+  @include background-image(linear-gradient(#ACACAC, #EFEFEF));
 }
 
 .overview-box {
+  margin: 10px;
+  background: #313131
+}
+
+
+.overview-box-old {
   margin-bottom: 20px;
   background: #313131;
   border: #53A853 solid 5px;

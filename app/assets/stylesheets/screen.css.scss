@@ -15,7 +15,7 @@ html, body {
 }
 
 body {
-  background: image-url("cork-background.png");
+  background: image-url("cream-background.png");
 }
 
 body.anon {
@@ -41,4 +41,9 @@ body.store {
 
 /* Fonts */
 h1, h2, h3, h4, h5, p {
+}
+
+h1 {
+  color: #2BA6CB;
+  border-bottom: 1px dashed #BDBDBD;
 }

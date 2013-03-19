@@ -1,5 +1,9 @@
 // Required global settings and mixins for Foundation
 @import "foundation/foundation-global";
+
+$topbar-margin-bottom: emCalc(0px);
+
+
 //@import "foundation";
 
 // Settings file to override Foundation variables

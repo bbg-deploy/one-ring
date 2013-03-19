@@ -1,10 +1,11 @@
 @import "compass/css3/images";
+@import "compass/css3/opacity";
+
+// Top Bar Navigation
 
 ul.side-nav {
-  @include background(image-url("alum-dark-background.png"));
+  @include background(image-url("alum-light-background.png"));
   li { 
-//    height: 80px;
-//    border: 1px black solid;
     padding: 5px;
     a {
       height: 60px;
@@ -21,7 +22,16 @@ ul.side-nav {
       float: left;
       margin-right: 10px;
       height: 50px;
+      align: center;
     }
+  }
+  
+  li.active {
+  @include background(image-url("alum-dark-background.png"));
+  }
+  
+  li:hover {
+    background: blue;
   }
 }
 
