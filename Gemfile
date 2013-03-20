@@ -34,7 +34,7 @@ gem 'jquery_datepicker'
 # gem 'jbuilder'
 
 group :development, :test do
-  gem 'win32console'
+  #gem 'win32console'
   gem "spork-rails"
   gem 'rspec-rails', '~> 2.0'
   gem 'capybara', '>= 2.0.1'
