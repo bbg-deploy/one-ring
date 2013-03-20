@@ -52,6 +52,8 @@ GEM
       activesupport (= 3.2.11)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-postgresql-adapter (0.0.1)
+      pg
     activerecord-tableless (1.2.0)
       activerecord (>= 2.3.0)
     activeresource (3.2.11)
@@ -351,6 +353,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemerchant (~> 1.29.3)
+  activerecord-postgresql-adapter
   activerecord-tableless (~> 1.2.0)
   acts_as_list (~> 0.1.8)
   awesome_nested_set (>= 2.1.4)
