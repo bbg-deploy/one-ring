@@ -1,10 +1,11 @@
 # Capistrano Multistage Support
-#set :default_stage, "staging"
-#set :stages, %w(production staging)
-#require 'capistrano/ext/multistage'
+set :default_stage, "staging"
+set :stages, %w(production staging)
+require 'capistrano/ext/multistage'
 
 # Include Bundler Extensions
 require "bundler/capistrano"
+load 'deploy/assets'
 
 # Uncomment the following and edit 'USERNAME' if SSH key forwarding is required.
 # Also, be sure to change id_rsa to antoher private key if you're not using the default id_rsa
@@ -14,10 +15,10 @@ require "bundler/capistrano"
 # Server Settings
 # Comment this out if you're using Multistage support.
 set :user, "deploy"
-set :server_name, "stage01.c45935.blueboxgrid.com"
-role :app, server_name
-role :web, server_name
-role :db,  server_name, :primary => true
+#set :server_name, "stage01.c45935.blueboxgrid.com"
+#role :app, server_name
+#role :web, server_name
+#role :db,  server_name, :primary => true
 
 # Application Settings
 set :application, "one-ring"
@@ -42,9 +43,9 @@ set :use_sudo, false
 # Hooks
 after "deploy", "deploy:cleanup"
 after "deploy:update_code", "deploy:database_symlink"
-after "deploy:database_symlink", "deploy:assets:precompile"
 
 namespace :deploy do
+
   task :database_symlink, :except => { :no_release => true } do
     run "rm -f #{release_path}/config/database.yml"
     run "ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
@@ -58,16 +59,6 @@ namespace :deploy do
     run "touch #{deploy_to}/current/tmp/restart.txt"
   end
 
-  namespace :assets do
-    task :precompile, :roles => :web, :except => { :no_release => true } do
-      from = source.next_revision(current_revision)
-      if capture("cd #{shared_path}/cached-copy && git diff #{from}.. --stat | grep 'app/assets' | wc -l").to_i > 0
-        run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{Rubber.env} #{asset_env} assets:precompile:primary}
-      else
-        logger.info "Skipping asset pre-compilation because there were no asset changes"
-      end
-    end
-  end
 end
 
 # Disable the built in disable command and setup some intelligence so we can have images.

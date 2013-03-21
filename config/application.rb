@@ -17,7 +17,7 @@ module Onering
 
     # For Heroku
 #    config.assets.initialize_on_precompile = false
-    config.assets.initialize_on_precompile = true
+    config.assets.initialize_on_precompile = false
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
