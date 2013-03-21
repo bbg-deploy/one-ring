@@ -21,6 +21,7 @@ group :assets do
 
   #Other
   gem 'uglifier', '>= 1.0.3'
+  gem 'turbo-sprockets-rails3'
 end
 
 gem 'slim', '~> 2.0.0.pre.6'

@@ -319,6 +319,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
+    turbo-sprockets-rails3 (0.3.6)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.0.0)
     twilio-ruby (3.9.0)
       builder (>= 2.1.2)
       jwt (>= 0.1.2)
@@ -400,6 +403,7 @@ DEPENDENCIES
   state_machine (~> 1.1.2)
   strong_parameters (>= 0.1.6)
   timecop (>= 0.5.7)
+  turbo-sprockets-rails3
   twilio-ruby (~> 3.9.0)
   uglifier (>= 1.0.3)
   validates_existence (>= 0.4)

@@ -42,6 +42,7 @@ set :use_sudo, false
 # Hooks
 after "deploy", "deploy:cleanup"
 after "deploy:update_code", "deploy:database_symlink"
+after "deploy:database_symlink", "deploy:assets:precompile"
 
 namespace :deploy do
   task :database_symlink, :except => { :no_release => true } do
@@ -55,6 +56,17 @@ namespace :deploy do
 
   task :start, :except => { :no_release => true } do
     run "touch #{deploy_to}/current/tmp/restart.txt"
+  end
+
+  namespace :assets do
+    task :precompile, :roles => :web, :except => { :no_release => true } do
+      from = source.next_revision(current_revision)
+      if capture("cd #{shared_path}/cached-copy && git diff #{from}.. --stat | grep 'app/assets' | wc -l").to_i > 0
+        run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{Rubber.env} #{asset_env} assets:precompile:primary}
+      else
+        logger.info "Skipping asset pre-compilation because there were no asset changes"
+      end
+    end
   end
 end
 
